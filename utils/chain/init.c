@@ -12,44 +12,46 @@
 
 #include "minishell.h"
 
-// void	init_list(t_stack *stack)
-// {
-// 	stack->head = NULL;
-// 	stack->cnt_node = 0;
-// 	stack->idx_max = 0;
-// 	stack->idx_min = 0;
-// }
+void	init_list(t_shell *shell)
+{
+	shell->list->head = 0;
+	shell->list->token_cnt = 0;
+}
 
-// t_node	*create_node(int value)
-// {
-// 	t_node	*new_node;
+// a voir si il faudra malloc le texte ou pas, faudra demander a Pieric pcq je suis pas tant sure.
+t_token	*create_token(int type, char *value)
+{
+	t_token *new_token;
 
-// 	new_node = malloc(sizeof(t_node));
-// 	if (!new_node)
-// 		return (NULL);
-// 	ft_memset(new_node, 0, sizeof(t_node));
-// 	new_node->value = value;
-// 	return (new_node);
-// }
+	new_token = malloc(sizeof(t_token));
+	if (!new_token)
+		return (NULL);
+	ft_memset(new_token, 0, sizeof(new_token));
+	new_token->value = value;
+	new_token->type = type;
+	return (new_token);
+}
 
-// void	insert_node_back(t_stack *stack, t_node *new_node)
-// {
-// 	t_node	*current;
+// a utiliser pour la premiere mise en place des listes chainees
+void	insert_base_list(t_list *list, t_token *token)
+{
+	t_token	*current;
 
-// 	if (!new_node || !stack)
-// 		return ;
-// 	if (!stack->head)
-// 	{
-// 		stack->head = new_node;
-// 		stack->cnt_node = 1;
-// 	}
-// 	else
-// 	{
-// 		current = stack->head;
-// 		while (current->next)
-// 			current = current->next;
-// 		current->next = new_node;
-// 		new_node->prev = current;
-// 		stack->cnt_node++;
-// 	}
-// }
+	if (!list || !token)
+		return ;
+	if (!list->head)
+	{
+		list->head = token;
+		list->token_cnt = 1;
+	}
+	else
+	{
+		current = list->head;
+		while (current->next)
+			current = current->next;
+		current->next = token;
+		token->prev = current;
+		list->token_cnt++;
+	}
+}
+

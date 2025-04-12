@@ -16,6 +16,7 @@
 // structure qui gere toutes les autres structures
 typedef struct s_shell
 {
+	t_list		*list;
 	t_cmd		*cmd;
 	t_lexer		*lexer;
 	t_parser	*parser;
@@ -24,12 +25,11 @@ typedef struct s_shell
 }	t_shell;
 
 // tout ce qu on recoit dans le main
+// j ai enlevé les ac, av qui seront inutiles, ma dit Nico. 
 typedef struct s_cmd
 {
-	int		ac;
 	char	*prompt;
-	char	*path; //si utile
-	char	**av;
+	char	*path; //si utile -> ce sera utile dans ce qu on reçoit de readline 
 	char	**envp;
 	char	**envp_copy;
 }	t_cmd;
