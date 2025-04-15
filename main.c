@@ -22,7 +22,8 @@ int	main(int ac, char **av, char **envp)
 	// fonction pour faire le env?? 
 	while (1)
 	{
-		line = readline("Minishell CDD > "); // CDD = Codeuses Du Dimanche ;)
+		line = readline("Minishell CDD > "); // CDD = Codeuses Du Dimanche ;) 
+		// check si on met le prompt comme tu avais fait avec define dans le .h
 		if (!line)
 			//fonction free ?? free all ? et on exit ? 
 		if (*line)

@@ -38,16 +38,6 @@
 # include "ms_function.h"
 //# include "ms_utils.h"
 
-// free
-void    free_token_list(t_shell *shell);
-char	**free_mid_tab(char **strs, int i);
-char	**free_tab(t_shell *shell, char **tab);
-
-// Init
-void	init_all(t_shell *shell);
-void	init_list(t_shell *shell);
-t_token	*create_token(int type, char *value);
-void	insert_base_list(t_list *list, t_token *token);
-
+#define PROMPT "Les codeuses du dimanche"
 
 # endif
