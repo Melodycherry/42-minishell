@@ -1,16 +1,4 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: mlaffita <marvin@42lausanne.ch>            +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/11/05 18:49:36 by mlaffita          #+#    #+#              #
-#    Updated: 2024/11/06 15:31:35 by mlaffita         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
-NAME = libftprintf.a
+NAME = ft_printf.a
 
 SRCDIR = .
 OBJDIR = $(SRCDIR)
@@ -24,6 +12,8 @@ SRC =	ft_printf.c \
 		ft_string.c \
 
 OBJS = $(SRC:%.c=%.o)
+
+INCLUDES = -I ../includes
 
 CC = gcc
 

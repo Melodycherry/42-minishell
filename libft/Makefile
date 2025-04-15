@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: mlaffita <marvin@42lausanne.ch>            +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/10/23 16:54:37 by mlaffita          #+#    #+#              #
-#    Updated: 2025/03/25 17:26:49 by mlaffita         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 # Library name
 NAME = libft.a
 
@@ -72,7 +60,7 @@ OBJS = $(addprefix $(OBJDIR)/, $(SOURCE:.c=.o))
 OBJSBONUS = $(addprefix $(OBJDIR)/, $(SRCBONUS:.c=.o))
 
 # Header file directory
-INCLUDES = -I ../include
+INCLUDES = -I ../includes
 
 # Compiler and flags
 COMPILE = gcc

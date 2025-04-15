@@ -12,22 +12,13 @@
 
 #include "minishell.h"
 
-int	main(int ac, char **av, char **envp)
-{
-	t_shell	shell;
+void	init_all(t_shell *shell);
+void	init_list(t_shell *shell);
+void	insert_base_list(t_list *list, t_token *token);
 
-	//initialiser la structure et sous structure de shell
-	init_all(&shell);
-	init_list(&shell);
-	
-	// envoie readlin
-	readline(PROMPT);
+char	**cpy_tab(t_shell *shell);
+void    free_token_list(t_shell *shell);
+char	**free_mid_tab(char **strs, int i);
+char	**free_tab(t_shell *shell, char **tab);
 
-	// If pas de ligne : on ne passe pas par addhistory ou EXIT //demander a PDEMONT
-	// If ligne : addhistory
-	// free readline
-	// gestion de signal pour ctrl d ou c ??????
-	// loop infinie
-
-	return (0);
-}
+t_token	*create_token(int type, char *value);

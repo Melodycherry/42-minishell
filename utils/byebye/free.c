@@ -56,3 +56,5 @@ char	**free_tab(t_shell *shell, char **tab)
 	free(tab);
 	return (NULL);
 }
+
+// je me pose la question de la necessité du char ** sur les free tab et freemidtab 

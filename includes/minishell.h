@@ -31,12 +31,14 @@
 # include <signal.h>
 # include <limits.h>
 
-//# include "libft.h"
+# include "ft_printf.h"
+# include "libft.h"
 # include "ms_struct_general.h"
 # include "ms_struct_chain.h"
+# include "ms_function.h"
 //# include "ms_utils.h"
 
-
+#define PROMPT "Les codeuses du dimanche"
 
 
 

@@ -12,6 +12,4 @@
 
 #include "minishell.h"
 
-
-
 //wtf
