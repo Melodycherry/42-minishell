@@ -18,18 +18,29 @@ int	main(int ac, char **av, char **envp)
 	char	*line;
 
 	//initialiser la structure et sous structure de shell
-	init_all(&shell);
-	init_list(&shell);
-	
-	// envoie readlin
+	init_all(&shell); 
+	// fonction pour faire le env?? 
 	while (1)
-		line = readline(PROMPT);
-
+	{
+		line = readline("Minishell CDD > "); // CDD = Codeuses Du Dimanche ;)
+		if (!line)
+			//fonction free ?? free all ? et on exit ? 
+		if (*line)
+			add_history(line);
+		// faire des trucs ici ...
+		free (line);
+	}
+	
+	// ABOVE ↑↑↑
+	// loop infinie
+	// envoie readline
 	// If pas de ligne : on ne passe pas par addhistory ou EXIT //demander a PDEMONT
 	// If ligne : addhistory
 	// free readline
-	// gestion de signal pour ctrl d ou c ??????
-	// loop infinie
 
+	// gestion de signal pour ctrl d ou c ??????
+	
+	// CLEAR HISTORY ?? 
+	// FONCTION FREE ALL A LA FIN 
 	return (0);
 }
