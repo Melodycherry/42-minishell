@@ -27,7 +27,10 @@ int	main(int ac, char **av, char **envp)
 	{
 		line = readline(PROMPT);
 		if (!line)
-			break;
+			{
+				printf("exit");
+				break;
+			}
 		if (*line)
 			add_history(line);
 		// faire des trucs ici ...
