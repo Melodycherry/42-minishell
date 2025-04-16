@@ -21,7 +21,7 @@ void    free_token_list(t_shell *shell)
 	if (!shell)
 		return ;
 	
-	current = shell->list->head;
+	current = shell->tlist->head;
 	while (current)
 	{
 		next = current->next;
@@ -31,19 +31,19 @@ void    free_token_list(t_shell *shell)
 }
 
 // fonction pour free si un pb pendant la creation de la copie de l'envp ou autre tableau qu on voudrait copier ?
-char	**free_mid_tab(char **strs, int i)
+void	free_mid_tab(char **tab, int i)
 {
 	while (i > 0)
 	{
 		i--;
-		free (strs[i]);
+		free (tab[i]);
 	}
-	free(strs);
-	return (NULL);
+	free(tab);
+	tab = NULL;
 }
 
 // la meme mais pour tout le tableau
-char	**free_tab(t_shell *shell, char **tab)
+void	free_tab(t_shell *shell, char **tab)
 {
 	int	i;
 
@@ -54,7 +54,5 @@ char	**free_tab(t_shell *shell, char **tab)
 		i++;
 	}
 	free(tab);
-	return (NULL);
+	tab = NULL;
 }
-
-// je me pose la question de la necessité du char ** sur les free tab et freemidtab 

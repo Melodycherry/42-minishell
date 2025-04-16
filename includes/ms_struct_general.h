@@ -13,17 +13,6 @@
 #ifndef MS_STRUCT_H
 # define MS_STRUCT_H
 
-// structure qui gere toutes les autres structures
-typedef struct s_shell
-{
-	t_list		*list;
-	t_cmd		*cmd;
-	t_lexer		*lexer;
-	t_parser	*parser;
-	t_expander	*expander;
-	t_executor	*executor;
-}	t_shell;
-
 // tout ce qu on recoit dans le main
 // j ai enlevé les ac, av qui seront inutiles, ma dit Nico. 
 typedef struct s_cmd
@@ -53,5 +42,31 @@ typedef struct s_executor
 {
 
 }	t_executor;
+
+typedef struct s_token
+{
+	int				type;	 
+	char			*value;
+	struct s_token	*next;
+	struct s_token	*prev;
+}	t_token;
+
+typedef struct s_tlist
+{
+	int		token_cnt; // peut etre util, a voir
+	t_token	*head;
+
+}	t_tlist; 
+
+// structure qui gere toutes les autres structures
+typedef struct s_shell
+{
+	t_tlist		*tlist;
+	t_cmd		*cmd;
+	t_lexer		*lexer;
+	t_parser	*parser;
+	t_expander	*expander;
+	t_executor	*executor;
+}	t_shell;
 
 #endif

@@ -14,8 +14,8 @@
 
 void	init_list(t_shell *shell)
 {
-	shell->list->head = 0;
-	shell->list->token_cnt = 0;
+	shell->tlist->head = 0;
+	shell->tlist->token_cnt = 0;
 }
 
 // a voir si il faudra malloc le texte ou pas, faudra demander a Pieric pcq je suis pas tant sure.
@@ -28,30 +28,31 @@ t_token	*create_token(int type, char *value)
 		return (NULL);
 	ft_memset(new_token, 0, sizeof(new_token));
 	new_token->value = value;
+	//strdup et a a fin on free la line qui est lue par readline
 	new_token->type = type;
 	return (new_token);
 }
 
 // a utiliser pour la premiere mise en place des listes chainees
-void	insert_base_list(t_list *list, t_token *token)
+void	insert_base_list(t_tlist *tlist, t_token *token)
 {
 	t_token	*current;
 
-	if (!list || !token)
+	if (!tlist || !token)
 		return ;
-	if (!list->head)
+	if (!tlist->head)
 	{
-		list->head = token;
-		list->token_cnt = 1;
+		tlist->head = token;
+		tlist->token_cnt = 1;
 	}
 	else
 	{
-		current = list->head;
+		current = tlist->head;
 		while (current->next)
 			current = current->next;
 		current->next = token;
 		token->prev = current;
-		list->token_cnt++;
+		tlist->token_cnt++;
 	}
 }
 

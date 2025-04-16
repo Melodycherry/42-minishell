@@ -1,3 +1,4 @@
+OS = $(shell uname)
 
 # nom de l'executable
 NAME = minishell
@@ -9,13 +10,22 @@ OBJDIR = obj
 # Librairies
 LIBFTDIR = ./libft
 LIBFT = $(LIBFTDIR)/libft.a
-PRINTFDIR = ./ft_printf
-PRINTF = $(PRINTFDIR)/libftprintf.a
 
+ifeq ($(OS), Darwin)
+	READLINE_LIB = -L /usr/local/opt/readline/lib -lreadline
+else ifeq ($(OS), Linux)
+	READLINE_LIB =  -lreadline
+endif
 # Compiler and flags
 CC = gcc
-CFLAGS = -g3 -Wall -Wextra -Werror
-INCLUDE = -I include
+CFLAGS = -Wall -Wextra -Werror
+DEBUG_FLAGS = -g3 -fno-omit-frame-pointer -fstack-protector-all
+
+ifeq ($(OS), Darwin)
+	INCLUDES = -I  includes -I /usr/local/opt/readline/include
+else ifeq ($(OS), Linux)
+	INCLUDES = - I includes
+endif
 
 RM = rm -f 
 
@@ -33,36 +43,47 @@ vpath %.c \
 SRC = main.c
 OBJS = $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 
-all: $(LIBFT) $(PRINTF) $(NAME)
+all: $(LIBFT) $(NAME)
+
+debug: CFLAGS = $(DEBUG_FLAGS)
+
+debug: re
+
+# Sanitize
+sanitize: DEBUG_FLAGS += -fsanitize=address 
+sanitize: debug 
+
+# Rule to compile with Leaks check
+leaks:
+ifeq ($(OS), Darwin)
+    MallocStackLogging=YES leaks --outputGraph=minishell.memgraph --fullContent --fullStackHistory --atExit -- ./$(NAME)
+else ifeq ($(OS), Linux)
+    valgrind --leak-check=full --log-file=valgrind.log --show-leak-kinds=all --trace-children=yes --track-fds=all --default-suppressions=yes --suppressions=ignore_readline.supp ./$(NAME)
+endif
 
 $(LIBFT):
 	$(MAKE) all -C $(LIBFTDIR)
-
-$(PRINTF):
-	$(MAKE) all -C $(PRINTFDIR)
 	
 # Compile each .c file to .o		
 $(OBJDIR)/%.o: %.c
 		@mkdir -p $(OBJDIR)
-	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 	
-$(NAME): $(OBJS)
-		$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(PRINTF) -o $(NAME)
+$(NAME): $(OBJS) $(LIBFT)
+		$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
 # Rule to clean up object files	
 clean:
 		$(RM) $(OBJS)
 		$(MAKE) clean -C $(LIBFTDIR)
-		$(MAKE) clean -C $(PRINTFDIR)
 		@rm -rf $(OBJDIR)
 
 #Rule to clean  up object files and the library
 fclean: clean
 		$(RM) $(NAME)
 		$(MAKE) fclean -C $(LIBFTDIR)
-		$(MAKE) fclean -C $(PRINTFDIR)
 
 # Rule to recompile everything
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re debug sanitize
