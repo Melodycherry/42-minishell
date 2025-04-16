@@ -15,7 +15,7 @@
 void	init_all(t_shell *shell);
 void	init_list(t_shell *shell);
 void	free_token_list(t_shell *shell);
-void	insert_base_list(t_list *list, t_token *token);
+void	insert_base_list(t_tlist *tlist, t_token *token);
 
 char	**cpy_tab(t_shell *shell);
 void	free_mid_tab(char **strs, int i);

@@ -28,9 +28,9 @@ DEBUG_FLAGS = -g3 -fno-omit-frame-pointer -fstack-protector-all
 
 ifeq ($(OS), Darwin)
 	ifeq ($(CPU), arm64)
-		INCLUDES = -I  includes -I /opt/homebrew/opt/readline/include
+		INCLUDES = -I includes -I /opt/homebrew/opt/readline/include
 	else
-		INCLUDES = -I  includes -I /usr/local/opt/readline/include
+		INCLUDES = -I includes -I /usr/local/opt/readline/include
 	endif
 else ifeq ($(OS), Linux)
 	INCLUDES = - I includes
@@ -46,10 +46,13 @@ vpath %.c \
 	$(SRCDIR)/parser \
 	$(SRCDIR)/includes \
 	$(SRCDIR)/utils \
+	$(SRCDIR)/utils/byebye \
+	$(SRCDIR)/utils/chain \
+	$(SRCDIR)/utils/init \
 	$(SRCDIR)/lexer \
 
 # Sources and object files
-SRC = main.c struct.c env.c init.c free.c 
+SRC = main.c struct.c env.c init.c free.c
 
 OBJS = $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 

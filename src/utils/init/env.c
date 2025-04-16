@@ -12,47 +12,36 @@
 
 #include "minishell.h"
 
-// fonction qui va free toute la liste qui contient les tokens. A modifier au besoin si on change de struct. 
-void    free_token_list(t_shell *shell)
-{
-	t_token  *current;
-	t_token  *next;
-
-	if (!shell)
-		return ;
-	
-	current = shell->tlist->head;
-	while (current)
-	{
-		next = current->next;
-		free(current);
-		current = next;
-	}
-}
-
-// fonction pour free si un pb pendant la creation de la copie de l'envp ou autre tableau qu on voudrait copier ?
-void	free_mid_tab(char **tab, int i)
-{
-	while (i > 0)
-	{
-		i--;
-		free (tab[i]);
-	}
-	free(tab);
-	tab = NULL;
-}
-
-// la meme mais pour tout le tableau
-void	free_tab(t_shell *shell, char **tab)
+// fonction pour connaitre le nb de row d un tableau
+int	ft_tablen(char **tab)
 {
 	int	i;
 
 	i = 0;
-	while (i < shell->cmd->envp_copy)
-	{
-		free (tab[i]);
+	if (!tab)
+		return (0);
+	while (tab[i])
 		i++;
+	return (i);
+}
+
+// fonction pour copier le tableau des env recu dans cmd
+char	**cpy_tab(t_shell *shell)
+{
+	int 	i;
+	char	**cpy_tab;
+
+	i = 0;
+	cpy_tab = malloc(sizeof(char *) * (ft_tablen(shell->cmd->envp) + 1));
+	if (!cpy_tab)
+		return (NULL);
+	while (i < ft_tablen(shell->cmd->envp))
+	{
+		cpy_tab[i] = ft_strdup(shell->cmd->envp[i]);
+		if (cpy_tab[i] == NULL)
+ 			free_mid_tab(cpy_tab, i);
+ 		i++;
 	}
-	free(tab);
-	tab = NULL;
+	cpy_tab[i] = 0;
+	return (cpy_tab);
 }
