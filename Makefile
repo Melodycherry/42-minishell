@@ -1,4 +1,5 @@
 OS = $(shell uname)
+CPU = $(shell uname -m)
 
 # nom de l'executable
 NAME = minishell
@@ -12,9 +13,13 @@ LIBFTDIR = ./libft
 LIBFT = $(LIBFTDIR)/libft.a
 
 ifeq ($(OS), Darwin)
-	READLINE_LIB = -L /usr/local/opt/readline/lib -lreadline
+	ifeq ($(CPU), arm64)
+		READLINE_LIB = -L /opt/homebrew/opt/readline/lib -lreadline
+	else
+		READLINE_LIB = -L /usr/local/opt/readline/lib -lreadline
+	endif
 else ifeq ($(OS), Linux)
-	READLINE_LIB =  -lreadline
+	READLINE_LIB = -lreadline
 endif
 # Compiler and flags
 CC = gcc
@@ -22,12 +27,16 @@ CFLAGS = -Wall -Wextra -Werror
 DEBUG_FLAGS = -g3 -fno-omit-frame-pointer -fstack-protector-all
 
 ifeq ($(OS), Darwin)
-	INCLUDES = -I  includes -I /usr/local/opt/readline/include
+	ifeq ($(CPU), arm64)
+		INCLUDES = -I  includes -I /opt/homebrew/opt/readline/include
+	else
+		INCLUDES = -I  includes -I /usr/local/opt/readline/include
+	endif
 else ifeq ($(OS), Linux)
 	INCLUDES = - I includes
 endif
 
-RM = rm -f 
+RM = rm -f
 
 vpath %.c \
 	$(SRCDIR) \
@@ -40,7 +49,8 @@ vpath %.c \
 	$(SRCDIR)/lexer \
 
 # Sources and object files
-SRC = main.c
+SRC = main.c struct.c env.c init.c free.c 
+
 OBJS = $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 
 all: $(LIBFT) $(NAME)
@@ -70,7 +80,7 @@ $(OBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 	
 $(NAME): $(OBJS) $(LIBFT)
-		$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+		$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(READLINE_LIB) -o $(NAME)
 
 # Rule to clean up object files	
 clean:
