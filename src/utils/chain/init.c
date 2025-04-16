@@ -14,7 +14,7 @@
 
 void	init_list(t_shell *shell)
 {
-	shell->tlist->head = 0;
+	shell->tlist->head = NULL;
 	shell->tlist->token_cnt = 0;
 }
 

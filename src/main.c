@@ -21,7 +21,7 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	(void)envp; // pour l instant
 	//initialiser la structure et sous structure de shell
-	init_all(&shell); 
+	// init_all(&shell); 
 	// fonction pour faire le env?? 
 	while (1)
 	{
