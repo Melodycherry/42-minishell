@@ -19,7 +19,7 @@ typedef struct s_cmd
 {
 	char	*prompt;
 	char	*path; //si utile -> ce sera utile dans ce qu on reçoit de readline 
-	char	**envp;
+	char	*line;
 	char	**envp_copy;
 }	t_cmd;
 

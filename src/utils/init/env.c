@@ -1,18 +1,19 @@
-/*******************************************************************************/
-/*                                                                             */
-/*                                                                             */
-/*                                                                             */
-/*                                                                             */
-/*      LES CODEUSES DU DIMANCHE                                               */
-/*      FONT UN MINISHELL                                                      */
-/*                                                                             */
-/*                                                                             */
-/*                                                                             */
-/*******************************************************************************/
+/*****************************************************************************/
+/*                                                                           */
+/*                                                                           */
+/*                                                                           */
+/*                                                                           */
+/*      LES CODEUSES DU DIMANCHE                                             */
+/*      FONT UN MINISHELL                                                    */
+/*                                                                           */
+/*                                                                           */
+/*                                                                           */
+/*****************************************************************************/
 
 #include "minishell.h"
 
 // fonction pour connaitre le nb de row d un tableau
+// **** testée ca a l air ok *****
 int	ft_tablen(char **tab)
 {
 	int	i;
@@ -25,23 +26,66 @@ int	ft_tablen(char **tab)
 	return (i);
 }
 
-// fonction pour copier le tableau des env recu dans cmd
-char	**cpy_tab(t_shell *shell)
+// fonction pour copier le tableau des env recu dans cmd 
+// **** testée ca a l air ok *****
+char	**cpy_tab(char **tab)
 {
-	int 	i;
+	int		i;
 	char	**cpy_tab;
 
 	i = 0;
-	cpy_tab = malloc(sizeof(char *) * (ft_tablen(shell->cmd->envp) + 1));
+	cpy_tab = malloc(sizeof(char *) * (ft_tablen(tab) + 1));
 	if (!cpy_tab)
 		return (NULL);
-	while (i < ft_tablen(shell->cmd->envp))
+	while (i < ft_tablen(tab))
 	{
-		cpy_tab[i] = ft_strdup(shell->cmd->envp[i]);
+		cpy_tab[i] = ft_strdup(tab[i]);
 		if (cpy_tab[i] == NULL)
- 			free_mid_tab(cpy_tab, i);
- 		i++;
+			free_mid_tab(cpy_tab, i);
+		i++;
 	}
 	cpy_tab[i] = 0;
 	return (cpy_tab);
+}
+
+//fonction qui met l'envp dans l'ordre alphabetique
+// **** testée ca a l air ok *****
+void	bubble_tab(char **tab)
+{
+	int		i;
+	int		j;
+	int		size;
+	char	*tmp;
+
+	i = 0;
+	size = ft_tablen(tab) - 1;
+	while (i < size)
+	{
+		j = 0;
+		while (j < size - i)
+		{
+			if (strcmp(tab[j], tab[j + 1]) > 0)
+			{
+				tmp = tab[j];
+				tab[j] = tab[j + 1];
+				tab[j + 1] = tmp;
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+//fonction de test pour voir si la copie du tableau s est bien faite.
+void	print_tab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+	{
+		printf("%s\n", tab[i]);
+		i++;
+	}
+	printf("\n\n\n\n");
 }
