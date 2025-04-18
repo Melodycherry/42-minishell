@@ -43,9 +43,20 @@ typedef struct s_executor
 
 }	t_executor;
 
+typedef enum e_token_type
+{
+    T_WORD,
+    T_PIPE,
+    T_REDIR_IN,     // <
+    T_REDIR_OUT,    // >
+    T_REDIR_APPEND, // >>
+    T_HEREDOC,      // <<
+    T_EOF
+}   t_token_type;
+
 typedef struct s_token
 {
-	int				type;	 
+	t_token_type	type; // Modif pour utiliser enumeration above 
 	char			*value;
 	struct s_token	*next;
 	struct s_token	*prev;
