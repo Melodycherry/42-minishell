@@ -12,33 +12,31 @@
 
 #include "minishell.h"
 
-int	main(int ac, char **av, char **envp)
+//fonction de test pour voir si la copie du tableau s est bien faite.
+void	print_tab(char **tab)
 {
-	t_shell	shell;
+	int	i;
 
-	(void)ac;
-	(void)av;
-	cpy_envp(&shell, envp);
-	init_all(&shell);
-	setup_signals();
-	while (1)
+	i = 0;
+	while (tab[i])
 	{
-		shell.cmd.line = readline(PROMPT);
-		if (!shell.cmd.line)
-		{
-			printf("exit");
-			break ;
-		}
-		if (*shell.cmd.line)
-		add_history(shell.cmd.line);
-		check_error(&shell); // a faire avant le parsing
-		token_blank(&shell);
-		print_token(shell.tlist.head, printf);
-		//parsing
-		free (shell.cmd.line);
+		printf("%s\n", tab[i]);
+		i++;
 	}
-	
-	// CLEAR HISTORY ?? 
-	// FONCTION FREE ALL A LA FIN 
-	return (0);
+	printf("\n\n\n\n");
+}
+
+void	print_token(t_token *token, int (*f)(const char *, ...))
+{
+	int i;
+
+	i = 0;
+	if (!f)
+		return ;
+	while (token)
+	{
+		(*f)("token[%d]%s\n", i, token->value);
+		token = token->next;
+		i++;
+	}
 }

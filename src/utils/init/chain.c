@@ -16,14 +16,14 @@
 // pas testée
 void	init_list(t_shell *shell)
 {
-	shell->tlist->head = NULL;
-	shell->tlist->token_cnt = 0;
+	shell->tlist.head = NULL;
+	shell->tlist.token_cnt = 0;
 }
 
 // creation d un token. 
 // Il y a un malloc, pas oublier de free
 // pas testée
-t_token	*create_token(int type, char *value)
+t_token	*create_token(int type, char *value, int n)
 {
 	t_token	*new_token;
 
@@ -31,7 +31,7 @@ t_token	*create_token(int type, char *value)
 	if (!new_token)
 		return (NULL);
 	ft_memset(new_token, 0, sizeof(new_token));
-	new_token->value = ft_strdup(value);
+	new_token->value = ft_strndup(value, n);
 	new_token->type = type;
 	return (new_token);
 }

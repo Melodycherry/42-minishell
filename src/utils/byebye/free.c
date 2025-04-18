@@ -21,7 +21,7 @@ void	free_token_list(t_shell *shell)
 
 	if (!shell)
 		return ;
-	current = shell->tlist->head;
+	current = shell->tlist.head;
 	while (current)
 	{
 		next = current->next;
@@ -48,7 +48,7 @@ void	free_tab(t_shell *shell, char **tab)
 	int	i;
 
 	i = 0;
-	while (shell->cmd->envp_copy[i])
+	while (shell->cmd.envp_copy[i])
 	{
 		free (tab[i]);
 		i++;

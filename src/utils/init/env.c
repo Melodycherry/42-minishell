@@ -75,17 +75,11 @@ void	bubble_tab(char **tab)
 		i++;
 	}
 }
-
-//fonction de test pour voir si la copie du tableau s est bien faite.
-void	print_tab(char **tab)
+void	cpy_envp(t_shell *shell, char **envp)
 {
-	int	i;
-
-	i = 0;
-	while (tab[i])
-	{
-		printf("%s\n", tab[i]);
-		i++;
-	}
-	printf("\n\n\n\n");
+	if (!envp || !envp[0])
+		shell->cmd.envp_copy = malloc(sizeof(char *) * (ft_tablen(envp)) + 1);
+	else
+		shell->cmd.envp_copy = cpy_tab(envp);
 }
+
