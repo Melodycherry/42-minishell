@@ -1,26 +1,26 @@
-/*******************************************************************************/
-/*                                                                             */
-/*                                                                             */
-/*                                                                             */
-/*                                                                             */
-/*      LES CODEUSES DU DIMANCHE                                               */
-/*      FONT UN MINISHELL                                                      */
-/*                                                                             */
-/*                                                                             */
-/*                                                                             */
-/*******************************************************************************/
+/*****************************************************************************/
+/*                                                                           */
+/*                                                                           */
+/*                                                                           */
+/*                                                                           */
+/*      LES CODEUSES DU DIMANCHE                                             */
+/*      FONT UN MINISHELL                                                    */
+/*                                                                           */
+/*                                                                           */
+/*                                                                           */
+/*****************************************************************************/
 
 #include "minishell.h"
 
-// fonction qui va free toute la liste qui contient les tokens. A modifier au besoin si on change de struct. 
-void    free_token_list(t_shell *shell)
+// fonction qui va free toute la liste qui contient les tokens. 
+// A modifier au besoin si on change de struct. 
+void	free_token_list(t_shell *shell)
 {
-	t_token  *current;
-	t_token  *next;
+	t_token	*current;
+	t_token	*next;
 
 	if (!shell)
 		return ;
-	
 	current = shell->tlist->head;
 	while (current)
 	{
@@ -30,7 +30,7 @@ void    free_token_list(t_shell *shell)
 	}
 }
 
-// fonction pour free si un pb pendant la creation de la copie de l'envp ou autre tableau qu on voudrait copier ?
+// fonction pour free si un pb pendant la copie de tableau (genre envp)
 void	free_mid_tab(char **tab, int i)
 {
 	while (i > 0)
