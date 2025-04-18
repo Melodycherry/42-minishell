@@ -14,7 +14,7 @@
 
 int	main(int ac, char **av, char **envp)
 {
-	//t_shell	shell;
+	t_shell	shell;
 	char	*line;
 
 	(void)ac;
