@@ -21,6 +21,9 @@ char	**cpy_tab(t_shell *shell);
 void	free_mid_tab(char **strs, int i);
 void	free_tab(t_shell *shell, char **tab);
 
+void	signal_handler(int sig);
+void	setup_signals(void);
+
 int		main(int ac, char **av, char **env);
 
 t_token	*create_token(int type, char *value);

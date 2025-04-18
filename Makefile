@@ -33,7 +33,7 @@ ifeq ($(OS), Darwin)
 		INCLUDES = -I includes -I /usr/local/opt/readline/include
 	endif
 else ifeq ($(OS), Linux)
-	INCLUDES = - I includes
+	INCLUDES = -I includes
 endif
 
 RM = rm -f
@@ -44,6 +44,7 @@ vpath %.c \
 	$(SRCDIR)/executor \
 	$(SRCDIR)/expander \
 	$(SRCDIR)/parser \
+	$(SRCDIR)/signals \
 	$(SRCDIR)/includes \
 	$(SRCDIR)/utils \
 	$(SRCDIR)/utils/byebye \
@@ -52,7 +53,7 @@ vpath %.c \
 	$(SRCDIR)/lexer \
 
 # Sources and object files
-SRC = main.c struct.c env.c init.c free.c
+SRC = main.c struct.c env.c init.c free.c signals.c
 
 OBJS = $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 
@@ -71,7 +72,7 @@ leaks:
 ifeq ($(OS), Darwin)
     MallocStackLogging=YES leaks --outputGraph=minishell.memgraph --fullContent --fullStackHistory --atExit -- ./$(NAME)
 else ifeq ($(OS), Linux)
-    valgrind --leak-check=full --log-file=valgrind.log --show-leak-kinds=all --trace-children=yes --track-fds=all --default-suppressions=yes --suppressions=ignore_readline.supp ./$(NAME)
+	valgrind --leak-check=full --log-file=valgrind.log --show-leak-kinds=all --trace-children=yes --track-fds=all --default-suppressions=yes --suppressions=ignore_readline.supp ./$(NAME)
 endif
 
 $(LIBFT):
@@ -79,7 +80,7 @@ $(LIBFT):
 	
 # Compile each .c file to .o		
 $(OBJDIR)/%.o: %.c
-		@mkdir -p $(OBJDIR)
+	@mkdir -p $(OBJDIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 	
 $(NAME): $(OBJS) $(LIBFT)

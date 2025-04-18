@@ -14,7 +14,7 @@
 
 int	main(int ac, char **av, char **envp)
 {
-	t_shell	shell;
+	//t_shell	shell;
 	char	*line;
 
 	(void)ac;
@@ -23,6 +23,7 @@ int	main(int ac, char **av, char **envp)
 	//initialiser la structure et sous structure de shell
 	// init_all(&shell); 
 	// fonction pour faire le env?? 
+	setup_signals();
 	while (1)
 	{
 		line = readline(PROMPT);
@@ -36,8 +37,6 @@ int	main(int ac, char **av, char **envp)
 		// faire des trucs ici ...
 		free (line);
 	}
-	
-	// gestion de signal pour ctrl d ou c ??????
 	
 	// CLEAR HISTORY ?? 
 	// FONCTION FREE ALL A LA FIN 
