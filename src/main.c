@@ -31,7 +31,8 @@ int	main(int ac, char **av, char **envp)
 		}
 		if (*shell.cmd.line)
 		add_history(shell.cmd.line);
-		check_error(&shell); // a faire avant le parsing
+		if (check_error(&shell))// a faire avant le parsing
+			continue ; 
 		token_blank(&shell);
 		print_token(shell.tlist.head, printf);
 		//parsing

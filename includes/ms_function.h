@@ -22,8 +22,9 @@ int		main(int ac, char **av, char **env);
 
 /*LEXER*/
 void	token_blank(t_shell *shell);
-void	count_quotes(t_shell *shell);
 void	find_next_quote(char quote, char *line, int *i);
+int		count_single_quotes(t_shell *shell);
+int		count_double_quotes(t_shell *shell);
 
 int		check_quotes(t_shell *shell);
 
@@ -37,7 +38,7 @@ void	signal_handler(int sig);
 
 /*UTILS*/
 /*BYEBYE*/
-void	check_error(t_shell *shell);
+int		check_error(t_shell *shell);
 void	free_token_list(t_shell *shell);
 void	free_mid_tab(char **strs, int i);
 void	free_tab(t_shell *shell, char **tab);

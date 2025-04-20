@@ -14,42 +14,62 @@
 
 // tokensisation en fonction si on trouve des ' ' ou des "" et ''
 
-void	count_quotes(t_shell *shell)
+int	count_single_quotes(t_shell *shell)
 {
 	int		i;
 	char	*line;
+	int 	single_quote;
 
 	i = 0;
+	single_quote = 0;
 	line = shell->cmd.line;
 	while (line[i])
 	{
-		if (line[i] == 39)
+		if (line[i] == '\'')
 		{
-			shell->lexer.single_quote++;
-			while (line[i] != 39 || line[i])
+			single_quote++;
+			i++;
+			while (line[i] && line[i] != '\'')
 				i++;
-			if(line[i] == 39)
-				shell->lexer.single_quote++;
-		}
-		if (line[i] == 34)
-		{
-			shell->lexer.double_quote++;
-			while (line[i] != 34 || line[i])
-				i++;
-			if(line[i] == 34)
-				shell->lexer.double_quote++;
+			if(line[i] == '\'')
+				single_quote++;
 		}
 		i++;
 	}
-	fprintf(stderr, "%d\n", shell->lexer.double_quote);
-	fprintf(stderr, "%d\n", shell->lexer.single_quote);
+	printf("print single : %d\n", single_quote); // pour check le nbr
+	return (single_quote);
+}
+int	count_double_quotes(t_shell *shell)
+{
+	int		i;
+	char	*line;
+	int 	double_quote;
+
+	i = 0;
+	double_quote = 0;
+	line = shell->cmd.line;
+	while (line[i])
+	{
+		if (line[i] == '"')
+		{
+			double_quote++;
+			i++;
+			while (line[i] && line[i] != '"')
+				i++;
+			if(line[i] == '"')
+				double_quote++;
+		}
+		i++;
+	}
+	printf("print double : %d\n", double_quote); // pour check le nbr
+	return (double_quote);
 }
 
 int	check_quotes(t_shell *shell)
 {
-	if (shell->lexer.single_quote % 2 != 0)
+	if (count_single_quotes(shell) % 2 != 0)
 		return (1);
-	if (shell->lexer.double_quote % 2 != 0)
+	if (count_double_quotes(shell) % 2 != 0)
 		return (1);	
 	return (0);
 }
