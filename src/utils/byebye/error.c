@@ -16,5 +16,5 @@
 void	check_error(t_shell *shell)
 {
 	if (check_quotes(shell) == 1)
-		EXIT_FAILURE;
+		EXIT_FAILURE; // reprompt ms
 }

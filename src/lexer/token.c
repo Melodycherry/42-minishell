@@ -41,6 +41,8 @@ void	count_quotes(t_shell *shell)
 		}
 		i++;
 	}
+	fprintf(stderr, "%d\n", shell->lexer.double_quote);
+	fprintf(stderr, "%d\n", shell->lexer.single_quote);
 }
 
 int	check_quotes(t_shell *shell)
@@ -61,8 +63,9 @@ t_bool	ft_isquote(int c)
 
 void	find_next_quote(char quote, char *line, int *i)
 {
-	(*i)++;
-	while (line[*i] != quote)
+	(*i)++; // Si line[*i] atteint la fin de la chaîne (\0) sans trouver quote,
+	// cela causera un accès mémoire invalide donc line[*i] 
+	while (line[*i] && line[*i] != quote)
 		(*i)++;
 }
 void	token_blank(t_shell *shell)
@@ -75,6 +78,8 @@ void	token_blank(t_shell *shell)
 	i = 0;
 	j = 0;
 	line = shell->cmd.line;
+	if (!shell->cmd.line)
+    	return;
 	while (line[i])
 	{
 		while(ft_isspace(line[i]))
@@ -84,13 +89,14 @@ void	token_blank(t_shell *shell)
 		}
 		if((line[i]) == '\'' || line[i] == '"')
 			find_next_quote(line[i], line, &i);
-		while(!ft_isspace(line[i]) && !ft_isquote(line[i]) && !line[i])
+		while(line[i] && !ft_isspace(line[i]) && !ft_isquote(line[i]))
 			i++;
-		if (line[i] == '\0' || ft_isspace(line[i + 1]))	
+		if (line[i] == '\0' || ft_isspace(line[i]))	
 		{
 			token = create_token(T_UNKNOWN, &line[j], (i - j));
 			insert_base_list(&shell->tlist, token);
 		}
+		i++; // ajout ici car boucle infinie 
 	}
 }
 

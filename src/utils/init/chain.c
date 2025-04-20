@@ -30,7 +30,7 @@ t_token	*create_token(int type, char *value, int n)
 	new_token = malloc(sizeof(t_token));
 	if (!new_token)
 		return (NULL);
-	ft_memset(new_token, 0, sizeof(new_token));
+	ft_memset(new_token, 0, sizeof(t_token)); // t_token
 	new_token->value = ft_strndup(value, n);
 	new_token->type = type;
 	return (new_token);
@@ -59,3 +59,4 @@ void	insert_base_list(t_tlist *tlist, t_token *token)
 		tlist->token_cnt++;
 	}
 }
+
