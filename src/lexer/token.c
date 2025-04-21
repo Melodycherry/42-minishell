@@ -98,25 +98,31 @@ void	token_blank(t_shell *shell)
 	i = 0;
 	j = 0;
 	line = shell->cmd.line;
-	if (!shell->cmd.line)
+	if (!line)
     	return;
 	while (line[i])
 	{
-		while(ft_isspace(line[i]))
-		{
+		// skip space
+		while( line[i] && ft_isspace(line[i]))
 			i++;
-			j = i;
-		}
+		j = i;
+		// on s'occupe des quote
 		if((line[i]) == '\'' || line[i] == '"')
+		{
 			find_next_quote(line[i], line, &i);
-		while(line[i] && !ft_isspace(line[i]) && !ft_isquote(line[i]))
-			i++;
-		if (line[i] == '\0' || ft_isspace(line[i]))	
+			i++; // on doit aller apres la quote qui ferme !!
+		}
+		else
+		{
+			// avance jusqua un espace ou une quote 
+			while(line[i] && !ft_isspace(line[i]) && !ft_isquote(line[i]))
+				i++;
+		}
+		if (i > j)	// seulement si i plus grand que j comme ca token valide 
 		{
 			token = create_token(T_UNKNOWN, &line[j], (i - j));
 			insert_base_list(&shell->tlist, token);
 		}
-		i++; // ajout ici car boucle infinie 
 	}
 }
 
