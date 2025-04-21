@@ -87,6 +87,7 @@ void	find_next_quote(char quote, char *line, int *i)
 	// cela causera un accès mémoire invalide donc line[*i] 
 	while (line[*i] && line[*i] != quote)
 		(*i)++;
+	(*i)++;
 }
 void	token_blank(t_shell *shell)
 {
@@ -106,17 +107,17 @@ void	token_blank(t_shell *shell)
 		while( line[i] && ft_isspace(line[i]))
 			i++;
 		j = i;
-		// on s'occupe des quote
-		if((line[i]) == '\'' || line[i] == '"')
+		while (line[i] && !ft_isspace(line[i]))
 		{
-			find_next_quote(line[i], line, &i);
-			i++; // on doit aller apres la quote qui ferme !!
-		}
-		else
-		{
-			// avance jusqua un espace ou une quote 
-			while(line[i] && !ft_isspace(line[i]) && !ft_isquote(line[i]))
-				i++;
+			// on s'occupe des quote
+			if((line[i]) == '\'' || line[i] == '"')
+				find_next_quote(line[i], line, &i);
+			else
+			{
+				// avance jusqua un espace ou une quote 
+				while(line[i] && !ft_isspace(line[i]) && !ft_isquote(line[i]))
+					i++;
+			}
 		}
 		if (i > j)	// seulement si i plus grand que j comme ca token valide 
 		{
