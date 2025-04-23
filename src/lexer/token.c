@@ -12,68 +12,6 @@
 
 #include "minishell.h"
 
-// tokensisation en fonction si on trouve des ' ' ou des "" et ''
-
-int	count_single_quotes(t_shell *shell)
-{
-	int		i;
-	char	*line;
-	int 	single_quote;
-
-	i = 0;
-	single_quote = 0;
-	line = shell->cmd.line;
-	while (line[i])
-	{
-		if (line[i] == '\'')
-		{
-			single_quote++;
-			i++;
-			while (line[i] && line[i] != '\'')
-				i++;
-			if(line[i] == '\'')
-				single_quote++;
-		}
-		i++;
-	}
-	printf("print single : %d\n", single_quote); // pour check le nbr
-	return (single_quote);
-}
-int	count_double_quotes(t_shell *shell)
-{
-	int		i;
-	char	*line;
-	int 	double_quote;
-
-	i = 0;
-	double_quote = 0;
-	line = shell->cmd.line;
-	while (line[i])
-	{
-		if (line[i] == '"')
-		{
-			double_quote++;
-			i++;
-			while (line[i] && line[i] != '"')
-				i++;
-			if(line[i] == '"')
-				double_quote++;
-		}
-		i++;
-	}
-	printf("print double : %d\n", double_quote); // pour check le nbr
-	return (double_quote);
-}
-
-int	check_quotes(t_shell *shell)
-{
-	if (count_single_quotes(shell) % 2 != 0)
-		return (1);
-	if (count_double_quotes(shell) % 2 != 0)
-		return (1);	
-	return (0);
-}
-
 t_bool	ft_isquote(int c)
 {
 	if ((c == '\'' || c == '"'))
@@ -83,11 +21,20 @@ t_bool	ft_isquote(int c)
 
 void	find_next_quote(char quote, char *line, int *i)
 {
-	(*i)++; // Si line[*i] atteint la fin de la chaîne (\0) sans trouver quote,
-	// cela causera un accès mémoire invalide donc line[*i] 
+	(*i)++;
 	while (line[*i] && line[*i] != quote)
 		(*i)++;
 	(*i)++;
+}
+
+t_bool	is_next_quote(char quote, char *line, int i)
+{
+	i++;
+	while (line[i] && line[i] != quote)
+		i++;
+    if (line [i] == quote)
+        return (TRUE);
+    return (FALSE);
 }
 void	token_blank(t_shell *shell)
 {
@@ -110,7 +57,7 @@ void	token_blank(t_shell *shell)
 		while (line[i] && !ft_isspace(line[i]))
 		{
 			// on s'occupe des quote
-			if((line[i]) == '\'' || line[i] == '"')
+			if(((line[i]) == '\'' || line[i] == '"') && is_next_quote(line[i], line, i) == TRUE)
 				find_next_quote(line[i], line, &i);
 			else
 			{

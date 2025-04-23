@@ -28,6 +28,7 @@ void	free_token_list(t_shell *shell)
 		free(current);
 		current = next;
 	}
+	shell->tlist.head = NULL;
 }
 
 // fonction pour free si un pb pendant la copie de tableau (genre envp)

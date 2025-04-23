@@ -47,6 +47,8 @@ void	insert_base_list(t_tlist *tlist, t_token *token)
 	if (!tlist->head)
 	{
 		tlist->head = token;
+		token->next = NULL;
+		token->prev = NULL;
 		tlist->token_cnt = 1;
 	}
 	else
@@ -55,7 +57,8 @@ void	insert_base_list(t_tlist *tlist, t_token *token)
 		while (current->next)
 			current = current->next;
 		current->next = token;
-		token->prev = current;
+		token->prev = current; 
+		token->next = NULL;
 		tlist->token_cnt++;
 	}
 }
