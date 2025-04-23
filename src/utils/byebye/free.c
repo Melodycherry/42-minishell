@@ -57,3 +57,4 @@ void	free_tab(t_shell *shell, char **tab)
 	free(tab);
 	tab = NULL;
 }
+

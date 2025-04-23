@@ -23,14 +23,14 @@ int		main(int ac, char **av, char **env);
 /*LEXER*/
 void	token_blank(t_shell *shell);
 void	find_next_quote(char quote, char *line, int *i);
-int		count_single_quotes(t_shell *shell);
-int		count_double_quotes(t_shell *shell);
-
-int		check_quotes(t_shell *shell);
 
 t_bool	ft_isquote(int c);
+t_bool	is_next_quote(char quote, char *line, int i);
 
 /*PARSER*/
+
+t_bool	ft_isoperator(int c);
+void	token_operator(t_shell *shell);
 
 /*SIGNALS*/
 void	setup_signals(void);
@@ -38,7 +38,7 @@ void	signal_handler(int sig);
 
 /*UTILS*/
 /*BYEBYE*/
-int		check_error(t_shell *shell);
+//int		check_error(t_shell *shell);
 void	free_token_list(t_shell *shell);
 void	free_mid_tab(char **strs, int i);
 void	free_tab(t_shell *shell, char **tab);
@@ -51,6 +51,8 @@ void	init_all(t_shell *shell);
 void	init_list(t_shell *shell);
 void	cpy_envp(t_shell *shell, char **envp);
 void	insert_base_list(t_tlist *tlist, t_token *token);
+void	insert_mid_list(t_token *current, t_token *new_token, t_shell *shell);
+void	create_insert_token(t_shell *shell, int i, int j, t_token *current);
 
 char	**cpy_tab(char **tab);
 

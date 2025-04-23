@@ -54,7 +54,7 @@ vpath %.c \
 
 # Sources and object files
 # attention supprimer le testing.c
-SRC = main.c struct.c env.c free.c signals.c chain.c testing.c fd.c exit.c handle.c token.c error.c
+SRC = main.c struct.c env.c free.c signals.c chain.c testing.c fd.c exit.c handle.c parser.c lexer.c error.c lexer_utils.c parser_utils.c
 
 OBJS = $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 

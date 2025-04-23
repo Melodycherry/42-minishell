@@ -12,37 +12,27 @@
 
 #include "minishell.h"
 
-int	main(int ac, char **av, char **envp)
+t_bool	ft_isquote(int c)
 {
-	t_shell	shell;
+	if ((c == '\'' || c == '"'))
+		return (TRUE);
+	return (FALSE);
+}
 
-	(void)ac;
-	(void)av;
-	(void)envp;
-	//cpy_envp(&shell, envp);
-	init_all(&shell);
-	setup_signals();
-	while (1)
-	{
-		shell.cmd.line = readline(PROMPT);
-		if (!shell.cmd.line)
-		{
-			printf("exit");
-			break ;
-		}
-		if (*shell.cmd.line)
-		add_history(shell.cmd.line);
-		// if (check_error(&shell))// a faire avant le parsing
-		// 	continue ; 
-		token_blank(&shell);
-		//printf("tokenisation espaces ok\n");
-		token_operator(&shell);
-		print_token(shell.tlist.head, printf);
-		//parsing
-		free (shell.cmd.line);
-		free_token_list (&shell); //probleme ici
-	}
-	// CLEAR HISTORY ?? 
-	// FONCTION FREE ALL A LA FIN 
-	return (0);
+void	find_next_quote(char quote, char *line, int *i)
+{
+	(*i)++;
+	while (line[*i] && line[*i] != quote)
+		(*i)++;
+	(*i)++;
+}
+
+t_bool	is_next_quote(char quote, char *line, int i)
+{
+	i++;
+	while (line[i] && line[i] != quote)
+		i++;
+    if (line [i] == quote)
+        return (TRUE);
+    return (FALSE);
 }
