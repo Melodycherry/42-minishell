@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 // fonction qui va free toute la liste qui contient les tokens. 
-// A modifier au besoin si on change de struct. 
+// A modifier au besoin si on change de struct. //freen les strndup
 void	free_token_list(t_shell *shell)
 {
 	t_token	*current;
