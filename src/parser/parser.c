@@ -52,9 +52,9 @@ void    token_operator(t_shell *shell)
 	{
 		i = 0;
 		value = current->value;
+		j = i;
 		while (value[i])
 		{
-			j = i;
 			while(!ft_isquote(value[i]) && !ft_isoperator(value[i]) && value[i])
 				i++;
 			if (ft_isquote(value[i]))
@@ -65,11 +65,13 @@ void    token_operator(t_shell *shell)
 				if (i > j)
 					create_insert_token(shell, i, j, current);
 				insert_operator(shell, &i, &j, current);
+				j = i;
 			}
 		}
 		if (check > 0) 
 		{
-			create_insert_token(shell, i, j, current);
+			if (i > j)
+				create_insert_token(shell, i, j, current);
 			current = free_mid_list(current);
 			if (current != NULL)
 				current = current->prev;
