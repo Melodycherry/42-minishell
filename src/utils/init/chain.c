@@ -57,7 +57,7 @@ void	insert_base_list(t_tlist *tlist, t_token *token)
 		while (current->next)
 			current = current->next;
 		current->next = token;
-		token->prev = current; 
+		token->prev = current;
 		token->next = NULL;
 		tlist->token_cnt++;
 	}
@@ -93,7 +93,6 @@ void	create_insert_token(t_shell *shell, int i, int j, t_token *current)
 {
 	t_token	*new_token;
 	char	*value;
-	
 	value = current->value;
 	new_token = create_token(T_UNKNOWN, &value[j], i - j);
 	insert_mid_list(current, new_token, shell);

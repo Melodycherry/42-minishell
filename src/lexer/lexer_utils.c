@@ -32,7 +32,7 @@ t_bool	is_next_quote(char quote, char *line, int i)
 	i++;
 	while (line[i] && line[i] != quote)
 		i++;
-    if (line [i] == quote)
-        return (TRUE);
-    return (FALSE);
+	if (line [i] == quote)
+		return (TRUE);
+	return (FALSE);
 }

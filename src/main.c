@@ -25,17 +25,16 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		shell.cmd.line = readline(PROMPT);
-		if (!shell.cmd.line)
+		if (!shell.cmd.line) //ctrl D
 		{
 			printf("exit");
 			break ;
 		}
 		if (*shell.cmd.line)
-		add_history(shell.cmd.line);
+			add_history(shell.cmd.line);
 		// if (check_error(&shell))// a faire avant le parsing
-		// 	continue ; 
+		// 	continue ;
 		token_blank(&shell);
-		//printf("tokenisation espaces ok\n");
 		token_operator(&shell);
 		print_token(shell.tlist.head, printf);
 		//parsing

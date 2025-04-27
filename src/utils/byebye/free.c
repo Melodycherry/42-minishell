@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 // fonction qui va free toute la liste qui contient les tokens. 
-// A modifier au besoin si on change de struct. //freen les strndup
+// A modifier au besoin si on change de struct. //free les strndup
 void	free_token_list(t_shell *shell)
 {
 	t_token	*current;
@@ -58,3 +58,34 @@ void	free_tab(t_shell *shell, char **tab)
 	tab = NULL;
 }
 
+//free le current et reconnercte la liste chainee
+//peut etre devoir gerer la head mais ca me semble etrange
+t_token	*free_mid_list(t_token *current)
+{
+	t_token	*next;
+	t_token	*prev;
+
+	if (current->next && current->prev)
+	{
+		next = current->next;
+		prev = current->prev;
+		next->prev = prev;
+		prev->next = next;
+	}
+	if (!current->next && current->prev)
+	{
+		next = NULL;
+		prev = current->prev;
+		prev->next = NULL;
+	}
+	if (current->next && !current->prev)
+	{
+		next = current->next;
+		next->prev = NULL;
+	}
+	if (!current->next && !current->prev)
+		return (NULL);
+	free(current->value);
+	free(current);
+	return (next);
+}

@@ -43,6 +43,8 @@ void	free_token_list(t_shell *shell);
 void	free_mid_tab(char **strs, int i);
 void	free_tab(t_shell *shell, char **tab);
 
+t_token	*free_mid_list(t_token *current);
+
 /*CHAIN*/
 
 /*INIT*/

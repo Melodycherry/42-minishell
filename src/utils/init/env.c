@@ -75,6 +75,7 @@ void	bubble_tab(char **tab)
 		i++;
 	}
 }
+
 void	cpy_envp(t_shell *shell, char **envp)
 {
 	if (!envp || !envp[0])
@@ -82,4 +83,3 @@ void	cpy_envp(t_shell *shell, char **envp)
 	else
 		shell->cmd.envp_copy = cpy_tab(envp);
 }
-
