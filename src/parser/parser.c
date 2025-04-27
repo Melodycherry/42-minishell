@@ -38,27 +38,6 @@ void    insert_operator(t_shell *shell, int *i, int *j, t_token *current)
 		extract_sgl_token(shell, i, j, current);
 }
 
-void	last_token(t_shell	*shell, t_token *current)
-{
-	int i;
-	int j;
-	char *value;
-
-	value = current->value;
-	j = ft_strlen(value);
-	if (ft_isoperator(value[j - 1]))
-	{
-		return ;
-	}
-	i = j;
-	while(!ft_isoperator(value[j]) && j > 0)
-		j--;
-	if (j < i)
-	{
-		create_insert_token(shell, i, (j + 1), current);
-	}
-}
-
 void    token_operator(t_shell *shell)
 {
 	int		i;
@@ -88,18 +67,14 @@ void    token_operator(t_shell *shell)
 				insert_operator(shell, &i, &j, current);
 			}
 		}
-		// printf("\ntest3\n");
-		// print_token(shell->tlist.head, printf);
 		if (check > 0) 
 		{
-			last_token(shell, current);
+			create_insert_token(shell, i, j, current);
 			current = free_mid_list(current);
 			if (current != NULL)
 				current = current->prev;
+			check = 0;
 		}
-		check = 0;
-		// printf("\ntest4\n");
-		// print_token(shell->tlist.head, printf);
 		if (current == NULL)
 			break;
 		if (current->next)

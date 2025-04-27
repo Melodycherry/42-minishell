@@ -137,3 +137,21 @@ void	print_token(t_token *token, int (*f)(const char *, ...))
 // 		return (1);	
 // 	return (0);
 // }
+
+// void	last_token(t_shell	*shell, t_token *current, int *j, int *i)
+// {
+// 	char *value;
+
+// 	value = current->value;
+// 	if (ft_isoperator(value[j - 1]))
+// 	{
+// 		return ;
+// 	}
+// 	i = j;
+// 	while(!ft_isoperator(value[j]) && j > 0)
+// 		j--;
+// 	if (j < i)
+// 	{
+// 		create_insert_token(shell, i, (j + 1), current);
+// 	}
+// }
