@@ -117,10 +117,13 @@ t_bool	is_token_error(t_token *token, t_shell *shell)
 	{	
 		while (token) // 2 a 6 = operateur
 		{
-			if (token->type == 3 && token->next->type == 4)
-				token = token->next;
-			if ((token->type >= 2 && token->type <= 6) && (token->next->type >= 2 && token->next->type <= 6))
-				return (TRUE);
+			if(token->next)
+			{
+				if (token->type == 3 && token->next->type == 4)
+					token = token->next;
+				if ((token->type >= 2 && token->type <= 6) && (token->next->type >= 2 && token->next->type <= 6))
+					return (TRUE);
+			}
 			token = token->next;
 		}
 	}
