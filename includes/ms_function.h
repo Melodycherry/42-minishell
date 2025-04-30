@@ -15,6 +15,8 @@
 int		main(int ac, char **av, char **env);
 
 /*BUILTIN*/
+void	print_export(char **tab);
+void	handle_export(t_shell *shell);
 
 /*EXECUTOR*/
 

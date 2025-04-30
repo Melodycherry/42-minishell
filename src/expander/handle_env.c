@@ -10,36 +10,34 @@
 /*                                                                           */
 /*****************************************************************************/
 
-#include "minishell.h"
+// #include "minishell.h"
 
-int	main(int ac, char **av, char **envp)
-{
-	t_shell	shell;
+// // fonction qui retourne la valeur de la variable d expendion "path"
+// //pas de modif du tableau donc pas de malloc - chercher des inos
+// // $USR='Melo" -> prend USER return Melo
+// char *get_env(char *path)
+// {
+// 	;
+// }
 
-	(void)ac;
-	(void)av;
-	init_all(&shell);
-	cpy_envp(&shell, envp);
-	//handle_export(&shell);
-	setup_signals();
-	while (1)
-	{
-		shell.cmd.line = readline(PROMPT);
-		if (!shell.cmd.line) //ctrl D
-		{
-			printf("exit");
-			break ;
-		}
-		if (*shell.cmd.line)
-			add_history(shell.cmd.line);
-		token_blank(&shell);
-		token_operator(&shell);
-		print_token(shell.tlist.head, printf);
-		//parsing
-		free(shell.cmd.line);
-		free_token_list(&shell);
-	}
-	// CLEAR HISTORY ?? 
-	// FONCTION FREE ALL A LA FIN 
-	return (0);
-}
+// //fonction qui va ajouter une nouvelle variable d'expansion dans le tableau
+// // realloc du tableau pcq on rajoute 1
+// int set_env(const char *name, const char *value, int overwrite)
+// {
+// 	// copie du tableau ou on ajoue le nouveau ARG
+// 	// remvoie un int ou un char **
+// 	// change le tableau dans shell.cmd.env_cpy
+// 	// USER2=Melomelo
+// 	;
+// }
+
+// void	create_VAR()
+// {
+// 	;
+// }
+
+// //faire un unset ??
+// // int	unset_env()
+// // {
+// // 	return (0);
+// // }
