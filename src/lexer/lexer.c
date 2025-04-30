@@ -26,19 +26,16 @@ void	token_blank(t_shell *shell)
 		return ;
 	while (line[i])
 	{
-		// skip space
 		while (line[i] && ft_isspace(line[i]))
 			i++;
 		j = i;
 		while (line[i] && !ft_isspace(line[i]))
 		{
-			// on s'occupe des quote
 			if (((line[i]) == '\'' || line[i] == '"')
 				&& is_next_quote(line[i], line, i) == TRUE)
 				find_next_quote(line[i], line, &i);
 			else
 			{
-				// avance jusqua un espace ou une quote 
 				while (line[i] && !ft_isspace(line[i]) && !ft_isquote(line[i]))
 					i++;
 			}

@@ -73,6 +73,7 @@ void    token_operator(t_shell *shell)
 			if (i > j)
 				create_insert_token(shell, i, j, current);
 			current = free_mid_list(current);
+			shell->tlist.token_cnt--;
 			if (current != NULL)
 				current = current->prev;
 			check = 0;
@@ -84,4 +85,44 @@ void    token_operator(t_shell *shell)
 		else
 			break;
 	}
+}
+
+//mettre en place les type dans la chaine tlist
+void token_typedef(t_token *token) //mettre la head de t list
+{
+	while(token) // ou while(token) a voir je sais jamais
+	{
+		if (token->value[0] == '|')
+			token->type = T_PIPE;
+		else if (token->value[0] == '>' && token->value[1] == '>')
+			token->type = T_REDIR_APPEND;
+		else if (token->value[0] == '<' && token->value[1] == '<')
+			token->type = T_HEREDOC;
+		else if (token->value[0] == '>')
+			token->type = T_REDIR_OUT;
+		else if (token->value[0] == '<')
+			token->type = T_REDIR_IN;
+		else
+			token->type = T_WORD;
+		token = token->next;
+	}
+	//handletoken error
+	//definir les variable d expension  && EOF
+	//apres mais dans une autre fonction : virer les "" dans les mots && EOF & autres
+}
+//gerer les cas d erreur a utiliser en parallele de typedef
+t_bool	is_token_error(t_token *token, t_shell *shell)
+{
+	if (shell->tlist.token_cnt > 1)
+	{	
+		while (token) // 2 a 6 = operateur
+		{
+			if (token->type == 3 && token->next->type == 4)
+				token = token->next;
+			if ((token->type >= 2 && token->type <= 6) && (token->next->type >= 2 && token->next->type <= 6))
+				return (TRUE);
+			token = token->next;
+		}
+	}
+	return (FALSE);
 }

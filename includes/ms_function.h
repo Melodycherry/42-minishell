@@ -32,7 +32,10 @@ t_bool	is_next_quote(char quote, char *line, int i);
 /*PARSER*/
 
 t_bool	ft_isoperator(int c);
+t_bool	is_token_error(t_token *token, t_shell *t_shell);
+
 void	token_operator(t_shell *shell);
+void	token_typedef(t_token *token);
 
 /*SIGNALS*/
 void	setup_signals(void);
@@ -69,3 +72,4 @@ t_token	*create_token(int type, char *value, int n);
 //fonctions tests a supprimer apres
 void	print_tab(char **tab);
 void	print_token(t_token *token, int (*f)(const char *, ...));
+void	print_token2(t_token *token, int (*f)(const char *, ...));

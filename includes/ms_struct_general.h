@@ -49,6 +49,7 @@ typedef struct s_token
 {
 	t_token_type	type; // Modif pour utiliser enumeration above 
 	char			*value;
+	char			*value_arg; //valeur SI TYPE=ARG de la valeur correspondante
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;

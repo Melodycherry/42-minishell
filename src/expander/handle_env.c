@@ -10,7 +10,7 @@
 /*                                                                           */
 /*****************************************************************************/
 
-// #include "minishell.h"
+#include "minishell.h"
 
 // // fonction qui retourne la valeur de la variable d expendion "path"
 // //pas de modif du tableau donc pas de malloc - chercher des inos

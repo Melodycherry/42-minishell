@@ -30,8 +30,13 @@ void	handle_export(t_shell *shell)
 	bubble_tab(shell->cmd.envp_copy);
 	print_export(shell->cmd.envp_copy);
 	
-	// if export + variable sans $
-	// -> met la VAR dans env -> set_env
+	// if export + variable sans $ ou mot
+	// -> met la VAR ou WORD dans env -> set_env -----> value="value_arg"
 
 }
+
+// export + old ARG -> rien
+// export + new ARG -> set dans env value="value_arg" /!\ de mettre des guillemets
+// export + mot -> met le mot SANS GUILLEMET dans env
+
 
