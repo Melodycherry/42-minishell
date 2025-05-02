@@ -21,6 +21,7 @@ typedef struct s_cmd
 	//char	*path; //si utile -> ce sera utile dans ce qu on reçoit de readline 
 	char	*line;
 	char	**envp_copy;
+	char	**envp_exp;
 }	t_cmd;
 
 typedef struct s_lexer
