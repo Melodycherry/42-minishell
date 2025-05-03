@@ -20,6 +20,7 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	init_all(&shell);
 	cpy_envp(&shell, envp);
+	print_export(shell.cmd.envp_exp);
 	setup_signals();
 	while (1)
 	{
