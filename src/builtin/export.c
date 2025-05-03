@@ -12,6 +12,20 @@
 
 #include "minishell.h"
 
+// fonction principale pour l'export 
+// ******* a tester ******
+void	handle_export(t_shell *shell, t_token *token)
+{
+	if (ft_strncmp(token->value, "export", ft_strlen(token->value)) == 0
+		&& token->next->type == T_WORD)
+			if (!checking_var(token, shell))
+				return(signal(SIGINT, signal_handler));
+	else if (ft_strncmp(token->value, "export", ft_strlen(token->value)) == 0)
+		print_export(shell->cmd.envp_copy);
+	else
+		return ;
+}
+
 void	print_export(char **tab)
 {
 	int	i;
@@ -23,20 +37,29 @@ void	print_export(char **tab)
 		i++;
 	}
 }
-void	handle_export(t_shell *shell)
-{
-	// if export tout seul :
-	// -> print le tableau dans l'ordre ASCII avec "declare -x "
-	print_export(shell->cmd.envp_copy);
-	
-	// if export + variable sans $ ou mot
-	// si mot simple -> value
-	// si mot + = + mot -> VALUE_ARG
-	// -> met la VAR ou WORD dans env -> set_env -----> value="value_arg"
-	// /!\ mise a jour env seulement si il y a un = meme si rien apres le = // sinon toujours dans le export
-}
-
+//pour l instant sert a rien mais risque de servir
+// **** a tester ****
 t_bool is_valid_var_name(t_token *token, t_shell *shell)
+{
+	int		i;
+	char	*line;
+
+	i = 0;
+	line = token->value;
+	while (line[i] && line[i] != '=')
+	{
+		if (line[0] == '_' || ft_isalpha(line[0]))
+			i++;
+		else 
+			return (FALSE);
+		if (line[i] == '_' || ft_isalnum(line[i]))
+			i++;
+	}
+	return (TRUE);
+}
+// checker si le nom de la variable est valide et fait la gestion des copies dans les tableaux
+// ******* a tester ******
+t_bool checking_var(t_token *token, t_shell *shell)
 {
 	int		i;
 	char	*line;
@@ -48,32 +71,74 @@ t_bool is_valid_var_name(t_token *token, t_shell *shell)
 		if (line[0] == '_' || ft_isalpha(line[0]))
 			i++;
 		else 
-			return (FALSE, printf("bash: export: `%s': not a valid identifier", line)); //comme ctrlC
+			return (error_syntax_export(line), FALSE);
 		if (line[i] == '_' || ft_isalnum(line[i]))
 			i++;
 		else if (line[i] == '=')
-			return (TRUE);
-			//creer fonction qui met dans le env_cpy + env_exp + gerer les infos apres var_value
+			return (put_in_export(shell, shell->cmd.envp_exp, line), put_in_env(shell, shell->cmd.envp_copy, line), TRUE);
 		else if (line[i] == ' ' && line[i] == '\0')
-			return (TRUE);
-			//creer fonction qui met dans le env_exp
+			return (put_in_export(shell, shell->cmd.envp_exp, line), TRUE);
 		else 
-			return (FALSE, printf("bash: export: `%s': not a valid identifier", line)); //comme ctrlC		
+			return (error_syntax_export(line), FALSE);		
 	}
 	return (TRUE);
 }
 
-void	put_in_export(void)
+//va ajouter en derniere ligne la new_value dans envp_exp et free l ancienne
+// ******* a tester ******
+void	put_in_export(t_shell *shell, char **old_export, char *new_value) //poutine export
 {
-	;
+	int		i;
+	int		tab_len;
+	char	**new_export;
+
+	i = 0;
+	new_export = malloc(sizeof(char *) * (ft_tablen(old_export) + 2));
+	if (!new_export)
+		return (NULL);
+	while (i < ft_tablen(old_export))
+	{
+		new_export[i] = ft_strdup(old_export[i]);
+		if (new_export[i] == NULL)
+			free_mid_tab(cpy_tab, i);
+		i++;
+	}
+	new_export[i] = ft_strdup(new_value[i]);
+	i++;
+	new_export[i] = 0;
+	free_tab(shell, shell->cmd.envp_exp);
+	shell->cmd.envp_exp = new_export;
 }
-// mettre dans envp_cpy + envp_exp la nouvelle VAR + mettre a jour le token via strndup la VAR_VALUE
-void	put_in_env(void)
+
+
+//va ajouter en derniere ligne la new_value dans envp_copy et free l ancienne
+// ******* a tester ******
+void	put_in_env(t_shell *shell, char **old_env, char *new_value) //poutine env
 {
-	;
+	int		i;
+	int		tab_len;
+	char	**new_env;
+
+	i = 0;
+	new_env = malloc(sizeof(char *) * (ft_tablen(old_env) + 2));
+	if (!new_env)
+		return (NULL);
+	while (i < ft_tablen(old_env))
+	{
+		new_env[i] = ft_strdup(old_env[i]);
+		if (new_env[i] == NULL)
+			free_mid_tab(cpy_tab, i);
+		i++;
+	}
+	new_env[i] = ft_strdup(new_value[i]);
+	i++;
+	new_env[i] = 0;
+	free_tab(shell, shell->cmd.envp_copy);
+	shell->cmd.envp_copy = new_env;
 }
+
+
 // export + old ARG -> rien
 // export + new ARG -> set dans env value="value_arg" /!\ de mettre des guillemets
 // export + mot -> met le mot SANS GUILLEMET dans env
-
 
