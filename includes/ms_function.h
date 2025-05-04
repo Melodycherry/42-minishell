@@ -26,6 +26,7 @@ t_bool	is_valid_var_name(t_token *token, t_shell *shell);
 /*EXECUTOR*/
 
 /*EXPANDER*/
+void	set_env(char *value, int to_tab, t_shell *shell);
 
 /*LEXER*/
 void	token_blank(t_shell *shell);

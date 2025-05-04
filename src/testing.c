@@ -172,3 +172,18 @@ void	print_token2(t_token *token, int (*f)(const char *, ...))
 // 		create_insert_token(shell, i, (j + 1), current);
 // 	}
 // }
+
+// char	*create_var(const char *name, const char *value)
+// {
+// 	int		len;
+// 	char	*var;
+
+// 	len = ft_strlen(name) + ft_strlen(value) + 2; // car '=' et '\0'
+// 	var = malloc(len);
+// 	if (!var)
+// 		return (NULL);
+// 	ft_strlcpy(var, name, len);
+// 	ft_strlcat(var, "=", len);
+// 	ft_strlcat(var, value, len);
+// 	return(var);
+// }

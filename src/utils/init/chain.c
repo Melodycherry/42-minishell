@@ -33,7 +33,6 @@ t_token	*create_token(int type, char *value, int n)
 	ft_memset(new_token, 0, sizeof(t_token)); // t_token
 	new_token->value = ft_strndup(value, n);
 	new_token->type = type;
-	new_token->value_arg = NULL;
 	return (new_token);
 }
 

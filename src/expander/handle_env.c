@@ -12,18 +12,99 @@
 
 #include "minishell.h"
 
-// // fonction qui retourne la valeur de la variable d expendion "path"
-// //pas de modif du tableau donc pas de malloc - chercher des inos
-// // $USR='Melo" -> prend USER return Melo
-// char *get_env(char *path)
-// {
-// 	;
-// }
+// Check si la variable existe dans l'export
+// ***** a tester ******
+t_bool var_exist(char **envp, const char *var_env)
+{
+	int		i;
+	int		len;
+	char	*equal_sign;
+
+	i = 0;
+	len = ft_strlen(var_env);
+	while (envp[i])
+	{
+		equal_sign = ft_strchr(envp[i], '=');
+		if (equal_sign)	
+			if (ft_strncmp(envp[i], var_env, (int)(equal_sign - envp[i][0])) == 0 && (envp[i][len] == '='))
+				return (TRUE);
+		else 
+			if (envp[i][len] == '\0')
+				return (TRUE);
+		i++;
+	}
+	return(FALSE);
+}
+
+// retourne la position dans le tableau env
+// ********* a tester *********
+int	pos_var_env(char **envp, char *var_env)
+{
+	int		i;
+	int		len;
+	char	*equal_sign;
+
+	i = 0;
+	len = ft_strlen(var_env);
+	while (envp[i])
+	{
+		equal_sign = ft_strchr(envp[i], '=');
+		if (equal_sign)	
+			if (ft_strncmp(envp[i], var_env, (int)(equal_sign - envp[i][0])) == 0 && (envp[i][len] == '='))
+				return (i);
+		else 
+			if (envp[i][len] == '\0')
+				return (i);
+		i++;
+	}
+	return(i);
+}
+
+// fonction de refactorisation qui va verifier l existance d une variable dans le env, recupere sa position
+// la remplace si existante ou l ajoute sinon
+// ****** a tester *********
+void	insert_env_export(t_shell *shell, char *value, char **tab, t_bool is_export)
+{
+	int	index;
+
+	index = 0;
+	if (var_exist(tab, value))
+		{
+			index= pos_var_env(tab, value);	
+			free(tab[index]);
+			tab[index] = strndup(value, ft_strlen(value));
+		}
+	else
+		put_in_env_export(shell, tab, value, is_export);
+}
+
+//mettre des information dans le envp_export et potientiellement dans le envp_copy
+//********** a tester ********/
+void	set_env(char *value, int to_tab, t_shell *shell)
+{
+	if (to_tab == TO_EXPORT)
+		insert_env_export(shell, value, shell->cmd.envp_exp, TRUE);
+	else if (to_tab == TO_BOTH)
+	{
+		insert_env_export(shell, value, shell->cmd.envp_exp, TRUE);
+		insert_env_export(shell, value, shell->cmd.envp_copy, FALSE);
+	}
+	else 
+		return (printf("WTF GUUURL\n"));
+}
+
+// fonction qui retourne la valeur de la variable d expendion "path"
+//pas de modif du tableau donc pas de malloc - chercher des inos
+// $USR='Melo" -> prend USER return Melo
+//char *get_env(char *path)
+//{
+//	;
+//}
 
 //COMMENT HYGIE
-// //fonction qui va ajouter une nouvelle variable d'expansion dans le tableau
-// // realloc du tableau pcq on rajoute 1
-// int set_env(const char *name, const char *value, int overwrite)
+//fonction qui va ajouter une nouvelle variable d'expansion dans le tableau
+// realloc du tableau pcq on rajoute 1
+//int set_env(const char *name, const char *value, int overwrite)
 // {
 // 	// copie du tableau ou on ajoue le nouveau ARG
 // 	// remvoie un int ou un char **
@@ -32,9 +113,9 @@
 // 	;
 // }
 
-//COMMENT MELO
-//Fonction qui va ajouter une nouvelle variable d'expansion dans le tableau
-//d'abord check si elle existe
+// COMMENT MELO
+// Fonction qui va ajouter une nouvelle variable d'expansion dans le tableau
+// d'abord check si elle existe
 // -> faire fonction var_exist ? ( OK ? )
 // if yes, on la modifie
 // if existe pas, on la creer 
@@ -42,80 +123,3 @@
 // a stocker dans le tableau de envp ( + export ? ) 
 // donc realloc tableau pour rajouter ? 
 // et free ancien tableau ? 
-
-// int set_env(t_shell *shell, const char *name, const char *value, int overwrite)
-// {
-// 	char	*new_var;
-// 	int		i;
-
-// 	if (var_exist(shell->cmd.envp_copy, name) == TRUE)
-// 	{
-// 		// overwrite ??
-// 		i = 0;
-// 		// il faut modif la var deja la 
-// 		while (shell->cmd.envp_copy[i])
-// 		{
-// 			if (ft_strncmp(shell->cmd.envp_copy[i], name, ft_strlen(name)) == 0 &&
-// 			shell->cmd.envp_copy[i][ft_strlen(name)] == '=')
-// 			{
-// 				// on va free ancienne var
-// 				new_var = create_var(name, value);
-// 				// remplace la var dans le envp cpy
-// 				return (1); // ??
-// 			}
-// 			i++;
-// 		}
-// 	}
-// 	else
-// 	{
-// 		// ajout nouvelle variable : 
-// 		// il faut compter la longueur du envp ? nombre d'entree ? -> tablen deja fait 
-// 		// faire new_env ? update ? avec entree supplementaire 
-// 		// ou realloc ? quelle diff ? 
-// 		// cpy ancien envp
-// 		// create new var
-// 		// ajout new var
-// 		// free ancien envp 
-// 	} 
-// }
-// // Check si la variable existe dans l'export
-// // a tester
-// t_bool	var_exist(t_shell *shell, const char *name)
-// {
-// 	int	i;
-// 	int	len;
-
-// 	i = 0;
-// 	len = ft_strlen(name);
-// 	while (shell->cmd.envp_exp[i])
-// 	{
-// 		if (ft_strncmp(shell->cmd.envp_exp[i], name, len) == 0
-// 			&& (shell->cmd.envp_exp[i][len] == '='
-// 				|| shell->cmd.envp_exp[i][len] == '\0'))
-// 			return (TRUE);
-// 		i++;
-// 	}
-// 	return(FALSE);
-// }
-
-// char	*create_var(const char *name, const char *value)
-// {
-// 	int		len;
-// 	char	*var;
-
-// 	len = ft_strlen(name) + ft_strlen(value) + 2; // car '=' et '\0'
-// 	var = malloc(len);
-// 	if (!var)
-// 		return (NULL);
-// 	ft_strlcpy(var, name, len);
-// 	ft_strlcat(var, "=", len);
-// 	ft_strlcat(var, value, len);
-// 	return(var);
-
-// }
-
-// //faire un unset ??
-// // int	unset_env()
-// // {
-// // 	return (0);
-// // }
