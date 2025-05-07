@@ -12,6 +12,9 @@
 
 #include "minishell.h"
 
+static int	skip_spaces(char *line, int i);
+static int	handle_quote(char *line, int i);
+
 void	token_blank(t_shell *shell)
 {
 	int		i;
@@ -20,30 +23,37 @@ void	token_blank(t_shell *shell)
 	t_token	*token;
 
 	i = 0;
-	j = 0;
 	line = shell->cmd.line;
 	if (!line)
 		return ;
 	while (line[i])
 	{
-		while (line[i] && ft_isspace(line[i]))
-			i++;
+		i = skip_spaces(line, i);
 		j = i;
 		while (line[i] && !ft_isspace(line[i]))
-		{
-			if (((line[i]) == '\'' || line[i] == '"')
-				&& is_next_quote(line[i], line, i) == TRUE)
-				find_next_quote(line[i], line, &i);
-			else
-			{
-				while (line[i] && !ft_isspace(line[i]) && !ft_isquote(line[i]))
-					i++;
-			}
-		}
-		if (i > j) // seulement si i plus grand que j comme ca token valide 
+			i = handle_quote(line, i);
+		if (i > j)
 		{
 			token = create_token(T_UNKNOWN, &line[j], (i - j));
 			insert_base_list(&shell->tlist, token);
 		}
 	}
+}
+
+static int	skip_spaces(char *line, int i)
+{
+	while (line[i] && ft_isspace(line[i]))
+			i++;
+	return (i);
+}
+
+static int	handle_quote(char *line, int i)
+{
+	if (((line[i]) == '\'' || line[i] == '"')
+			&& is_next_quote(line[i], line, i) == TRUE)
+			find_next_quote(line[i], line, &i);
+	else
+		while (line[i] && !ft_isspace(line[i]) && !ft_isquote(line[i]))
+			i++;
+	return(i);
 }

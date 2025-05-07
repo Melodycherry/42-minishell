@@ -54,7 +54,7 @@ vpath %.c \
 
 # Sources and object files
 # attention supprimer le testing.c
-SRC = main.c struct.c env.c free.c signals.c chain.c testing.c fd.c exit.c \
+SRC = main.c struct.c init_env.c free.c signals.c init_chain.c testing.c fd.c exit.c \
 handle.c parser.c lexer.c error.c lexer_utils.c parser_utils.c expander.c \
 expander_utils.c export.c unset.c pwd.c exit.c echo.c cd.c builtin_utils.c
 

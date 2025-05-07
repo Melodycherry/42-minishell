@@ -120,19 +120,3 @@ void	insert_env_export(t_shell *shell, char *value, char **tab, t_bool is_export
 	else
 		put_in_env_export(shell, tab, value, is_export);
 }
-
-
-//mettre des information dans le envp_export et potientiellement dans le envp_copy
-//********** a tester ********/
-void	set_env(char *value, int to_tab, t_shell *shell)
-{
-	if (to_tab == TO_EXPORT)
-		insert_env_export(shell, value, shell->cmd.envp_exp, TRUE);
-	else if (to_tab == TO_BOTH)
-	{
-		insert_env_export(shell, value, shell->cmd.envp_exp, TRUE);
-		insert_env_export(shell, value, shell->cmd.envp_copy, FALSE);
-	}
-	else 
-		return ;
-}

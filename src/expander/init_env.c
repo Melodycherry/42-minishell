@@ -87,3 +87,17 @@ void	cpy_envp(t_shell *shell, char **envp)
 			bubble_tab(shell->cmd.envp_exp);
 		}
 }
+//mettre des information dans le envp_export et potientiellement dans le envp_copy
+//********** a tester ********/
+void	set_env(char *value, int to_tab, t_shell *shell)
+{
+	if (to_tab == TO_EXPORT)
+		insert_env_export(shell, value, shell->cmd.envp_exp, TRUE);
+	else if (to_tab == TO_BOTH)
+	{
+		insert_env_export(shell, value, shell->cmd.envp_exp, TRUE);
+		insert_env_export(shell, value, shell->cmd.envp_copy, FALSE);
+	}
+	else 
+		return ;
+}

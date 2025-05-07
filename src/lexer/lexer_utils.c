@@ -18,15 +18,6 @@ t_bool	ft_isquote(int c)
 		return (TRUE);
 	return (FALSE);
 }
-
-void	find_next_quote(char quote, char *line, int *i)
-{
-	(*i)++;
-	while (line[*i] && line[*i] != quote)
-		(*i)++;
-	(*i)++;
-}
-
 t_bool	is_next_quote(char quote, char *line, int i)
 {
 	i++;
@@ -40,4 +31,11 @@ t_bool	is_next_quote(char quote, char *line, int i)
 	if (line [i] == quote)
 		return (TRUE);
 	return (FALSE);
+}
+void	find_next_quote(char quote, char *line, int *i)
+{
+	(*i)++;
+	while (line[*i] && line[*i] != quote)
+		(*i)++;
+	(*i)++;
 }
