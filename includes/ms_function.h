@@ -16,17 +16,23 @@ int		main(int ac, char **av, char **env);
 
 /*BUILTIN*/
 void	print_export(char **tab);
-void	handle_export(t_shell *shell);
-void	put_in_env(t_shell *shell, char **old_env, char *new_value);
-void	put_in_export(t_shell *shell, char **old_export, char *new_value);
+void	handle_export(t_shell *shell, t_token *token);
+void	put_in_env_export(t_shell *shell, char **old_tab,
+	char *new_value, t_bool is_export);
 
-t_bool  is_command(void);
-t_bool	is_valid_var_name(t_token *token, t_shell *shell);
+//t_bool  is_command(void);
+t_bool checking_var(t_token *token, t_shell *shell);
+//t_bool	is_valid_var_name(t_token *token, t_shell *shell);
 
 /*EXECUTOR*/
 
 /*EXPANDER*/
+void	check_var_env(t_shell *shell, t_token *token);
 void	set_env(char *value, int to_tab, t_shell *shell);
+
+int		pos_var_env(char **envp, char *var_env);
+
+t_bool	var_exist(char **envp, const char *var_env, int i);
 
 /*LEXER*/
 void	token_blank(t_shell *shell);

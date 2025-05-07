@@ -67,6 +67,33 @@ void	print_token2(t_token *token, int (*f)(const char *, ...))
 
 /// DECHETS /// 
 
+
+
+
+// //pour l instant sert a rien mais risque de servir
+// // **** a tester ****
+// t_bool is_valid_var_name(t_token *token, t_shell *shell)
+// {
+// 	int		i;
+// 	char	*line;
+	
+// 	(void)shell;
+// 	i = 0;
+// 	line = token->value;
+// 	while (line[i] && line[i] != '=')
+// 	{
+// 		if (line[0] == '_' || ft_isalpha(line[0]))
+// 			i++;
+// 		else 
+// 			return (FALSE);
+// 		if (line[i] == '_' || ft_isalnum(line[i]))
+// 			i++;
+// 	}
+// 	return (TRUE);
+// }
+
+
+
 // tokensisation en fonction si on trouve des ' ' ou des "" et ''
 
 // int	count_quotes(t_shell *shell, char quote, char c)
