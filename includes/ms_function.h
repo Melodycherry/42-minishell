@@ -32,10 +32,12 @@ t_bool checking_var(t_token *token, t_shell *shell);
 /*EXPANDER*/
 void	bubble_tab(char **tab);
 void	cpy_envp(t_shell *shell, char **envp);
+void	expand_var(t_shell *shell, t_token *token);
 void	check_var_env(t_shell *shell, t_token *token);
 void	set_env(char *value, int to_tab, t_shell *shell);
 
 char	**cpy_tab(char **tab);
+char	*join_free(char *s1, char *s2, int len_s2);
 
 int     ft_tablen(char **tab);
 int		pos_var_env(char **envp, char *var_env);

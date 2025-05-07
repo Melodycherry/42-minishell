@@ -62,3 +62,26 @@ int	pos_var_env(char **envp, char *var_env)
 	}
 	return(i);
 }
+
+char	*join_free(char *s1, char *s2, int len_s2)
+{
+	size_t	len_s1;
+	char	*str;
+
+	if (s1)
+		len_s1 = ft_strlen(s1);
+	else
+		len_s1 = 0;
+	if (!s2)
+		return (NULL);
+	str = (char *) malloc(sizeof(char) * (len_s1 + len_s2 + 1));
+	if (!str)
+		return (NULL);
+	if (s1)
+	{
+		ft_strlcpy(str, s1, len_s1 + 1);
+		free(s1);
+	}
+	ft_strlcpy(str + len_s1, s2, len_s2 + 1);
+	return (str);
+}
