@@ -42,8 +42,6 @@ int	main(int ac, char **av, char **envp)
 			printf("GUUUUURL ITS NOT GOOD\n");
 		else
 			printf("NOICE\n");
-		
-		
 		//parsing
 		free(shell.cmd.line);
 		free_token_list(&shell);

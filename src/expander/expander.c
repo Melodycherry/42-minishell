@@ -29,10 +29,11 @@ void	check_var_env(t_shell *shell, t_token *token)
 {
 	int	i;
 	int	j;
+
 	while (token)
 	{
 		i = 0;
-		if(token->type == T_WORD)
+		if (token->type == T_WORD)
 		{
 			while (token->value[i])
 			{	
@@ -51,12 +52,12 @@ void	check_var_env(t_shell *shell, t_token *token)
 							&& !ft_isspace(token->value[i]))
 							i++;
 						if (var_exist(shell->cmd.envp_exp, 
-							&token->value[j], (i - j)) == TRUE)
+								&token->value[j], (i - j)) == TRUE)
 						{
 							token->type = T_ARG;
 							return ;
 						}
-						else 
+						else
 							i--;
 					}
 					i++;
@@ -86,7 +87,7 @@ void	expand_var(t_shell *shell, t_token *token)
 	{
 		j = i;
 		if (token->value[i] == '\'')
-				find_next_quote('\'', token->value, &i);
+			find_next_quote('\'', token->value, &i);
 		while (token->value[i] && token->value[i] != '$')
 			i++;
 		if (token->value[i] == '$')
@@ -95,8 +96,9 @@ void	expand_var(t_shell *shell, t_token *token)
 				token->var_value = join_free(token->var_value, &token->value[j], (i - j)); // si il y aavait qqc avant le $ on le concatene
 			i++;
 			j = i; // reset j apres le $
-			while (token->value[i] != '$' && token->value[i] && !ft_isquote(token->value[i]) && !ft_isspace(token->value[i]))
-							i++;
+			while (token->value[i] != '$' && token->value[i] && !ft_isquote(token->value[i])
+				&& !ft_isspace(token->value[i]))
+				i++;
 			if (var_exist(shell->cmd.envp_exp, &token->value[j], (i - j)) == TRUE) // si elle existe on cacatene ou byebye a la suite
 				token->var_value = join_free(token->var_value, recup_var(), (i - j)); // cree une fonction RECUP_VAR qui retourne la string recupérée dans le tableau
 		}

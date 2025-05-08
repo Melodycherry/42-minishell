@@ -18,10 +18,10 @@ void	handle_export(t_shell *shell, t_token *token)
 {
 	if (ft_strncmp(token->value, "export", ft_strlen(token->value)) == 0
 		&& token->next->type == T_WORD)
-		{
-			if (checking_var(token, shell) == FALSE)
-				return ; //pas juste, doit retourner qqc mais on c est pour futur noud
-		}
+	{
+		if (checking_var(token, shell) == FALSE)
+			return ;//pas juste, doit retourner qqc mais on c est pour futur noud
+	}
 	else if (ft_strncmp(token->value, "export", ft_strlen(token->value)) == 0)
 		print_export(shell->cmd.envp_copy);
 	else
@@ -40,7 +40,8 @@ void	print_export(char **tab)
 		line = tab[i];
 		equal_sign = ft_strchr(line, '=');
 		if (equal_sign) // a check
-			printf("declare -x %.*s=\"%s\"\n", (int)(equal_sign - line), line, equal_sign + 1);
+			printf("declare -x %.*s=\"%s\"\n", (int)(equal_sign - line),
+				line, equal_sign + 1);
 		else
 			printf("declare -x %s\n", line);
 		i++;
@@ -49,7 +50,7 @@ void	print_export(char **tab)
 
 // checker si le nom de la variable est valide et fait la gestion des copies dans les tableaux
 // ******* a tester ******
-t_bool checking_var(t_token *token, t_shell *shell)
+t_bool	checking_var(t_token *token, t_shell *shell)
 {
 	int		i;
 	char	*line;
@@ -68,7 +69,7 @@ t_bool checking_var(t_token *token, t_shell *shell)
 			return (set_env(line, TO_BOTH, shell), TRUE);
 		else if (line[i] == ' ' && line[i] == '\0')
 			return (set_env(line, TO_EXPORT, shell), TRUE);
-		else 
+		else
 			return (error_syntax_export(line), FALSE);		
 	}
 	return (TRUE);
@@ -76,7 +77,7 @@ t_bool checking_var(t_token *token, t_shell *shell)
 
 //va ajouter en derniere ligne la new_value dans envp_exp et free l ancienne
 // ******* a tester ******
-void	put_in_env_export(t_shell *shell, char **old_tab, 
+void	put_in_env_export(t_shell *shell, char **old_tab,
 			char *new_value, t_bool is_export)
 {
 	int		i;
@@ -112,11 +113,11 @@ void	insert_env_export(t_shell *shell, char *value, char **tab, t_bool is_export
 
 	index = 0;
 	if (var_exist(tab, value, ft_strlen(value)))
-		{
-			index= pos_var_env(tab, value);	
-			free(tab[index]);
-			tab[index] = strndup(value, ft_strlen(value));
-		}
+	{
+		index = pos_var_env(tab, value);	
+		free(tab[index]);
+		tab[index] = strndup(value, ft_strlen(value));
+	}
 	else
 		put_in_env_export(shell, tab, value, is_export);
 }

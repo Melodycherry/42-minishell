@@ -60,7 +60,7 @@ void	free_tab(t_shell *shell, char **tab)
 
 //free le current et reconnercte la liste chainee
 //peut etre devoir gerer la head mais ca me semble etrange
-t_token	*free_mid_list(t_token *current)
+t_token	*free_mid_list(t_token *current) // la aussi 26 lignes ca pete les couilles 
 {
 	t_token	*next;
 	t_token	*prev;

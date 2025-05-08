@@ -18,6 +18,7 @@ t_bool	ft_isquote(int c)
 		return (TRUE);
 	return (FALSE);
 }
+
 t_bool	is_next_quote(char quote, char *line, int i)
 {
 	i++;
@@ -32,6 +33,7 @@ t_bool	is_next_quote(char quote, char *line, int i)
 		return (TRUE);
 	return (FALSE);
 }
+
 void	find_next_quote(char quote, char *line, int *i)
 {
 	(*i)++;

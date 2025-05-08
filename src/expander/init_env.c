@@ -81,12 +81,13 @@ void	cpy_envp(t_shell *shell, char **envp)
 	if (!envp || !envp[0])
 		shell->cmd.envp_copy = malloc(sizeof(char *) * (ft_tablen(envp)) + 1);
 	else
-		{
-			shell->cmd.envp_copy = cpy_tab(envp);
-			shell->cmd.envp_exp = cpy_tab(envp);
-			bubble_tab(shell->cmd.envp_exp);
-		}
+	{
+		shell->cmd.envp_copy = cpy_tab(envp);
+		shell->cmd.envp_exp = cpy_tab(envp);
+		bubble_tab(shell->cmd.envp_exp);
+	}
 }
+
 //mettre des information dans le envp_export et potientiellement dans le envp_copy
 //********** a tester ********/
 void	set_env(char *value, int to_tab, t_shell *shell)
@@ -98,6 +99,6 @@ void	set_env(char *value, int to_tab, t_shell *shell)
 		insert_env_export(shell, value, shell->cmd.envp_exp, TRUE);
 		insert_env_export(shell, value, shell->cmd.envp_copy, FALSE);
 	}
-	else 
+	else
 		return ;
 }
