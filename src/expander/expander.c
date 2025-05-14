@@ -24,13 +24,11 @@ void	delete_quotes_var_value(t_token *token)
 	{
 		j = i;
 		while (token->var_value[i] && !ft_isquote(token->var_value[i]))
-		{
-			if (i > j)
-				new_line = join_free(new_line, &token->var_value[j], (i - j));
-			if	(token->var_value[i] == '\0')
-				return;
-			i++;
-		}
+		i++;
+		if (i > j)
+			new_line = join_free(new_line, &token->value[j], (i - j));
+		if	(token->value[i] == '\0')
+			return;
 		if (ft_isquote(token->var_value[i]) == TRUE)
 		{
 			j = i + 1;
@@ -41,6 +39,7 @@ void	delete_quotes_var_value(t_token *token)
 		else
 			return ;
 	}
+	free(token->var_value);
 	token->var_value = new_line;
 }
 
@@ -56,13 +55,11 @@ void	delete_quotes_value(t_token *token)
 	{
 		j = i;
 		while (token->value[i] && !ft_isquote(token->value[i]))
-		{
-			if (i > j)
-				new_line = join_free(new_line, &token->value[j], (i - j));
-			if	(token->value[i] == '\0')
-				return;
-			i++;
-		}
+		i++;
+		if (i > j)
+			new_line = join_free(new_line, &token->value[j], (i - j));
+		if	(token->value[i] == '\0')
+			return;
 		if (ft_isquote(token->value[i]) == TRUE)
 		{
 			j = i + 1;
@@ -73,6 +70,7 @@ void	delete_quotes_value(t_token *token)
 		else
 			return ;
 	}
+	free(token->value);
 	token->value = new_line;
 }
 // gestion des expansions
