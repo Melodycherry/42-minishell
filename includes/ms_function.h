@@ -32,6 +32,7 @@ t_bool checking_var(t_token *token, t_shell *shell);
 /*EXPANDER*/
 void	bubble_tab(char **tab);
 void	cpy_envp(t_shell *shell, char **envp);
+void 	expansion(t_shell *shell);
 void	expand_var(t_shell *shell, t_token *token);
 void	check_var_env(t_shell *shell, t_token *token);
 void	set_env(char *value, int to_tab, t_shell *shell);
@@ -43,6 +44,7 @@ int     ft_tablen(char **tab);
 int		pos_var_env(char **envp, char *var_env);
 
 t_bool	var_exist(char **envp, const char *var_env, int i);
+t_bool	is_valid_var_name(t_token *token, t_shell *shell);
 
 /*LEXER*/
 void	token_blank(t_shell *shell);
@@ -97,3 +99,4 @@ void	init_all(t_shell *shell);
 void	print_tab(char **tab);
 void	print_token(t_token *token, int (*f)(const char *, ...));
 void	print_token2(t_token *token, int (*f)(const char *, ...));
+void	print_token3(t_token *token, int (*f)(const char *, ...));

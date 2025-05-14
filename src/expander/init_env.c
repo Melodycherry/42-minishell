@@ -75,7 +75,7 @@ void	bubble_tab(char **tab)
 		i++;
 	}
 }
-
+// fonction qui gere les copies de tableau
 void	cpy_envp(t_shell *shell, char **envp)
 {
 	if (!envp || !envp[0])

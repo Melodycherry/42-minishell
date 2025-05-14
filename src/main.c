@@ -11,6 +11,29 @@
 /*****************************************************************************/
 
 #include "minishell.h"
+void	parsing(t_shell *shell)
+{
+	// separation par espaces
+	token_blank(shell);
+	//separation par operateur
+	token_operator(shell);
+	//premiere definition
+	token_typedef(shell->tlist.head);
+	//definition si var env good
+	expansion(shell);
+	
+	// test impression
+	print_token(shell->tlist.head, printf);
+	print_token2(shell->tlist.head, printf);
+	print_token3(shell->tlist.head, printf);
+	
+	// revoir la fonction et l outcome 
+	if (is_token_error(shell->tlist.head, shell) == 1)
+		printf("GUUUUURL ITS NOT GOOD\n");
+	else
+		printf("NOICE\n");
+	
+}
 
 int	main(int ac, char **av, char **envp)
 {
@@ -18,10 +41,11 @@ int	main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
+	//premieres étapes
 	init_all(&shell);
 	cpy_envp(&shell, envp);
-	//print_export(shell.cmd.envp_exp);
 	setup_signals();
+	// boucle readline -> reste la
 	while (1)
 	{
 		shell.cmd.line = readline(PROMPT);
@@ -32,17 +56,7 @@ int	main(int ac, char **av, char **envp)
 		}
 		if (*shell.cmd.line)
 			add_history(shell.cmd.line);
-		token_blank(&shell);
-		token_operator(&shell);
-		token_typedef(shell.tlist.head);
-		check_var_env(&shell, shell.tlist.head);
-		print_token(shell.tlist.head, printf);
-		print_token2(shell.tlist.head, printf);
-		if (is_token_error(shell.tlist.head, &shell) == 1)
-			printf("GUUUUURL ITS NOT GOOD\n");
-		else
-			printf("NOICE\n");
-		//parsing
+		parsing(&shell);
 		free(shell.cmd.line);
 		free_token_list(&shell);
 	}
