@@ -12,6 +12,69 @@
 
 #include "minishell.h"
 
+void	delete_quotes_var_value(t_token *token)
+{
+	int	i;
+	int	j;
+	char *new_line;
+
+	i = 0;
+	new_line = NULL;
+	while (token->var_value[i])
+	{
+		j = i;
+		while (token->var_value[i] && !ft_isquote(token->var_value[i]))
+		{
+			if (i > j)
+				new_line = join_free(new_line, &token->var_value[j], (i - j));
+			if	(token->var_value[i] == '\0')
+				return;
+			i++;
+		}
+		if (ft_isquote(token->var_value[i]) == TRUE)
+		{
+			j = i + 1;
+			find_next_quote(token->var_value[i], token->var_value, &i);
+			new_line = join_free(new_line, &token->var_value[j], (i - j - 1));
+			i++;
+		}
+		else
+			return ;
+	}
+	token->var_value = new_line;
+}
+
+void	delete_quotes_value(t_token *token)
+{
+	int	i;
+	int	j;
+	char *new_line;
+
+	i = 0;
+	new_line = NULL;
+	while (token->value[i])
+	{
+		j = i;
+		while (token->value[i] && !ft_isquote(token->value[i]))
+		{
+			if (i > j)
+				new_line = join_free(new_line, &token->value[j], (i - j));
+			if	(token->value[i] == '\0')
+				return;
+			i++;
+		}
+		if (ft_isquote(token->value[i]) == TRUE)
+		{
+			j = i + 1;
+			find_next_quote(token->value[i], token->value, &i);
+			new_line = join_free(new_line, &token->value[j], (i - j - 1));
+			i++;
+		}
+		else
+			return ;
+	}
+	token->value = new_line;
+}
 // gestion des expansions
 void 	expansion(t_shell *shell)
 {
@@ -22,7 +85,13 @@ void 	expansion(t_shell *shell)
 	while (token)
 	{
 		if (token->type == T_ARG)
+		{
 			expand_var(shell, token);
+			delete_quotes_value(token);
+			delete_quotes_var_value(token);
+		}
+		if (token->type == T_WORD)
+			delete_quotes_value(token);
 		token = token->next;
 	}
 }
@@ -151,20 +220,5 @@ void	expand_var(t_shell *shell, t_token *token)
 		}
 	}
 }
-
-
-//si c est un T_ARG
-/* reboucler while dans les token, si c est un ARG on va modifier le VAR_VALUE avec les string expandues.
-ex : hello$MELO -> hellohello
-ex : $POUPOU -> cul
-ex : $MELOpoupou -> $MELOpoupou
-ex : $MELO$POUPOU -> hellocul
-ex : $MELOhello$NICO$POUPOU -> hellohellocul
-ex : "$MELOhello$NICO$POUPOU" -> hellohellocul
-ex : '$MELOhello'$NICO$POUPOU -> $MELOhellocul
-
-Pour faire ca il faudra passer sur chaque caractere, si le caractere est pas un $ on print enregistre chaque caractere. si c est un $->reveriier si il existe
-si il existe on concatene au debut et sinon on skip et on passe a la suite*/
-
 
 

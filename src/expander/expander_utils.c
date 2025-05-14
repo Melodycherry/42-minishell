@@ -37,31 +37,6 @@ t_bool	var_exist(char **envp, const char *var_env, int len)
 	return (FALSE);
 }
 
-// int	var_exist2(char **envp, const char *var_env, int len)
-// {
-// 	int		i;
-// 	int		len_var;
-// 	char	*equal_sign;
-
-// 	i = 0;
-// 	while (envp[i])
-// 	{
-// 		equal_sign = ft_strchr(envp[i], '=');
-// 		if (equal_sign)
-// 		{
-// 			if (ft_strncmp(envp[i], var_env, (int)(equal_sign - envp[i])) == 0
-// 				&& (envp[i][len] == '='))
-// 				return (TRUE);
-// 		}
-// 		else
-// 			if (envp[i][len] == '\0')
-// 				return (TRUE);
-// 		i++;
-// 	}
-// 	return (FALSE);
-// }
-
-
 // retourne la position dans le tableau env
 // ********* a tester *********
 int	pos_var_env(char **envp, char *var_env)
