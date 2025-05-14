@@ -24,8 +24,8 @@ void	parsing(t_shell *shell)
 	
 	// test impression
 	print_token(shell->tlist.head, printf);
-	print_token2(shell->tlist.head, printf);
-	print_token3(shell->tlist.head, printf);
+	// print_token2(shell->tlist.head, printf);
+	// print_token3(shell->tlist.head, printf);
 	
 	// revoir la fonction et l outcome 
 	if (is_token_error(shell->tlist.head, shell) == 1)

@@ -124,10 +124,13 @@ void	expand_var(t_shell *shell, t_token *token)
 	while (value[i])
 	{
 		j = i;
-		if (value[i] == '\'')
-			find_next_quote('\'', value, &i);
 		while (value[i] && value[i] != '$')
-			i++;
+		{
+			if (value[i] == '\'')
+				find_next_quote('\'', value, &i);
+			else
+				i++;
+		}
 		if (value[i] == '$' || value[i] == '\0')
 		{
 			if (i > j)
@@ -142,13 +145,9 @@ void	expand_var(t_shell *shell, t_token *token)
 			if (var_exist(shell->cmd.envp_copy, &value[j], (i - j)) == TRUE)
 			{
 				rec_var = recup_var(shell->cmd.envp_copy, &value[j], (i - j));
-					if (rec_var == NULL)
-						printf("alalalal ma cherie ca va pas\n");
 				size_new_v = ft_strlen_plusplus(rec_var);
 				token->var_value = join_free(token->var_value, rec_var, size_new_v);
 			}
-			//i++;
-			printf("premeir passage\n");
 		}
 	}
 }

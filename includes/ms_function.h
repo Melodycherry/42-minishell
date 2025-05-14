@@ -39,6 +39,7 @@ void	set_env(char *value, int to_tab, t_shell *shell);
 
 char	**cpy_tab(char **tab);
 char	*join_free(char *s1, char *s2, int len_s2);
+char	*recup_var(char **envp, char *var_env, int len);
 
 int     ft_tablen(char **tab);
 int		pos_var_env(char **envp, char *var_env);
@@ -98,5 +99,5 @@ void	init_all(t_shell *shell);
 //fonctions tests a supprimer apres
 void	print_tab(char **tab);
 void	print_token(t_token *token, int (*f)(const char *, ...));
-void	print_token2(t_token *token, int (*f)(const char *, ...));
-void	print_token3(t_token *token, int (*f)(const char *, ...));
+// void	print_token2(t_token *token, int (*f)(const char *, ...));
+// void	print_token3(t_token *token, int (*f)(const char *, ...));

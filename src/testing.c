@@ -36,43 +36,44 @@ void	print_token(t_token *token, int (*f)(const char *, ...))
 	while (token)
 	{
 		(*f)("token[%d] %s\n", i, token->value);
-		//(*f)("token[%d] %s\n", i, token->type);
-		token = token->next;
-		i++;
-	}
-}
-
-void	print_token2(t_token *token, int (*f)(const char *, ...))
-{
-	int i;
-
-	i = 0;
-	if (!f)
-		return ;
-	while (token)
-	{
-		//(*f)("token[%d] %s\n", i, token->value);
-		(*f)("token[%d] %d\n", i, token->type);
-		token = token->next;
-		i++;
-	}
-}
-
-void	print_token3(t_token *token, int (*f)(const char *, ...))
-{
-	int i;
-
-	i = 0;
-	if (!f)
-		return ;
-	while (token)
-	{
+		//(*f)("token[%d] %d\n", i, token->type);
 		(*f)("token[%d] %s\n", i, token->var_value);
-		//(*f)("token[%d] %s\n", i, token->type);
 		token = token->next;
 		i++;
 	}
 }
+
+// void	print_token2(t_token *token, int (*f)(const char *, ...))
+// {
+// 	int i;
+
+// 	i = 0;
+// 	if (!f)
+// 		return ;
+// 	while (token)
+// 	{
+// 		//(*f)("token[%d] %s\n", i, token->value);
+// 		(*f)("token[%d] %d\n", i, token->type);
+// 		token = token->next;
+// 		i++;
+// 	}
+// }
+
+// void	print_token3(t_token *token, int (*f)(const char *, ...))
+// {
+// 	int i;
+
+// 	i = 0;
+// 	if (!f)
+// 		return ;
+// 	while (token)
+// 	{
+// 		(*f)("token[%d] %s\n", i, token->var_value);
+// 		//(*f)("token[%d] %s\n", i, token->type);
+// 		token = token->next;
+// 		i++;
+// 	}
+// }
 
 
 
