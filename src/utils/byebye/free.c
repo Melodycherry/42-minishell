@@ -25,6 +25,9 @@ void	free_token_list(t_shell *shell)
 	while (current)
 	{
 		next = current->next;
+		free(current->value);
+		if (current->var_value)
+			free(current->var_value);
 		free(current);
 		current = next;
 	}
@@ -49,13 +52,16 @@ void	free_tab(t_shell *shell, char **tab)
 	int	i;
 
 	i = 0;
-	while (shell->cmd.envp_copy[i])
+	(void)shell;
+	if (!tab)
+		return;
+	while (tab[i])
 	{
 		free (tab[i]);
+		tab[i] = NULL;
 		i++;
 	}
 	free(tab);
-	tab = NULL;
 }
 
 //free le current et reconnercte la liste chainee

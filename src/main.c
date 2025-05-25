@@ -60,7 +60,10 @@ int	main(int ac, char **av, char **envp)
 		free(shell.cmd.line);
 		free_token_list(&shell);
 	}
-	// CLEAR HISTORY ?? 
-	// FONCTION FREE ALL A LA FIN 
+	free(shell.cmd.line);
+	rl_clear_history();
+	free_tab(&shell, shell.cmd.envp_copy);
+	free_tab(&shell, shell.cmd.envp_exp);
+	free_token_list(&shell);
 	return (0);
 }

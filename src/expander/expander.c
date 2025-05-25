@@ -24,11 +24,11 @@ void	delete_quotes_var_value(t_token *token)
 	{
 		j = i;
 		while (token->var_value[i] && !ft_isquote(token->var_value[i]))
-		i++;
-		if (i > j)
-			new_line = join_free(new_line, &token->value[j], (i - j));
+			i++;
 		if	(token->value[i] == '\0')
 			return;
+		if (i > j)
+			new_line = join_free(new_line, &token->value[j], (i - j));
 		if (ft_isquote(token->var_value[i]) == TRUE)
 		{
 			j = i + 1;
@@ -55,11 +55,11 @@ void	delete_quotes_value(t_token *token)
 	{
 		j = i;
 		while (token->value[i] && !ft_isquote(token->value[i]))
-		i++;
-		if (i > j)
-			new_line = join_free(new_line, &token->value[j], (i - j));
+			i++;
 		if	(token->value[i] == '\0')
 			return;
+		if (i > j)
+			new_line = join_free(new_line, &token->value[j], (i - j));
 		if (ft_isquote(token->value[i]) == TRUE)
 		{
 			j = i + 1;
@@ -131,7 +131,8 @@ void	check_var_env(t_shell *shell, t_token *token)
 						else
 							i--;
 					}
-					i++;
+					if (token->value[i])
+						i++;
 				}
 			}
 		}

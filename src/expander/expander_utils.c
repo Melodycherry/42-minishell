@@ -17,6 +17,7 @@
 t_bool	var_exist(char **envp, const char *var_env, int len)
 {
 	int		i;
+	int		var_len;
 	char	*equal_sign;
 
 	i = 0;
@@ -25,8 +26,8 @@ t_bool	var_exist(char **envp, const char *var_env, int len)
 		equal_sign = ft_strchr(envp[i], '=');
 		if (equal_sign)
 		{
-			if (ft_strncmp(envp[i], var_env, (int)(equal_sign - envp[i])) == 0
-				&& (envp[i][len] == '='))
+			var_len = (int)(equal_sign - envp[i]);
+			if (var_len == len && ft_strncmp(envp[i], var_env, len) == 0)
 				return (TRUE);
 		}
 		else

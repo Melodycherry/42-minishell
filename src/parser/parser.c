@@ -68,6 +68,8 @@ void	token_operator(t_shell *shell) // fonction de 26 lignes bordel j'arrive pas
 			current = NULL;
 	}
 }
+
+
 void	insert_operator(t_shell *shell, int *i, int *j, t_token *current)
 {
 	char	*value;

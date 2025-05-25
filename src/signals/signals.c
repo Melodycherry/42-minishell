@@ -26,3 +26,5 @@ void	setup_signals(void)
 	signal(SIGINT, signal_handler); // Pr ctrl C
 	signal(SIGQUIT, SIG_IGN); // Pr ctrl + \ -> ignore
 }
+
+// faire la gestion des signaux et free la liste chainees
