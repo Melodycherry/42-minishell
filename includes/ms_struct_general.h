@@ -43,7 +43,7 @@ typedef struct s_expander
 
 typedef struct s_executor
 {
-
+	char **av;
 }	t_executor;
 
 typedef struct s_token

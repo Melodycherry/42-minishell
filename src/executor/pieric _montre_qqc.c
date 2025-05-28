@@ -8,6 +8,7 @@
 int	main(int ac, char **av)
 {
 	int fd_pipe[2];
+	
 	pid_t pid_child_Melo;
 	pid_t pid_child_IJ;
 	int stat_loc_Melo;

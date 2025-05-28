@@ -12,30 +12,8 @@
 
 #include "minishell.h"
 
-void	execution(t_shell *shell)
+void pipe_handler(t_shell *shell)
 {
-	create_av(shell, shell->tlist.head);
+
+
 }
-
-void create_av(t_shell *shell, t_token *current)
-{
-	int 	i;
-	char	 **av;
-
-	i = 0;
-	av = malloc(sizeof(av) * (shell->tlist.token_cnt + 1));
-	while (i < shell->tlist.token_cnt)
-	{
-		if (current->type == T_ARG)
-			av[1] = ft_strdup(current->var_value);
-		else
-			av[1] = ft_strdup(current->value);
-		current = current->next;
-		i++;
-	}
-	av[i] = NULL;
-	shell->executor.av = av;
-}
-
-//execve : prend : pathname, **av, **envp
-
