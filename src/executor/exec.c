@@ -64,3 +64,25 @@ t_bool	is_absolative(char *str)
 	return (FALSE);
 }
 
+
+// *** en cours pas de jugement ***
+char	*strcat_malloc(char *s1, char *s2)
+{
+	char	*dest;
+	int		len;
+	int		i;
+
+	i = 0;
+	len = ((ft_strlen(s1)) + (ft_Strlen(s2)));
+	dest = (char *) malloc(sizeof(char) * (len + 1));
+	if (dest == NULL)
+		return (NULL);
+
+	while (s1[i] != '\0' && dest_len + i < size - 1)
+	{
+		dest[dest_len + i] = src[i];
+		i++;
+	}
+	dest[dest_len + i] = '\0';
+	return (dest);
+}
