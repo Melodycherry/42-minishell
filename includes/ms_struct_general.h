@@ -45,6 +45,8 @@ typedef struct s_executor
 {
 	char **av;
 	char **paths;
+
+	t_bool	is_forked;
 }	t_executor;
 
 typedef struct s_token

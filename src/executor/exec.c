@@ -17,6 +17,8 @@
 // ****** en cours ***********
 void	execution(t_shell *shell)
 {
+	char *path;
+
 	create_av(shell, shell->tlist.head);
 	//if (shell->executor.av[0] == builtin); // WIP BY MELO
 	
@@ -24,15 +26,20 @@ void	execution(t_shell *shell)
 
 	if (is_absolative(shell->executor.av[0]))
 	{
+
 		execve(shell->executor.av[0], shell->executor.av, shell->cmd.envp_exp);
 		printf("that s absolative\n");
 	}
 	else 
 	{
-		if (execve(shell->executor.av[0], shell->executor.av, shell->cmd.envp_exp))
-			perror(NULL);
-		//execve : prend : pathname, **av, **envp
-
+		create_path(shell, shell->cmd.envp_exp);
+		path = right_path(shell->executor.paths, shell->executor.av[0]);
+		if (path)
+		{
+			if (execve(path, shell->executor.av, shell->cmd.envp_exp))
+				perror("Execve");
+			free(path);
+		}
 	}
 }
 
@@ -46,12 +53,20 @@ char	*right_path(char **paths, char *cmd)
 	i = 0;
 	while (paths[i])
 	{
-		// path = strcat de path[i] + cmd 
-		// access(path f_ok)
-		// ok mais mtn on peut l executer ? (path)
+		path = strjoin_malloc(paths[i], cmd);
+		if (!access(path, F_OK))
+		{
+			if (!access(path, X_OK))
+				return (path);
+			//else
+			// 	gestion d erreur
+		}	
+		free(path);
+		path = NULL;
+		i++;
 	}
-
-	return (path);
+	// gestion d erreur
+	return (NULL);
 }
 
 // focntion qui va checker l existance d un / pour determiner si c est absolative (absolu ou relative)
@@ -59,30 +74,30 @@ char	*right_path(char **paths, char *cmd)
 // ******* a tester ***********
 t_bool	is_absolative(char *str)
 {
-	if (ft_strchr(str, "/"))
+	if (ft_strchr(str, '/'))
 		return (TRUE);
 	return (FALSE);
 }
 
-
+//join qui malloc et renvoie le path + cmd
 // *** en cours pas de jugement ***
-char	*strcat_malloc(char *s1, char *s2)
+char	*strjoin_malloc(char *s1, char *s2)
 {
 	char	*dest;
 	int		len;
-	int		i;
 
-	i = 0;
-	len = ((ft_strlen(s1)) + (ft_Strlen(s2)));
-	dest = (char *) malloc(sizeof(char) * (len + 1));
+	len = ((ft_strlen(s1)) + (ft_strlen(s2)));
+	dest = (char *) malloc(sizeof(char) * (len + 2));
 	if (dest == NULL)
 		return (NULL);
 
-	while (s1[i] != '\0' && dest_len + i < size - 1)
-	{
-		dest[dest_len + i] = src[i];
-		i++;
-	}
-	dest[dest_len + i] = '\0';
+	dest = ft_strjoin(&s1[4], "/");
+	dest = ft_strjoin(dest, s2);
 	return (dest);
+}
+
+void	exec_fork(t_shell *shell, char *pathname, char **av, char **envp)
+{
+	if (shell->executor.is_forked == )
+
 }

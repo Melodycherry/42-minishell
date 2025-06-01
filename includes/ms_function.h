@@ -22,6 +22,8 @@ int		main(int ac, char **av, char **env);
 
 /**ECHO**/
 
+/**ENV**/
+
 /**EXIT**/
 
 /**EXPORT**/
@@ -46,6 +48,7 @@ void	execution(t_shell *shell);
 void	create_av(t_shell *shell, t_token *current);
 void	create_path(t_shell *shell, char **envp);
 
+char	*strjoin_malloc(char *s1, char *s2);
 char	*right_path(char **paths, char *cmd);
 
 /*EXPANDER*/
