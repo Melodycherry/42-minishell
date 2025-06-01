@@ -34,9 +34,9 @@ void	put_in_env_export(t_shell *shell, char **old_tab,
 void	insert_env_export(t_shell *shell, char *value,
 	char **tab, t_bool is_export);
 	
-/**EXPORT**/
+/**PWD**/
 
-/**EXPORT**/
+/**UNSET**/
 
 
 /*EXECUTOR*/
