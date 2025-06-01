@@ -57,6 +57,9 @@ int	main(int ac, char **av, char **envp)
 		if (*shell.cmd.line)
 			add_history(shell.cmd.line);
 		parsing(&shell);
+		execution(&shell);
+		//printf("token count = %d\n", shell.tlist.token_cnt);
+		//print_tab(shell.executor.av); //test
 		free(shell.cmd.line);
 		free_token_list(&shell);
 	}

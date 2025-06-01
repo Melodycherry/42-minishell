@@ -12,30 +12,55 @@
 
 #include "minishell.h"
 
+
+// fonction de gestion de l execution
+// ****** en cours ***********
 void	execution(t_shell *shell)
 {
 	create_av(shell, shell->tlist.head);
-}
+	//if (shell->executor.av[0] == builtin); // WIP BY MELO
+	
+	// else // WIP BY GIGI
 
-void create_av(t_shell *shell, t_token *current)
-{
-	int 	i;
-	char	 **av;
-
-	i = 0;
-	av = malloc(sizeof(av) * (shell->tlist.token_cnt + 1));
-	while (i < shell->tlist.token_cnt)
+	if (is_absolative(shell->executor.av[0]))
 	{
-		if (current->type == T_ARG)
-			av[1] = ft_strdup(current->var_value);
-		else
-			av[1] = ft_strdup(current->value);
-		current = current->next;
-		i++;
+		execve(shell->executor.av[0], shell->executor.av, shell->cmd.envp_exp);
+		printf("that s absolative\n");
 	}
-	av[i] = NULL;
-	shell->executor.av = av;
+	else 
+	{
+		if (execve(shell->executor.av[0], shell->executor.av, shell->cmd.envp_exp))
+			perror(NULL);
+		//execve : prend : pathname, **av, **envp
+
+	}
 }
 
-//execve : prend : pathname, **av, **envp
+// fonction qui va checker si le path existe via le access sur le while du pathS
+// ***** en cours *****
+char	*right_path(char **paths, char *cmd)
+{
+	int i;
+	char *path;
+	
+	i = 0;
+	while (paths[i])
+	{
+		// path = strcat de path[i] + cmd 
+		// access(path f_ok)
+		// ok mais mtn on peut l executer ? (path)
+	}
+
+	return (path);
+}
+
+// focntion qui va checker l existance d un / pour determiner si c est absolative (absolu ou relative)
+// faire les gestion des  edges cases de type juste des.. ou juste des / ou what // faire jour de la correction loool
+// ******* a tester ***********
+t_bool	is_absolative(char *str)
+{
+	if (ft_strchr(str, "/"))
+		return (TRUE);
+	return (FALSE);
+}
 

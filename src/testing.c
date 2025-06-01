@@ -23,7 +23,7 @@ void	print_tab(char **tab)
 		printf("%s\n", tab[i]);
 		i++;
 	}
-	printf("\n\n\n\n");
+	//printf("\n");
 }
 
 void	print_token(t_token *token, int (*f)(const char *, ...))

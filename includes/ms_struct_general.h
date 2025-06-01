@@ -44,6 +44,7 @@ typedef struct s_expander
 typedef struct s_executor
 {
 	char **av;
+	char **paths;
 }	t_executor;
 
 typedef struct s_token
