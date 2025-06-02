@@ -31,10 +31,10 @@ t_bool	checking_var(t_token *token, t_shell *shell);
 
 void	print_export(char **tab);
 void	handle_export(t_shell *shell, t_token *token);
-void	put_in_env_export(t_shell *shell, char **old_tab,
-	char *new_value, t_bool is_export);
 void	insert_env_export(t_shell *shell, char *value,
 	char **tab, t_bool is_export);
+void	put_in_env_export(t_shell *shell, char **old_tab,
+	char *new_value, t_bool is_export);
 	
 /**PWD**/
 
@@ -45,17 +45,19 @@ void	insert_env_export(t_shell *shell, char *value,
 t_bool	is_absolative(char *str);
 
 void	execution(t_shell *shell);
-void	create_av(t_shell *shell, t_token *current);
 void	create_path(t_shell *shell, char **envp);
+void	create_av(t_shell *shell, t_token *current);
+void	exec_fork(t_shell *shell, char *pathname, char **av, char **envp);
 
 char	*strjoin_malloc(char *s1, char *s2);
 char	*right_path(char **paths, char *cmd);
 
 /*EXPANDER*/
-t_bool	var_exist(char **envp, const char *var_env, int i);
 t_bool	is_valid_var_name(t_token *token, t_shell *shell);
+t_bool	var_exist(char **envp, const char *var_env, int i);
 
 char	**cpy_tab(char **tab);
+char	*join_char(char *s1, char s2);
 char	*join_free(char *s1, char *s2, int len_s2);
 char	*recup_var(char **envp, char *var_env, int len);
 
@@ -63,8 +65,8 @@ int     ft_tablen(char **tab);
 int		pos_var_env(char **envp, char *var_env);
 
 void	bubble_tab(char **tab);
-void	cpy_envp(t_shell *shell, char **envp);
 void 	expansion(t_shell *shell);
+void	cpy_envp(t_shell *shell, char **envp);
 void	expand_var(t_shell *shell, t_token *token);
 void	check_var_env(t_shell *shell, t_token *token);
 void	set_env(char *value, int to_tab, t_shell *shell);
@@ -80,8 +82,8 @@ void	find_next_quote(char quote, char *line, int *i);
 t_bool	ft_isoperator(int c);
 t_bool	is_token_error(t_token *token, t_shell *t_shell);
 
-void	token_operator(t_shell *shell);
 void	token_typedef(t_token *token);
+void	token_operator(t_shell *shell);
 void    insert_operator(t_shell *shell, int *i, int *j, t_token *current);
 void    extract_dbl_token(t_shell *shell, int *i, int *j, t_token *current);
 void    extract_sgl_token(t_shell *shell, int *i, int *j, t_token *current);

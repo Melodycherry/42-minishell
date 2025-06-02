@@ -1,43 +1,56 @@
-==532700== Memcheck, a memory error detector
-==532700== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==532700== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==532700== Command: ./minishell
-==532700== Parent PID: 532693
-==532700== 
-==532700== 
-==532700== FILE DESCRIPTORS: 7 open (3 std) at exit.
-==532700== Open file descriptor 103: /usr/share/code/v8_context_snapshot.bin
-==532700==    <inherited from parent>
-==532700== 
-==532700== Open AF_UNIX socket 37: <unknown>
-==532700==    <inherited from parent>
-==532700== 
-==532700== Open file descriptor 36: /home/hlichten/.config/Code/logs/20250525T143102/ptyhost.log
-==532700==    <inherited from parent>
-==532700== 
-==532700== Open file descriptor 3: /home/hlichten/Documents/42-minishell/valgrind.log
-==532700==    <inherited from parent>
-==532700== 
-==532700== Open file descriptor 2: /dev/pts/1
-==532700==    <inherited from parent>
-==532700== 
-==532700== Open file descriptor 1: /dev/pts/1
-==532700==    <inherited from parent>
-==532700== 
-==532700== Open file descriptor 0: /dev/pts/1
-==532700==    <inherited from parent>
-==532700== 
-==532700== 
-==532700== HEAP SUMMARY:
-==532700==     in use at exit: 208,213 bytes in 222 blocks
-==532700==   total heap usage: 591 allocs, 369 frees, 238,670 bytes allocated
-==532700== 
-==532700== LEAK SUMMARY:
-==532700==    definitely lost: 0 bytes in 0 blocks
-==532700==    indirectly lost: 0 bytes in 0 blocks
-==532700==      possibly lost: 0 bytes in 0 blocks
-==532700==    still reachable: 0 bytes in 0 blocks
-==532700==         suppressed: 208,213 bytes in 222 blocks
-==532700== 
-==532700== For lists of detected and suppressed errors, rerun with: -s
-==532700== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==1559951== Memcheck, a memory error detector
+==1559951== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==1559951== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==1559951== Command: ./minishell
+==1559951== Parent PID: 1559944
+==1559951== 
+==1559951== Invalid read of size 1
+==1559951==    at 0x10B11E: delete_quotes_value (expander.c:103)
+==1559951==    by 0x10B1EE: expansion (expander.c:142)
+==1559951==    by 0x10940B: parsing (main.c:23)
+==1559951==    by 0x109533: main (main.c:72)
+==1559951==  Address 0x4b680c8 is 0 bytes after a block of size 8 alloc'd
+==1559951==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1559951==    by 0x10CCA8: ft_strndup (ft_strndup.c:19)
+==1559951==    by 0x109E3B: create_token (init_chain.c:35)
+==1559951==    by 0x10A7AB: token_blank (lexer.c:37)
+==1559951==    by 0x1093E3: parsing (main.c:17)
+==1559951==    by 0x109533: main (main.c:72)
+==1559951== 
+==1559951== 
+==1559951== FILE DESCRIPTORS: 7 open (3 std) at exit.
+==1559951== Open file descriptor 103: /usr/share/code/v8_context_snapshot.bin
+==1559951==    <inherited from parent>
+==1559951== 
+==1559951== Open AF_UNIX socket 37: <unknown>
+==1559951==    <inherited from parent>
+==1559951== 
+==1559951== Open file descriptor 36: /home/hlichten/.config/Code/logs/20250602T151500/ptyhost.log
+==1559951==    <inherited from parent>
+==1559951== 
+==1559951== Open file descriptor 3: /home/hlichten/Documents/42-minishell/valgrind.log
+==1559951==    <inherited from parent>
+==1559951== 
+==1559951== Open file descriptor 2: /dev/pts/1
+==1559951==    <inherited from parent>
+==1559951== 
+==1559951== Open file descriptor 1: /dev/pts/1
+==1559951==    <inherited from parent>
+==1559951== 
+==1559951== Open file descriptor 0: /dev/pts/1
+==1559951==    <inherited from parent>
+==1559951== 
+==1559951== 
+==1559951== HEAP SUMMARY:
+==1559951==     in use at exit: 208,069 bytes in 220 blocks
+==1559951==   total heap usage: 590 allocs, 370 frees, 238,689 bytes allocated
+==1559951== 
+==1559951== LEAK SUMMARY:
+==1559951==    definitely lost: 0 bytes in 0 blocks
+==1559951==    indirectly lost: 0 bytes in 0 blocks
+==1559951==      possibly lost: 0 bytes in 0 blocks
+==1559951==    still reachable: 0 bytes in 0 blocks
+==1559951==         suppressed: 208,069 bytes in 220 blocks
+==1559951== 
+==1559951== For lists of detected and suppressed errors, rerun with: -s
+==1559951== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)

@@ -23,15 +23,15 @@ void	parsing(t_shell *shell)
 	expansion(shell);
 	
 	// test impression
-	print_token(shell->tlist.head, printf);
+	 print_token(shell->tlist.head, printf);
 	// print_token2(shell->tlist.head, printf);
 	// print_token3(shell->tlist.head, printf);
 	
 	// revoir la fonction et l outcome 
-	if (is_token_error(shell->tlist.head, shell) == 1)
-		printf("GUUUUURL ITS NOT GOOD\n");
-	else
-		printf("NOICE\n");
+	// if (is_token_error(shell->tlist.head, shell) == 1)
+	// 	printf("GUUUUURL ITS NOT GOOD\n");
+	// else
+	// 	printf("NOICE\n");
 	
 }
 
@@ -54,15 +54,26 @@ int	main(int ac, char **av, char **envp)
 			printf("exit");
 			break ;
 		}
+		// version exec
+		// if (*shell.cmd.line)
+		// {
+		// 	add_history(shell.cmd.line);
+		// 	parsing(&shell);
+		// 	execution(&shell);
+		// 	free_tab(&shell, shell.executor.av);
+		// 	free(shell.cmd.line);
+		// 	free_token_list(&shell);
+		// 	shell.executor.is_forked = FALSE;
+		// }
+		
+		//version sans exec
 		if (*shell.cmd.line)
 			add_history(shell.cmd.line);
 		parsing(&shell);
-		execution(&shell);
-		//printf("token count = %d\n", shell.tlist.token_cnt);
-		//print_tab(shell.executor.av); //test
 		free(shell.cmd.line);
 		free_token_list(&shell);
 	}
+	//free a mettre dans une fonction :) 
 	free(shell.cmd.line);
 	rl_clear_history();
 	free_tab(&shell, shell.cmd.envp_copy);

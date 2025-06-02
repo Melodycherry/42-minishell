@@ -57,7 +57,7 @@ void	delete_quotes_value(t_token *token)
 		while (token->value[i] && !ft_isquote(token->value[i]))
 			i++;
 		if	(token->value[i] == '\0')
-			return;
+			return (free(new_line));
 		if (i > j)
 			new_line = join_free(new_line, &token->value[j], (i - j));
 		if (ft_isquote(token->value[i]) == TRUE)
@@ -73,6 +73,7 @@ void	delete_quotes_value(t_token *token)
 	free(token->value);
 	token->value = new_line;
 }
+
 // gestion des expansions
 void 	expansion(t_shell *shell)
 {
@@ -192,7 +193,7 @@ void	expand_var(t_shell *shell, t_token *token)
 	while (value[i])
 	{
 		j = i;
-		while (value[i] && value[i] != '$')
+		while (value[i] && value[i] != '$' && value[i] != '"')
 		{
 			if (value[i] == '\'')
 				find_next_quote('\'', value, &i);
@@ -217,7 +218,92 @@ void	expand_var(t_shell *shell, t_token *token)
 				token->var_value = join_free(token->var_value, rec_var, size_new_v);
 			}
 		}
+		else if (value[i] == '"')
+		{
+			if (i > j)
+				token->var_value = join_free(token->var_value, &value[j], (i - j));
+			i++;
+			j = i;
+			while (value[i] != '$' && value[i] && value[i] != '"') 
+				i++;
+			if (i > j)
+				token->var_value = join_free(token->var_value, &value[j], (i - j));
+			if(value[i] == '$')
+			{
+				if (var_exist(shell->cmd.envp_copy, &value[j], (i - j)) == TRUE)
+				{
+					rec_var = recup_var(shell->cmd.envp_copy, &value[j], (i - j));
+					size_new_v = ft_strlen_plusplus(rec_var);
+					token->var_value = join_free(token->var_value, rec_var, size_new_v);
+				}
+			}
+		}
+		printf("test : %s\n", token->var_value);
 	}
 }
 
+
+
+
+// void	expand_var(t_shell *shell, t_token *token)
+// {
+// 	int		i;
+// 	int		j;
+// 	int		k;
+// 	int		size_new_v;
+// 	char	*value;
+// 	char	*rec_var;
+
+// 	value = token->value;
+// 	i = 0;
+// 	while (value[i])
+// 	{
+// 		j = i;
+// 		while (value[i] && value[i] != '$' && value[i] != '"')
+// 		{
+// 			if (value[i] == '\'')
+// 				find_next_quote('\'', value, &i);
+// 			else
+// 				i++;
+// 		}
+// 		if (value[i] == '$' || value[i] == '\0' || value[i] == '"')
+// 		{
+// 			if (i > j)
+// 				token->var_value = join_free(token->var_value, &value[j], (i - j));
+// 			if	(value[i] == '\0')
+// 				return;
+// 			i++;
+// 			j = i;
+// 			if (value[i] == '"')
+// 			{
+// 				i++;
+// 				k = j;
+// 				while (value[i] != '"' || value[i] != '$')
+// 				{
+// 					i++;
+// 					k++;
+// 				}
+// 				if (value[i] == '$')
+// 				{
+// 					if (var_exist(shell->cmd.envp_copy, &value[k], (i - k)) == TRUE)
+// 					{
+// 						rec_var = recup_var(shell->cmd.envp_copy, &value[k], (i - k));
+// 						size_new_v = ft_strlen_plusplus(rec_var);
+// 						token->var_value = join_free(token->var_value, rec_var, size_new_v);
+// 					}
+// 				}
+// 				else if (value[i] == )
+// 			}
+// 			while (value[i] != '$' && value[i] && !ft_isquote(value[i])
+// 				&& !ft_isspace(value[i])) 
+// 				i++;
+// 			if (var_exist(shell->cmd.envp_copy, &value[j], (i - j)) == TRUE)
+// 			{
+// 				rec_var = recup_var(shell->cmd.envp_copy, &value[j], (i - j));
+// 				size_new_v = ft_strlen_plusplus(rec_var);
+// 				token->var_value = join_free(token->var_value, rec_var, size_new_v);
+// 			}
+// 		}
+// 	}
+// }
 

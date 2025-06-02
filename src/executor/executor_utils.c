@@ -20,7 +20,9 @@ void create_av(t_shell *shell, t_token *current)
 	char	**av;
 
 	i = 0;
-	av = malloc(sizeof(av) * (shell->tlist.token_cnt + 1));
+	av = malloc(sizeof(char *) * (shell->tlist.token_cnt + 1));
+	if (!av)
+		return (perror("malloc\n"));
 	while (i < shell->tlist.token_cnt)
 	{
 		if (current->type == T_ARG)

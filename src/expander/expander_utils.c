@@ -64,8 +64,58 @@ int	pos_var_env(char **envp, char *var_env)
 	}
 	return (i);
 }
-
 char	*join_free(char *s1, char *s2, int len_s2)
+{
+	size_t	len_s1 = 0;
+	char	*str;
+
+	if (!s2 || len_s2 < 0)
+	{
+		free(s1); // libère ce qu’on avait déjà
+		return (NULL);
+	}
+	if (s1)
+		len_s1 = ft_strlen(s1);
+
+	str = malloc(len_s1 + len_s2 + 1);
+	if (!str)
+	{
+		free(s1); // on évite la fuite en cas d’échec
+		return (NULL);
+	}
+
+	if (s1)
+		ft_memcpy(str, s1, len_s1);
+	ft_memcpy(str + len_s1, s2, len_s2);
+	str[len_s1 + len_s2] = '\0';
+
+	free(s1);
+	return (str);
+}
+// char	*join_free(char *s1, char *s2, int len_s2)
+// {
+// 	size_t	len_s1;
+// 	char	*str;
+
+// 	if (s1)
+// 		len_s1 = ft_strlen(s1);
+// 	else
+// 		len_s1 = 0;
+// 	if (!s2)
+// 		return (NULL);
+// 	str = (char *) malloc(sizeof(char) * (len_s1 + len_s2 + 1));
+// 	if (!str)
+// 		return (NULL);
+// 	if (s1)
+// 	{
+// 		ft_strlcpy(str, s1, len_s1 + 1);
+// 		free(s1);
+// 	}
+// 	ft_strlcpy(str + len_s1, s2, len_s2 + 1);
+// 	return (str);
+// }
+
+char	*join_char(char *s1, char s2)
 {
 	size_t	len_s1;
 	char	*str;
@@ -76,7 +126,7 @@ char	*join_free(char *s1, char *s2, int len_s2)
 		len_s1 = 0;
 	if (!s2)
 		return (NULL);
-	str = (char *) malloc(sizeof(char) * (len_s1 + len_s2 + 1));
+	str = (char *) malloc(sizeof(char) * (len_s1 + 2));
 	if (!str)
 		return (NULL);
 	if (s1)
@@ -84,10 +134,9 @@ char	*join_free(char *s1, char *s2, int len_s2)
 		ft_strlcpy(str, s1, len_s1 + 1);
 		free(s1);
 	}
-	ft_strlcpy(str + len_s1, s2, len_s2 + 1);
+	ft_strlcpy(str + len_s1, &s2, 2);
 	return (str);
 }
-
 
 //pour l instant sert a rien mais risque de servir
 // **** a tester ****

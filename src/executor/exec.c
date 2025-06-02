@@ -26,8 +26,7 @@ void	execution(t_shell *shell)
 
 	if (is_absolative(shell->executor.av[0]))
 	{
-
-		execve(shell->executor.av[0], shell->executor.av, shell->cmd.envp_exp);
+		exec_fork(shell, shell->executor.av[0], shell->executor.av, shell->cmd.envp_exp);
 		printf("that s absolative\n");
 	}
 	else 
@@ -36,8 +35,7 @@ void	execution(t_shell *shell)
 		path = right_path(shell->executor.paths, shell->executor.av[0]);
 		if (path)
 		{
-			if (execve(path, shell->executor.av, shell->cmd.envp_exp))
-				perror("Execve");
+			exec_fork(shell, path, shell->executor.av, shell->cmd.envp_exp);
 			free(path);
 		}
 	}
@@ -80,7 +78,7 @@ t_bool	is_absolative(char *str)
 }
 
 //join qui malloc et renvoie le path + cmd
-// *** en cours pas de jugement ***
+// *** seems to work., ya un malloc donc pas oublier de free :) ***
 char	*strjoin_malloc(char *s1, char *s2)
 {
 	char	*dest;
@@ -96,8 +94,35 @@ char	*strjoin_malloc(char *s1, char *s2)
 	return (dest);
 }
 
+// va faire l exec dans le child et pas le parent. Cest le cas pour toutes les execs hors builtin.
+// ***** en cours, dont judge **** 
 void	exec_fork(t_shell *shell, char *pathname, char **av, char **envp)
 {
-	if (shell->executor.is_forked == )
+	pid_t	pid;
+	int		stat_pid;
+
+	if (shell->executor.is_forked == FALSE)
+	{
+		pid = fork();
+		if (pid == -1)
+		{
+			return (perror("fork"));
+		}
+		if (pid > 0) // permet d attendre la fin de l execution du child !
+			waitpid(pid, &stat_pid, 0);
+
+		if (pid == 0) //on va aller faire le process dans la partie qui est enfant = le pid est de 0;
+		{
+			execve(pathname, av, envp);
+			perror("Error :"); // gestion d erreur a faire
+			exit(EXIT_FAILURE);
+		}
+	}
+	else
+	{
+		// situation si on a un pipe en cours mais pour l instant fuck off
+	}
 
 }
+
+// On success, execve() does not return, on error -1 is returned, and errno is set appropriately.
