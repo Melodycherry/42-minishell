@@ -12,37 +12,6 @@
 
 #include "minishell.h"
 
-void	delete_quotes_var_value(t_token *token)
-{
-	int	i;
-	int	j;
-	char *new_line;
-
-	i = 0;
-	new_line = NULL;
-	while (token->var_value[i])
-	{
-		j = i;
-		while (token->var_value[i] && !ft_isquote(token->var_value[i]))
-			i++;
-		if	(token->value[i] == '\0')
-			return;
-		if (i > j)
-			new_line = join_free(new_line, &token->value[j], (i - j));
-		if (ft_isquote(token->var_value[i]) == TRUE)
-		{
-			j = i + 1;
-			find_next_quote(token->var_value[i], token->var_value, &i);
-			new_line = join_free(new_line, &token->var_value[j], (i - j - 1));
-			i++;
-		}
-		else
-			return ;
-	}
-	free(token->var_value);
-	token->var_value = new_line;
-}
-
 void	delete_quotes_value(t_token *token)
 {
 	int	i;
@@ -87,7 +56,6 @@ void 	expansion(t_shell *shell)
 		{
 			expand_var(shell, token);
 			delete_quotes_value(token);
-			delete_quotes_var_value(token);
 		}
 		if (token->type == T_WORD)
 			delete_quotes_value(token);
@@ -178,132 +146,72 @@ int	ft_strlen_plusplus(char *str)
 	return (i);
 }
 
-// fonction qui va verifier et enregistrer au besoin la line dans la var_value
-// ********* en cours ne pas juger merci ********
-void	expand_var(t_shell *shell, t_token *token)
+void expand_dollar(t_shell *shell, t_token *token, int *i, int *j)
 {
-	int		i;
-	int		j;
-	int		size_new_v;
-	char	*value;
-	char	*rec_var;
-
+	char *value;
+	char *rec_var;
+	
 	value = token->value;
-	i = 0;
-	while (value[i])
+	if (*i > *j)
+		token->var_value = join_free(token->var_value, &value[*j], (*i - *j));
+	if	(value[*i] == '\0')
+		return;
+	(*i)++;
+	*j = *i;
+	while (value[*i] != '$' && value[*i] && !ft_isquote(value[*i])
+			&& !ft_isspace(value[*i])) 
+		(*i)++;
+	if (var_exist(shell->cmd.envp_copy, &value[*j], (*i - *j)) == TRUE)
 	{
-		j = i;
-		while (value[i] && value[i] != '$' && value[i] != '"')
-		{
-			if (value[i] == '\'')
-				find_next_quote('\'', value, &i);
-			else
-				i++;
-		}
-		if (value[i] == '$' || value[i] == '\0')
-		{
-			if (i > j)
-				token->var_value = join_free(token->var_value, &value[j], (i - j));
-			if	(value[i] == '\0')
-				return;
-			i++;
-			j = i;
-			while (value[i] != '$' && value[i] && !ft_isquote(value[i])
-				&& !ft_isspace(value[i])) 
-				i++;
-			if (var_exist(shell->cmd.envp_copy, &value[j], (i - j)) == TRUE)
-			{
-				rec_var = recup_var(shell->cmd.envp_copy, &value[j], (i - j));
-				size_new_v = ft_strlen_plusplus(rec_var);
-				token->var_value = join_free(token->var_value, rec_var, size_new_v);
-			}
-		}
-		else if (value[i] == '"')
-		{
-			if (i > j)
-				token->var_value = join_free(token->var_value, &value[j], (i - j));
-			i++;
-			j = i;
-			while (value[i] != '$' && value[i] && value[i] != '"') 
-				i++;
-			if (i > j)
-				token->var_value = join_free(token->var_value, &value[j], (i - j));
-			if(value[i] == '$')
-			{
-				if (var_exist(shell->cmd.envp_copy, &value[j], (i - j)) == TRUE)
-				{
-					rec_var = recup_var(shell->cmd.envp_copy, &value[j], (i - j));
-					size_new_v = ft_strlen_plusplus(rec_var);
-					token->var_value = join_free(token->var_value, rec_var, size_new_v);
-				}
-			}
-		}
-		printf("test : %s\n", token->var_value);
+		rec_var = recup_var(shell->cmd.envp_copy, &value[*j], (*i - *j));
+		token->var_value = join_free(token->var_value, rec_var, ft_strlen_plusplus(rec_var));
+		(*j) = (*i);
 	}
 }
 
+void expand_double_quote(t_shell *shell, t_token *token, int *i, int *j)
+{
+	char *value;
+	
+	value = token->value;
+	if (*i > *j)
+		token->var_value = join_free(token->var_value, &value[*j], (*i - *j));
+	(*i)++;
+	(*j) = (*i);
+	while (value[*i] != '"') 
+	{
+		while (value[*i] != '$' && value[*i] != '"') 
+			(*i)++;
+		if (*i > *j)
+		{
+			token->var_value = join_free(token->var_value, &value[*j], (*i - *j));
+			(*j) = (*i);
+		}
+		if (value[*i] == '$')
+			expand_dollar(shell, token, i, j);
+	}
+}
 
+void expand_var(t_shell *shell, t_token *token)
+{
+	int		i;
+	int		j;
+	char	*value;
 
-
-// void	expand_var(t_shell *shell, t_token *token)
-// {
-// 	int		i;
-// 	int		j;
-// 	int		k;
-// 	int		size_new_v;
-// 	char	*value;
-// 	char	*rec_var;
-
-// 	value = token->value;
-// 	i = 0;
-// 	while (value[i])
-// 	{
-// 		j = i;
-// 		while (value[i] && value[i] != '$' && value[i] != '"')
-// 		{
-// 			if (value[i] == '\'')
-// 				find_next_quote('\'', value, &i);
-// 			else
-// 				i++;
-// 		}
-// 		if (value[i] == '$' || value[i] == '\0' || value[i] == '"')
-// 		{
-// 			if (i > j)
-// 				token->var_value = join_free(token->var_value, &value[j], (i - j));
-// 			if	(value[i] == '\0')
-// 				return;
-// 			i++;
-// 			j = i;
-// 			if (value[i] == '"')
-// 			{
-// 				i++;
-// 				k = j;
-// 				while (value[i] != '"' || value[i] != '$')
-// 				{
-// 					i++;
-// 					k++;
-// 				}
-// 				if (value[i] == '$')
-// 				{
-// 					if (var_exist(shell->cmd.envp_copy, &value[k], (i - k)) == TRUE)
-// 					{
-// 						rec_var = recup_var(shell->cmd.envp_copy, &value[k], (i - k));
-// 						size_new_v = ft_strlen_plusplus(rec_var);
-// 						token->var_value = join_free(token->var_value, rec_var, size_new_v);
-// 					}
-// 				}
-// 				else if (value[i] == )
-// 			}
-// 			while (value[i] != '$' && value[i] && !ft_isquote(value[i])
-// 				&& !ft_isspace(value[i])) 
-// 				i++;
-// 			if (var_exist(shell->cmd.envp_copy, &value[j], (i - j)) == TRUE)
-// 			{
-// 				rec_var = recup_var(shell->cmd.envp_copy, &value[j], (i - j));
-// 				size_new_v = ft_strlen_plusplus(rec_var);
-// 				token->var_value = join_free(token->var_value, rec_var, size_new_v);
-// 			}
-// 		}
-// 	}
-// }
-
+	value = token->value;
+	i = 0;
+	j = 0;
+	while (value[i])
+	{
+		if (value[i] == '"')
+			expand_double_quote(shell, token, &i, &j);
+		else if (value [i] == '\'')
+		{
+			find_next_quote(value[i], value, &i);
+			j = i;
+		}
+		else if (value[i] == '$' || value[i] == '\0')
+			expand_dollar(shell, token, &i, &j);
+		i++;
+	}
+}
