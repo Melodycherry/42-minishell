@@ -18,10 +18,12 @@
     shell execution environment (see Section 2.12, Shell Execution
     Environment) by executing the following steps in sequence.
  */
-void	builtin_cd()
+void	builtin_cd(t_shell *shell)
 {
+	
 	// check si pas plus de 2 arg sinon "too many arguments"
-
+	if (ac > 2)
+		return (perror("Too many arguments"));
 }
 
 // check chdir ( change directory ) 

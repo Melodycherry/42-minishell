@@ -17,14 +17,8 @@
  * The pwd utility writes the absolute pathname of the current working directory to the
     standard output.
  */
-void	builtin_pwd(void)
+void	builtin_pwd(t_shell *shell)
 {
-	// if (!)
-	//		return (erreur)
-	// getcwd ( a checker, exist deja )
-	// getcdw( NULL, 0)
-	// on print 
-	// penser a free car pwd malloc !
 	char	*cwd;
 
 	cwd = getcwd(NULL, 0);
@@ -36,3 +30,10 @@ void	builtin_pwd(void)
 	printf("%s\n", cwd);
 	free(cwd);
 }
+
+	// if (!)
+	//		return (erreur)
+	// getcwd ( a checker, exist deja )
+	// getcdw( NULL, 0)
+	// on print 
+	// penser a free car pwd malloc !

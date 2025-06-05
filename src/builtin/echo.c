@@ -19,9 +19,25 @@
     The following option is available:
     -n    Do not print the trailing newline character.
  */
-void	builtin_echo()
+void	builtin_echo(t_shell *shell)
 {
+	char **av;
+	int i;
 
+	av = shell->executor.av;
+	i = 0;
+	
+	// ici s'occuper de cette merde d'option
+
+	while ( av[i])
+	{
+		printf("%s", av[i]);
+		if (av[i + 1])
+			printf(" ");
+		i++;
+	}
+	// if ( on a une option qui est valide)
+	// printf("'\n");
 }
 
 // attention au -n 
