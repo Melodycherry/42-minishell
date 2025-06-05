@@ -17,14 +17,21 @@ int		main(int ac, char **av, char **env);
 /*BUILTIN*/
 
 /**BUILTIN_UTILS**/
+t_bool	is_builtin(char *cmd);
+void	exec_builtin(t_shell *shell);
+void	execute_command(t_shell *shell);
 
 /**CD**/
+void	builtin_cd();
 
 /**ECHO**/
+void	builtin_echo();
 
 /**ENV**/
+void	builtin_env(t_shell *shell);
 
 /**EXIT**/
+void	builtin_exit();
 
 /**EXPORT**/
 t_bool	checking_var(t_token *token, t_shell *shell);
@@ -37,9 +44,10 @@ void	put_in_env_export(t_shell *shell, char **old_tab,
 	char *new_value, t_bool is_export);
 	
 /**PWD**/
+void	builtin_pwd(void);
 
 /**UNSET**/
-
+void	builtin_unset();
 
 /*EXECUTOR*/
 t_bool	is_absolative(char *str);

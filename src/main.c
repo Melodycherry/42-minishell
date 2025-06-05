@@ -11,6 +11,7 @@
 /*****************************************************************************/
 
 #include "minishell.h"
+
 void	parsing(t_shell *shell)
 {
 	// separation par espaces
@@ -21,6 +22,7 @@ void	parsing(t_shell *shell)
 	token_typedef(shell->tlist.head);
 	//definition si var env good
 	expansion(shell);
+	execute_command(shell); // test melo
 	
 	// test impression
 	 print_token(shell->tlist.head, printf);

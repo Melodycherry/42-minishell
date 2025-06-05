@@ -18,18 +18,12 @@
  */
 void	builtin_env(t_shell *shell)
 {
-	int		i;
 	char	**envp;
 
-	i = 0;
 	envp = shell->cmd.envp_copy;
 	if (!envp)
 		return;
-	while (envp[i])
-	{
-		ft_printf("%s\n", envp[i]);
-		i++;
-	}
+	print_tab(envp);
 }
 
 // juste printer le tableau de env. 

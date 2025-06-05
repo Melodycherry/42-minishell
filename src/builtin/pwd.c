@@ -33,6 +33,6 @@ void	builtin_pwd(void)
 		perror("pwd");
 		return;
 	}
-	ft_printf("%s\n", cwd);
+	printf("%s\n", cwd);
 	free(cwd);
 }
