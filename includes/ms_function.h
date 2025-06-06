@@ -22,10 +22,10 @@ void	exec_builtin(t_shell *shell);
 void	execute_command(t_shell *shell);
 
 /**CD**/
-void	builtin_cd();
+void	builtin_cd(t_shell *shell);
 
 /**ECHO**/
-void	builtin_echo();
+void	builtin_echo(t_shell *shell);
 
 /**ENV**/
 void	builtin_env(t_shell *shell);

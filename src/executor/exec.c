@@ -20,8 +20,8 @@ void	execution(t_shell *shell)
 	char *path;
 
 	create_av(shell, shell->tlist.head);
-	//if (shell->executor.av[0] == builtin); // WIP BY MELO
-	
+	// check builtin 
+	execute_command(shell); // test melo 
 	// else // WIP BY GIGI
 
 	if (is_absolative(shell->executor.av[0]))

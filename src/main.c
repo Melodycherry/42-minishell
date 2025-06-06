@@ -22,6 +22,7 @@ void	parsing(t_shell *shell)
 	token_typedef(shell->tlist.head);
 	//definition si var env good
 	expansion(shell);
+	execution(shell);
 	
 	// test impression
 	 print_token(shell->tlist.head, printf);

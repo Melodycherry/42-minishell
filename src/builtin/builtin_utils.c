@@ -20,9 +20,10 @@
 //     // ...
 // }
 
-t_bool	is_builtin(char *cmd)
+t_bool	is_builtin(char	*cmd)
 {
 	// verif s'il y a une commande ?	
+	
 	if (!cmd)
 		return FALSE; // ou retourne erreur ? 
 	// check si on trouve un builtin

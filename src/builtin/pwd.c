@@ -19,6 +19,7 @@
  */
 void	builtin_pwd(t_shell *shell)
 {
+	(void)shell;
 	char	*cwd;
 
 	cwd = getcwd(NULL, 0);
