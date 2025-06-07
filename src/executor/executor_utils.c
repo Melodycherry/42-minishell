@@ -51,3 +51,6 @@ void create_path(t_shell *shell, char **envp)
 
 	shell->executor.paths = paths;
 }
+
+// Attention , le premier path sera peut etre "PATH=/usr/local/bin"
+// Donc peut etre enlever le premier PATH ? 

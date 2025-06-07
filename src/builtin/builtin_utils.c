@@ -23,7 +23,6 @@
 t_bool	is_builtin(char	*cmd)
 {
 	// verif s'il y a une commande ?	
-	
 	if (!cmd)
 		return FALSE; // ou retourne erreur ? 
 	// check si on trouve un builtin
@@ -50,7 +49,7 @@ void	exec_builtin(t_shell *shell)
 		return;
 	// check pour chaque builtin
 	// if (ft_strcmp(av[0], "cd") == 0)
-	// 	return (builtin_cd());
+	// 	return (builtin_cd(shell));
 	else if (ft_strcmp(av[0], "echo") == 0)
 		return (builtin_echo(shell));
 	else if (ft_strcmp(av[0], "env") == 0)
