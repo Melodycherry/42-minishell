@@ -44,8 +44,11 @@ void	put_in_env_export(t_shell *shell, char **old_tab,
 /*EXECUTOR*/
 t_bool	is_absolative(char *str);
 
+void 	exec_pipe(t_shell *shell);
 void	execution(t_shell *shell);
+void	simple_exec(t_shell *shell);
 void	create_path(t_shell *shell, char **envp);
+void	pipe_exist(t_shell *shell, t_token *token);
 void	create_av(t_shell *shell, t_token *current);
 void	exec_fork(t_shell *shell, char *pathname, char **av, char **envp);
 
@@ -56,6 +59,13 @@ char	*right_path(char **paths, char *cmd);
 t_bool	is_valid_var_name(t_token *token, t_shell *shell);
 t_bool	var_exist(char **envp, const char *var_env, int i);
 
+void	bubble_tab(char **tab);
+void 	expansion(t_shell *shell);
+void	cpy_envp(t_shell *shell, char **envp);
+void	expand_var(t_shell *shell, t_token *token);
+void	check_var_env(t_shell *shell, t_token *token);
+void	set_env(char *value, int to_tab, t_shell *shell);
+
 char	**cpy_tab(char **tab);
 char	*join_char(char *s1, char s2);
 char	*join_free(char *s1, char *s2, int len_s2);
@@ -63,13 +73,6 @@ char	*recup_var(char **envp, char *var_env, int len);
 
 int     ft_tablen(char **tab);
 int		pos_var_env(char **envp, char *var_env);
-
-void	bubble_tab(char **tab);
-void 	expansion(t_shell *shell);
-void	cpy_envp(t_shell *shell, char **envp);
-void	expand_var(t_shell *shell, t_token *token);
-void	check_var_env(t_shell *shell, t_token *token);
-void	set_env(char *value, int to_tab, t_shell *shell);
 
 /*LEXER*/
 t_bool	ft_isquote(int c);

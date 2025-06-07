@@ -47,6 +47,7 @@ typedef struct s_executor
 	char **paths;
 
 	t_bool	is_forked;
+	t_bool	pipe_exist;
 }	t_executor;
 
 typedef struct s_token
