@@ -31,10 +31,10 @@ typedef struct s_lexer
 	int	space;
 }	t_lexer;
 
-typedef struct s_parser
+typedef struct s_builtin
 {
-
-}	t_parser;
+	t_bool is_echo_n;
+}	t_builtin;
 
 typedef struct s_expander
 {
@@ -72,7 +72,7 @@ typedef struct s_shell
 	t_tlist		tlist;
 	t_cmd		cmd;
 	t_lexer		lexer;
-	t_parser	parser;
+	t_builtin	builtin;
 	t_expander	expander;
 	t_executor	executor;
 }	t_shell;

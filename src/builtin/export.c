@@ -14,6 +14,20 @@
 
 // fonction principale pour l'export 
 // ******* a tester ******
+// void	handle_export(t_shell *shell, t_token *token)
+// {
+// 	if (ft_strncmp(token->value, "export", ft_strlen(token->value)) == 0
+// 		&& token->next->type == T_WORD)
+// 	{
+// 		if (checking_var(token, shell) == FALSE)
+// 			return ;//pas juste, doit retourner qqc mais on c est pour futur noud
+// 	}
+// 	else if (ft_strncmp(token->value, "export", ft_strlen(token->value)) == 0)
+// 		print_export(shell->cmd.envp_copy);
+// 	else
+// 		return ;
+// }
+
 void	handle_export(t_shell *shell, t_token *token)
 {
 	if (ft_strncmp(token->value, "export", ft_strlen(token->value)) == 0
@@ -27,6 +41,7 @@ void	handle_export(t_shell *shell, t_token *token)
 	else
 		return ;
 }
+
 
 void	print_export(char **tab)
 {

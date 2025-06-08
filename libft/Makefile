@@ -45,6 +45,7 @@ SOURCE = ft_strlen.c \
 		 ft_split.c \
 		 ft_atol.c \
 		 get_next_line.c \
+		 ft_strcmp.c \
 
 SRCBONUS = 	ft_lstnew_bonus.c \
 			ft_lstadd_front_bonus.c \

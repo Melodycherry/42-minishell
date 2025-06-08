@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichten <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: mlaffita <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 21:55:38 by mlaffita          #+#    #+#             */
-/*   Updated: 2025/04/14 15:27:28 by hlichten         ###   ########.fr       */
+/*   Updated: 2025/06/08 15:20:46 by mlaffita         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,6 @@ int				ft_lstsize(t_list *lst);
 //PERSO
 long			ft_atol(const char *str);
 char			*get_next_line(int fd);
+int				ft_strcmp(char *s1, char *s2);
 
 #endif

@@ -44,19 +44,27 @@ vpath %.c \
 	$(SRCDIR)/executor \
 	$(SRCDIR)/expander \
 	$(SRCDIR)/parser \
+	$(SRCDIR)/lexer \
 	$(SRCDIR)/signals \
 	$(SRCDIR)/includes \
 	$(SRCDIR)/utils \
 	$(SRCDIR)/utils/byebye \
 	$(SRCDIR)/utils/chain \
 	$(SRCDIR)/utils/init \
-	$(SRCDIR)/lexer \
 
 # Sources and object files
 # attention supprimer le testing.c
-SRC = main.c struct.c init_env.c free.c signals.c init_chain.c testing.c fd.c exit.c \
-handle.c parser.c lexer.c error.c lexer_utils.c parser_utils.c expander.c \
-expander_utils.c export.c unset.c pwd.c exit.c echo.c cd.c builtin_utils.c exec.c executor_utils.c \
+SRC = main.c \
+builtin_utils.c cd.c echo.c env.c exit.c export.c pwd.c unset.c \
+exec.c executor_utils.c pipe.c \
+expander.c expander_utils.c change_type.c env_utils.c init_env.c quotes.c var_handler.c\
+lexer.c lexer_utils.c \
+parser.c parser_utils.c \
+signals.c \
+error.c free.c \
+init_chain.c \
+struct.c \
+testing.c \
 
 OBJS = $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 

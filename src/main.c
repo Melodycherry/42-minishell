@@ -21,9 +21,9 @@ void	parsing(t_shell *shell)
 	token_typedef(shell->tlist.head);
 	//definition si var env good
 	expansion(shell);
-	
+
 	// test impression
-	 print_token(shell->tlist.head, printf);
+	// print_token(shell->tlist.head, printf); // pour c4ette shit d expansion
 	// print_token2(shell->tlist.head, printf);
 	// print_token3(shell->tlist.head, printf);
 	
@@ -54,24 +54,24 @@ int	main(int ac, char **av, char **envp)
 			printf("exit");
 			break ;
 		}
-		// version exec
-		// if (*shell.cmd.line)
-		// {
-		// 	add_history(shell.cmd.line);
-		// 	parsing(&shell);
-		// 	execution(&shell);
-		// 	free_tab(&shell, shell.executor.av);
-		// 	free(shell.cmd.line);
-		// 	free_token_list(&shell);
-		// 	shell.executor.is_forked = FALSE;
-		// }
+		//version exec
+		if (*shell.cmd.line)
+		{
+			add_history(shell.cmd.line);
+			parsing(&shell);
+			execution(&shell);
+			free_tab(&shell, shell.executor.av);
+			free(shell.cmd.line);
+			free_token_list(&shell);
+			shell.executor.is_forked = FALSE;
+		}
 		
 		//version sans exec
-		if (*shell.cmd.line)
-			add_history(shell.cmd.line);
-		parsing(&shell);
-		free(shell.cmd.line);
-		free_token_list(&shell);
+		// if (*shell.cmd.line)
+		// 	add_history(shell.cmd.line);
+		// parsing(&shell);
+		// free(shell.cmd.line);
+		// free_token_list(&shell);
 	}
 	//free a mettre dans une fonction :) 
 	free(shell.cmd.line);

@@ -17,14 +17,25 @@ int		main(int ac, char **av, char **env);
 /*BUILTIN*/
 
 /**BUILTIN_UTILS**/
+t_bool	is_builtin(char *cmd);
+
+void	exec_builtin(t_shell *shell);
 
 /**CD**/
+void	builtin_cd(t_shell *shell);
 
 /**ECHO**/
+t_bool	is_flag_n(char *str);
+
+void	builtin_echo(t_shell *shell);
+void	print_flag_n(t_shell *shell, char **av, int *i);
 
 /**ENV**/
+void	print_tab(char **tab);
+void	builtin_env(t_shell *shell);
 
 /**EXIT**/
+void	builtin_exit();
 
 /**EXPORT**/
 t_bool	checking_var(t_token *token, t_shell *shell);
@@ -37,9 +48,10 @@ void	put_in_env_export(t_shell *shell, char **old_tab,
 	char *new_value, t_bool is_export);
 	
 /**PWD**/
+void	builtin_pwd(t_shell *shell);
 
 /**UNSET**/
-
+void	builtin_unset();
 
 /*EXECUTOR*/
 t_bool	is_absolative(char *str);
@@ -61,17 +73,21 @@ t_bool	var_exist(char **envp, const char *var_env, int i);
 
 void	bubble_tab(char **tab);
 void 	expansion(t_shell *shell);
+void	delete_quotes_value(t_token *token);
 void	cpy_envp(t_shell *shell, char **envp);
 void	expand_var(t_shell *shell, t_token *token);
 void	check_var_env(t_shell *shell, t_token *token);
 void	set_env(char *value, int to_tab, t_shell *shell);
+void	expand_single_quote(t_token *token, int *i, int *j);
+void	expand_dollar(t_shell *shell, t_token *token, int *i, int *j);
+void	expand_double_quote(t_shell *shell, t_token *token, int *i, int *j);
 
 char	**cpy_tab(char **tab);
-char	*join_char(char *s1, char s2);
 char	*join_free(char *s1, char *s2, int len_s2);
 char	*recup_var(char **envp, char *var_env, int len);
 
 int     ft_tablen(char **tab);
+int		ft_strlen_plusplus(char *str);
 int		pos_var_env(char **envp, char *var_env);
 
 /*LEXER*/
@@ -124,7 +140,6 @@ void	init_all(t_shell *shell);
 
 
 //fonctions tests a supprimer apres
-void	print_tab(char **tab);
 void	print_token(t_token *token, int (*f)(const char *, ...));
 // void	print_token2(t_token *token, int (*f)(const char *, ...));
 // void	print_token3(t_token *token, int (*f)(const char *, ...));

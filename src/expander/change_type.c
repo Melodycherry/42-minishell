@@ -12,30 +12,48 @@
 
 #include "minishell.h"
 
-// fonction qui gere les copies de tableau
-void	cpy_envp(t_shell *shell, char **envp)
+// verifie le type ARG et change T_WORD en T_ARG si la var existe -> env_export
+// ************* seems GOOOOOOOOOOD **************
+void	check_var_env(t_shell *shell, t_token *token)
 {
-	if (!envp || !envp[0])
-		shell->cmd.envp_copy = malloc(sizeof(char *) * (ft_tablen(envp)) + 1);
-	else
-	{
-		shell->cmd.envp_copy = cpy_tab(envp);
-		shell->cmd.envp_exp = cpy_tab(envp);
-		bubble_tab(shell->cmd.envp_exp);
-	}
-}
+	int	i;
+	int	j;
 
-//mettre des information dans le envp_export et potientiellement dans le envp_copy
-//********** a tester ********/
-void	set_env(char *value, int to_tab, t_shell *shell)
-{
-	if (to_tab == TO_EXPORT)
-		insert_env_export(shell, value, shell->cmd.envp_exp, TRUE);
-	else if (to_tab == TO_BOTH)
+	while (token)
 	{
-		insert_env_export(shell, value, shell->cmd.envp_exp, TRUE);
-		insert_env_export(shell, value, shell->cmd.envp_copy, FALSE);
+		i = 0;
+		if (token->type == T_WORD)
+		{
+			while (token->value[i])
+			{	
+				if (token->value[i] == '\'')
+					find_next_quote('\'', token->value, &i);
+				else
+				{
+					while (token->value[i] != '$' && token->value[i])
+						i++;
+					if (token->value[i] == '$')
+					{
+						i++;
+						j = i;
+						while (token->value[i] != '$' && token->value[i]
+							&& !ft_isquote(token->value[i])
+							&& !ft_isspace(token->value[i]))
+							i++;
+						if (var_exist(shell->cmd.envp_exp, 
+								&token->value[j], (i - j)) == TRUE)
+						{
+							token->type = T_ARG;
+							return ;
+						}
+						else
+							i--;
+					}
+					if (token->value[i])
+						i++;
+				}
+			}
+		}
+		token = token->next;
 	}
-	else
-		return ;
 }

@@ -17,15 +17,20 @@
 // ****** en cours, fonctionne dans ce etat ***********
 void	execution(t_shell *shell)
 {
+	// verif si pas de commande ? 
 	create_av(shell, shell->tlist.head);
-	//if (shell->executor.av[0] == builtin); // WIP BY MELO
-	
-	// else // WIP BY GIGI
-	pipe_exist(shell, shell->tlist.head);
-	if (shell->executor.pipe_exist == TRUE)
-		exec_pipe(shell);
-	else 
-		simple_exec(shell);
+	if (!shell || !shell->executor.av || !shell->executor.av[0])
+		return;
+	if (is_builtin(shell->executor.av[0]) == TRUE)
+		exec_builtin(shell);
+	else
+	{
+		pipe_exist(shell, shell->tlist.head);
+		if (shell->executor.pipe_exist == TRUE)
+			exec_pipe(shell);
+		else 
+			simple_exec(shell);
+	}
 }
 
 // va checker si le path existe via le access sur le while du pathS
