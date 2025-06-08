@@ -12,88 +12,82 @@
 
 #include "minishell.h"
 
-// fonction principale pour l'export 
-// ******* a tester ******
-// void	handle_export(t_shell *shell, t_token *token)
-// {
-// 	if (ft_strncmp(token->value, "export", ft_strlen(token->value)) == 0
-// 		&& token->next->type == T_WORD)
-// 	{
-// 		if (checking_var(token, shell) == FALSE)
-// 			return ;//pas juste, doit retourner qqc mais on c est pour futur noud
-// 	}
-// 	else if (ft_strncmp(token->value, "export", ft_strlen(token->value)) == 0)
-// 		print_export(shell->cmd.envp_copy);
-// 	else
-// 		return ;
-// }
-
-void	handle_export(t_shell *shell, t_token *token)
+void	handle_export(t_shell *shell, char **av)
 {
-	if (ft_strncmp(token->value, "export", ft_strlen(token->value)) == 0
-		&& token->next->type == T_WORD)
-	{
-		if (checking_var(token, shell) == FALSE)
-			return ;//pas juste, doit retourner qqc mais on c est pour futur noud
-	}
-	else if (ft_strncmp(token->value, "export", ft_strlen(token->value)) == 0)
-		print_export(shell->cmd.envp_copy);
+	int len;
+	int i;
+	
+	len = ft_tablen(av);
+	i = 1;
+	if (len == 1)
+		print_export(shell->cmd.envp_exp);
 	else
-		return ;
-}
-
-
-void	print_export(char **tab)
-{
-	int		i;
-	char	*line;
-	char	*equal_sign;
-
-	i = 0;
-	while (tab[i])
 	{
-		line = tab[i];
-		equal_sign = ft_strchr(line, '=');
-		if (equal_sign) // a check
-			printf("declare -x %.*s=\"%s\"\n", (int)(equal_sign - line),
-				line, equal_sign + 1);
-		else
-			printf("declare -x %s\n", line);
-		i++;
+		while (av[i])
+		{
+			checking_var(shell, av[i]);
+			i++;
+		}
 	}
+	
 }
+
 
 // checker si le nom de la variable est valide et fait la gestion des copies dans les tableaux
 // ******* a tester ******
-t_bool	checking_var(t_token *token, t_shell *shell)
+t_bool	checking_var(t_shell *shell, char *line)
 {
 	int		i;
-	char	*line;
 
 	i = 0;
-	line = token->value;
-	while (line)
+	if (is_valid_name(line) == FALSE)
+		return (printf("C est pas valide var\n"), error_syntax_export(line), FALSE);
+	
+	while (line[i])
 	{
-		if (line[0] == '_' || ft_isalpha(line[0]))
+		while (line[i] == '_' || ft_isalnum(line[i]))
 			i++;
-		else
-			return (error_syntax_export(line), FALSE);
-		if (line[i] == '_' || ft_isalnum(line[i]))
-			i++;
-		else if (line[i] == '=')
+		if (line[i] == '=')
 			return (set_env(line, TO_BOTH, shell), TRUE);
-		else if (line[i] == ' ' && line[i] == '\0')
-			return (set_env(line, TO_EXPORT, shell), TRUE);
 		else
-			return (error_syntax_export(line), FALSE);		
+			return (set_env(line, TO_EXPORT, shell), TRUE);
 	}
 	return (TRUE);
 }
 
-//va ajouter en derniere ligne la new_value dans envp_exp et free l ancienne
-// ******* a tester ******
-void	put_in_env_export(t_shell *shell, char **old_tab,
-			char *new_value, t_bool is_export)
+//mettre des information dans le envp_export et potientiellement dans le envp_copy
+//********** a tester ********/
+void	set_env(char *value, int to_tab, t_shell *shell)
+{
+	if (to_tab == TO_EXPORT)
+		insert_env_export(shell, value, shell->cmd.envp_exp, TRUE);
+	else if (to_tab == TO_BOTH)
+	{
+		insert_env_export(shell, value, shell->cmd.envp_exp, TRUE);
+		insert_env_export(shell, value, shell->cmd.envp_copy, FALSE);
+	}
+}
+
+//pour l instant sert a rien mais risque de servir
+// **** a tester ****
+t_bool is_valid_name(char *line)
+{
+	int		i;
+
+	i = 0;
+	while (line[i] && line[i] != '=')
+	{
+		if (line[0] == '_' || ft_isalpha(line[0]))
+			i++;
+		else 
+			return (FALSE);
+		if (line[i] == '_' || ft_isalnum(line[i]))
+			i++;
+	}
+	return (TRUE);
+}
+
+void	put_in_env_export(t_shell *shell, char **old_tab, char *new_value, t_bool is_export)
 {
 	int		i;
 	char	**new_tab;
@@ -112,11 +106,16 @@ void	put_in_env_export(t_shell *shell, char **old_tab,
 	new_tab[i] = ft_strdup(new_value);
 	i++;
 	new_tab[i] = 0;
-	free_tab(shell, shell->cmd.envp_exp);
-	if (is_export)
+	if (is_export == TRUE)
+	{
+		free_tab(shell, shell->cmd.envp_exp);
 		shell->cmd.envp_exp = new_tab;
-	else
+	}
+	else 
+	{
+		free_tab(shell, shell->cmd.envp_copy);
 		shell->cmd.envp_copy = new_tab;
+	}
 }
 
 // fonction de refactorisation qui va verifier l existance d une variable dans le env, recupere sa position
@@ -124,15 +123,44 @@ void	put_in_env_export(t_shell *shell, char **old_tab,
 // ****** a tester *********
 void	insert_env_export(t_shell *shell, char *value, char **tab, t_bool is_export)
 {
-	int	index;
+	int		index;
+	int		var_len;
+	char	*equal_sign;
 
 	index = 0;
-	if (var_exist(tab, value, ft_strlen(value)))
+	equal_sign = ft_strchr(value, '=');
+	if (equal_sign)
+		var_len = (int)(equal_sign - value);
+	else
+		var_len = ft_strlen(value);
+	if (var_exist(tab, value, var_len) == TRUE)
 	{
-		index = pos_var_env(tab, value);	
+		index = pos_var_env(tab, value, var_len);
 		free(tab[index]);
 		tab[index] = strndup(value, ft_strlen(value));
+		return ;
 	}
-	else
+	if (var_exist(tab, value, var_len) == FALSE)
 		put_in_env_export(shell, tab, value, is_export);
+}
+
+void	print_export(char **tab)
+{
+	int		i;
+	char	*line;
+	char	*equal_sign;
+
+	i = 0;
+	bubble_tab(tab);
+	while (tab[i])
+	{
+		line = tab[i];
+		equal_sign = ft_strchr(line, '=');
+		if (equal_sign) // a check
+			printf("declare -x %.*s=\"%s\"\n", (int)(equal_sign - line),
+				line, equal_sign + 1);
+		else
+			printf("declare -x %s\n", line);
+		i++;
+	}
 }

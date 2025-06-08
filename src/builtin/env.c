@@ -17,16 +17,12 @@
  */
 void	builtin_env(t_shell *shell)
 {
-	char	**envp;
-
-	envp = shell->cmd.envp_copy;
-	if (!envp)
+	if (!shell->cmd.envp_copy)
 	{
 		printf("no env bitch\n");
 		return;
 	}
-	print_tab(envp);
-	free_tab(shell, envp);
+	print_tab(shell->cmd.envp_copy);
 }
 //fonction de test pour voir si la copie du tableau s est bien faite.
 void	print_tab(char **tab)

@@ -51,7 +51,7 @@ void	exec_builtin(t_shell *shell)
 	// else if (ft_strcmp(av[0], "exit") == 0)
 	// 	return (builtin_exit());
 	else if (ft_strcmp(av[0], "export") == 0)
-		return (handle_export(shell, shell->tlist.head));
+		return (handle_export(shell, shell->executor.av));
 	else if (ft_strcmp(av[0], "pwd") == 0)
 		return (builtin_pwd(shell));
 	// else if (ft_strcmp(av[0], "unset") == 0)

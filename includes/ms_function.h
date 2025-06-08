@@ -38,14 +38,13 @@ void	builtin_env(t_shell *shell);
 void	builtin_exit();
 
 /**EXPORT**/
-t_bool	checking_var(t_token *token, t_shell *shell);
+t_bool	checking_var(t_shell *shell, char *line);
+t_bool	is_valid_name(char *line);
 
 void	print_export(char **tab);
-void	handle_export(t_shell *shell, t_token *token);
-void	insert_env_export(t_shell *shell, char *value,
-	char **tab, t_bool is_export);
-void	put_in_env_export(t_shell *shell, char **old_tab,
-	char *new_value, t_bool is_export);
+void	handle_export(t_shell *shell, char **av);
+void	insert_env_export(t_shell *shell, char *value, char **old_tab, t_bool is_export);
+void	put_in_env_export(t_shell *shell, char **old_tab, char *new_value, t_bool is_export);
 	
 /**PWD**/
 void	builtin_pwd(t_shell *shell);
@@ -88,7 +87,7 @@ char	*recup_var(char **envp, char *var_env, int len);
 
 int     ft_tablen(char **tab);
 int		ft_strlen_plusplus(char *str);
-int		pos_var_env(char **envp, char *var_env);
+int		pos_var_env(char **envp, char *var_env, int len);
 
 /*LEXER*/
 t_bool	ft_isquote(int c);

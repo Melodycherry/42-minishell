@@ -53,7 +53,7 @@ t_bool	var_exist(char **envp, const char *var_env, int len)
 				return (TRUE);
 		}
 		else
-			if (envp[i][len] == '\0')
+			if (ft_strncmp(envp[i], (char *)var_env, len) == 0)
 				return (TRUE);
 		i++;
 	}
@@ -62,14 +62,12 @@ t_bool	var_exist(char **envp, const char *var_env, int len)
 
 // retourne la position dans le tableau env
 // ********* a tester *********
-int	pos_var_env(char **envp, char *var_env)
+int	pos_var_env(char **envp, char *var_env, int len)
 {
 	int		i;
-	int		len;
 	char	*equal_sign;
 
 	i = 0;
-	len = ft_strlen(var_env);
 	while (envp[i])
 	{
 		equal_sign = ft_strchr(envp[i], '=');
@@ -80,7 +78,7 @@ int	pos_var_env(char **envp, char *var_env)
 				return (i);
 		}
 		else
-			if (envp[i][len] == '\0')
+			if (ft_strncmp(envp[i], (char *)var_env, len) == 0)
 				return (i);
 		i++;
 	}
