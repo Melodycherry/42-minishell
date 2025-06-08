@@ -25,6 +25,15 @@ void	builtin_env(t_shell *shell)
 		return;
 	print_tab(envp);
 }
+//fonction de test pour voir si la copie du tableau s est bien faite.
+void	print_tab(char **tab)
+{
+	int	i;
 
-// juste printer le tableau de env. 
-// that-s it ?
+	i = 0;
+	while (tab && tab[i])
+	{
+		printf("%s\n", tab[i]);
+		i++;
+	}
+}

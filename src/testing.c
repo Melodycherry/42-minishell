@@ -12,19 +12,6 @@
 
 #include "minishell.h"
 
-//fonction de test pour voir si la copie du tableau s est bien faite.
-void	print_tab(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab && tab[i])
-	{
-		printf("%s\n", tab[i]);
-		i++;
-	}
-	//printf("\n");
-}
 
 void	print_token(t_token *token, int (*f)(const char *, ...))
 {

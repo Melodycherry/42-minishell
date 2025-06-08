@@ -31,10 +31,3 @@ void	builtin_pwd(t_shell *shell)
 	printf("%s\n", cwd);
 	free(cwd);
 }
-
-	// if (!)
-	//		return (erreur)
-	// getcwd ( a checker, exist deja )
-	// getcdw( NULL, 0)
-	// on print 
-	// penser a free car pwd malloc !

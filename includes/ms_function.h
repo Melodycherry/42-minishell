@@ -28,6 +28,7 @@ void	builtin_cd(t_shell *shell);
 void	builtin_echo(t_shell *shell);
 
 /**ENV**/
+void	print_tab(char **tab);
 void	builtin_env(t_shell *shell);
 
 /**EXIT**/
@@ -129,7 +130,6 @@ void	init_all(t_shell *shell);
 
 
 //fonctions tests a supprimer apres
-void	print_tab(char **tab);
 void	print_token(t_token *token, int (*f)(const char *, ...));
 // void	print_token2(t_token *token, int (*f)(const char *, ...));
 // void	print_token3(t_token *token, int (*f)(const char *, ...));
