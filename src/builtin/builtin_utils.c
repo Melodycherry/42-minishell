@@ -54,6 +54,6 @@ void	exec_builtin(t_shell *shell)
 		return (handle_export(shell, shell->executor.av));
 	else if (ft_strcmp(av[0], "pwd") == 0)
 		return (builtin_pwd(shell));
-	// else if (ft_strcmp(av[0], "unset") == 0)
-	// 	return (builtin_unset());
+	else if (ft_strcmp(av[0], "unset") == 0)
+		return (builtin_unset(shell, shell->executor.av));
 }

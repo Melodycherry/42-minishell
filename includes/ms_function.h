@@ -50,7 +50,8 @@ void	put_in_env_export(t_shell *shell, char **old_tab, char *new_value, t_bool i
 void	builtin_pwd(t_shell *shell);
 
 /**UNSET**/
-void	builtin_unset();
+void	builtin_unset(t_shell *shell, char **av);
+void	remove_var(t_shell *shell, char **old_tab, char *name, t_bool is_export);
 
 /*EXECUTOR*/
 t_bool	is_absolative(char *str);
