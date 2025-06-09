@@ -25,7 +25,7 @@ void	delete_quotes_value(t_token *token)
 		j = i;
 		while (token->value[i] && !ft_isquote(token->value[i]))
 			i++;
-		if	(token->value[i] == '\0')
+		if	(!ft_isprint(token->value[i]))
 			return (free(new_line));
 		if (i > j)
 			new_line = join_free(new_line, &token->value[j], (i - j));

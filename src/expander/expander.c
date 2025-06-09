@@ -47,19 +47,25 @@ void expand_var(t_shell *shell, t_token *token)
 		{
 			expand_double_quote(shell, token, &i, &j);
 			i++;
+			j = i;
 		}
 		if (value [i] == '\'')
 		{
 			expand_single_quote(token, &i, &j);
 			i++;
+			j = i;
 		}
-		if (value[i] == '$' || value[i] == '\0')
+		if (value[i] == '$')
 		{
 			expand_dollar(shell, token, &i, &j);
 			i++;
+			j = i;
 		}
 		i++;
 	}
+	if (i > j)
+	token->var_value = 
+		join_free(token->var_value, &value[j], (i - j));
 }
 
 void	expand_single_quote(t_token *token, int *i, int *j)
