@@ -321,3 +321,22 @@ void	print_token(t_token *token, int (*f)(const char *, ...))
 // 	free(token->var_value);
 // 	token->var_value = new_line;
 // }
+
+
+// char	**extract_tab(char **av, int *i)
+// {
+// 	int count;
+// 	char **new_av;
+
+// 	count = 0;
+// 	while (ft_strncmp(av[*i], "|", 1) != 0 && av[*i])
+// 	{
+// 		count ++;
+// 		(*i)++;
+// 	}
+// 	new_av = malloc_tab(count);
+// 	fill_tab(new_av, av, count);
+// 	if (ft_strncmp(av[*i], "|", 1) == 0)
+// 		(*i)++;
+// 	return (new_av);
+// }

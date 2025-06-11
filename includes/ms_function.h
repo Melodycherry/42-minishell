@@ -64,6 +64,7 @@ void	pipe_exist(t_shell *shell, t_token *token);
 void	create_av(t_shell *shell, t_token *current);
 void	exec_fork(t_shell *shell, char *pathname, char **av, char **envp);
 
+char	**extract_tab(char **av, int *i);
 char	*strjoin_malloc(char *s1, char *s2);
 char	*right_path(char **paths, char *cmd);
 
@@ -135,7 +136,10 @@ void	init_all(t_shell *shell);
 
 
 
-
+// a placer
+char    **malloc_tab(int tab_len);
+void	fill_tab(char **new_tab, char**old_tab, int len);
+void	complexe_exec_lol(t_shell *shell, char *pathname, char** av, char **envp);
 
 
 

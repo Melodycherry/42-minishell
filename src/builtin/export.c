@@ -87,15 +87,37 @@ t_bool is_valid_name(char *line)
 	return (TRUE);
 }
 
+char **malloc_tab(int tab_len)
+{
+	char **new_tab;
+
+	new_tab = malloc(sizeof(char *) * (tab_len + 1));
+	if (!new_tab)
+		return (NULL);
+	return (new_tab);
+}
+
+void	fill_tab(char **new_tab, char**old_tab, int len)
+{
+	int i;
+
+	i = 0;
+	while (i < len)
+	{
+		new_tab[i] = ft_strdup(old_tab[i]);
+		if (new_tab[i] == NULL)
+			free_mid_tab(new_tab, i);
+		i++;
+	}
+}
+
 void	put_in_env_export(t_shell *shell, char **old_tab, char *new_value, t_bool is_export)
 {
 	int		i;
 	char	**new_tab;
 
 	i = 0;
-	new_tab = malloc(sizeof(char *) * (ft_tablen(old_tab) + 2));
-	if (!new_tab)
-		return ;
+	new_tab = malloc_tab(ft_tablen(old_tab) + 1);
 	while (i < ft_tablen(old_tab))
 	{
 		new_tab[i] = ft_strdup(old_tab[i]);

@@ -17,7 +17,8 @@
 // ****** en cours, fonctionne dans ce etat ***********
 void	execution(t_shell *shell)
 {
-	// verif si pas de commande ? 
+	pipe_exist(shell, shell->tlist.head);
+	printf("%d\n", shell->executor.pipe_exist);
 	create_av(shell, shell->tlist.head);
 	if (!shell || !shell->executor.av || !shell->executor.av[0])
 		return;
@@ -25,7 +26,6 @@ void	execution(t_shell *shell)
 		exec_builtin(shell);
 	else
 	{
-		pipe_exist(shell, shell->tlist.head);
 		if (shell->executor.pipe_exist == TRUE)
 			exec_pipe(shell);
 		else 
@@ -94,13 +94,11 @@ void	exec_fork(t_shell *shell, char *pathname, char **av, char **envp)
 	pid_t	pid;
 	int		stat_pid;
 
-	if (shell->executor.is_forked == FALSE)
+	if (shell->executor.is_forked == FALSE) //a modifier
 	{
 		pid = fork();
 		if (pid == -1)
-		{
 			return (perror("fork"));
-		}
 		if (pid > 0) // permet d attendre la fin de l execution du child !
 			waitpid(pid, &stat_pid, 0);
 
@@ -113,7 +111,10 @@ void	exec_fork(t_shell *shell, char *pathname, char **av, char **envp)
 	}
 	else
 	{
-		// situation si on a un pipe en cours mais pour l instant fuck off
+			shell->executor.is_forked = FALSE;
+			execve(pathname, av, envp);
+			perror("Error :"); // gestion d erreur a faire
+			exit(EXIT_FAILURE);
 	}
 
 }
@@ -136,6 +137,27 @@ void	simple_exec(t_shell *shell)
 		if (path)
 		{
 			exec_fork(shell, path, shell->executor.av, shell->cmd.envp_exp);
+			free(path);
+		}
+	}
+}
+
+void	complexe_exec_lol(t_shell *shell, char *pathname, char** av, char **envp)
+{
+	char *path;
+
+	if (is_absolative(pathname))
+	{
+		exec_fork(shell, pathname, av, envp);
+		printf("that s absolative\n");
+	}
+	else 
+	{
+		create_path(shell, shell->cmd.envp_exp);
+		path = right_path(shell->executor.paths, pathname);
+		if (path)
+		{
+			exec_fork(shell, pathname, av, envp);
 			free(path);
 		}
 	}

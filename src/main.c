@@ -23,7 +23,7 @@ void	parsing(t_shell *shell)
 	expansion(shell);
 
 	// test impression
-	print_token(shell->tlist.head, printf); // pour c4ette shit d expansion
+	//print_token(shell->tlist.head, printf); // pour c4ette shit d expansion
 	// print_token2(shell->tlist.head, printf);
 	// print_token3(shell->tlist.head, printf);
 	
