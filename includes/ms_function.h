@@ -22,7 +22,9 @@ t_bool	is_builtin(char *cmd);
 void	exec_builtin(t_shell *shell);
 
 /**CD**/
-void	builtin_cd(t_shell *shell);
+void	builtin_cd(t_shell *shell, char **av);
+void	execute_cd(t_shell *shell, char *path);
+void	update_pwd(t_shell *shell, char *oldpwd);
 
 /**ECHO**/
 t_bool	is_flag_n(char *str);
