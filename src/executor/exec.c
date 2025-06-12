@@ -82,7 +82,8 @@ char	*strjoin_malloc(char *s1, char *s2)
 	if (dest == NULL)
 		return (NULL);
 
-	dest = ft_strjoin(&s1[4], "/");
+	//dest = ft_strjoin(&s1[4], "/");
+	dest = ft_strjoin(s1, "/");
 	dest = ft_strjoin(dest, s2);
 	return (dest);
 }
@@ -142,7 +143,8 @@ void	simple_exec(t_shell *shell)
 	}
 }
 
-void	complexe_exec_lol(t_shell *shell, char *pathname, char** av, char **envp)
+// fonctionnelle avec absolute path ?? avec relatif we dont know 
+void	complexe_exec_lol(t_shell *shell, char *pathname, char** av, char **envp) 
 {
 	char *path;
 

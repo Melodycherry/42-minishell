@@ -47,11 +47,12 @@ void exec_pipe(t_shell *shell)
 	}
 	if (pid_left == 0) 
 	{
-		dup2(fd_pipe[1], STDOUT_FILENO); 
+		printf ("%d\n", pid_left);
+		dup2(fd_pipe[1], STDOUT_FILENO); // comme on a deja redirige on ferme les autres apres
 		close(fd_pipe[1]); // Ferme l’écriture après usage
 		close(fd_pipe[0]); // Ferme la lecture
 		complexe_exec_lol(shell, shell->executor.av[0], &shell->executor.av[count], shell->cmd.envp_copy); // peut etre prendre le export
-		exit(EXIT_SUCCESS);
+		exit(EXIT_SUCCESS); // ne sert a rien ? effectivement. 
 	}
 	pid_right = fork();
 	shell->executor.is_forked = TRUE;
@@ -62,6 +63,7 @@ void exec_pipe(t_shell *shell)
 	}
 	if (pid_right == 0)
 	{
+		printf ("%d\n", pid_right);
 		count = donne_moi_le_count(shell->executor.av);
 		fprintf(stderr, "fucking count %d\n", count);
 		dup2(fd_pipe[0], STDIN_FILENO); 

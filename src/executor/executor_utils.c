@@ -26,9 +26,9 @@ void create_av(t_shell *shell, t_token *current)
 	while (i < shell->tlist.token_cnt)
 	{
 		if (current->type == T_ARG)
-			av[i] = ft_strdup(current->var_value);
+			av[i] = ft_strdup(current->var_value); // warning 
 		else
-			av[i] = ft_strdup(current->value);
+			av[i] = ft_strdup(current->value); // warning 
 		current = current->next;
 		i++;
 	}
@@ -47,7 +47,8 @@ void create_path(t_shell *shell, char **envp)
 
 	while (ft_strncmp(envp[i], "PATH", 4) != 0)
 		i++;
-	paths = ft_split(envp[i], ':');
+	//paths = ft_split(envp[i], ':');
+	paths = ft_split(envp[i] + 5, ':'); // +5 pour sauter "PATH="
 
 	shell->executor.paths = paths;
 }
