@@ -18,7 +18,7 @@
 void	execution(t_shell *shell)
 {
 	pipe_exist(shell, shell->tlist.head);
-	printf("%d\n", shell->executor.pipe_exist);
+	//printf("%d\n", shell->executor.pipe_exist);
 	create_av(shell, shell->tlist.head);
 	if (!shell || !shell->executor.av || !shell->executor.av[0])
 		return;
@@ -113,7 +113,7 @@ void	exec_fork(t_shell *shell, char *pathname, char **av, char **envp)
 	{
 			shell->executor.is_forked = FALSE;
 			execve(pathname, av, envp);
-			perror("Error :"); // gestion d erreur a faire
+			perror("Error 0"); // gestion d erreur a faire
 			exit(EXIT_FAILURE);
 	}
 
@@ -142,7 +142,7 @@ void	simple_exec(t_shell *shell)
 	}
 }
 
-void	complexe_exec_lol(t_shell *shell, char *pathname, char** av, char **envp)
+void	complexe_exec_lol(t_shell *shell, char *pathname, char **av, char **envp)
 {
 	char *path;
 
@@ -157,7 +157,7 @@ void	complexe_exec_lol(t_shell *shell, char *pathname, char** av, char **envp)
 		path = right_path(shell->executor.paths, pathname);
 		if (path)
 		{
-			exec_fork(shell, pathname, av, envp);
+			exec_fork(shell, path, av, envp);
 			free(path);
 		}
 	}

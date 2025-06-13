@@ -43,8 +43,10 @@ typedef struct s_expander
 
 typedef struct s_executor
 {
-	char **av;
-	char **paths;
+	char 	**av;
+	char 	**paths;
+	int		start;
+	int		end;
 
 	t_bool	is_forked;
 	t_bool	pipe_exist;
