@@ -45,6 +45,8 @@ typedef struct s_executor
 {
 	char 	**av;
 	char 	**paths;
+	char	**pipe_av;
+	
 	int		start;
 	int		end;
 	int		nb_pipe;

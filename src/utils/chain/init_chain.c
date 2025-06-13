@@ -17,10 +17,11 @@
 void	init_list(t_shell *shell)
 {
 	shell->tlist.head = NULL;
-	shell->tlist.token_cnt = 0; //n est pas mis a jour dans les fonctions
+	shell->tlist.token_cnt = 0;
 	shell->executor.is_forked = FALSE;
 	shell->executor.start = 0;
 	shell->executor.end = 0;
+	shell->executor.pipe_av = NULL;
 }
 
 // creation d un token. 
