@@ -73,6 +73,22 @@ void	print_token(t_token *token, int (*f)(const char *, ...))
 
 
 
+// int	donne_moi_le_count(char **av)
+// {
+// 	int count;
+// 	int i = 0;
+
+// 	count = 0;
+// 	while (av[i] && ft_strcmp(av[i], "|") != 0)
+// 	{
+// 		count++;
+// 		(i)++;
+// 	}
+// 	count++;
+// 	return (count);
+// }
+
+
 
 // //pour l instant sert a rien mais risque de servir
 // // **** a tester ****

@@ -60,15 +60,17 @@ t_bool	is_absolative(char *str);
 
 void 	exec_pipe(t_shell *shell);
 void	execution(t_shell *shell);
+void    find_range(t_shell *shell);
 void	simple_exec(t_shell *shell);
+void	nb_pipe(t_shell *shell, t_token *token);
 void	create_path(t_shell *shell, char **envp);
-void	pipe_exist(t_shell *shell, t_token *token);
 void	create_av(t_shell *shell, t_token *current);
 void	exec_fork(t_shell *shell, char *pathname, char **av, char **envp);
 
-char	**extract_tab(char **av, int *i);
+//char	**extract_tab(char **av, int *i);
 char	*strjoin_malloc(char *s1, char *s2);
 char	*right_path(char **paths, char *cmd);
+char	**split_args(t_shell *shell, char **av);
 
 /*EXPANDER*/
 t_bool	is_valid_var_name(t_token *token, t_shell *shell);

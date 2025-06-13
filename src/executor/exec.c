@@ -17,7 +17,7 @@
 // ****** en cours, fonctionne dans ce etat ***********
 void	execution(t_shell *shell)
 {
-	pipe_exist(shell, shell->tlist.head);
+	nb_pipe(shell, shell->tlist.head);
 	//printf("%d\n", shell->executor.pipe_exist);
 	create_av(shell, shell->tlist.head);
 	if (!shell || !shell->executor.av || !shell->executor.av[0])
@@ -26,37 +26,11 @@ void	execution(t_shell *shell)
 		exec_builtin(shell);
 	else
 	{
-		if (shell->executor.pipe_exist == TRUE)
+		if (shell->executor.nb_pipe > 0)
 			exec_pipe(shell);
 		else 
 			simple_exec(shell);
 	}
-}
-
-// va checker si le path existe via le access sur le while du pathS
-// ***** en cours, focntionne dans cet etat *****
-char	*right_path(char **paths, char *cmd)
-{
-	int i;
-	char *path;
-	
-	i = 0;
-	while (paths[i])
-	{
-		path = strjoin_malloc(paths[i], cmd);
-		if (!access(path, F_OK))
-		{
-			if (!access(path, X_OK))
-				return (path);
-			//else
-			// 	gestion d erreur
-		}	
-		free(path);
-		path = NULL;
-		i++;
-	}
-	// gestion d erreur
-	return (NULL);
 }
 
 // va checker l existance d un / -> si cest absolative (absolu ou relative)
@@ -70,20 +44,18 @@ t_bool	is_absolative(char *str)
 	return (FALSE);
 }
 
-//join qui malloc et renvoie le path + cmd
-// *** seems to work., ya un malloc donc pas oublier de free :) ***
+// //join qui malloc et renvoie le path + / + cmd
+// // *** seems to work., ya un malloc donc pas oublier de free :) ***
 char	*strjoin_malloc(char *s1, char *s2)
 {
 	char	*dest;
-	int		len;
+	char	*tmp;
 
-	len = ((ft_strlen(s1)) + (ft_strlen(s2)));
-	dest = (char *) malloc(sizeof(char) * (len + 2));
-	if (dest == NULL)
+	tmp = ft_strjoin(s1, "/");
+	if (!tmp)
 		return (NULL);
-
-	dest = ft_strjoin(&s1[4], "/");
-	dest = ft_strjoin(dest, s2);
+	dest = ft_strjoin(tmp, s2);
+	free(tmp);
 	return (dest);
 }
 
@@ -105,7 +77,7 @@ void	exec_fork(t_shell *shell, char *pathname, char **av, char **envp)
 		if (pid == 0) //process dans la partie qui est enfant = pid est de 0;
 		{
 			execve(pathname, av, envp);
-			perror("Error :"); // gestion d erreur a faire
+			perror("Error"); // gestion d erreur a faire
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -113,10 +85,9 @@ void	exec_fork(t_shell *shell, char *pathname, char **av, char **envp)
 	{
 			shell->executor.is_forked = FALSE;
 			execve(pathname, av, envp);
-			perror("Error 0"); // gestion d erreur a faire
+			perror("Error"); // gestion d erreur a faire
 			exit(EXIT_FAILURE);
 	}
-
 }
 
 // fonction qui va gerer l execution sans ces fdp de pipe :)))
@@ -126,10 +97,7 @@ void	simple_exec(t_shell *shell)
 	char *path;
 
 	if (is_absolative(shell->executor.av[0]))
-	{
 		exec_fork(shell, shell->executor.av[0], shell->executor.av, shell->cmd.envp_exp);
-		printf("that s absolative\n");
-	}
 	else 
 	{
 		create_path(shell, shell->cmd.envp_exp);
