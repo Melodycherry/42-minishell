@@ -82,6 +82,19 @@ void	exec_pipe_child(t_shell *shell, int *fd_pipe, char **pipe_av,
 
 int		update_parent_fds(int *fd_pipe, int prev_fd, int nb_pipe);
 
+/*REDIR*/
+
+void	handle_redir_in(char *file);
+void	handle_redir_out(char *file);
+void	handle_redir_append(char *file);
+void	redir_handle(t_shell *shell, char **av);
+void	set_redir_file(t_shell *shell, char **av);
+void	redir_count_set(t_shell *shell, char **av);
+void	set_redir_type(t_shell *shell, char *redir);
+
+char	*file_redir(char *file);
+
+
 //char	**extract_tab(char **av, int *i);
 char	*strjoin_path(char *s1, char *s2);
 char	*right_path(char **paths, char *cmd);

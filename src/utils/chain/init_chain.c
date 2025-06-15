@@ -22,6 +22,7 @@ void	init_list(t_shell *shell)
 	shell->executor.start = 0;
 	shell->executor.end = 0;
 	shell->executor.pipe_av = NULL;
+	shell->executor.redir_file = NULL;
 }
 
 // creation d un token. 
