@@ -80,6 +80,7 @@ void	exec_pipe_child(t_shell *shell, int *fd_pipe, char **pipe_av,
 		dup2(fd_pipe[1], STDOUT_FILENO);
 		close(fd_pipe[1]);
 	}
+	printf("passage dans child\n");
 	exec_path(shell, pipe_av[0], pipe_av, shell->cmd.envp_copy);
 	exit(EXIT_FAILURE);
 }

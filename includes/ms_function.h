@@ -92,6 +92,10 @@ void	set_redir_file(t_shell *shell, char **av);
 void	redir_count_set(t_shell *shell, char **av);
 void	set_redir_type(t_shell *shell, char *redir);
 
+t_bool	is_redir(char *av);
+
+char	**delet_redir(char **av);
+
 char	*file_redir(char *file);
 
 

@@ -36,6 +36,7 @@ void	execution(t_shell *shell)
 // ***** en cours, dont judge **** 
 void	exec_fork(t_shell *shell, char *pathname, char **av, char **envp)
 {
+	char	**new_tab;
 	pid_t	pid;
 	int		stat_pid;
 
@@ -48,6 +49,8 @@ void	exec_fork(t_shell *shell, char *pathname, char **av, char **envp)
 			waitpid(pid, &stat_pid, 0);
 		if (pid == 0)
 		{
+			// redir_handle(shell, av);
+			// new_tab = delet_redir(av);
 			execve(pathname, av, envp);
 			perror("Error");
 			exit(EXIT_FAILURE);

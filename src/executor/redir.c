@@ -25,13 +25,13 @@ void	redir_handle(t_shell *shell, char **av)
 	
 	type = shell->executor.redir_type;
 	
-	printf("type = %d && after_redir = %s\n", type, shell->executor.redir_file);
-	// if (type == T_REDIR_IN)
-	// handle_redir_in(shell->executor.redir_file);
-	// if (type == T_REDIR_OUT)
-	// handle_redir_out(shell->executor.redir_file);
-	// if (type == T_REDIR_APPEND)
-	// handle_redir_append(shell->executor.redir_file);
+	printf("redir_type = %d && after_redir = %s\n", type, shell->executor.redir_file);
+	if (type == T_REDIR_IN)
+	handle_redir_in(shell->executor.redir_file);
+	if (type == T_REDIR_OUT)
+	handle_redir_out(shell->executor.redir_file);
+	if (type == T_REDIR_APPEND)
+	handle_redir_append(shell->executor.redir_file);
 }
 
 /* fonction qui va compter le nb de redirection */
@@ -51,6 +51,11 @@ void	redir_count_set(t_shell *shell, char **av)
 	}
 	if (shell->executor.nb_redir > 0)
 			set_redir_file(shell, av);
+	else
+	{
+		shell->executor.redir_file = NULL;
+		shell->executor.redir_type = 0;
+	}
 }
 
 /* va mettre en place les infos a chaque fois qu on voit un > < >> */
@@ -64,8 +69,7 @@ void	set_redir_file(t_shell *shell, char **av)
 	j = shell->executor.nb_redir;
 	while (i > 0 && j > 0)
 	{
-		if (ft_strcmp(av[i], ">") == 0 || ft_strcmp(av[i], "<<") == 0
-			|| ft_strcmp(av[i], "<") == 0)
+		if (is_redir(av[i]) == TRUE)
 			{
 				j--;
 				if (j == 0)
@@ -77,7 +81,7 @@ void	set_redir_file(t_shell *shell, char **av)
 	if (shell->executor.redir_file != NULL)
 		free(shell->executor.redir_file);
 	if (av[i + 1])
-		shell->executor.redir_file = file_redir(av[i + 1]);
+		shell->executor.redir_file = ft_strndup(av[i + 1], ft_strlen(av[i + 1]));
 	else
 		shell->executor.redir_file = NULL;
 	set_redir_type(shell, av[i]);
@@ -91,19 +95,6 @@ void set_redir_type(t_shell *shell, char *redir)
 		shell->executor.redir_type = T_REDIR_APPEND;
 	if (ft_strcmp(redir, "<") == 0)
 		shell->executor.redir_type = T_REDIR_IN;
-}
-
-char	*file_redir(char *file)
-{
-	char	*dest;
-	char	*tmp;
-
-	tmp = ft_strjoin("\"", file);
-	if (!tmp)
-		return (NULL);
-	dest = ft_strjoin(tmp, "\"");
-	free(tmp);
-	return (dest);
 }
 
 void handle_redir_in(char *file)
@@ -148,7 +139,37 @@ void handle_redir_append(char *file)
 	close(fd);	
 }
 
+char	**delet_redir(char **av)
+{
+	char	**new_tab;
+	int		len;
+	int		i;
+	int		j;
 
+	len = ft_tablen(av);
+	new_tab = malloc(sizeof(char*) * len);
+	if (!new_tab)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (av[i]) // pour tt copier sauf la var a suppr
+	{
+		if (is_redir(av[i]) == FALSE)
+			new_tab[j++] = ft_strdup(av[i]);
+		i++;
+	}
+	new_tab[j] = NULL;
+	return (new_tab);
+}
+
+t_bool	is_redir(char *av)
+{
+	if (ft_strcmp(av, ">") == 0 || ft_strcmp(av, "<<") == 0
+			|| ft_strcmp(av, "<") == 0)
+		return (TRUE);
+	else
+		return (FALSE);
+}
 // cat < file.txt -> file.txt devient stdin
 // echo hello > out.txt -> ecrit "hello" das out.txt (ecrase)
 // echo again >> out.txt -> ajoute "again" a la fin de out.txt

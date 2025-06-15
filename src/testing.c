@@ -161,7 +161,18 @@ void	print_token(t_token *token, int (*f)(const char *, ...))
 // }
 
 
+// char	*file_redir(char *file)
+// {
+// 	char	*dest;
+// 	char	*tmp;
 
+// 	tmp = ft_strjoin("\"", file);
+// 	if (!tmp)
+// 		return (NULL);
+// 	dest = ft_strjoin(tmp, "\"");
+// 	free(tmp);
+// 	return (dest);
+// }
 
 
 // int	donne_moi_le_count(char **av)

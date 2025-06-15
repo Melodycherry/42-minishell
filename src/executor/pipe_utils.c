@@ -50,7 +50,6 @@ char	**split_args(t_shell *shell, char **av)
 		start++;
 	}
 	dest[i] = NULL;
-	redir_handle(shell, dest);
 	return (dest);
 }
 
