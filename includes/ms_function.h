@@ -85,17 +85,18 @@ int		update_parent_fds(int *fd_pipe, int prev_fd, int nb_pipe);
 
 /*REDIR*/
 
+t_bool	is_redir(char *av);
+
 void	handle_redir_in(char *file);
 void	handle_redir_out(char *file);
 void	handle_redir_append(char *file);
-void	redir_handle(t_shell *shell, char **av);
-void	set_redir_file(t_shell *shell, char **av);
-void	redir_count_set(t_shell *shell, char **av);
+void	redir_handle(t_shell *shell);
+void	set_redir_count(t_shell *shell, char **av);
 void	set_redir_type(t_shell *shell, char *redir);
+void	set_redir_file_type_av(t_shell *shell, char **av);
+void	set_redir_file(t_shell *shell, char **av, int *i);
 
-t_bool	is_redir(char *av);
-
-char	**delete_redir(char **av);
+char	**set_redir_av(char **av);
 
 
 //char	**extract_tab(char **av, int *i);

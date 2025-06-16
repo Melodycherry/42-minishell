@@ -26,6 +26,7 @@ void	init_all(t_shell *shell)
 	shell->executor.is_forked = FALSE;
 	shell->executor.nb_pipe = 0;
 	shell->executor.nb_redir = 0;
+	shell->executor.nb_redir_wip = 0;
 	shell->executor.paths = NULL;
 	shell->executor.pipe_av = NULL;
 	shell->executor.redir_file = NULL;

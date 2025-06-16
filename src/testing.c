@@ -481,3 +481,88 @@ void	print_token(t_token *token, int (*f)(const char *, ...))
 // 	new_tab[j] = NULL;
 // 	return (new_tab);
 // }
+
+
+/* va mettre en place les infos a chaque fois qu on voit un > < >> */
+/************* seems ok pas vraiment ok ******************/
+// void	set_redir_file(t_shell *shell, char **av)
+// {
+// 	int i;
+// 	int	j;
+
+// 	i = ft_tablen(av) - 1;
+// 	j = shell->executor.nb_redir;
+// 	shell->executor.nb_redir_wip = shell->executor.nb_redir;
+// 	while (i > 0 && j > 0)
+// 	{
+// 		if (is_redir(av[i]) == TRUE)
+// 			{
+// 				j--;
+// 				if (j == 0)
+// 					break;
+// 			}
+// 		i--;
+// 	}
+// 	shell->executor.nb_redir_wip--;
+// 	if (shell->executor.redir_file != NULL)
+// 		free(shell->executor.redir_file);
+// 	if (av[i + 1])
+// 		shell->executor.redir_file = ft_strndup(av[i + 1], ft_strlen(av[i + 1]));
+// 	else
+// 		shell->executor.redir_file = NULL;
+// 	set_redir_type(shell, av[i]);
+// 	shell->executor.redir_av = set_redir_av(shell->executor.av);
+// }
+
+
+// void	set_redir_file(t_shell *shell, char **av)
+// {
+// 	int i;
+// 	int	j;
+
+// 	i = ft_tablen(av) - 1;
+// 	j = shell->executor.nb_redir;
+// 	shell->executor.nb_redir_wip = shell->executor.nb_redir;
+// 	while (i > 0 && j > 0)
+// 	{
+// 		if (is_redir(av[i]) == TRUE)
+// 			{
+// 				j--;
+// 				if (j == 0)
+// 					break;
+// 			}
+// 		i--;
+// 	}
+// 	shell->executor.nb_redir--;
+// 	if (shell->executor.redir_file != NULL)
+// 		free(shell->executor.redir_file);
+// 	if (av[i + 1])
+// 		shell->executor.redir_file = ft_strndup(av[i + 1], ft_strlen(av[i + 1]));
+// 	else
+// 		shell->executor.redir_file = NULL;
+// 	set_redir_type(shell, av[i]);
+// 	shell->executor.redir_av = delete_redir(av);
+// }
+
+// char	**delet_redir(char **av)
+// {
+// 	char	**new_tab;
+// 	int		len;
+// 	int		i;
+// 	int		j;
+
+// 	len = ft_tablen(av);
+// 	new_tab = malloc(sizeof(char*) * len);
+// 	if (!new_tab)
+// 		return (NULL);
+// 	i = 0;
+// 	j = 0;
+// 	while (av[i]) // pour tt copier sauf la var a suppr
+// 	{
+// 		if (is_redir(av[i]) == FALSE)
+// 			new_tab[j++] = ft_strdup(av[i]);
+// 		i++;
+// 	}
+// 	new_tab[j] = NULL;
+// 	return (new_tab);
+// }
