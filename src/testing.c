@@ -458,3 +458,26 @@ void	print_token(t_token *token, int (*f)(const char *, ...))
 // 		(*i)++;
 // 	return (new_av);
 // }
+
+// char	**delet_redir(char **av)
+// {
+// 	char	**new_tab;
+// 	int		len;
+// 	int		i;
+// 	int		j;
+
+// 	len = ft_tablen(av);
+// 	new_tab = malloc(sizeof(char*) * len);
+// 	if (!new_tab)
+// 		return (NULL);
+// 	i = 0;
+// 	j = 0;
+// 	while (av[i]) // pour tt copier sauf la var a suppr
+// 	{
+// 		if (is_redir(av[i]) == FALSE)
+// 			new_tab[j++] = ft_strdup(av[i]);
+// 		i++;
+// 	}
+// 	new_tab[j] = NULL;
+// 	return (new_tab);
+// }

@@ -1,0 +1,13 @@
+total 1692
+-rw-r--r-- 1 hlichten 2024_lausanne       0 Jun  1 16:12 echo
+-rw-r--r-- 1 hlichten 2024_lausanne 1569115 Jun  1 16:12 en.subject.pdf
+-rw-r--r-- 1 hlichten 2024_lausanne     127 Jun  1 16:12 ignore_readline.supp
+drwxr-xr-x 2 hlichten 2024_lausanne     149 Jun 16 16:29 includes
+drwxr-xr-x 2 hlichten 2024_lausanne    4096 Jun 16 16:42 libft
+-rw-r--r-- 1 hlichten 2024_lausanne       0 Jun 16 17:10 listing.txt
+-rw-r--r-- 1 hlichten 2024_lausanne    2628 Jun 15 19:06 Makefile
+-rwxr-xr-x 1 hlichten 2024_lausanne  133520 Jun 16 17:08 minishell
+drwxr-xr-x 2 hlichten 2024_lausanne    4096 Jun 16 17:08 obj
+-rw-r--r-- 1 hlichten 2024_lausanne      16 Jun 16 17:09 out.txt
+drwxr-xr-x 9 hlichten 2024_lausanne     167 Jun 16 16:29 src
+-rw-r--r-- 1 hlichten 2024_lausanne    3932 Jun 15 17:21 valgrind.log

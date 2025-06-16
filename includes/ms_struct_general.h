@@ -46,12 +46,14 @@ typedef struct s_executor
 	char 			**av;
 	char 			**paths;
 	char			**pipe_av;
+	char			**redir_av;
 	char			*redir_file;
 	
 	int				end;
 	int				start;
 	int				nb_pipe;
 	int				nb_redir;
+	int				nb_redir_wip;
 
 	t_bool			is_forked;
 	t_token_type	redir_type;

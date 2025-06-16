@@ -20,18 +20,19 @@
 /******** tout fonctionne sauf l execution ********/
 void	redir_handle(t_shell *shell, char **av)
 {
-	redir_count_set(shell, av);
 	t_token_type type;
-	
+	redir_count_set(shell, av);
+
 	type = shell->executor.redir_type;
-	
-	printf("redir_type = %d && after_redir = %s\n", type, shell->executor.redir_file);
-	if (type == T_REDIR_IN)
-	handle_redir_in(shell->executor.redir_file);
-	if (type == T_REDIR_OUT)
-	handle_redir_out(shell->executor.redir_file);
-	if (type == T_REDIR_APPEND)
-	handle_redir_append(shell->executor.redir_file);
+	if (shell->executor.nb_redir > 0)
+	{
+		if (type == T_REDIR_IN)
+			handle_redir_in(shell->executor.redir_file);
+		if (type == T_REDIR_OUT)
+			handle_redir_out(shell->executor.redir_file);
+		if (type == T_REDIR_APPEND)
+			handle_redir_append(shell->executor.redir_file);
+	}
 }
 
 /* fonction qui va compter le nb de redirection */
@@ -44,13 +45,12 @@ void	redir_count_set(t_shell *shell, char **av)
 	shell->executor.nb_redir = 0;
 	while (av[i])
 	{
-		if (ft_strcmp(av[i], ">") == 0 || ft_strcmp(av[i], "<<") == 0
-			|| ft_strcmp(av[i], "<") == 0)
+		if (is_redir(av[i]))
 			shell->executor.nb_redir++;
 		i++;
 	}
 	if (shell->executor.nb_redir > 0)
-			set_redir_file(shell, av);
+		set_redir_file(shell, av);
 	else
 	{
 		shell->executor.redir_file = NULL;
@@ -58,8 +58,6 @@ void	redir_count_set(t_shell *shell, char **av)
 	}
 }
 
-/* va mettre en place les infos a chaque fois qu on voit un > < >> */
-/************* seems ok ******************/
 void	set_redir_file(t_shell *shell, char **av)
 {
 	int i;
@@ -87,89 +85,188 @@ void	set_redir_file(t_shell *shell, char **av)
 	set_redir_type(shell, av[i]);
 }
 
-void set_redir_type(t_shell *shell, char *redir)
-{
-	if (ft_strcmp(redir, ">") == 0 )
-		shell->executor.redir_type = T_REDIR_OUT;
-	if (ft_strcmp(redir, "<<") == 0)
-		shell->executor.redir_type = T_REDIR_APPEND;
-	if (ft_strcmp(redir, "<") == 0)
-		shell->executor.redir_type = T_REDIR_IN;
-}
+// char	**delet_redir(char **av)
+// {
+// 	char	**new_tab;
+// 	int		len;
+// 	int		i;
+// 	int		j;
 
-void handle_redir_in(char *file)
-{
-	int fd;
-	
-	fd = open(file, O_RDONLY);
-	if (fd < 0)
-	{
-		perror("open");
-		exit(EXIT_FAILURE);
-	}
-	dup2(fd, STDIN_FILENO);
-	close(fd);
-}
+// 	len = ft_tablen(av);
+// 	new_tab = malloc(sizeof(char*) * len);
+// 	if (!new_tab)
+// 		return (NULL);
+// 	i = 0;
+// 	j = 0;
+// 	while (av[i]) // pour tt copier sauf la var a suppr
+// 	{
+// 		if (is_redir(av[i]) == FALSE)
+// 			new_tab[j++] = ft_strdup(av[i]);
+// 		i++;
+// 	}
+// 	new_tab[j] = NULL;
+// 	return (new_tab);
+// }
 
-void handle_redir_out(char *file)
-{
-	int fd;
-	
-	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd < 0)
-	{
-		perror("open");
-		exit(EXIT_FAILURE);
-	}
-	dup2(fd, STDOUT_FILENO);
-	close(fd);	
-}
-
-void handle_redir_append(char *file)
-{
-	int fd;
-	
-	fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (fd < 0)
-	{
-		perror("open");
-		exit(EXIT_FAILURE);
-	}
-	dup2(fd, STDOUT_FILENO);
-	close(fd);	
-}
-
-char	**delet_redir(char **av)
+char	**delete_redir(char **av)
 {
 	char	**new_tab;
-	int		len;
 	int		i;
-	int		j;
 
-	len = ft_tablen(av);
-	new_tab = malloc(sizeof(char*) * len);
+	i = 0;
+	while (!is_redir(av[i]))
+		i++;
+	new_tab = malloc(sizeof(char*) * (i + 1));
 	if (!new_tab)
 		return (NULL);
 	i = 0;
-	j = 0;
-	while (av[i]) // pour tt copier sauf la var a suppr
+	while (!is_redir(av[i]))
 	{
-		if (is_redir(av[i]) == FALSE)
-			new_tab[j++] = ft_strdup(av[i]);
+		new_tab[i] = ft_strdup(av[i]);
 		i++;
 	}
-	new_tab[j] = NULL;
+	new_tab[i] = NULL;
 	return (new_tab);
 }
 
-t_bool	is_redir(char *av)
-{
-	if (ft_strcmp(av, ">") == 0 || ft_strcmp(av, "<<") == 0
-			|| ft_strcmp(av, "<") == 0)
-		return (TRUE);
-	else
-		return (FALSE);
-}
+/* va mettre en place les infos a chaque fois qu on voit un > < >> */
+/************* seems ok pas vraiment ok ******************/
+// void	set_redir_file(t_shell *shell, char **av)
+// {
+// 	int i;
+// 	int	j;
+
+// 	i = ft_tablen(av) - 1;
+// 	j = shell->executor.nb_redir;
+// 	shell->executor.nb_redir_wip = shell->executor.nb_redir;
+// 	while (i > 0 && j > 0)
+// 	{
+// 		if (is_redir(av[i]) == TRUE)
+// 			{
+// 				j--;
+// 				if (j == 0)
+// 					break;
+// 			}
+// 		i--;
+// 	}
+// 	shell->executor.nb_redir_wip--;
+// 	if (shell->executor.redir_file != NULL)
+// 		free(shell->executor.redir_file);
+// 	if (av[i + 1])
+// 		shell->executor.redir_file = ft_strndup(av[i + 1], ft_strlen(av[i + 1]));
+// 	else
+// 		shell->executor.redir_file = NULL;
+// 	set_redir_type(shell, av[i]);
+// 	shell->executor.redir_av = set_redir_av(shell->executor.av);
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// char **delete_redir(char **av)
+// {
+// 	int count;
+// 	int	i;
+// 	int	j;
+
+// 	count = 0;
+// 	i = 0;
+// 	while (av[i])
+// 	{
+// 		if (is_redir(av[i]))
+// 			i += 2; // skip redir and filename
+// 		else
+// 		{
+// 			count++;
+// 			i++;
+// 		}
+// 	}
+
+// 	char **new_tab = malloc(sizeof(char *) * (count + 1));
+// 	if (!new_tab)
+// 		return (NULL);
+
+// 	i = 0;
+// 	j = 0;
+// 	while (av[i])
+// 	{
+// 		if (is_redir(av[i]))
+// 			i += 2;
+// 		else
+// 			new_tab[j++] = ft_strdup(av[i++]);
+// 	}
+// 	new_tab[j] = NULL;
+// 	return new_tab;
+// }
+
+// char	**delete_redir(char **av)
+// {
+// 	char	**new_tab;
+// 	int		i;
+
+// 	i = 0;
+// 	while (!is_redir(av[i]))
+// 		i++;
+// 	new_tab = malloc(sizeof(char*) * (i + 1));
+// 	if (!new_tab)
+// 		return (NULL);
+// 	i = 0;
+// 	while (!is_redir(av[i]))
+// 	{
+// 		new_tab[i] = ft_strdup(av[i]);
+// 		i++;
+// 	}
+// 	new_tab[i] = NULL;
+// 	return (new_tab);
+// }
+
+// void create_redir_av(t_shell *shell)
+// {
+// 	printf("hello darkness my old friend\n");
+// 	shell->executor.redir_av = shell->executor.av;
+
+// 	if (shell->executor.nb_redir > 0)
+// 	{
+// 		shell->executor.redir_av = delete_redir(shell->executor.redir_av);
+// 	}
+// }
+
+
 // cat < file.txt -> file.txt devient stdin
 // echo hello > out.txt -> ecrit "hello" das out.txt (ecrase)
 // echo again >> out.txt -> ajoute "again" a la fin de out.txt
+

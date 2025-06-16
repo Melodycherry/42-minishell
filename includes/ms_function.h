@@ -74,6 +74,7 @@ void	check_fd(int prev_fd);
 void	exec_pipe(t_shell *shell);
 void	init_pipe(t_shell *shell);
 void	find_range(t_shell *shell);
+void	create_redir_av(t_shell *shell);
 void	create_pipe_or_exit(int *fd_pipe);
 void	nb_pipe(t_shell *shell, t_token *token);
 void	update_executor_state(t_shell *shell, char **pipe_av);
@@ -94,9 +95,7 @@ void	set_redir_type(t_shell *shell, char *redir);
 
 t_bool	is_redir(char *av);
 
-char	**delet_redir(char **av);
-
-char	*file_redir(char *file);
+char	**delete_redir(char **av);
 
 
 //char	**extract_tab(char **av, int *i);

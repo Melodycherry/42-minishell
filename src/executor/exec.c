@@ -36,7 +36,6 @@ void	execution(t_shell *shell)
 // ***** en cours, dont judge **** 
 void	exec_fork(t_shell *shell, char *pathname, char **av, char **envp)
 {
-	char	**new_tab;
 	pid_t	pid;
 	int		stat_pid;
 
@@ -49,11 +48,24 @@ void	exec_fork(t_shell *shell, char *pathname, char **av, char **envp)
 			waitpid(pid, &stat_pid, 0);
 		if (pid == 0)
 		{
-			// redir_handle(shell, av);
-			// new_tab = delet_redir(av);
-			execve(pathname, av, envp);
-			perror("Error");
-			exit(EXIT_FAILURE);
+			// redir_count_set(shell, av);
+			
+			// printf("\nredir_type = %d\nredir_file = %s\nnb_redir = %d\n", shell->executor.redir_type, shell->executor.redir_file, shell->executor.nb_redir);
+			// printf("\npathname = %s\n", pathname);
+
+			// print_tab(shell->executor.redir_av);
+			
+			if (shell->executor.nb_redir > 0)
+			{
+				execve(pathname, shell->executor.redir_av, envp);
+			}
+			else
+			{
+				printf("passage ici\n");
+				execve(pathname, av, envp);
+				perror("Error 666");
+				exit(EXIT_FAILURE);
+			}
 		}
 	}
 	else
