@@ -80,7 +80,15 @@ void	exec_pipe_child(t_shell *shell, int *fd_pipe, char **pipe_av,
 		dup2(fd_pipe[1], STDOUT_FILENO);
 		close(fd_pipe[1]);
 	}
-	exec_path(shell, pipe_av[0], pipe_av, shell->cmd.envp_copy);
+	if (is_builtin(pipe_av[0]))
+	{
+		char **old_av = shell->executor.av;
+        shell->executor.av = pipe_av;
+        exec_builtin(shell);
+        shell->executor.av = old_av;
+	}
+	else
+		exec_path(shell, pipe_av[0], pipe_av, shell->cmd.envp_copy);
 	exit(EXIT_FAILURE);
 }
 
