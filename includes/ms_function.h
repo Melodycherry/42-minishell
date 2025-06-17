@@ -64,6 +64,7 @@ void	create_path(t_shell *shell, char **envp);
 void	create_av(t_shell *shell, t_token *current);
 void	exec_fork(t_shell *shell, char *pathname, char **av, char **envp);
 void	exec_path(t_shell *shell, char *pathname, char **av, char **envp);
+void 	exec_with_redir_check(t_shell *shell, char *pathname, char **av, char **envp);
 
 /*PIPE*/
 

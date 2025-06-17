@@ -34,6 +34,25 @@ void	execution(t_shell *shell)
 
 // exec dans le child et pas le parent. toutes les execs hors builtin.
 // ***** en cours, dont judge **** 
+
+void exec_with_redir_check(t_shell *shell, char *pathname, char **av, char **envp)
+{
+	set_redir_count(shell, av);
+	if (shell->executor.nb_redir > 0)
+	{
+		shell->executor.nb_redir = 0;
+		execve(pathname, shell->executor.redir_av, envp);
+		perror("Error");
+		exit(EXIT_FAILURE);
+	}
+	else
+	{
+		execve(pathname, av, envp);
+		perror("Error");
+		exit(EXIT_FAILURE);
+	}
+}
+
 void	exec_fork(t_shell *shell, char *pathname, char **av, char **envp)
 {
 	pid_t	pid;
@@ -47,29 +66,12 @@ void	exec_fork(t_shell *shell, char *pathname, char **av, char **envp)
 		if (pid > 0)
 			waitpid(pid, &stat_pid, 0);
 		if (pid == 0)
-		{
-			set_redir_count(shell, av); // 
-			if (shell->executor.nb_redir > 0)
-			{
-				shell->executor.nb_redir = 0;
-				execve(pathname, shell->executor.redir_av, envp);
-				perror("Error");
-				exit(EXIT_FAILURE);
-			}
-			else
-			{
-				execve(pathname, av, envp);
-				perror("Error");
-				exit(EXIT_FAILURE);
-			}
-		}
+			exec_with_redir_check(shell, pathname, av, envp);
 	}
 	else
 	{
 		shell->executor.is_forked = FALSE;
-		execve(pathname, av, envp);
-		perror("Error");
-		exit(EXIT_FAILURE);
+		exec_with_redir_check(shell, pathname, av, envp);
 	}
 }
 
