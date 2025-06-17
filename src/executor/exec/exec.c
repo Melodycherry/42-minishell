@@ -14,22 +14,26 @@
 
 // fonction de gestion de l execution
 // ****** en cours, fonctionne dans ce etat ***********
-void	execution(t_shell *shell)
+
+void    execution(t_shell *shell)
 {
-	nb_pipe(shell, shell->tlist.head);
-	create_av(shell, shell->tlist.head);
-	if (!shell || !shell->executor.av || !shell->executor.av[0])
-		return ;
-	if (is_builtin(shell->executor.av[0]) == TRUE)
-		exec_builtin(shell);
-	else
-	{
-		if (shell->executor.nb_pipe > 0)
-			exec_pipe(shell);
-		else
-			exec_path(shell, shell->executor.av[0], shell->executor.av,
-				shell->cmd.envp_exp);
-	}
+    nb_pipe(shell, shell->tlist.head);
+    create_av(shell, shell->tlist.head);
+    if (!shell || !shell->executor.av || !shell->executor.av[0])
+        return ;
+    if (is_builtin(shell->executor.av[0]) == TRUE && shell->executor.nb_pipe == 0)
+    {
+        // Exécute le builtin dans le parent s'il n'y a pas de pipe
+        exec_builtin(shell);
+    }
+    else if (shell->executor.nb_pipe > 0)
+        // S'il y a des pipes, gère la pipeline (les builtins dans un pipe seront exécutés dans un fork)
+        exec_pipe(shell);
+    else
+    {
+        // Sinon, exécute la commande externe
+        exec_path(shell, shell->executor.av[0], shell->executor.av, shell->cmd.envp_exp);
+    }
 }
 
 // exec dans le child et pas le parent. toutes les execs hors builtin.
