@@ -85,7 +85,7 @@ void	set_redir_file(t_shell *shell, char **av, int *i)
 	shell->executor.nb_redir = redir_count;
 	shell->executor.nb_redir_wip = redir_count;
 	*i = ft_tablen(av) - 1;
-	while (i > 0)
+	while (*i > 0)
 	{
 		if (is_redir(av[*i]) == TRUE)
 			break;

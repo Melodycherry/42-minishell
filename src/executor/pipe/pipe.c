@@ -23,6 +23,8 @@ void	exec_pipe(t_shell *shell)
 	prev_fd = -1;
 	nb_pipe = shell->executor.nb_pipe;
 	init_pipe(shell);
+	shell->executor.start = 0;
+	shell->executor.end = -1;
 	while (nb_pipe >= 0)
 	{
 		pipe_av = split_args(shell, shell->executor.av);
@@ -34,9 +36,24 @@ void	exec_pipe(t_shell *shell)
 			exec_pipe_child(shell, fd_pipe, pipe_av, nb_pipe);
 		}
 		prev_fd = update_parent_fds(fd_pipe, prev_fd, nb_pipe);
-		update_executor_state(shell, pipe_av);
+		free_tab(shell, pipe_av);
 		nb_pipe--;
 	}
+	// while (nb_pipe >= 0) version IJ
+	// {
+	// 	pipe_av = split_args(shell, shell->executor.av);
+	// 	create_pipe_or_exit(fd_pipe);
+	// 	pid = fork_process_or_exit();
+	// 	if (pid == 0)
+	// 	{
+	// 		check_fd(prev_fd);
+	// 		exec_pipe_child(shell, fd_pipe, pipe_av, nb_pipe);
+	// 	}
+	// 	prev_fd = update_parent_fds(fd_pipe, prev_fd, nb_pipe);
+	// 	//update_executor_state(shell, pipe_av);
+	// 	free_tab(shell, pipe_av);
+	// 	nb_pipe--;
+	// }
 	wait_for_all();
 }
 

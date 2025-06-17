@@ -14,7 +14,7 @@
 
 // fonction qui gere les copies de tableau
 void	cpy_envp(t_shell *shell, char **envp)
-{
+{ 
 	if (!envp || !envp[0])
 		shell->cmd.envp_copy = malloc(sizeof(char *) * (ft_tablen(envp)) + 1);
 	else
