@@ -64,6 +64,8 @@ int	main(int ac, char **av, char **envp)
 			free(shell.cmd.line);
 			free_token_list(&shell);
 			shell.executor.is_forked = FALSE;
+			shell.executor.end = 0;
+			shell.executor.start = 0;
 		}
 		
 		//version sans exec

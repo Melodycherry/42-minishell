@@ -12,24 +12,33 @@
 
 #include "minishell.h"
 
-// initialisation des structures, a mettre en premier dans le main :), 
-// a decouper en plusieurs si trop long && mettre a jour
-void	init_all(t_shell *shell)
+void	init_pipe(t_shell *shell)
 {
-	init_list(shell); // le probleme etait la, c'etait pas decommente
-	//shell->cmd->path = 0;
-	shell->lexer.double_quote = 0;
-	shell->lexer.single_quote = 0;
-	shell->lexer.space = 0;
-	shell->executor.av = NULL;
-	shell->executor.end = 0;
-	shell->executor.is_forked = FALSE;
-	shell->executor.nb_pipe = 0;
-	shell->executor.nb_redir = 0;
-	shell->executor.nb_redir_wip = 0;
-	shell->executor.paths = NULL;
-	shell->executor.pipe_av = NULL;
-	shell->executor.redir_file = NULL;
-	shell->executor.redir_type = 0;
 	shell->executor.start = 0;
+	shell->executor.end = 0;
+}
+
+int	update_parent_fds(int *fd_pipe, int prev_fd, int nb_pipe)
+{
+	if (prev_fd != -1)
+		close(prev_fd);
+	if (nb_pipe > 0)
+	{
+		close(fd_pipe[1]);
+		return (fd_pipe[0]);
+	}
+	return (-1);
+}
+
+void	update_executor_state(t_shell *shell, char **pipe_av)
+{
+	free_tab(shell, pipe_av);
+	shell->executor.end++;
+	shell->executor.start = shell->executor.end;
+}
+
+void	wait_for_all(void)
+{
+	while (wait(NULL) > 0)
+		;
 }

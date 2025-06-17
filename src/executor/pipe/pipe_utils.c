@@ -12,24 +12,54 @@
 
 #include "minishell.h"
 
-// initialisation des structures, a mettre en premier dans le main :), 
-// a decouper en plusieurs si trop long && mettre a jour
-void	init_all(t_shell *shell)
+void	find_range(t_shell *shell)
 {
-	init_list(shell); // le probleme etait la, c'etait pas decommente
-	//shell->cmd->path = 0;
-	shell->lexer.double_quote = 0;
-	shell->lexer.single_quote = 0;
-	shell->lexer.space = 0;
-	shell->executor.av = NULL;
-	shell->executor.end = 0;
-	shell->executor.is_forked = FALSE;
+	int	i;
+
+	i = shell->executor.end;
+	if (i != 0 || shell->executor.start != 0)
+		i++;
+	shell->executor.start = i;
+	while (shell->executor.av[i])
+	{
+		if (ft_strcmp(shell->executor.av[i], "|") == 0)
+			break ;
+		i++;
+	}
+	shell->executor.end = i - 1;
+}
+
+char	**split_args(t_shell *shell, char **av)
+{
+	char	**dest;
+	int		i;
+	int		start;
+	int		end;
+
+	find_range(shell);
+	i = 0;
+	start = shell->executor.start;
+	end = shell->executor.end;
+	dest = malloc(sizeof(char *) * (end - start + 2));
+	if (!dest)
+		return (NULL);
+	while (start <= end && av[start])
+	{
+		dest[i] = ft_strdup(av[start]);
+		i++;
+		start++;
+	}
+	dest[i] = NULL;
+	return (dest);
+}
+
+void	nb_pipe(t_shell *shell, t_token *token)
+{
 	shell->executor.nb_pipe = 0;
-	shell->executor.nb_redir = 0;
-	shell->executor.nb_redir_wip = 0;
-	shell->executor.paths = NULL;
-	shell->executor.pipe_av = NULL;
-	shell->executor.redir_file = NULL;
-	shell->executor.redir_type = 0;
-	shell->executor.start = 0;
+	while (token->next)
+	{
+		if (token->type == T_PIPE)
+			shell->executor.nb_pipe++;
+		token = token->next;
+	}
 }

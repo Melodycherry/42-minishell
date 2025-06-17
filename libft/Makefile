@@ -22,6 +22,7 @@ SOURCE = ft_strlen.c \
          ft_toupper.c \
          ft_tolower.c \
          ft_strchr.c \
+		 ft_strcmp.c \
          ft_strrchr.c \
          ft_strncmp.c \
          ft_memchr.c \

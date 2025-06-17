@@ -26,7 +26,6 @@ void	builtin_cd(t_shell *shell, char **av);
 void	execute_cd(t_shell *shell, char *path);
 void	update_pwd(t_shell *shell, char *oldpwd);
 
-
 /**ECHO**/
 t_bool	is_flag_n(char *str);
 
@@ -59,17 +58,51 @@ void	remove_var(t_shell *shell, char **old_tab, char *name, t_bool is_export);
 /*EXECUTOR*/
 t_bool	is_absolative(char *str);
 
-void 	exec_pipe(t_shell *shell);
 void	execution(t_shell *shell);
-void	simple_exec(t_shell *shell);
+
 void	create_path(t_shell *shell, char **envp);
-void	pipe_exist(t_shell *shell, t_token *token);
 void	create_av(t_shell *shell, t_token *current);
 void	exec_fork(t_shell *shell, char *pathname, char **av, char **envp);
+void	exec_path(t_shell *shell, char *pathname, char **av, char **envp);
 
-char	**extract_tab(char **av, int *i);
-char	*strjoin_malloc(char *s1, char *s2);
+/*PIPE*/
+
+pid_t	fork_process_or_exit(void);
+
+void	wait_for_all(void);
+void	check_fd(int prev_fd);
+void	exec_pipe(t_shell *shell);
+void	init_pipe(t_shell *shell);
+void	find_range(t_shell *shell);
+void	create_redir_av(t_shell *shell);
+void	create_pipe_or_exit(int *fd_pipe);
+void	nb_pipe(t_shell *shell, t_token *token);
+void	update_executor_state(t_shell *shell, char **pipe_av);
+void	exec_pipe_child(t_shell *shell, int *fd_pipe, char **pipe_av, 
+	int nb_pipe);
+
+int		update_parent_fds(int *fd_pipe, int prev_fd, int nb_pipe);
+
+/*REDIR*/
+
+t_bool	is_redir(char *av);
+
+void	handle_redir_in(char *file);
+void	handle_redir_out(char *file);
+void	handle_redir_append(char *file);
+void	redir_handle(t_shell *shell);
+void	set_redir_count(t_shell *shell, char **av);
+void	set_redir_type(t_shell *shell, char *redir);
+void	set_redir_file_type_av(t_shell *shell, char **av);
+void	set_redir_file(t_shell *shell, char **av, int *i);
+
+char	**set_redir_av(char **av);
+
+
+//char	**extract_tab(char **av, int *i);
+char	*strjoin_path(char *s1, char *s2);
 char	*right_path(char **paths, char *cmd);
+char	**split_args(t_shell *shell, char **av);
 
 /*EXPANDER*/
 t_bool	is_valid_var_name(t_token *token, t_shell *shell);
@@ -93,6 +126,8 @@ char	*recup_var(char **envp, char *var_env, int len);
 int     ft_tablen(char **tab);
 int		ft_strlen_plusplus(char *str);
 int		pos_var_env(char **envp, char *var_env, int len);
+
+
 
 /*LEXER*/
 t_bool	ft_isquote(int c);
@@ -142,7 +177,6 @@ void	init_all(t_shell *shell);
 // a placer
 char    **malloc_tab(int tab_len);
 void	fill_tab(char **new_tab, char**old_tab, int len);
-void	complexe_exec_lol(t_shell *shell, char *pathname, char** av, char **envp);
 
 
 

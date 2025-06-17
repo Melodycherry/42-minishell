@@ -29,6 +29,7 @@ void	print_token(t_token *token, int (*f)(const char *, ...))
 	}
 }
 
+
 // void	print_token2(t_token *token, int (*f)(const char *, ...))
 // {
 // 	int i;
@@ -71,6 +72,123 @@ void	print_token(t_token *token, int (*f)(const char *, ...))
 
 /// DECHETS /// 
 
+
+// si besoin mais on peut mettre ca dans le trash je pense
+// void	simple_exec(t_shell *shell)
+// {
+// 	char *path;
+
+// 	if (is_absolative(shell->executor.av[0]))
+// 		exec_fork(shell, shell->executor.av[0], shell->executor.av, shell->cmd.envp_exp);
+// 	else 
+// 	{
+// 		create_path(shell, shell->cmd.envp_exp);
+// 		path = right_path(shell->executor.paths, shell->executor.av[0]);
+// 		if (path)
+// 		{
+// 			exec_fork(shell, path, shell->executor.av, shell->cmd.envp_exp);
+// 			free(path);
+// 		}
+// 	}
+// }
+
+// la version qui fait que 2 pipes
+
+// void exec_pipe(t_shell *shell)
+// {	
+// 	int		fd_pipe[2];
+// 	pid_t	pid_left;
+// 	pid_t	pid_right;
+// 	char	**av_left;
+// 	char	**av_right;
+
+// 	av_left = split_args(shell, shell->executor.av);
+// 	// print_tab(av_left);
+// 	// printf("\n");
+// 	if (shell->executor.av[shell->executor.end + 1])
+// 		shell->executor.end ++;
+// 	av_right = split_args(shell, shell->executor.av);
+// 	//print_tab(av_right);
+	
+// 	if (pipe(fd_pipe) == -1)
+// 	{
+// 		perror("pipe");
+// 		exit(EXIT_FAILURE);
+// 	}
+
+// 	pid_left = fork();
+// 	shell->executor.is_forked = TRUE;
+	
+// 	if (pid_left == -1) 
+// 	{
+// 		perror("fork left");
+// 		exit(EXIT_FAILURE);
+// 	}
+
+// 	if (pid_left == 0) 
+// 	{
+// 		close(fd_pipe[0]); // Ferme la lecture
+// 		dup2(fd_pipe[1], STDOUT_FILENO); 
+// 		close(fd_pipe[1]); // Ferme l’écriture après usage
+// 		complexe_exec_lol(shell, av_left[0], av_left, shell->cmd.envp_copy); // peut etre prendre le export
+// 		perror("execve pid_left");
+// 		exit(EXIT_SUCCESS);
+// 	}
+
+// 	pid_right = fork();
+// 	shell->executor.is_forked = TRUE;
+// 	if (pid_right == -1)
+// 	{
+// 		perror("fork right");
+// 		exit(EXIT_FAILURE);
+// 	}
+
+// 	if (pid_right == 0)
+// 	{
+// 		close(fd_pipe[1]); // Ferme l’écriture
+// 		dup2(fd_pipe[0], STDIN_FILENO); 
+// 		close(fd_pipe[0]); // Ferme la lecture après usage
+// 		complexe_exec_lol(shell, av_right[0], av_right, shell->cmd.envp_copy); // peut etre prendre le export
+// 		exit(EXIT_SUCCESS);
+// 	}
+
+// 	close(fd_pipe[0]);
+// 	close(fd_pipe[1]);
+// 	waitpid(pid_left, NULL, 0);
+// 	waitpid(pid_right, NULL, 0);
+// 	free_tab(shell, av_left);
+// 	free_tab(shell, av_right);
+// }
+
+
+// char	*file_redir(char *file)
+// {
+// 	char	*dest;
+// 	char	*tmp;
+
+// 	tmp = ft_strjoin("\"", file);
+// 	if (!tmp)
+// 		return (NULL);
+// 	dest = ft_strjoin(tmp, "\"");
+// 	free(tmp);
+// 	return (dest);
+// }
+
+
+// int	donne_moi_le_count(char **av)
+// {
+// 	int count;
+// 	int i = 0;
+
+// 	count = 0;
+// 	while (av[i] && ft_strcmp(av[i], "|") != 0)
+// 	{
+// 		count++;
+// 		(i)++;
+// 	}
+// 	count++;
+// 	return (count);
+// }
 
 
 
@@ -339,4 +457,112 @@ void	print_token(t_token *token, int (*f)(const char *, ...))
 // 	if (ft_strncmp(av[*i], "|", 1) == 0)
 // 		(*i)++;
 // 	return (new_av);
+// }
+
+// char	**delet_redir(char **av)
+// {
+// 	char	**new_tab;
+// 	int		len;
+// 	int		i;
+// 	int		j;
+
+// 	len = ft_tablen(av);
+// 	new_tab = malloc(sizeof(char*) * len);
+// 	if (!new_tab)
+// 		return (NULL);
+// 	i = 0;
+// 	j = 0;
+// 	while (av[i]) // pour tt copier sauf la var a suppr
+// 	{
+// 		if (is_redir(av[i]) == FALSE)
+// 			new_tab[j++] = ft_strdup(av[i]);
+// 		i++;
+// 	}
+// 	new_tab[j] = NULL;
+// 	return (new_tab);
+// }
+
+
+/* va mettre en place les infos a chaque fois qu on voit un > < >> */
+/************* seems ok pas vraiment ok ******************/
+// void	set_redir_file(t_shell *shell, char **av)
+// {
+// 	int i;
+// 	int	j;
+
+// 	i = ft_tablen(av) - 1;
+// 	j = shell->executor.nb_redir;
+// 	shell->executor.nb_redir_wip = shell->executor.nb_redir;
+// 	while (i > 0 && j > 0)
+// 	{
+// 		if (is_redir(av[i]) == TRUE)
+// 			{
+// 				j--;
+// 				if (j == 0)
+// 					break;
+// 			}
+// 		i--;
+// 	}
+// 	shell->executor.nb_redir_wip--;
+// 	if (shell->executor.redir_file != NULL)
+// 		free(shell->executor.redir_file);
+// 	if (av[i + 1])
+// 		shell->executor.redir_file = ft_strndup(av[i + 1], ft_strlen(av[i + 1]));
+// 	else
+// 		shell->executor.redir_file = NULL;
+// 	set_redir_type(shell, av[i]);
+// 	shell->executor.redir_av = set_redir_av(shell->executor.av);
+// }
+
+
+// void	set_redir_file(t_shell *shell, char **av)
+// {
+// 	int i;
+// 	int	j;
+
+// 	i = ft_tablen(av) - 1;
+// 	j = shell->executor.nb_redir;
+// 	shell->executor.nb_redir_wip = shell->executor.nb_redir;
+// 	while (i > 0 && j > 0)
+// 	{
+// 		if (is_redir(av[i]) == TRUE)
+// 			{
+// 				j--;
+// 				if (j == 0)
+// 					break;
+// 			}
+// 		i--;
+// 	}
+// 	shell->executor.nb_redir--;
+// 	if (shell->executor.redir_file != NULL)
+// 		free(shell->executor.redir_file);
+// 	if (av[i + 1])
+// 		shell->executor.redir_file = ft_strndup(av[i + 1], ft_strlen(av[i + 1]));
+// 	else
+// 		shell->executor.redir_file = NULL;
+// 	set_redir_type(shell, av[i]);
+// 	shell->executor.redir_av = delete_redir(av);
+// }
+
+// char	**delet_redir(char **av)
+// {
+// 	char	**new_tab;
+// 	int		len;
+// 	int		i;
+// 	int		j;
+
+// 	len = ft_tablen(av);
+// 	new_tab = malloc(sizeof(char*) * len);
+// 	if (!new_tab)
+// 		return (NULL);
+// 	i = 0;
+// 	j = 0;
+// 	while (av[i]) // pour tt copier sauf la var a suppr
+// 	{
+// 		if (is_redir(av[i]) == FALSE)
+// 			new_tab[j++] = ft_strdup(av[i]);
+// 		i++;
+// 	}
+// 	new_tab[j] = NULL;
+// 	return (new_tab);
 // }
