@@ -48,11 +48,10 @@ void	exec_fork(t_shell *shell, char *pathname, char **av, char **envp)
 			waitpid(pid, &stat_pid, 0);
 		if (pid == 0)
 		{
-			set_redir_count(shell, av);
-			if (shell->executor.nb_redir_wip > 0)
+			set_redir_count(shell, av); // 
+			if (shell->executor.nb_redir > 0)
 			{
-				shell->executor.nb_redir_wip = 0;
-				redir_handle(shell);
+				shell->executor.nb_redir = 0;
 				execve(pathname, shell->executor.redir_av, envp);
 				perror("Error");
 				exit(EXIT_FAILURE);
