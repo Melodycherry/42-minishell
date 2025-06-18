@@ -12,13 +12,7 @@
 
 #include "minishell.h"
 
-// initiation de listes
-// testée a l air ok
-void	init_list(t_shell *shell)
-{
-	shell->tlist.head = NULL;
-	shell->tlist.token_cnt = 0;
-}
+
 
 // creation d un token. 
 // Il y a un malloc, pas oublier de free

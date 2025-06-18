@@ -99,7 +99,6 @@ void	set_redir_file(t_shell *shell, char **av, int *i);
 
 char	**set_redir_av(char **av);
 
-
 //char	**extract_tab(char **av, int *i);
 char	*strjoin_path(char *s1, char *s2);
 char	*right_path(char **paths, char *cmd);
@@ -127,8 +126,6 @@ char	*recup_var(char **envp, char *var_env, int len);
 int     ft_tablen(char **tab);
 int		ft_strlen_plusplus(char *str);
 int		pos_var_env(char **envp, char *var_env, int len);
-
-
 
 /*LEXER*/
 t_bool	ft_isquote(int c);
@@ -165,14 +162,14 @@ void	free_tab(t_shell *shell, char **tab);
 /**CHAIN**/
 t_token	*create_token(int type, char *value, int n);
 
-void	init_list(t_shell *shell);
 void	insert_base_list(t_tlist *tlist, t_token *token);
 void	create_insert_token(t_shell *shell, int i, int j, t_token *current);
 void	insert_mid_list(t_token *current, t_token *new_token, t_shell *shell);
 
 /**INIT**/
 void	init_all(t_shell *shell);
-
+void	init_list(t_shell *shell);
+void	init_executor(t_shell *shell);
 
 
 // a placer

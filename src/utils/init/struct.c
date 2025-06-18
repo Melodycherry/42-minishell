@@ -18,18 +18,34 @@ void	init_all(t_shell *shell)
 {
 	init_list(shell); // le probleme etait la, c'etait pas decommente
 	//shell->cmd->path = 0;
+	init_executor(shell);
+	shell->executor.is_forked = FALSE;
+	shell->lexer.space = 0;
 	shell->lexer.double_quote = 0;
 	shell->lexer.single_quote = 0;
-	shell->lexer.space = 0;
-	shell->executor.av = NULL;
+
+}
+
+// initiation de listes
+// testée a l air ok
+void	init_list(t_shell *shell)
+{
+	shell->tlist.head = NULL;
+	shell->tlist.token_cnt = 0;
+}
+
+void	init_executor(t_shell *shell)
+{
 	shell->executor.end = 0;
-	shell->executor.is_forked = FALSE;
+	shell->executor.start = 0;
 	shell->executor.nb_pipe = 0;
 	shell->executor.nb_redir = 0;
+	shell->executor.redir_type = 0;
+	shell->executor.nb_heredoc = 0;
 	shell->executor.nb_redir_wip = 0;
+	shell->executor.av = NULL;
 	shell->executor.paths = NULL;
 	shell->executor.pipe_av = NULL;
+	shell->executor.heredoc = NULL;
 	shell->executor.redir_file = NULL;
-	shell->executor.redir_type = 0;
-	shell->executor.start = 0;
 }
