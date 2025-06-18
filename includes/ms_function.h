@@ -64,6 +64,7 @@ void	create_path(t_shell *shell, char **envp);
 void	create_av(t_shell *shell, t_token *current);
 void	exec_fork(t_shell *shell, char *pathname, char **av, char **envp);
 void	exec_path(t_shell *shell, char *pathname, char **av, char **envp);
+void 	exec_with_redir_check(t_shell *shell, char *pathname, char **av, char **envp);
 
 /*PIPE*/
 
@@ -81,7 +82,6 @@ void	update_executor_state(t_shell *shell, char **pipe_av);
 void	exec_pipe_child(t_shell *shell, int *fd_pipe, char **pipe_av, 
 	int nb_pipe);
 
-int		has_pipe(t_shell *shell);
 int		update_parent_fds(int *fd_pipe, int prev_fd, int nb_pipe);
 
 /*REDIR*/

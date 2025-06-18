@@ -566,3 +566,28 @@ void	print_token(t_token *token, int (*f)(const char *, ...))
 // 	new_tab[j] = NULL;
 // 	return (new_tab);
 // }
+
+
+
+
+
+
+
+// IJ origine
+// void	execution(t_shell *shell)
+// {
+// 	nb_pipe(shell, shell->tlist.head);
+// 	create_av(shell, shell->tlist.head);
+// 	if (!shell || !shell->executor.av || !shell->executor.av[0])
+// 		return ;
+// 	if (is_builtin(shell->executor.av[0]) == TRUE)
+// 		exec_builtin(shell);
+// 	else
+// 	{
+// 		if (shell->executor.nb_pipe > 0)
+// 			exec_pipe(shell);
+// 		else
+// 			exec_path(shell, shell->executor.av[0], shell->executor.av,
+// 				shell->cmd.envp_exp);
+// 	}
+// }

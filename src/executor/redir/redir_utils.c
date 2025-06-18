@@ -31,7 +31,6 @@ void handle_redir_in(char *file)
 	close(fd);
 }
 
-
 void handle_redir_out(char *file)
 {
 	int fd;
