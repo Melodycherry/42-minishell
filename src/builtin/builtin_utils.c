@@ -37,7 +37,11 @@ void	exec_builtin(t_shell *shell)
 
 	if (!shell || !shell->executor.av)
 		return;
-	av = shell->executor.av;
+	//av = shell->executor.av; // modif below pour redir ?? 
+	if (shell->executor.redir_av)
+		av = shell->executor.redir_av;
+	else
+		av = shell->executor.av;
 	// verif si pas null ? 
 	if (!av || !av[0])
 		return;

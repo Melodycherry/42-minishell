@@ -23,17 +23,20 @@ void    execution(t_shell *shell)
 		return ;
 	if (is_builtin(shell->executor.av[0]) == TRUE && shell->executor.nb_pipe == 0)
 	{
-		// Exécute le builtin dans le parent s'il n'y a pas de pipe
+		int	saved_stdin = dup(STDIN_FILENO);
+		int	saved_stdout = dup(STDOUT_FILENO);
+		set_redir_count(shell, shell->executor.av);
+		shell->executor.redir_av = set_redir_av(shell->executor.av); // test
 		exec_builtin(shell);
+		dup2(saved_stdin, STDIN_FILENO);
+		dup2(saved_stdout, STDOUT_FILENO);
+		close(saved_stdin);
+		close(saved_stdout);
 	}
 	else if (shell->executor.nb_pipe > 0)
-		// S'il y a des pipes, gère la pipeline (les builtins dans un pipe seront exécutés dans un fork)
 		exec_pipe(shell);
 	else
-	{
-		// Sinon, exécute la commande externe
 		exec_path(shell, shell->executor.av[0], shell->executor.av, shell->cmd.envp_exp);
-	}
 }
 
 // exec dans le child et pas le parent. toutes les execs hors builtin.

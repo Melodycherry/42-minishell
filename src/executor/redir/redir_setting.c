@@ -103,19 +103,42 @@ void	set_redir_file(t_shell *shell, char **av, int *i)
 /**** tres surement fausse, si je dis pas de betise, il faut juste enlever ""> + file"*/
 /*************** faux mais marche dans cet etat **************/
 
+// version IJ
+// char	**set_redir_av(char **av)
+// {
+// 	char	**new_tab;
+// 	int		i;
+
+// 	i = 0;
+// 	while (!is_redir(av[i]))
+// 		i++;
+// 	new_tab = malloc(sizeof(char*) * (i + 1));
+// 	if (!new_tab)
+// 		return (NULL);
+// 	i = 0;
+// 	while (!is_redir(av[i]))
+// 	{
+// 		new_tab[i] = ft_strdup(av[i]);
+// 		i++;
+// 	}
+// 	new_tab[i] = NULL;
+// 	return (new_tab);
+// }
+
 char	**set_redir_av(char **av)
 {
 	char	**new_tab;
 	int		i;
 
 	i = 0;
-	while (!is_redir(av[i]))
+    // Compte les arguments avant la première redirection
+	while (av[i] && !is_redir(av[i]))
 		i++;
-	new_tab = malloc(sizeof(char*) * (i + 1));
+	new_tab = malloc(sizeof(char *) * (i + 1));
 	if (!new_tab)
 		return (NULL);
 	i = 0;
-	while (!is_redir(av[i]))
+	while (av[i] && !is_redir(av[i]))
 	{
 		new_tab[i] = ft_strdup(av[i]);
 		i++;
