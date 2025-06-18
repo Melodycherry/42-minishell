@@ -20,6 +20,7 @@ void	set_redir_count(t_shell *shell, char **av)
 
 	i = 0;
 	shell->executor.nb_redir = 0;
+	shell->executor.nb_redir_wip = 0; // remet a zero avant chaque appel. pour enchainer plusieurs redir
 	while (av[i])
 	{
 		if (is_redir(av[i]))
