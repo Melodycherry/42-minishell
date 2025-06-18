@@ -43,6 +43,7 @@ vpath %.c \
 	$(SRCDIR)/builtin \
 	$(SRCDIR)/executor \
 	$(SRCDIR)/executor/exec \
+	$(SRCDIR)/executor/heredoc \
 	$(SRCDIR)/executor/pipe \
 	$(SRCDIR)/executor/redir \
 	$(SRCDIR)/expander \
@@ -60,6 +61,7 @@ vpath %.c \
 SRC = main.c \
 builtin_utils.c cd.c echo.c env.c exit.c export.c pwd.c unset.c \
 exec.c executor_utils.c \
+heredoc.c \
 pipe.c pipe_utils.c pipe_2.c \
 redir.c redir_utils.c redir_setting.c \
 expander.c expander_utils.c change_type.c env_utils.c init_env.c quotes.c var_handler.c\
