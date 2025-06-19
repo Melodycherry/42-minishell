@@ -12,11 +12,16 @@
 
 #include "minishell.h"
 
-void	handle_export(t_shell *shell, char **av)
+int	handle_export(t_shell *shell, char **av)
 {
 	int len;
 	int i;
 	
+	if (av[1] && av[1][0] == '-')
+	{
+		ft_putendl_fd("Invalid option", STDERR_FILENO);
+		return(2);
+	}
 	len = ft_tablen(av);
 	i = 1;
 	if (len == 1)
@@ -29,7 +34,7 @@ void	handle_export(t_shell *shell, char **av)
 			i++;
 		}
 	}
-	
+	return(0);
 }
 
 

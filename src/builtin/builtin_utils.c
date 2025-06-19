@@ -29,32 +29,29 @@ t_bool	is_builtin(char	*cmd)
 	return FALSE;
 }
 // fonction d'excecution des builtin **WIP**
-void	exec_builtin(t_shell *shell)
+int	exec_builtin(t_shell *shell)
 {
 	char	**av;
 
 	if (!shell || !shell->executor.av)
-		return;
+		return (1);
 	if (shell->executor.redir_av)
 		av = shell->executor.redir_av;
 	else
-		av = shell->executor.av;
-	// verif si pas null ? 
-	if (!av || !av[0])
-		return;
-	// check pour chaque builtin
+		av = shell->executor.av; 
 	if (ft_strcmp(av[0], "cd") == 0)
 		return (builtin_cd(shell, shell->executor.av));
 	else if (ft_strcmp(av[0], "echo") == 0)
-		return (builtin_echo(shell));
+		return (builtin_echo(shell, shell->executor.av));
 	else if (ft_strcmp(av[0], "env") == 0)
-		return (builtin_env(shell));
+		return (builtin_env(shell, shell->executor.av));
 	// else if (ft_strcmp(av[0], "exit") == 0)
 	// 	return (builtin_exit());
 	else if (ft_strcmp(av[0], "export") == 0)
 		return (handle_export(shell, shell->executor.av));
 	else if (ft_strcmp(av[0], "pwd") == 0)
-		return (builtin_pwd(shell));
+		return (builtin_pwd(shell, shell->executor.av));
 	else if (ft_strcmp(av[0], "unset") == 0)
 		return (builtin_unset(shell, shell->executor.av));
+	return (0);
 }

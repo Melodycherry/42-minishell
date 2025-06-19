@@ -24,12 +24,15 @@
     exit status. If n is specified, but its value is not between 0 and
     255 inclusively, the exit status is undefined.
  */
-void	builtin_exit()
-{
-	;
-}
+// void	builtin_exit()
+// {
+// 	;
+// }
 
 // si exit sans arg = juste exit normal
 // si arg doit etre only numeric
 // donc vweerif si arg est num only sinon exit + mess d'erreur non num
-// si pb d'arg, code erreur 2 
+
+// zero 0 succes
+// 1 si erreur 
+// si pb d'arg, code erreur 2 (pb d'option)
