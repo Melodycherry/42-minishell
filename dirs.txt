@@ -1,4 +1,0 @@
-drwxr-xr-x 2 hlichten 2024_lausanne     149 Jun 17 18:49 includes
-drwxr-xr-x 2 hlichten 2024_lausanne    4096 Jun 17 18:57 libft
-drwxr-xr-x 2 hlichten 2024_lausanne    4096 Jun 17 20:49 obj
-drwxr-xr-x 9 hlichten 2024_lausanne     167 Jun 17 18:49 src

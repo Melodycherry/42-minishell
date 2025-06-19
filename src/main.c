@@ -33,7 +33,7 @@ void	parsing(t_shell *shell)
 	else
 		printf("NOICE\n");
 	// mettre ce truc qq par pcq j en ai besoin
-	
+	handle_heredoc(shell);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -55,7 +55,6 @@ int	main(int ac, char **av, char **envp)
 			printf("exit");
 			break ;
 		}
-		//version exec
 		if (*shell.cmd.line)
 		{
 			add_history(shell.cmd.line);
@@ -68,19 +67,17 @@ int	main(int ac, char **av, char **envp)
 			shell.executor.end = 0;
 			shell.executor.start = 0;
 		}
-		
-		//version sans exec
-		// if (*shell.cmd.line)
-		// 	add_history(shell.cmd.line);
-		// parsing(&shell);
-		// free(shell.cmd.line);
-		// free_token_list(&shell);
 	}
 	//free a mettre dans une fonction :) 
 	free(shell.cmd.line);
 	rl_clear_history();
 	free_tab(&shell, shell.cmd.envp_copy);
 	free_tab(&shell, shell.cmd.envp_exp);
+	free_tab(&shell, shell.executor.av);
+	free_tab(&shell, shell.executor.hd_eof);
+	free_tab(&shell, shell.executor.pipe_av);
+	free_tab(&shell, shell.executor.paths);
+	free_tab(&shell, shell.executor.redir_av);
 	free_token_list(&shell);
 	return (0);
 }

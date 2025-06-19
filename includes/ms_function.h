@@ -56,6 +56,8 @@ void	builtin_unset(t_shell *shell, char **av);
 void	remove_var(t_shell *shell, char **old_tab, char *name, t_bool is_export);
 
 /*EXECUTOR*/
+
+/**EXEC**/
 t_bool	is_absolative(char *str);
 
 void	execution(t_shell *shell);
@@ -66,7 +68,13 @@ void	exec_fork(t_shell *shell, char *pathname, char **av, char **envp);
 void	exec_path(t_shell *shell, char *pathname, char **av, char **envp);
 void 	exec_with_redir_check(t_shell *shell, char *pathname, char **av, char **envp);
 
-/*PIPE*/
+/**HEREDOC**/
+
+void	handle_heredoc(t_shell *shell);
+void	nb_heredoc(t_shell *shell, t_token *token);
+void	create_hd_eof(t_shell *shell, t_token *token);
+
+/**PIPE**/
 
 pid_t	fork_process_or_exit(void);
 
@@ -84,7 +92,11 @@ void	exec_pipe_child(t_shell *shell, int *fd_pipe, char **pipe_av,
 
 int		update_parent_fds(int *fd_pipe, int prev_fd, int nb_pipe);
 
-/*REDIR*/
+char	*strjoin_path(char *s1, char *s2);
+char	*right_path(char **paths, char *cmd);
+char	**split_args(t_shell *shell, char **av);
+
+/**REDIR**/
 
 t_bool	is_redir(char *av);
 
@@ -100,9 +112,7 @@ void	set_redir_file(t_shell *shell, char **av, int *i);
 char	**set_redir_av(char **av);
 
 //char	**extract_tab(char **av, int *i);
-char	*strjoin_path(char *s1, char *s2);
-char	*right_path(char **paths, char *cmd);
-char	**split_args(t_shell *shell, char **av);
+
 
 /*EXPANDER*/
 t_bool	is_valid_var_name(t_token *token, t_shell *shell);
