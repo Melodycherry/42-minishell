@@ -28,10 +28,10 @@ void	parsing(t_shell *shell)
 	// print_token3(shell->tlist.head, printf);
 	
 	// revoir la fonction et l outcome 
-	// if (is_token_error(shell->tlist.head, shell) == 1)
-	// 	printf("GUUUUURL ITS NOT GOOD\n");
-	// else
-	// 	printf("NOICE\n");
+	if (is_token_error(shell->tlist.head, shell) == 1)
+		printf("GUUUUURL ITS NOT GOOD\n");
+	else
+		printf("NOICE\n");
 	// mettre ce truc qq par pcq j en ai besoin
 	
 }
