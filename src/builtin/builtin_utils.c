@@ -15,11 +15,9 @@
 #include "minishell.h"
 
 t_bool	is_builtin(char	*cmd)
-{
-	// verif s'il y a une commande ?	
+{	
 	if (!cmd)
-		return FALSE; // ou retourne erreur ? 
-	// check si on trouve un builtin
+		return FALSE;
 	if ( ft_strcmp(cmd, "echo") == 0
 		|| ft_strcmp(cmd, "cd") == 0
 		|| ft_strcmp(cmd, "env") == 0
@@ -37,7 +35,10 @@ void	exec_builtin(t_shell *shell)
 
 	if (!shell || !shell->executor.av)
 		return;
-	av = shell->executor.av;
+	if (shell->executor.redir_av)
+		av = shell->executor.redir_av;
+	else
+		av = shell->executor.av;
 	// verif si pas null ? 
 	if (!av || !av[0])
 		return;

@@ -24,8 +24,11 @@ void	builtin_echo(t_shell *shell)
 	char **av;
 	int i;
 
-	av = shell->executor.av;
-	i = 0;
+	if (shell->executor.redir_av)
+		av = shell->executor.redir_av;
+	else
+		av = shell->executor.av;
+	i = 1;
 	print_flag_n(shell, av, &i);
 	if (shell->builtin.is_echo_n == TRUE)
 	{
