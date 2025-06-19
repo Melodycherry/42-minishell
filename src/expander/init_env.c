@@ -16,7 +16,10 @@
 void	cpy_envp(t_shell *shell, char **envp)
 {
 	if (!envp || !envp[0])
+	{
 		shell->cmd.envp_copy = malloc(sizeof(char *) * (ft_tablen(envp)) + 1);
+		shell->cmd.envp_exp = malloc(sizeof(char *) * (ft_tablen(envp)) + 1); // malloc aussi le export sinon segfault (env -i ./Minish)
+	}
 	else
 	{
 		shell->cmd.envp_copy = cpy_tab(envp);
@@ -24,5 +27,4 @@ void	cpy_envp(t_shell *shell, char **envp)
 		bubble_tab(shell->cmd.envp_exp);
 	}
 }
-
 
