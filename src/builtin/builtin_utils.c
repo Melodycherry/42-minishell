@@ -45,8 +45,8 @@ int	exec_builtin(t_shell *shell)
 		return (builtin_echo(shell, shell->executor.av));
 	else if (ft_strcmp(av[0], "env") == 0)
 		return (builtin_env(shell, shell->executor.av));
-	// else if (ft_strcmp(av[0], "exit") == 0)
-	// 	return (builtin_exit());
+	else if (ft_strcmp(av[0], "exit") == 0)
+		return (builtin_exit(shell, shell->executor.av));
 	else if (ft_strcmp(av[0], "export") == 0)
 		return (handle_export(shell, shell->executor.av));
 	else if (ft_strcmp(av[0], "pwd") == 0)

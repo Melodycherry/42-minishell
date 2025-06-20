@@ -37,7 +37,7 @@ void	print_tab(char **tab);
 int		builtin_env(t_shell *shell, char **av);
 
 /**EXIT**/
-void	builtin_exit(t_shell *shell, char **av);
+int		builtin_exit(t_shell *shell, char **av);
 
 /**EXPORT**/
 t_bool	checking_var(t_shell *shell, char *line);
