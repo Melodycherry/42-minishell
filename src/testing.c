@@ -22,7 +22,7 @@ void	print_token(t_token *token, int (*f)(const char *, ...))
 	while (token)
 	{
 		(*f)("token[%d] %s\n", i, token->value);
-		//(*f)("token[%d] %d\n", i, token->type);
+		(*f)("token[%d] %d\n", i, token->type);
 		(*f)("token[%d] %s\n", i, token->var_value);
 		token = token->next;
 		i++;

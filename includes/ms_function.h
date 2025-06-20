@@ -72,7 +72,7 @@ void 	exec_with_redir_check(t_shell *shell, char *pathname, char **av, char **en
 
 void	handle_heredoc(t_shell *shell);
 void	nb_heredoc(t_shell *shell, t_token *token);
-void	create_hd_eof(t_shell *shell, t_token *token);
+void	update_type_eof(t_token *token);
 
 /**PIPE**/
 

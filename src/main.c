@@ -20,20 +20,21 @@ void	parsing(t_shell *shell)
 	//premiere definition
 	token_typedef(shell->tlist.head);
 	//definition si var env good
-	expansion(shell);
-
-	// test impression
-	//print_token(shell->tlist.head, printf); // pour c4ette shit d expansion
-	// print_token2(shell->tlist.head, printf);
-	// print_token3(shell->tlist.head, printf);
-	
 	// revoir la fonction et l outcome 
 	if (is_token_error(shell->tlist.head, shell) == 1)
 		printf("GUUUUURL ITS NOT GOOD\n");
 	else
 		printf("NOICE\n");
+	update_type_eof(shell->tlist.head);
+	expansion(shell);
+
+	// test impression
+	print_token(shell->tlist.head, printf); // pour c4ette shit d expansion
+	// print_token2(shell->tlist.head, printf);
+	// print_token3(shell->tlist.head, printf);
+	
+
 	// mettre ce truc qq par pcq j en ai besoin
-	handle_heredoc(shell);
 }
 
 int	main(int ac, char **av, char **envp)
