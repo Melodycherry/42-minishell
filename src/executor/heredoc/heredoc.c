@@ -52,9 +52,6 @@
 
 void	update_type_eof(t_token *token)
 {
-	int	i;
-
-	i = 0;
 	while (token->next)
 	{
 		if (token->type == T_HEREDOC)
@@ -62,18 +59,13 @@ void	update_type_eof(t_token *token)
 			if (token->next)
 			{
 				token->next->type = T_EOF;
-				while (token->next->value[i])
-				{
-					if (ft_isquote(token->next->value[i]) == TRUE)
-						token->next->type = T_EOF_Q;
-					i++;
-				}
+				if (is_quote_string(token->next->value) == TRUE)
+					token->next->type = T_EOF_Q;
 			}
 			else
-				perror("pas de delimiteur faire gestion d erreur");
-			i++;
+				perror("pas de delimiteur faire gestion d erreur"); // faire un puthandle shit
 		}
-		token = token->next;
+	token = token->next;
 	}
 }
 
@@ -96,8 +88,6 @@ void delete_quotes_eof(t_token *token)
 		token = token->next;
 	}
 }
-
-
 
 // si on a un (<< + rien) = erreur
 // si on a un (<< EOF << rien) = execution du heredoc 1x + erreur apres

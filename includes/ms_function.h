@@ -34,6 +34,8 @@ int		print_flag_n(t_shell *shell, char **av, int *i);
 
 /**ENV**/
 void	print_tab(char **tab);
+void	print_tab_env(char **tab);
+
 int		builtin_env(t_shell *shell, char **av);
 
 /**EXIT**/
@@ -131,6 +133,7 @@ void	expand_dollar(t_shell *shell, t_token *token, int *i, int *j);
 void	expand_double_quote(t_shell *shell, t_token *token, int *i, int *j);
 
 char	**cpy_tab(char **tab);
+char	**init_envp_copy(char **tab);
 char	*join_free(char *s1, char *s2, int len_s2);
 char	*recup_var(char **envp, char *var_env, int len);
 

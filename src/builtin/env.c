@@ -32,7 +32,7 @@ int	builtin_env(t_shell *shell, char **av)
 		ft_putendl_fd("Too many arguments", STDERR_FILENO);
 		return(1);
 	}
-	print_tab(shell->cmd.envp_copy);
+	print_tab_env(shell->cmd.envp_copy);
 	return (0);
 }
 //fonction de test pour voir si la copie du tableau s est bien faite.
@@ -41,6 +41,18 @@ void	print_tab(char **tab)
 	int	i;
 
 	i = 0;
+	while (tab && tab[i])
+	{
+		printf("%s\n", tab[i]);
+		i++;
+	}
+}
+
+void	print_tab_env(char **tab)
+{
+	int	i;
+
+	i = 1;
 	while (tab && tab[i])
 	{
 		printf("%s\n", tab[i]);
