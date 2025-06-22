@@ -36,7 +36,21 @@ void	delete_quotes_value(t_token *token)
 		else
 			return ;
 	}
-	free(token->value);
+	free_ptr((void **)&token->value);
 	token->value = new_line;
 }
 
+/** PDEMONT DIT C EST BON */
+t_bool is_quote_string(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (ft_isquote(str[i]))
+			return (TRUE);
+		i++;
+	}
+	return (FALSE);
+}

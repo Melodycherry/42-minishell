@@ -25,9 +25,10 @@ void	free_token_list(t_shell *shell)
 	while (current)
 	{
 		next = current->next;
-		free(current->value);
-		if (current->var_value)
-			free(current->var_value);
+		printf(" freetoklist : curr varvalue : ptr : %p varval : %s\n", current->var_value, current->var_value);
+		printf(" freetoklist : curr value : ptr : %p val : %s\n", current->value, current->value);
+		free_ptr((void **)&current->value);
+		free_ptr((void **)&current->var_value);
 		free(current);
 		current = next;
 	}
@@ -40,7 +41,7 @@ void	free_mid_tab(char **tab, int i)
 	while (i > 0)
 	{
 		i--;
-		free (tab[i]);
+		free_ptr((void **)&tab[i]);
 	}
 	free(tab);
 	tab = NULL;
@@ -54,14 +55,14 @@ void	free_tab(t_shell *shell, char **tab)
 	i = 0;
 	(void)shell;
 	if (!tab)
-		return;
+		return ;
 	while (tab[i])
 	{
-		free (tab[i]);
-		tab[i] = NULL;
+		free_ptr((void **)&tab[i]);
 		i++;
 	}
 	free(tab);
+	tab = NULL;
 }
 
 //free le current et reconnercte la liste chainee
@@ -91,7 +92,19 @@ t_token	*free_mid_list(t_token *current) // la aussi 26 lignes ca pete les couil
 	}
 	if (!current->next && !current->prev)
 		return (NULL);
-	free(current->value);
+	free_ptr((void **)&current->value);
 	free(current);
 	return (next);
+}
+
+/**** PDEMONT A DIT QUE C EST BON ******/
+/* nous rejetons toutes responsabilité, merci de vous referer directement a PDEMOUUUNT lui meme*/
+void	*free_ptr(void **ptr)
+{
+	if (*ptr && ptr)
+	{
+		free(*ptr);
+		*ptr = NULL;
+	}
+	return (NULL);
 }

@@ -163,7 +163,7 @@ void	insert_env_export(t_shell *shell, char *value, char **tab, t_bool is_export
 	if (var_exist(tab, value, var_len) == TRUE)
 	{
 		index = pos_var_env(tab, value, var_len);
-		free(tab[index]);
+		free_ptr((void **)&tab[index]);
 		tab[index] = strndup(value, ft_strlen(value));
 		return ;
 	}

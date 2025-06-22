@@ -105,6 +105,7 @@ char	*right_path(char **paths, char *cmd);
 char	**split_args(t_shell *shell, char **av);
 
 /*EXPANDER*/
+t_bool	is_quote_string(char *str);
 t_bool	is_valid_var_name(t_token *token, t_shell *shell);
 t_bool	var_exist(char **envp, const char *var_env, int i);
 
@@ -153,6 +154,7 @@ void	signal_handler(int sig);
 /**BYEBYE**/
 t_token	*free_mid_list(t_token *current);
 
+void	*free_ptr(void **ptr);
 void    error_syntax_unset(char *line);
 void    error_syntax_export(char *line);
 void	free_token_list(t_shell *shell);

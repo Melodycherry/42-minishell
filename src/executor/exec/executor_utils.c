@@ -69,8 +69,7 @@ char	*right_path(char **paths, char *cmd)
 			//else
 			// 	gestion d erreur
 		}
-		free(path);
-		path = NULL;
+		free_ptr((void **)&path);
 		i++;
 	}
 // gestion d erreur
@@ -99,6 +98,6 @@ char	*strjoin_path(char *s1, char *s2)
 	if (!tmp)
 		return (NULL);
 	dest = ft_strjoin(tmp, s2);
-	free(tmp);
+	free_ptr((void **)&tmp);
 	return (dest);
 }

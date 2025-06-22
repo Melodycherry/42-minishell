@@ -50,13 +50,15 @@ void exec_with_redir_check(t_shell *shell, char *pathname, char **av, char **env
 	set_redir_count(shell, av);
 	if (shell->executor.nb_redir > 0)
 	{
+		// free.shell sauf av et env :)
 		shell->executor.nb_redir = 0;
 		execve(pathname, shell->executor.redir_av, envp);
-		perror("Error");
+		perror("Error"); 
 		exit(EXIT_FAILURE);
 	}
 	else
 	{
+		// free.shell sauf av et env :)
 		execve(pathname, av, envp);
 		perror("Error");
 		exit(EXIT_FAILURE);
@@ -100,7 +102,7 @@ void	exec_path(t_shell *shell, char *pathname, char **av, char **envp)
 		if (path)
 		{
 			exec_fork(shell, path, av, envp);
-			free(path);
+			free_ptr((void **)&path);
 		}
 	}
 }

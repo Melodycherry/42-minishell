@@ -59,10 +59,7 @@ void set_redir_file_type_av(t_shell *shell, char **av)
 		return;
 	}
 	if (shell->executor.redir_file != NULL)
-	{
-		free(shell->executor.redir_file);
-		shell->executor.redir_file = NULL;
-	}
+		free_ptr((void **)&shell->executor.redir_file);
 	shell->executor.redir_file = ft_strndup(av[i + 1], ft_strlen(av[i + 1]));
 	set_redir_type(shell, av[i]);
 	shell->executor.redir_av = set_redir_av(av);

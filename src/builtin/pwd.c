@@ -39,6 +39,6 @@ int	builtin_pwd(t_shell *shell, char **av)
 		return(1);
 	}
 	printf("%s\n", cwd);
-	free(cwd);
+	free_ptr((void **)&cwd);
 	return(0);
 }

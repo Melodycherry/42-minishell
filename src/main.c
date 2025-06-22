@@ -62,7 +62,7 @@ int	main(int ac, char **av, char **envp)
 			parsing(&shell);
 			execution(&shell);
 			free_tab(&shell, shell.executor.av);
-			free(shell.cmd.line);
+			free_ptr((void **)&shell.cmd.line);
 			free_token_list(&shell);
 			shell.executor.is_forked = FALSE;
 			shell.executor.end = 0;
@@ -77,7 +77,7 @@ int	main(int ac, char **av, char **envp)
 		// free_token_list(&shell);
 	}
 	//free a mettre dans une fonction :) 
-	free(shell.cmd.line);
+	free_ptr((void **)&shell.cmd.line);
 	rl_clear_history();
 	free_tab(&shell, shell.cmd.envp_copy);
 	free_tab(&shell, shell.cmd.envp_exp);

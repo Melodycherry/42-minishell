@@ -65,9 +65,9 @@ void	update_pwd(t_shell *shell, char *oldpwd)
 		set_env(oldpwd_str, TO_BOTH, shell); // modif l'env dans le shell 
 		set_env(newpwd_str, TO_BOTH, shell);
     }
-	free(oldpwd_str);
-	free(newpwd_str);
-	free(newpwd);
+	free_ptr((void **)&oldpwd_str);
+	free_ptr((void **)&newpwd_str);
+	free_ptr((void **)&newpwd);
 }
 
 void	execute_cd(t_shell *shell, char *path)
@@ -80,11 +80,11 @@ void	execute_cd(t_shell *shell, char *path)
 	if (chdir(path) == -1)
 	{
 		perror("cd");
-		free(oldpwd);
+		free_ptr((void **)&oldpwd);
 		return;
 	}
 	update_pwd(shell, oldpwd); // si success on met a jour 
-	free(oldpwd);
+	free_ptr((void **)&oldpwd);
 }
 // check chdir ( change directory ) 
 // int chdir(const char *path) -> retourne 0 si ok, -1 si erreur 
