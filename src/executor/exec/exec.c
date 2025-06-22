@@ -15,8 +15,10 @@
 // fonction de gestion de l execution
 // ****** en cours, fonctionne dans ce etat ***********
 
-void    execution(t_shell *shell)
+void  execution(t_shell *shell)
 {
+	int	exit_status;
+
 	nb_pipe(shell, shell->tlist.head);
 	create_av(shell, shell->tlist.head);
 	if (!shell || !shell->executor.av || !shell->executor.av[0])
@@ -27,7 +29,8 @@ void    execution(t_shell *shell)
 		int	saved_stdout = dup(STDOUT_FILENO);
 		set_redir_count(shell, shell->executor.av);
 		shell->executor.redir_av = set_redir_av(shell->executor.av); // test
-		exec_builtin(shell);
+		exit_status = exec_builtin(shell);
+		printf("exit status :%d\n", exit_status );
 		dup2(saved_stdin, STDIN_FILENO);
 		dup2(saved_stdout, STDOUT_FILENO);
 		close(saved_stdin);
@@ -47,13 +50,15 @@ void exec_with_redir_check(t_shell *shell, char *pathname, char **av, char **env
 	set_redir_count(shell, av);
 	if (shell->executor.nb_redir > 0)
 	{
+		// free.shell sauf av et env :)
 		shell->executor.nb_redir = 0;
 		execve(pathname, shell->executor.redir_av, envp);
-		perror("Error");
+		perror("Error"); 
 		exit(EXIT_FAILURE);
 	}
 	else
 	{
+		// free.shell sauf av et env :)
 		execve(pathname, av, envp);
 		perror("Error");
 		exit(EXIT_FAILURE);
@@ -97,7 +102,7 @@ void	exec_path(t_shell *shell, char *pathname, char **av, char **envp)
 		if (path)
 		{
 			exec_fork(shell, path, av, envp);
-			free(path);
+			free_ptr((void **)&path);
 		}
 	}
 }

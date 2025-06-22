@@ -19,40 +19,40 @@ int		main(int ac, char **av, char **env);
 /**BUILTIN_UTILS**/
 t_bool	is_builtin(char *cmd);
 
-void	exec_builtin(t_shell *shell);
+int		exec_builtin(t_shell *shell);
 
 /**CD**/
-void	builtin_cd(t_shell *shell, char **av);
+int		builtin_cd(t_shell *shell, char **av);
 void	execute_cd(t_shell *shell, char *path);
 void	update_pwd(t_shell *shell, char *oldpwd);
 
 /**ECHO**/
 t_bool	is_flag_n(char *str);
 
-void	builtin_echo(t_shell *shell);
-void	print_flag_n(t_shell *shell, char **av, int *i);
+int		builtin_echo(t_shell *shell, char **av);
+int		print_flag_n(t_shell *shell, char **av, int *i);
 
 /**ENV**/
 void	print_tab(char **tab);
-void	builtin_env(t_shell *shell);
+int		builtin_env(t_shell *shell, char **av);
 
 /**EXIT**/
-void	builtin_exit();
+int		builtin_exit(t_shell *shell, char **av);
 
 /**EXPORT**/
 t_bool	checking_var(t_shell *shell, char *line);
 t_bool	is_valid_name(char *line);
 
 void	print_export(char **tab);
-void	handle_export(t_shell *shell, char **av);
+int		handle_export(t_shell *shell, char **av);
 void	insert_env_export(t_shell *shell, char *value, char **old_tab, t_bool is_export);
 void	put_in_env_export(t_shell *shell, char **old_tab, char *new_value, t_bool is_export);
 	
 /**PWD**/
-void	builtin_pwd(t_shell *shell);
+int		builtin_pwd(t_shell *shell, char **av);
 
 /**UNSET**/
-void	builtin_unset(t_shell *shell, char **av);
+int		builtin_unset(t_shell *shell, char **av);
 void	remove_var(t_shell *shell, char **old_tab, char *name, t_bool is_export);
 
 /*EXECUTOR*/
@@ -115,6 +115,7 @@ char	**set_redir_av(char **av);
 
 
 /*EXPANDER*/
+t_bool	is_quote_string(char *str);
 t_bool	is_valid_var_name(t_token *token, t_shell *shell);
 t_bool	var_exist(char **envp, const char *var_env, int i);
 
@@ -163,6 +164,7 @@ void	signal_handler(int sig);
 /**BYEBYE**/
 t_token	*free_mid_list(t_token *current);
 
+void	*free_ptr(void **ptr);
 void    error_syntax_unset(char *line);
 void    error_syntax_export(char *line);
 void	free_token_list(t_shell *shell);

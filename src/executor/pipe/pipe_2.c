@@ -41,4 +41,24 @@ void	wait_for_all(void)
 {
 	while (wait(NULL) > 0)
 		;
+
+		// faiur eun systeme qui va wait les pid
+
+
+
+		/*
+	WIFEXITED(status)
+             True if the process terminated normally by a call to _exit(2) or exit(3).
+
+     WIFSIGNALED(status)
+             True if the process terminated due to receipt of a signal.
+
+     Depending on the values of those macros, the following macros produce the remaining status information about the child process:
+
+     WEXITSTATUS(status)
+             If WIFEXITED(status) is true, evaluates to the low-order 8 bits of the argument passed to _exit(2) or exit(3) by the child.
+
+     WTERMSIG(status)
+             If WIFSIGNALED(status) is true, evaluates to the number of the signal that caused the termination of the process.
+		*/
 }

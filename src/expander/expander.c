@@ -24,10 +24,14 @@ void 	expansion(t_shell *shell)
 		if (token->type == T_ARG)
 		{
 			expand_var(shell, token);
-			delete_quotes_value(token);
+			if (is_quote_string(token->value))
+				delete_quotes_value(token);
 		}
 		if (token->type == T_WORD)
-			delete_quotes_value(token);
+		{
+			if (is_quote_string(token->value))
+				delete_quotes_value(token);
+		}
 		token = token->next;
 	}
 }

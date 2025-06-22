@@ -18,29 +18,35 @@
     shell execution environment (see Section 2.12, Shell Execution
     Environment) by executing the following steps in sequence.
  */
-void	builtin_cd(t_shell *shell, char **av)
+int	builtin_cd(t_shell *shell, char **av)
 {
 	char *path;
 	char *home;
-	// check si pas plus de 2 arg sinon "too many arguments"
+	
 	if (av[1] && av[2])
 	{
-        ft_putendl_fd("cd: too many arguments", 2);
-        return;
+        ft_putendl_fd("cd: too many arguments", STDERR_FILENO);
+        return(1);
     }
+	if (av[1] && av[1][0] == '-')
+	{
+		ft_putendl_fd("Invalid option", STDERR_FILENO);
+		return(2);
+	}
 	if (!av[1]) // juste cd va dans HOME
 	{
 		home = recup_var(shell->cmd.envp_copy, "HOME", ft_strlen("HOME"));
 		if (!home)
 		{
-            ft_putendl_fd("cd: HOME not set", 2);
-            return;
+            ft_putendl_fd("cd: HOME not set", STDERR_FILENO);
+            return(1);
         }
 		path = home;
 	}
 	else	
 		path = av[1];
 	execute_cd(shell, path);
+	return (0);
 }
 
 void	update_pwd(t_shell *shell, char *oldpwd)
@@ -59,9 +65,9 @@ void	update_pwd(t_shell *shell, char *oldpwd)
 		set_env(oldpwd_str, TO_BOTH, shell); // modif l'env dans le shell 
 		set_env(newpwd_str, TO_BOTH, shell);
     }
-	free(oldpwd_str);
-	free(newpwd_str);
-	free(newpwd);
+	free_ptr((void **)&oldpwd_str);
+	free_ptr((void **)&newpwd_str);
+	free_ptr((void **)&newpwd);
 }
 
 void	execute_cd(t_shell *shell, char *path)
@@ -74,11 +80,11 @@ void	execute_cd(t_shell *shell, char *path)
 	if (chdir(path) == -1)
 	{
 		perror("cd");
-		free(oldpwd);
+		free_ptr((void **)&oldpwd);
 		return;
 	}
 	update_pwd(shell, oldpwd); // si success on met a jour 
-	free(oldpwd);
+	free_ptr((void **)&oldpwd);
 }
 // check chdir ( change directory ) 
 // int chdir(const char *path) -> retourne 0 si ok, -1 si erreur 
