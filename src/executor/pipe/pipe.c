@@ -37,7 +37,7 @@ void	exec_pipe(t_shell *shell)
 		update_executor_state(shell, pipe_av);
 		nb_pipe--;
 	}
-	wait_for_all();
+	wait_for_all(pid);
 }
 
 void	create_pipe_or_exit(int *fd_pipe)
@@ -54,7 +54,7 @@ pid_t	fork_process_or_exit(void)
 	pid_t	pid;
 
 	pid = fork();
-	if (pid == -1)
+	if (pid < 0)
 	{
 		perror("fork");
 		exit(EXIT_FAILURE);

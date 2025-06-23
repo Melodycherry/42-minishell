@@ -72,20 +72,28 @@ void 	exec_with_redir_check(t_shell *shell, char *pathname, char **av, char **en
 
 /**HEREDOC**/
 
+void	check_error_fd(int fd);
 void	handle_heredoc(t_shell *shell);
-void	nb_heredoc(t_shell *shell, t_token *token);
 void	update_type_eof(t_token *token);
+//void 	delete_quotes_eof(t_token *token);
+void	nb_heredoc(t_shell *shell, t_token *token);
+void	update_type_heredoc_oef_for_exec(t_token *token, char *file);
+void	fill_heredoc_file(t_shell *shell, char *eof, int fd, t_bool need_exp);
+void	process_hd_file(t_shell *shell, char *file, char *eof, t_bool need_exp);
+
+char	*create_name(t_shell *shell);
+char	*generate_file(t_shell *shell, t_token *token);
+char	*heredoc_variable_expansion(t_shell *shell, char *line);
 
 /**PIPE**/
 
 pid_t	fork_process_or_exit(void);
 
-void	wait_for_all(void);
+void	wait_for_all(pid_t pid);
 void	check_fd(int prev_fd);
 void	exec_pipe(t_shell *shell);
 void	init_pipe(t_shell *shell);
 void	find_range(t_shell *shell);
-void	create_redir_av(t_shell *shell);
 void	create_pipe_or_exit(int *fd_pipe);
 void	nb_pipe(t_shell *shell, t_token *token);
 void	update_executor_state(t_shell *shell, char **pipe_av);

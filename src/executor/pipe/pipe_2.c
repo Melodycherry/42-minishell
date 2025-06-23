@@ -37,10 +37,12 @@ void	update_executor_state(t_shell *shell, char **pipe_av)
 	shell->executor.start = shell->executor.end;
 }
 
-void	wait_for_all(void)
+void	wait_for_all(pid_t pid)
 {
-	while (wait(NULL) > 0)
-		;
+	int	stat_pid;
+
+	if (pid > 0)
+			waitpid(pid, &stat_pid, 0);
 
 		// faiur eun systeme qui va wait les pid
 

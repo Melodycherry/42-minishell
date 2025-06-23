@@ -25,16 +25,13 @@ void	parsing(t_shell *shell)
 		printf("GUUUUURL ITS NOT GOOD\n");
 	else
 		printf("NOICE\n");
-	update_type_eof(shell->tlist.head);
+	handle_heredoc(shell);
 	expansion(shell);
 
 	// test impression
-	print_token(shell->tlist.head, printf); // pour c4ette shit d expansion
+	// print_token(shell->tlist.head, printf); // pour c4ette shit d expansion
 	// print_token2(shell->tlist.head, printf);
 	// print_token3(shell->tlist.head, printf);
-	
-
-	// mettre ce truc qq par pcq j en ai besoin
 }
 
 int	main(int ac, char **av, char **envp)
@@ -75,7 +72,6 @@ int	main(int ac, char **av, char **envp)
 	free_tab(&shell, shell.cmd.envp_copy);
 	free_tab(&shell, shell.cmd.envp_exp);
 	free_tab(&shell, shell.executor.av);
-	free_tab(&shell, shell.executor.hd_eof);
 	free_tab(&shell, shell.executor.pipe_av);
 	free_tab(&shell, shell.executor.paths);
 	free_tab(&shell, shell.executor.redir_av);

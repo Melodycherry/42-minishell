@@ -45,8 +45,6 @@ typedef struct s_executor
 {
 	char 			**av;
 	char 			**paths;
-	char			**hd_eof;
-	char			**heredoc;
 	char			**pipe_av;
 	char			**redir_av;
 	char			*redir_file;
@@ -57,6 +55,7 @@ typedef struct s_executor
 	int				nb_redir;
 	int				nb_heredoc;
 	int				nb_redir_wip;
+	int				index_file_heredoc;
 
 	t_bool			is_forked;
 	t_token_type	redir_type;

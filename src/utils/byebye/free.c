@@ -25,8 +25,8 @@ void	free_token_list(t_shell *shell)
 	while (current)
 	{
 		next = current->next;
-		printf(" freetoklist : curr varvalue : ptr : %p varval : %s\n", current->var_value, current->var_value);
-		printf(" freetoklist : curr value : ptr : %p val : %s\n", current->value, current->value);
+		//printf(" freetoklist : curr varvalue : ptr : %p varval : %s\n", current->var_value, current->var_value);
+		//printf(" freetoklist : curr value : ptr : %p val : %s\n", current->value, current->value);
 		free_ptr((void **)&current->value);
 		free_ptr((void **)&current->var_value);
 		free(current);

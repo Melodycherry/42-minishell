@@ -43,9 +43,9 @@ void	init_executor(t_shell *shell)
 	shell->executor.redir_type = 0;
 	shell->executor.nb_heredoc = 0;
 	shell->executor.nb_redir_wip = 0;
+	shell->executor.index_file_heredoc = 0;
 	shell->executor.av = NULL;
 	shell->executor.paths = NULL;
 	shell->executor.pipe_av = NULL;
-	shell->executor.heredoc = NULL;
 	shell->executor.redir_file = NULL;
 }

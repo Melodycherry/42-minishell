@@ -12,43 +12,40 @@
 
 #include "minishell.h"
 
-// void	handle_heredoc(t_shell *shell)
-// {
-//  	nb_heredoc(shell, shell->tlist.head);
-// 	if (shell->executor.nb_heredoc > 0)
-// 	{
-// 		create_hd_eof(shell, shell->tlist.head);
-// 	}
-// }
+//faire la gestion avant les expansion pour eviter le delete_quotes
 
-// void	nb_heredoc(t_shell *shell, t_token *token)
-// {
-// 	shell->executor.nb_heredoc = 0;
-// 	while (token->next)
-// 	{
-// 		if (token->type == T_HEREDOC)
-// 			shell->executor.nb_heredoc++;
-// 		token = token->next;
-// 	}
-// }
+void	handle_heredoc(t_shell *shell)
+{
+	t_token	*current;
+	char	*file;
 
-// /* pas fonctionnel*/
-// char **create_heredoc(t_shell *shell)
-// {
-// 	int		i;
-// 	char	*tmp;
-// 	char	**tab;
+	current = shell->tlist.head;
+	update_type_eof(shell->tlist.head);
+ 	nb_heredoc(shell, shell->tlist.head);
+	while (current->next)
+	{
+		if (current->type == T_HEREDOC)
+		{
+			shell->executor.index_file_heredoc++;
+			file = generate_file(shell, current);
+			update_type_heredoc_oef_for_exec(current, file);
+		}
+		current = current->next;
+	}
+}
 
-// 	i = 0;
-// 	tmp = readline("<");
-// 	if (tmp)
-// 	{
-// 		tab[i] = tmp;
-// 		i++;
-// 	}
-// 	free(tmp);
-// 	return (tab);
-// }
+void	update_type_heredoc_oef_for_exec(t_token *token, char *file)
+{
+	token->type = T_REDIR_IN;
+	free (token->value);
+	token->value = ft_strdup("<");
+	if (token->next)
+	{
+		token->next->type = T_WORD;
+		free(token->next->value);
+		token->next->value = ft_strdup(file);
+	}
+}
 
 void	update_type_eof(t_token *token)
 {
@@ -60,32 +57,15 @@ void	update_type_eof(t_token *token)
 			{
 				token->next->type = T_EOF;
 				if (is_quote_string(token->next->value) == TRUE)
+				{
 					token->next->type = T_EOF_Q;
+					delete_quotes_value(token->next);
+				}
 			}
 			else
 				perror("pas de delimiteur faire gestion d erreur"); // faire un puthandle shit
 		}
 	token = token->next;
-	}
-}
-
-/* fonction qui va supprimer les quotes dans la vlue -> qui est le EOF */
-/**** en cours de creation ****/
-void delete_quotes_eof(t_token *token)
-{
-	int	i;
-
-	i = 0;
-	while (token->next)
-	{
-		if (token->type == T_EOF_Q)
-		{
-			while (token->value[i])
-			{
-				;
-			}
-		}
-		token = token->next;
 	}
 }
 
@@ -100,31 +80,3 @@ void delete_quotes_eof(t_token *token)
 // EOF -> helloEOF n est pas un EOF
 
 // si << EOF1 << EOF2 >> fichier -> que EOF2 rentre dans le fichier
-
-
-
-// void	create_hd_eof(t_shell *shell, t_token *token)
-// {
-// 	int		i;
-// 	char	**tab;
-
-// 	i = 0;
-// 	tab = malloc(sizeof (char *) * shell->executor.nb_heredoc + 1);
-// 	if (!tab)
-// 		return ;
-// 	while (token->next)
-// 	{
-// 		if (token->type == T_HEREDOC)
-// 		{
-// 			if (token->next)
-// 				tab[i] = token->next->value;
-// 			else
-// 				tab[i] = NULL;
-// 			i++;
-// 		}
-// 		token = token->next;
-// 	}
-// 	tab[i] = NULL;
-// 	shell->executor.hd_eof = tab;
-// 	print_tab(shell->executor.hd_eof);
-// }
