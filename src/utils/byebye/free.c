@@ -62,8 +62,11 @@ void	free_tab(t_shell *shell, char **tab)
 		free_ptr((void **)&tab[i]);
 		i++;
 	}
-	free(tab);
-	tab = NULL;
+	if (tab)
+	{
+		free(tab);
+		tab = NULL;
+	}
 }
 
 //free le current et reconnercte la liste chainee

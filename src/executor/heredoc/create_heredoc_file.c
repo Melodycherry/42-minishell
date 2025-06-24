@@ -103,7 +103,6 @@ char *heredoc_variable_expansion(t_shell *shell, char *line)
 			{
 				rec_var = recup_var(shell->cmd.envp_copy, &line[j], i - j);
 				tmp = join_free(tmp, rec_var, 0);
-				free(rec_var);
 			}
 			j = i;
 		}

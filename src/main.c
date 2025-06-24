@@ -89,7 +89,7 @@ int	main(int ac, char **av, char **envp)
 	rl_clear_history();
 	free_tab(&shell, shell.cmd.envp_copy);
 	free_tab(&shell, shell.cmd.envp_exp);
-	free_tab(&shell, shell.executor.av);
+	//free_tab(&shell, shell.executor.av);
 	free_tab(&shell, shell.executor.pipe_av);
 	free_tab(&shell, shell.executor.paths);
 	free_tab(&shell, shell.executor.redir_av);

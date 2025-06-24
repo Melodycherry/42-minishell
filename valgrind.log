@@ -1,190 +1,66 @@
-==7754== Memcheck, a memory error detector
-==7754== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==7754== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==7754== Command: ./minishell
-==7754== Parent PID: 7747
-==7754== 
-==7754== Conditional jump or move depends on uninitialised value(s)
-==7754==    at 0x488DCE4: __GI_strlen (in /usr/libexec/valgrind/vgpreload_memcheck-arm64-linux.so)
-==7754==    by 0x4989423: __printf_buffer (vfprintf-process-arg.c:435)
-==7754==    by 0x4989CE7: __vfprintf_internal (vfprintf-internal.c:1544)
-==7754==    by 0x4980627: printf (printf.c:33)
-==7754==    by 0x10D13B: join_free (expander_utils.c:26)
-==7754==    by 0x10D033: expand_dollar (expander.c:144)
-==7754==    by 0x10C973: expand_var (expander.c:65)
-==7754==    by 0x10C7D7: expansion (expander.c:27)
-==7754==    by 0x1090DF: parsing (main.c:23)
-==7754==    by 0x1091F7: main (main.c:62)
-==7754==  Uninitialised value was created by a heap allocation
-==7754==    at 0x4885250: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-arm64-linux.so)
-==7754==    by 0x10D10B: join_free (expander_utils.c:25)
-==7754==    by 0x10D033: expand_dollar (expander.c:144)
-==7754==    by 0x10C973: expand_var (expander.c:65)
-==7754==    by 0x10C7D7: expansion (expander.c:27)
-==7754==    by 0x1090DF: parsing (main.c:23)
-==7754==    by 0x1091F7: main (main.c:62)
-==7754== 
-==7754== Invalid read of size 1
-==7754==    at 0x10C9A4: expand_var (expander.c:49)
-==7754==    by 0x10C7D7: expansion (expander.c:27)
-==7754==    by 0x1090DF: parsing (main.c:23)
-==7754==    by 0x1091F7: main (main.c:62)
-==7754==  Address 0x4b75d97 is 1 bytes after a block of size 6 alloc'd
-==7754==    at 0x4885250: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-arm64-linux.so)
-==7754==    by 0x1102AB: ft_strndup (ft_strndup.c:19)
-==7754==    by 0x10F65B: create_token (init_chain.c:28)
-==7754==    by 0x10E22B: token_blank (lexer.c:37)
-==7754==    by 0x1090C3: parsing (main.c:17)
-==7754==    by 0x1091F7: main (main.c:62)
-==7754== 
-==7754== Invalid read of size 1
-==7754==    at 0x488DCE0: __GI_strlen (in /usr/libexec/valgrind/vgpreload_memcheck-arm64-linux.so)
-==7754==    by 0x4989423: __printf_buffer (vfprintf-process-arg.c:435)
-==7754==    by 0x4989CE7: __vfprintf_internal (vfprintf-internal.c:1544)
-==7754==    by 0x4980627: printf (printf.c:33)
-==7754==    by 0x10D13B: join_free (expander_utils.c:26)
-==7754==    by 0x10C9F3: expand_var (expander.c:73)
-==7754==    by 0x10C7D7: expansion (expander.c:27)
-==7754==    by 0x1090DF: parsing (main.c:23)
-==7754==    by 0x1091F7: main (main.c:62)
-==7754==  Address 0x4b75d96 is 0 bytes after a block of size 6 alloc'd
-==7754==    at 0x4885250: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-arm64-linux.so)
-==7754==    by 0x1102AB: ft_strndup (ft_strndup.c:19)
-==7754==    by 0x10F65B: create_token (init_chain.c:28)
-==7754==    by 0x10E22B: token_blank (lexer.c:37)
-==7754==    by 0x1090C3: parsing (main.c:17)
-==7754==    by 0x1091F7: main (main.c:62)
-==7754== 
-==7754== Invalid read of size 1
-==7754==    at 0x10FC90: ft_memcpy (ft_memcpy.c:28)
-==7754==    by 0x10D18F: join_free (expander_utils.c:31)
-==7754==    by 0x10C9F3: expand_var (expander.c:73)
-==7754==    by 0x10C7D7: expansion (expander.c:27)
-==7754==    by 0x1090DF: parsing (main.c:23)
-==7754==    by 0x1091F7: main (main.c:62)
-==7754==  Address 0x4b75d96 is 0 bytes after a block of size 6 alloc'd
-==7754==    at 0x4885250: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-arm64-linux.so)
-==7754==    by 0x1102AB: ft_strndup (ft_strndup.c:19)
-==7754==    by 0x10F65B: create_token (init_chain.c:28)
-==7754==    by 0x10E22B: token_blank (lexer.c:37)
-==7754==    by 0x1090C3: parsing (main.c:17)
-==7754==    by 0x1091F7: main (main.c:62)
-==7754== 
-==7755== 
-==7755== FILE DESCRIPTORS: 4 open (3 std) at exit.
-==7755== Open file descriptor 3: /minishell/valgrind.log
-==7755==    <inherited from parent>
-==7755== 
-==7755== Open file descriptor 2: /dev/pts/0
-==7755==    <inherited from parent>
-==7755== 
-==7755== Open file descriptor 1: /dev/pts/0
-==7755==    <inherited from parent>
-==7755== 
-==7755== Open file descriptor 0: /dev/pts/0
-==7755==    <inherited from parent>
-==7755== 
-==7755== 
-==7755== HEAP SUMMARY:
-==7755==     in use at exit: 234,090 bytes in 283 blocks
-==7755==   total heap usage: 486 allocs, 203 frees, 250,914 bytes allocated
-==7755== 
-==7755== 6 bytes in 1 blocks are still reachable in loss record 6 of 87
-==7755==    at 0x4885250: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-arm64-linux.so)
-==7755==    by 0x1102AB: ft_strndup (ft_strndup.c:19)
-==7755==    by 0x10F65B: create_token (init_chain.c:28)
-==7755==    by 0x10E22B: token_blank (lexer.c:37)
-==7755==    by 0x1090C3: parsing (main.c:17)
-==7755==    by 0x1091F7: main (main.c:62)
-==7755== 
-==7755== 6 bytes in 1 blocks are still reachable in loss record 7 of 87
-==7755==    at 0x4885250: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-arm64-linux.so)
-==7755==    by 0x11025B: ft_strdup (ft_strdup.c:33)
-==7755==    by 0x10B23B: create_av (executor_utils.c:29)
-==7755==    by 0x10ADD7: execution (exec.c:23)
-==7755==    by 0x1091FF: main (main.c:63)
-==7755== 
-==7755== 7 bytes in 1 blocks are still reachable in loss record 8 of 87
-==7755==    at 0x4885250: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-arm64-linux.so)
-==7755==    by 0x10D10B: join_free (expander_utils.c:25)
-==7755==    by 0x10C9F3: expand_var (expander.c:73)
-==7755==    by 0x10C7D7: expansion (expander.c:27)
-==7755==    by 0x1090DF: parsing (main.c:23)
-==7755==    by 0x1091F7: main (main.c:62)
-==7755== 
-==7755== 16 bytes in 1 blocks are still reachable in loss record 17 of 87
-==7755==    at 0x4885250: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-arm64-linux.so)
-==7755==    by 0x10B1EB: create_av (executor_utils.c:23)
-==7755==    by 0x10ADD7: execution (exec.c:23)
-==7755==    by 0x1091FF: main (main.c:63)
-==7755== 
-==7755== 40 bytes in 1 blocks are still reachable in loss record 24 of 87
-==7755==    at 0x4885250: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-arm64-linux.so)
-==7755==    by 0x10F627: create_token (init_chain.c:24)
-==7755==    by 0x10E22B: token_blank (lexer.c:37)
-==7755==    by 0x1090C3: parsing (main.c:17)
-==7755==    by 0x1091F7: main (main.c:62)
-==7755== 
-==7755== 160 bytes in 1 blocks are still reachable in loss record 33 of 87
-==7755==    at 0x4885250: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-arm64-linux.so)
-==7755==    by 0x10D62F: cpy_tab (env_utils.c:37)
-==7755==    by 0x10D8FF: cpy_envp (init_env.c:25)
-==7755==    by 0x10914F: main (main.c:47)
-==7755== 
-==7755== 160 bytes in 1 blocks are still reachable in loss record 34 of 87
-==7755==    at 0x4885250: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-arm64-linux.so)
-==7755==    by 0x10D62F: cpy_tab (env_utils.c:37)
-==7755==    by 0x10D913: cpy_envp (init_env.c:26)
-==7755==    by 0x10914F: main (main.c:47)
-==7755== 
-==7755== 471 bytes in 19 blocks are still reachable in loss record 37 of 87
-==7755==    at 0x4885250: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-arm64-linux.so)
-==7755==    by 0x11025B: ft_strdup (ft_strdup.c:33)
-==7755==    by 0x10D673: cpy_tab (env_utils.c:42)
-==7755==    by 0x10D8FF: cpy_envp (init_env.c:25)
-==7755==    by 0x10914F: main (main.c:47)
-==7755== 
-==7755== 471 bytes in 19 blocks are still reachable in loss record 38 of 87
-==7755==    at 0x4885250: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-arm64-linux.so)
-==7755==    by 0x11025B: ft_strdup (ft_strdup.c:33)
-==7755==    by 0x10D673: cpy_tab (env_utils.c:42)
-==7755==    by 0x10D913: cpy_envp (init_env.c:26)
-==7755==    by 0x10914F: main (main.c:47)
-==7755== 
-==7755== LEAK SUMMARY:
-==7755==    definitely lost: 0 bytes in 0 blocks
-==7755==    indirectly lost: 0 bytes in 0 blocks
-==7755==      possibly lost: 0 bytes in 0 blocks
-==7755==    still reachable: 1,337 bytes in 45 blocks
-==7755==         suppressed: 232,753 bytes in 238 blocks
-==7755== 
-==7755== For lists of detected and suppressed errors, rerun with: -s
-==7755== ERROR SUMMARY: 6 errors from 4 contexts (suppressed: 0 from 0)
-==7754== 
-==7754== FILE DESCRIPTORS: 4 open (3 std) at exit.
-==7754== Open file descriptor 3: /minishell/valgrind.log
-==7754==    <inherited from parent>
-==7754== 
-==7754== Open file descriptor 2: /dev/pts/0
-==7754==    <inherited from parent>
-==7754== 
-==7754== Open file descriptor 1: /dev/pts/0
-==7754==    <inherited from parent>
-==7754== 
-==7754== Open file descriptor 0: /dev/pts/0
-==7754==    <inherited from parent>
-==7754== 
-==7754== 
-==7754== HEAP SUMMARY:
-==7754==     in use at exit: 232,705 bytes in 234 blocks
-==7754==   total heap usage: 488 allocs, 254 frees, 249,484 bytes allocated
-==7754== 
-==7754== LEAK SUMMARY:
-==7754==    definitely lost: 0 bytes in 0 blocks
-==7754==    indirectly lost: 0 bytes in 0 blocks
-==7754==      possibly lost: 0 bytes in 0 blocks
-==7754==    still reachable: 0 bytes in 0 blocks
-==7754==         suppressed: 232,705 bytes in 234 blocks
-==7754== 
-==7754== For lists of detected and suppressed errors, rerun with: -s
-==7754== ERROR SUMMARY: 6 errors from 4 contexts (suppressed: 0 from 0)
+==360== Memcheck, a memory error detector
+==360== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==360== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==360== Command: ./minishell
+==360== Parent PID: 353
+==360== 
+==360== Invalid read of size 1
+==360==    at 0x10D03A: expand_var (expander.c:48)
+==360==    by 0x10CEBC: expansion (expander.c:26)
+==360==    by 0x109583: parsing (main.c:29)
+==360==    by 0x1096F7: main (main.c:63)
+==360==  Address 0x4b3fdf7 is 1 bytes after a block of size 6 alloc'd
+==360==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==360==    by 0x10FEB0: ft_strndup (ft_strndup.c:19)
+==360==    by 0x10F488: create_token (init_chain.c:28)
+==360==    by 0x10E4D0: token_blank (lexer.c:37)
+==360==    by 0x109513: parsing (main.c:17)
+==360==    by 0x1096F7: main (main.c:63)
+==360== 
+==360== Invalid read of size 1
+==360==    at 0x10F9EB: ft_memcpy (ft_memcpy.c:28)
+==360==    by 0x10D63B: join_free (expander_utils.c:30)
+==360==    by 0x10D076: expand_var (expander.c:72)
+==360==    by 0x10CEBC: expansion (expander.c:26)
+==360==    by 0x109583: parsing (main.c:29)
+==360==    by 0x1096F7: main (main.c:63)
+==360==  Address 0x4b3fdf6 is 0 bytes after a block of size 6 alloc'd
+==360==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==360==    by 0x10FEB0: ft_strndup (ft_strndup.c:19)
+==360==    by 0x10F488: create_token (init_chain.c:28)
+==360==    by 0x10E4D0: token_blank (lexer.c:37)
+==360==    by 0x109513: parsing (main.c:17)
+==360==    by 0x1096F7: main (main.c:63)
+==360== 
+==360== 
+==360== FILE DESCRIPTORS: 4 open (3 std) at exit.
+==360== Open file descriptor 3: /minishell/valgrind.log
+==360==    <inherited from parent>
+==360== 
+==360== Open file descriptor 2: /dev/pts/0
+==360==    <inherited from parent>
+==360== 
+==360== Open file descriptor 1: /dev/pts/0
+==360==    at 0x49C996B: dup2 (dup2.c:29)
+==360==    by 0x10B20E: execution (exec.c:35)
+==360==    by 0x109706: main (main.c:64)
+==360== 
+==360== Open file descriptor 0: /dev/pts/0
+==360==    at 0x49C996B: dup2 (dup2.c:29)
+==360==    by 0x10B1FF: execution (exec.c:34)
+==360==    by 0x109706: main (main.c:64)
+==360== 
+==360== 
+==360== HEAP SUMMARY:
+==360==     in use at exit: 232,705 bytes in 234 blocks
+==360==   total heap usage: 493 allocs, 259 frees, 249,553 bytes allocated
+==360== 
+==360== LEAK SUMMARY:
+==360==    definitely lost: 0 bytes in 0 blocks
+==360==    indirectly lost: 0 bytes in 0 blocks
+==360==      possibly lost: 0 bytes in 0 blocks
+==360==    still reachable: 0 bytes in 0 blocks
+==360==         suppressed: 232,705 bytes in 234 blocks
+==360== 
+==360== For lists of detected and suppressed errors, rerun with: -s
+==360== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)
