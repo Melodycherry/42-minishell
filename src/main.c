@@ -37,6 +37,10 @@ void	parsing(t_shell *shell)
 int	main(int ac, char **av, char **envp)
 {
 	t_shell	shell;
+	char *file;
+	char *stri;
+	int i;
+
 
 	(void)ac;
 	(void)av;
@@ -58,6 +62,20 @@ int	main(int ac, char **av, char **envp)
 			add_history(shell.cmd.line);
 			parsing(&shell);
 			execution(&shell);
+			i = 1;
+			while (i <= shell.executor.nb_heredoc)
+			{
+				stri = ft_itoa(i);
+				if (!stri)
+					return 1; // faire une gestion d erreur ici
+				file = ft_strjoin("/tmp/ms_hd_", stri);
+				if (!file)
+					return 1; // faire une gestion d erreur ici
+				unlink(file);
+				free_ptr((void **)&stri);
+				i++;
+			}
+			shell.executor.index_file_heredoc = 0; // reinitialise le nbr de heredoc
 			free_tab(&shell, shell.executor.av);
 			free_ptr((void **)&shell.cmd.line);
 			free_token_list(&shell);

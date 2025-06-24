@@ -58,6 +58,7 @@ void	free_tab(t_shell *shell, char **tab)
 		return ;
 	while (tab[i])
 	{
+		//printf("%p, %s\n", tab[i],  tab[i]);
 		free_ptr((void **)&tab[i]);
 		i++;
 	}

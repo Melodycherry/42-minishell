@@ -41,6 +41,8 @@ char	*create_name(t_shell *shell)
 	if (!index)
 		return NULL; // faire une gestion d erreur ici
 	file = ft_strjoin("/tmp/ms_hd_", index);
+	if (!file)
+		return NULL; // faire une gestion d erreur ici
 	free_ptr((void **)&index);
 	return (file);
 }
