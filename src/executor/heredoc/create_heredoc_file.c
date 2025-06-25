@@ -55,6 +55,7 @@ void	process_hd_file(t_shell *shell, char *file, char *eof, t_bool need_exp)
 	pid = fork_process_or_exit();
 	if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
 		fd = open(file, O_WRONLY | O_CREAT | O_EXCL | O_TRUNC, 0600);
 		check_error_fd(fd);
 		while (1)
@@ -69,6 +70,7 @@ void	process_hd_file(t_shell *shell, char *file, char *eof, t_bool need_exp)
 			}
 			if (need_exp == TRUE)
 				line = heredoc_variable_expansion(shell, line);
+			printf("line : %s\n", line);
 			ft_putstr_fd(line, fd);
 			ft_putstr_fd("\n", fd);
 			free_ptr((void **)&line);
@@ -77,6 +79,33 @@ void	process_hd_file(t_shell *shell, char *file, char *eof, t_bool need_exp)
 		exit(0); // faire mieux que ca
 	}
 	wait_for_all(pid);
+}
+
+char	*recup_var2(char **envp, char *var_env, int len)
+{
+	int		i;
+	int		j;
+	int		k;
+	char	*equal_sign;
+	char	*ret;
+
+	i = 0;
+	while (envp[i])
+	{
+		equal_sign = ft_strchr(envp[i], '=');
+		j = (int)(equal_sign - envp[i]);
+		if (ft_strncmp(envp[i], var_env, j) == 0 && (envp[i][len] == '='))
+		{
+			j++;
+			k = j;
+			while (envp[i][j])
+				j++;
+			ret = ft_strdup(&envp[i][k]);
+			return (ret);
+		}
+		i++;
+	}
+	return (NULL);
 }
 
 char *heredoc_variable_expansion(t_shell *shell, char *line)
@@ -89,6 +118,7 @@ char *heredoc_variable_expansion(t_shell *shell, char *line)
 	j = 0;
 	i = 0;
 	tmp = NULL;
+	
 	while (line[i])
 	{
 		if (line[i] == '$')
@@ -101,8 +131,8 @@ char *heredoc_variable_expansion(t_shell *shell, char *line)
 				i++;
 			if (i > j && var_exist(shell->cmd.envp_copy, &line[j], i - j))
 			{
-				rec_var = recup_var(shell->cmd.envp_copy, &line[j], i - j);
-				tmp = join_free(tmp, rec_var, 0);
+				rec_var = recup_var2(shell->cmd.envp_copy, &line[j], i - j);
+				tmp = join_free(tmp, rec_var, ft_strlen(rec_var));
 			}
 			j = i;
 		}
@@ -111,8 +141,7 @@ char *heredoc_variable_expansion(t_shell *shell, char *line)
 	}
 	if (i > j)
 		tmp = join_free(tmp, &line[j], i - j);
-	free(line);
-	return tmp;
+	return (tmp);
 }
 
 // char *expansion_hd(t_shell *shell, char *line, int *i, int *j)
