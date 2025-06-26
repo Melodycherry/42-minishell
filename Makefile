@@ -62,7 +62,7 @@ vpath %.c \
 SRC = main.c \
 builtin_utils.c cd.c echo.c env.c exit.c export.c pwd.c unset.c \
 exec.c executor_utils.c \
-heredoc.c heredoc_utils.c create_heredoc_file.c \
+heredoc.c heredoc_utils.c heredoc_file_creation.c heredoc_expand.c \
 pipe.c pipe_utils.c pipe_2.c \
 redir.c redir_utils.c redir_setting.c \
 expander.c expander_utils.c change_type.c env_utils.c init_env.c quotes.c var_handler.c\

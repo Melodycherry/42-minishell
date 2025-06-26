@@ -22,4 +22,3 @@ void	nb_heredoc(t_shell *shell, t_token *token)
 		token = token->next;
 	}
 }
-

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-//faire la gestion avant les expansion pour eviter le delete_quotes
+static void	update_type_heredoc_eof_for_exec(t_token *token, char *file);
 
 void	handle_heredoc(t_shell *shell)
 {
@@ -21,20 +21,20 @@ void	handle_heredoc(t_shell *shell)
 
 	current = shell->tlist.head;
 	update_type_eof(shell->tlist.head);
- 	nb_heredoc(shell, shell->tlist.head);
+	nb_heredoc(shell, shell->tlist.head);
 	while (current->next)
 	{
 		if (current->type == T_HEREDOC)
 		{
 			shell->executor.index_file_heredoc++;
 			file = generate_file(shell, current);
-			update_type_heredoc_oef_for_exec(current, file);
+			update_type_heredoc_eof_for_exec(current, file);
 		}
 		current = current->next;
 	}
 }
 
-void	update_type_heredoc_oef_for_exec(t_token *token, char *file)
+static void	update_type_heredoc_eof_for_exec(t_token *token, char *file)
 {
 	token->type = T_REDIR_IN;
 	free (token->value);
@@ -65,18 +65,6 @@ void	update_type_eof(t_token *token)
 			else
 				perror("pas de delimiteur faire gestion d erreur"); // faire un puthandle shit
 		}
-	token = token->next;
+		token = token->next;
 	}
 }
-
-// si on a un (<< + rien) = erreur
-// si on a un (<< EOF << rien) = execution du heredoc 1x + erreur apres
-// si on a un (<< EOF << EOF << EOF) -> aura besoin de 3 EOF
-
-// si on un "EOF" -> expansion pas faite
-// si on a un 'EOF' -> expansion pas faite
-
-// si on un "E'OF -> ne sort jamais
-// EOF -> helloEOF n est pas un EOF
-
-// si << EOF1 << EOF2 >> fichier -> que EOF2 rentre dans le fichier

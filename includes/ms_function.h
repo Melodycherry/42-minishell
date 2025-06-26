@@ -77,13 +77,12 @@ void	handle_heredoc(t_shell *shell);
 void	update_type_eof(t_token *token);
 //void 	delete_quotes_eof(t_token *token);
 void	nb_heredoc(t_shell *shell, t_token *token);
-void	update_type_heredoc_oef_for_exec(t_token *token, char *file);
 void	fill_heredoc_file(t_shell *shell, char *eof, int fd, t_bool need_exp);
 void	process_hd_file(t_shell *shell, char *file, char *eof, t_bool need_exp);
 
 char	*create_name(t_shell *shell);
 char	*generate_file(t_shell *shell, t_token *token);
-char	*heredoc_variable_expansion(t_shell *shell, char *line);
+char	*expand_all_vars_in_heredoc(t_shell *shell, char *line);
 
 /**PIPE**/
 

@@ -39,18 +39,21 @@ char	*create_name(t_shell *shell)
 
 	index = ft_itoa(shell->executor.index_file_heredoc); //malloc ici
 	if (!index)
-		return NULL; // faire une gestion d erreur ici
+		return (NULL); // faire une gestion d erreur ici
 	file = ft_strjoin("/tmp/ms_hd_", index);
 	if (!file)
-		return NULL; // faire une gestion d erreur ici
+		return (NULL); // faire une gestion d erreur ici
 	free_ptr((void **)&index);
 	return (file);
 }
 
+//refacto ca quand melo aura fini avec Pieric 
+
 void	process_hd_file(t_shell *shell, char *file, char *eof, t_bool need_exp)
 {
 	pid_t	pid;
-	int		fd;	
+	int		fd;
+	char	*line;
 
 	pid = fork_process_or_exit();
 	if (pid == 0)
@@ -60,17 +63,16 @@ void	process_hd_file(t_shell *shell, char *file, char *eof, t_bool need_exp)
 		check_error_fd(fd);
 		while (1)
 		{
-			char *line = readline("> ");
+			line = readline("> ");
 			if (!line)
-				return ; // faire gestion d erreur de sortie ici
+				return ;// faire gestion d erreur de sortie ici
 			if (ft_strcmp(line, eof) == 0)
 			{
 				free_ptr((void **) &line);
 				break ;
 			}
 			if (need_exp == TRUE)
-				line = heredoc_variable_expansion(shell, line);
-			printf("line : %s\n", line);
+				line = expand_all_vars_in_heredoc(shell, line);
 			ft_putstr_fd(line, fd);
 			ft_putstr_fd("\n", fd);
 			free_ptr((void **)&line);
@@ -80,92 +82,3 @@ void	process_hd_file(t_shell *shell, char *file, char *eof, t_bool need_exp)
 	}
 	wait_for_all(pid);
 }
-
-char	*recup_var2(char **envp, char *var_env, int len)
-{
-	int		i;
-	int		j;
-	int		k;
-	char	*equal_sign;
-	char	*ret;
-
-	i = 0;
-	while (envp[i])
-	{
-		equal_sign = ft_strchr(envp[i], '=');
-		j = (int)(equal_sign - envp[i]);
-		if (ft_strncmp(envp[i], var_env, j) == 0 && (envp[i][len] == '='))
-		{
-			j++;
-			k = j;
-			while (envp[i][j])
-				j++;
-			ret = ft_strdup(&envp[i][k]);
-			return (ret);
-		}
-		i++;
-	}
-	return (NULL);
-}
-
-char *heredoc_variable_expansion(t_shell *shell, char *line)
-{
-	char 	*tmp;
-	char	*rec_var;
-	int 	i;
-	int		j;
-
-	j = 0;
-	i = 0;
-	tmp = NULL;
-	
-	while (line[i])
-	{
-		if (line[i] == '$')
-		{
-			if (i > j)
-				tmp = join_free(tmp, &line[j], i - j); // text before $
-			i++;
-			j = i;
-			while (line[i] && (ft_isalnum(line[i]) || line[i] == '_'))
-				i++;
-			if (i > j && var_exist(shell->cmd.envp_copy, &line[j], i - j))
-			{
-				rec_var = recup_var2(shell->cmd.envp_copy, &line[j], i - j);
-				tmp = join_free(tmp, rec_var, ft_strlen(rec_var));
-			}
-			j = i;
-		}
-		else
-			i++;
-	}
-	if (i > j)
-		tmp = join_free(tmp, &line[j], i - j);
-	return (tmp);
-}
-
-// char *expansion_hd(t_shell *shell, char *line, int *i, int *j)
-// {
-	
-// }
-
-
-// void	fill_heredoc_file(t_shell *shell, char *eof, int fd, t_bool need_exp)
-// {
-// 	while (1)
-// 	{
-// 		char *line = readline("> ");
-// 		if (!line)
-// 			return ; // faire gestion d erreur de sortie ici
-// 		if (ft_strcmp(line, eof) == 0)
-// 		{
-// 			free_ptr((void **) &line);
-// 			break ;
-// 		}
-// 		if (need_exp == TRUE)
-// 			line = heredoc_variable_expansion(shell, line);
-// 		ft_putstr_fd(line, fd);
-// 		ft_putstr_fd("\n", fd);
-// 		free_ptr((void **)&line);
-// 	}
-// }
