@@ -66,6 +66,8 @@ void	set_env(char *value, int to_tab, t_shell *shell)
 {
 	if (to_tab == TO_EXPORT)
 		insert_env_export(shell, value, shell->cmd.envp_exp, TRUE);
+	else if (to_tab == TO_ENV)
+		insert_env_export(shell, value, shell->cmd.envp_copy, TRUE);
 	else if (to_tab == TO_BOTH)
 	{
 		insert_env_export(shell, value, shell->cmd.envp_exp, TRUE);

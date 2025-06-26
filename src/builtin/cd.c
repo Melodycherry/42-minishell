@@ -58,8 +58,12 @@ void	update_pwd(t_shell *shell, char *oldpwd)
 	newpwd = getcwd(NULL, 0); // recup le current apres le chdir dans l'autre fonction 
 	if (!newpwd)
 		return;
-	oldpwd_str = ft_strjoin("OLDPWD=", oldpwd); // pour creer le chemin avant 
+	oldpwd_str = ft_strjoin("OLDPWD=", oldpwd); // pour creer le chemin avant
+	if (!oldpwd)
+		exit(EXIT_FAILURE); // gestion erreur !!!!!!!!!!
 	newpwd_str = ft_strjoin("PWD=", newpwd); // et aussi le chemin apres ( donc actuel )
+	if (!newpwd_str)
+		exit(EXIT_FAILURE); // gestion erreur  !!!!!!!!!!
 	if (oldpwd_str && newpwd_str)
 	{
 		set_env(oldpwd_str, TO_BOTH, shell); // modif l'env dans le shell 

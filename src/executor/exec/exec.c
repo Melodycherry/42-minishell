@@ -17,7 +17,9 @@
 
 void  execution(t_shell *shell)
 {
-	int	exit_status;
+	int		exit_status;
+	char	*str_exit_status;
+	char	*value;
 
 	nb_pipe(shell, shell->tlist.head);
 	create_av(shell, shell->tlist.head);
@@ -30,7 +32,14 @@ void  execution(t_shell *shell)
 		set_redir_count(shell, shell->executor.av);
 		shell->executor.redir_av = set_redir_av(shell->executor.av); // test
 		exit_status = exec_builtin(shell);
-		printf("exit status :%d\n", exit_status );
+		str_exit_status = ft_itoa(exit_status);
+		if(!str_exit_status)
+			exit(EXIT_FAILURE); // faire une gestion d erreur ici , free et compagnie 
+		value = ft_strjoin("?=", str_exit_status);
+		if (!value)
+			exit(EXIT_FAILURE); // faire une gestion d erreur ici , free et compagnie 
+		set_env(value, TO_ENV, shell);
+		//printf("exit status :%d\n", exit_status );
 		dup2(saved_stdin, STDIN_FILENO);
 		dup2(saved_stdout, STDOUT_FILENO);
 		close(saved_stdin);
@@ -68,15 +77,14 @@ void exec_with_redir_check(t_shell *shell, char *pathname, char **av, char **env
 void	exec_fork(t_shell *shell, char *pathname, char **av, char **envp)
 {
 	pid_t	pid;
-	int		stat_pid;
 
 	if (shell->executor.is_forked == FALSE)
 	{
 		pid = fork();
 		if (pid == -1)
-			return (perror("fork"));
+			return (perror("fork")); // exit avec gestion d erreur et free
 		if (pid > 0)
-			waitpid(pid, &stat_pid, 0);
+			wait_for_all(shell, pid);
 		if (pid == 0)
 			exec_with_redir_check(shell, pathname, av, envp);
 	}

@@ -27,6 +27,7 @@
 int	builtin_exit(t_shell *shell, char **av)
 {
 	(void)shell;
+	char *str_exit_status;
    int exit_status;
 
    exit_status = 0;
@@ -50,7 +51,10 @@ int	builtin_exit(t_shell *shell, char **av)
 	}
 	// exit normal, recupere le dernier exit status	$?
 	else
-      exit_status = 0;//recuperation de la valeur $?
+	{
+		str_exit_status = recup_var(shell->cmd.envp_copy, "?", 1);
+		exit_status = ft_atoi(str_exit_status);
+	}
    ft_putendl_fd("exit", STDERR_FILENO);
    exit(exit_status);
 }

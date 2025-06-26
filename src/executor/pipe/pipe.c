@@ -14,7 +14,7 @@
 
 void	exec_pipe(t_shell *shell)
 {
-	int		fd_pipe[2];
+	int		fd_pipe[2]; // fd_pipe[0] = IN fd_pipe[1] = OUT -- STDIN = 0 STDOUT = 1 STDERR = 2
 	int		prev_fd;
 	int		nb_pipe;
 	pid_t	pid;
@@ -37,7 +37,7 @@ void	exec_pipe(t_shell *shell)
 		update_executor_state(shell, pipe_av);
 		nb_pipe--;
 	}
-	wait_for_all(pid);
+	wait_for_all(shell, pid);
 }
 
 void	create_pipe_or_exit(int *fd_pipe)
@@ -45,7 +45,7 @@ void	create_pipe_or_exit(int *fd_pipe)
 	if (pipe(fd_pipe) == -1)
 	{
 		perror("pipe");
-		exit(EXIT_FAILURE);
+		exit(EXIT_FAILURE); // gestion erreur a faire , free avant d exit 
 	}
 }
 
@@ -57,7 +57,7 @@ pid_t	fork_process_or_exit(void)
 	if (pid < 0)
 	{
 		perror("fork");
-		exit(EXIT_FAILURE);
+		exit(EXIT_FAILURE); // gestion erreur a faire , free avant d exit 
 	}
 	return (pid);
 }

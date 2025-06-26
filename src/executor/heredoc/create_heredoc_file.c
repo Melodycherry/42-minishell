@@ -78,7 +78,7 @@ void	process_hd_file(t_shell *shell, char *file, char *eof, t_bool need_exp)
 		close(fd);
 		exit(0); // faire mieux que ca
 	}
-	wait_for_all(pid);
+	wait_for_all(shell, pid);
 }
 
 char	*recup_var2(char **envp, char *var_env, int len)

@@ -11,6 +11,7 @@
 /*****************************************************************************/
 
 #include "minishell.h"
+
 void	parsing(t_shell *shell)
 {
 	// separation par espaces
@@ -21,10 +22,10 @@ void	parsing(t_shell *shell)
 	token_typedef(shell->tlist.head);
 	//definition si var env good
 	// revoir la fonction et l outcome 
-	if (is_token_error(shell->tlist.head, shell) == 1)
-		printf("GUUUUURL ITS NOT GOOD\n");
-	else
-		printf("NOICE\n");
+	// if (is_token_error(shell->tlist.head, shell) == 1)
+	// 	printf("GUUUUURL ITS NOT GOOD\n");
+	// else
+	// 	printf("NOICE\n");
 	handle_heredoc(shell);
 	expansion(shell);
 
@@ -89,7 +90,6 @@ int	main(int ac, char **av, char **envp)
 	rl_clear_history();
 	free_tab(&shell, shell.cmd.envp_copy);
 	free_tab(&shell, shell.cmd.envp_exp);
-	free_tab(&shell, shell.executor.av);
 	free_tab(&shell, shell.executor.pipe_av);
 	free_tab(&shell, shell.executor.paths);
 	free_tab(&shell, shell.executor.redir_av);
