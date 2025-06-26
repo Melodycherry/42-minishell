@@ -40,8 +40,8 @@ void	check_var_env(t_shell *shell, t_token *token)
 							&& !ft_isquote(token->value[i])
 							&& !ft_isspace(token->value[i]))
 							i++;
-						if (var_exist(shell->cmd.envp_exp, 
-								&token->value[j], (i - j)) == TRUE)
+						if (var_exist(shell->cmd.envp_copy,
+								&token->value[j], (i - j)) == TRUE) // modif ici pour env et pas export 26.06
 						{
 							token->type = T_ARG;
 							return ;

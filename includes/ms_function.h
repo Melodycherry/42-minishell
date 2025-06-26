@@ -88,7 +88,7 @@ char	*expand_all_vars_in_heredoc(t_shell *shell, char *line);
 
 pid_t	fork_process_or_exit(void);
 
-void	wait_for_all(pid_t pid);
+void	wait_for_all(t_shell *shell, pid_t pid);
 void	check_fd(int prev_fd);
 void	exec_pipe(t_shell *shell);
 void	init_pipe(t_shell *shell);

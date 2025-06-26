@@ -37,6 +37,7 @@ typedef	enum e_envp
 {
 	NON_EXISTANT, 	//la variable n existe pas
 	TO_EXPORT, 		//a mettre que dans le tableau env_export
+	TO_ENV,
 	TO_BOTH			//il y a un = donc a mettre dans les 2
 }	t_envp;
 
