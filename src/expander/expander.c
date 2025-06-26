@@ -36,7 +36,7 @@ void 	expansion(t_shell *shell)
 	}
 }
 
-void expand_var(t_shell *shell, t_token *token)
+void	expand_var(t_shell *shell, t_token *token)
 {
 	int		i;
 	int		j;

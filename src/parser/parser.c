@@ -106,4 +106,3 @@ void token_typedef(t_token *token) //mettre la head de t list
 	//definir les variable d expension  && EOF
 	//apres mais dans une autre fonction : virer les "" dans les mots && EOF & autres
 }
-

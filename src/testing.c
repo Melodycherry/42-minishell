@@ -72,6 +72,32 @@ void	print_token(t_token *token, int (*f)(const char *, ...))
 
 /// DECHETS /// 
 
+/* fonction qui va supprimer ce qu il y a apres l redir */
+/**** tres surement fausse, si je dis pas de betise, il faut juste enlever ""> + file"*/
+/*************** faux mais marche dans cet etat **************/
+
+// version origine IJ
+// char	**set_redir_av(char **av)
+// {
+// 	char	**new_tab;
+// 	int		i;
+
+// 	i = 0;
+// 	while (!is_redir(av[i]))
+// 		i++;
+// 	new_tab = malloc(sizeof(char*) * (i + 1));
+// 	if (!new_tab)
+// 		return (NULL);
+// 	i = 0;
+// 	while (!is_redir(av[i]))
+// 	{
+// 		new_tab[i] = ft_strdup(av[i]);
+// 		i++;
+// 	}
+// 	new_tab[i] = NULL;
+// 	return (new_tab);
+// }
+
 
 // si besoin mais on peut mettre ca dans le trash je pense
 // void	simple_exec(t_shell *shell)

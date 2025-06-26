@@ -82,3 +82,4 @@ void	process_hd_file(t_shell *shell, char *file, char *eof, t_bool need_exp)
 	}
 	wait_for_all(shell, pid);
 }
+
