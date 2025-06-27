@@ -1,27 +1,33 @@
-/*******************************************************************************/
-/*                                                                             */
-/*                                                                             */
-/*                                                                             */
-/*                                                                             */
-/*      LES CODEUSES DU DIMANCHE                                               */
-/*      FONT UN MINISHELL                                                      */
-/*                                                                             */
-/*                                                                             */
-/*                                                                             */
-/*******************************************************************************/
+/*****************************************************************************/
+/*                                                                           */
+/*                                                                           */
+/*                                                                           */
+/*                                                                           */
+/*      LES CODEUSES DU DIMANCHE                                             */
+/*      FONT UN MINISHELL                                                    */
+/*                                                                           */
+/*                                                                           */
+/*                                                                           */
+/*****************************************************************************/
 
 #include "minishell.h"
 
 /** 
  * echo – write arguments to the standard output
- * The echo utility writes any specified operands, separated by single blank (‘ ’) characters
+ * The echo utility writes any specified operands, 
+ * separated by single blank (‘ ’) characters
     and followed by a newline (‘\n’) character, to the standard output.
     The following option is available:
     -n    Do not print the trailing newline character.
  */
+
+static t_bool	is_flag_n(char *str);
+static void		print_echo(char **av, int *i);
+static int		print_flag_n(t_shell *shell, char **av, int *i);
+
 int	builtin_echo(t_shell *shell, char **av)
 {
-	int i;
+	int	i;
 
 	if (shell->executor.redir_av)
 		av = shell->executor.redir_av;
@@ -29,48 +35,46 @@ int	builtin_echo(t_shell *shell, char **av)
 		av = shell->executor.av;
 	i = 1;
 	if (print_flag_n(shell, av, &i) == 2)
-		return(2);
+		return (2);
 	if (shell->builtin.is_echo_n == TRUE)
 	{
 		while (av[i])
-		{
-			printf("%s", av[i]);
-			if (av[i + 1])
-				printf(" ");
-			i++;
-		}
+			print_echo(av, &i);
 	}
 	else
 	{
 		while (av[i])
-		{
-			printf("%s", av[i]);
-			if (av[i + 1])
-				printf(" ");
-			i++;
-		}
+			print_echo(av, &i);
 		printf("\n");
 	}
 	return (0);
 }
 
-int	print_flag_n(t_shell *shell, char **av, int *i)
+static void	print_echo(char **av, int *i)
+{
+	printf("%s", av[*i]);
+	if (av[*i + 1])
+		printf(" ");
+	(*i)++;
+}
+
+static int	print_flag_n(t_shell *shell, char **av, int *i)
 {
 	shell->builtin.is_echo_n = FALSE;
 	while (av[(*i)])
 	{
 		if (is_flag_n(av[(*i)]) == TRUE)
-			{
-				shell->builtin.is_echo_n = TRUE;
-				(*i)++;
-			}
+		{
+			shell->builtin.is_echo_n = TRUE;
+			(*i)++;
+		}
 		else
 			break ;
 	}
 	return (0);
 }
 
-t_bool is_flag_n(char *str)
+static t_bool	is_flag_n(char *str)
 {
 	int	i;
 

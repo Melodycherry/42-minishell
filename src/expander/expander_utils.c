@@ -1,27 +1,27 @@
-/*******************************************************************************/
-/*                                                                             */
-/*                                                                             */
-/*                                                                             */
-/*                                                                             */
-/*      LES CODEUSES DU DIMANCHE                                               */
-/*      FONT UN MINISHELL                                                      */
-/*                                                                             */
-/*                                                                             */
-/*                                                                             */
-/*******************************************************************************/
+/*****************************************************************************/
+/*                                                                           */
+/*                                                                           */
+/*                                                                           */
+/*                                                                           */
+/*      LES CODEUSES DU DIMANCHE                                             */
+/*      FONT UN MINISHELL                                                    */
+/*                                                                           */
+/*                                                                           */
+/*                                                                           */
+/*****************************************************************************/
 
 #include "minishell.h"
 
 char	*join_free(char *s1, char *s2, int len_s2)
 {
-	size_t	len_s1 = 0;
+	size_t	len_s1;
 	char	*str;
 
+	len_s1 = 0;
 	if (!s2 || len_s2 < 0)
 		return (free_ptr((void **)&s1));
 	if (s1)
 		len_s1 = ft_strlen(s1);
-
 	str = malloc(len_s1 + len_s2 + 1);
 	if (!str)
 		return (free_ptr((void **)&s1));
@@ -33,12 +33,12 @@ char	*join_free(char *s1, char *s2, int len_s2)
 	return (str);
 }
 
-int	ft_strlen_plusplus(char *str)
+int	get_segment_len(char *str)
 {
 	int	i;
 
 	i = 0;
-	while(str[i] && str[i] != '$' && str[i] != '"')
+	while (str[i] && str[i] != '$' && str[i] != '"')
 		i++;
 	return (i);
 }

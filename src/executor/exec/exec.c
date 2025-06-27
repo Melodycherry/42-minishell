@@ -18,17 +18,19 @@
 void  execution(t_shell *shell)
 {
 	int		exit_status;
-	char	*str_exit_status;
+	int		saved_stdin;
+	int		saved_stdout;
 	char	*value;
+	char	*str_exit_status;
 
 	nb_pipe(shell, shell->tlist.head);
 	create_av(shell, shell->tlist.head);
 	if (!shell || !shell->executor.av || !shell->executor.av[0])
 		return ;
-	if (is_builtin(shell->executor.av[0]) == TRUE && shell->executor.nb_pipe == 0) // modif pour toute cette merde pipe redir et builtin
+	if (is_builtin(shell->executor.av[0]) == TRUE && shell->executor.nb_pipe == 0)
 	{
-		int	saved_stdin = dup(STDIN_FILENO);
-		int	saved_stdout = dup(STDOUT_FILENO);
+		saved_stdin = dup(STDIN_FILENO);
+		saved_stdout = dup(STDOUT_FILENO);
 		set_redir_count(shell, shell->executor.av);
 		shell->executor.redir_av = set_redir_av(shell->executor.av); // test
 		exit_status = exec_builtin(shell);
@@ -39,7 +41,6 @@ void  execution(t_shell *shell)
 		if (!value)
 			exit(EXIT_FAILURE); // faire une gestion d erreur ici , free et compagnie 
 		set_env(value, TO_ENV, shell);
-		//printf("exit status :%d\n", exit_status );
 		dup2(saved_stdin, STDIN_FILENO);
 		dup2(saved_stdout, STDOUT_FILENO);
 		close(saved_stdin);

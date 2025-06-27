@@ -16,47 +16,22 @@ int		main(int ac, char **av, char **env);
 
 /*BUILTIN*/
 
-/**BUILTIN_UTILS**/
 t_bool	is_builtin(char *cmd);
-
-int		exec_builtin(t_shell *shell);
-
-/**CD**/
-int		builtin_cd(t_shell *shell, char **av);
-void	execute_cd(t_shell *shell, char *path);
-void	update_pwd(t_shell *shell, char *oldpwd);
-
-/**ECHO**/
-t_bool	is_flag_n(char *str);
-
-int		builtin_echo(t_shell *shell, char **av);
-int		print_flag_n(t_shell *shell, char **av, int *i);
-
-/**ENV**/
-void	print_tab(char **tab);
-void	print_tab_env(char **tab);
-
-int		builtin_env(t_shell *shell, char **av);
-
-/**EXIT**/
-int		builtin_exit(t_shell *shell, char **av);
-
-/**EXPORT**/
-t_bool	checking_var(t_shell *shell, char *line);
 t_bool	is_valid_name(char *line);
 
-void	print_export(char **tab);
-int		handle_export(t_shell *shell, char **av);
-void	insert_env_export(t_shell *shell, char *value, char **old_tab, t_bool is_export);
-void	put_in_env_export(t_shell *shell, char **old_tab, char *new_value, t_bool is_export);
-	
-/**PWD**/
+int		exec_builtin(t_shell *shell);
+int		builtin_cd(t_shell *shell, char **av);
+int		builtin_env(t_shell *shell, char **av);
 int		builtin_pwd(t_shell *shell, char **av);
+int		builtin_echo(t_shell *shell, char **av);
+int		builtin_exit(t_shell *shell, char **av);
+int		builtin_export(t_shell *shell, char **av);
 
+char	**malloc_tab(t_shell *shell, int tab_len);
 /**UNSET**/
 int		builtin_unset(t_shell *shell, char **av);
 void	remove_var(t_shell *shell, char **old_tab, char *name, t_bool is_export);
-
+void	replace_tab(t_shell *shell, char **new_tab, t_bool is_export);
 /*EXECUTOR*/
 
 /**EXEC**/
@@ -145,7 +120,7 @@ char	*join_free(char *s1, char *s2, int len_s2);
 char	*recup_var(char **envp, char *var_env, int len);
 
 int     ft_tablen(char **tab);
-int		ft_strlen_plusplus(char *str);
+int		get_segment_len(char *str);
 int		pos_var_env(char **envp, char *var_env, int len);
 
 /*LEXER*/
@@ -195,7 +170,6 @@ void	init_executor(t_shell *shell);
 
 
 // a placer
-char    **malloc_tab(int tab_len);
 void	fill_tab(char **new_tab, char**old_tab, int len);
 
 

@@ -18,7 +18,7 @@ t_bool	is_valid_var_name(t_token *token, t_shell *shell)
 {
 	int		i;
 	char	*line;
-	
+
 	(void)shell;
 	i = 0;
 	line = token->value;
@@ -26,7 +26,7 @@ t_bool	is_valid_var_name(t_token *token, t_shell *shell)
 	{
 		if (line[0] == '_' || ft_isalpha(line[0]))
 			i++;
-		else 
+		else
 			return (FALSE);
 		if (line[i] == '_' || ft_isalnum(line[i]))
 			i++;

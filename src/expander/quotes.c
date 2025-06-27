@@ -14,9 +14,9 @@
 
 void	delete_quotes_value(t_token *token)
 {
-	int	i;
-	int	j;
-	char *new_line;
+	int		i;
+	int		j;
+	char	*new_line;
 
 	i = 0;
 	new_line = NULL;
@@ -41,7 +41,7 @@ void	delete_quotes_value(t_token *token)
 }
 
 /** PDEMONT DIT C EST BON */
-t_bool is_quote_string(char *str)
+t_bool	is_quote_string(char *str)
 {
 	int	i;
 

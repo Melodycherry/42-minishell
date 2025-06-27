@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 // gestion des expansions
-void 	expansion(t_shell *shell)
+void	expansion(t_shell *shell)
 {
 	t_token	*token;
 
@@ -36,7 +36,7 @@ void 	expansion(t_shell *shell)
 	}
 }
 
-void expand_var(t_shell *shell, t_token *token)
+void	expand_var(t_shell *shell, t_token *token)
 {
 	int		i;
 	int		j;
@@ -48,99 +48,93 @@ void expand_var(t_shell *shell, t_token *token)
 	while (value[i])
 	{
 		if (value[i] == '"')
-		{
 			expand_double_quote(shell, token, &i, &j);
-			i++;
-			j = i;
-		}
 		if (value [i] == '\'')
-		{
 			expand_single_quote(token, &i, &j);
-			i++;
-			j = i;
-		}
 		if (value[i] == '$')
-		{
 			expand_dollar(shell, token, &i, &j);
-			i++;
-			j = i;
-		}
 		i++;
 	}
 	if (i > j)
-	token->var_value = 
-		join_free(token->var_value, &value[j], (i - j));
+		token->var_value
+			= join_free(token->var_value, &value[j], (i - j));
 }
 
 void	expand_single_quote(t_token *token, int *i, int *j)
 {
-	char *value;
+	char	*value;
 
 	value = token->value;
 	if (*i > *j)
-		token->var_value = 
-			join_free(token->var_value, &value[*j], (*i - *j));
+		token->var_value
+			= join_free(token->var_value, &value[*j], (*i - *j));
 	(*i)++;
 	(*j) = (*i);
-	while (value[*i] != '\'') 
+	while (value[*i] != '\'')
 	{
-		while (value[*i] != '\'') 
+		while (value[*i] != '\'')
 			(*i)++;
 		if (*i > *j)
 		{
-			token->var_value = 
-				join_free(token->var_value, &value[*j], (*i - *j));
+			token->var_value
+				= join_free(token->var_value, &value[*j], (*i - *j));
 			(*j) = (*i);
 		}
 	}
+	(*i)++;
+	*j = *i;
 }
 
 void	expand_double_quote(t_shell *shell, t_token *token, int *i, int *j)
 {
-	char *value;
+	char	*value;
 
 	value = token->value;
 	if (*i > *j)
-		token->var_value = 
-			join_free(token->var_value, &value[*j], (*i - *j));
+		token->var_value
+			= join_free(token->var_value, &value[*j], (*i - *j));
 	(*i)++;
 	(*j) = (*i);
-	while (value[*i] != '"') 
+	while (value[*i] != '"')
 	{
-		while (value[*i] != '$' && value[*i] != '"') 
+		while (value[*i] != '$' && value[*i] != '"')
 			(*i)++;
 		if (*i > *j)
 		{
-			token->var_value = 
-				join_free(token->var_value, &value[*j], (*i - *j));
+			token->var_value
+				= join_free(token->var_value, &value[*j], (*i - *j));
 			(*j) = (*i);
 		}
 		if (value[*i] == '$')
 			expand_dollar(shell, token, i, j);
 	}
+	(*i)++;
+	*j = *i;
 }
 
 void	expand_dollar(t_shell *shell, t_token *token, int *i, int *j)
 {
-	char *value;
-	char *rec_var;
+	char	*value;
+	char	*rec_var;
 
 	value = token->value;
 	if (*i > *j)
-		token->var_value =
-			join_free(token->var_value, &value[*j], (*i - *j));
-	if	(value[*i] == '\0')
-		return;
+		token->var_value
+			= join_free(token->var_value, &value[*j], (*i - *j));
+	if (value[*i] == '\0')
+		return ;
 	(*i)++;
 	*j = *i;
 	while (value[*i] != '$' && value[*i] && !ft_isquote(value[*i])
-			&& !ft_isspace(value[*i])) 
+		&& !ft_isspace(value[*i]))
 		(*i)++;
 	if (var_exist(shell->cmd.envp_copy, &value[*j], (*i - *j)) == TRUE)
 	{
 		rec_var = recup_var(shell->cmd.envp_copy, &value[*j], (*i - *j));
-		token->var_value =
-			join_free(token->var_value, rec_var, ft_strlen_plusplus(rec_var));
+		token->var_value
+			= join_free(token->var_value, rec_var, get_segment_len(rec_var));
 		(*j) = (*i);
 	}
+	(*i)++;
+	*j = *i;
 }

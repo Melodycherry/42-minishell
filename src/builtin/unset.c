@@ -1,14 +1,14 @@
-/*******************************************************************************/
-/*                                                                             */
-/*                                                                             */
-/*                                                                             */
-/*                                                                             */
-/*      LES CODEUSES DU DIMANCHE                                               */
-/*      FONT UN MINISHELL                                                      */
-/*                                                                             */
-/*                                                                             */
-/*                                                                             */
-/*******************************************************************************/
+/*****************************************************************************/
+/*                                                                           */
+/*                                                                           */
+/*                                                                           */
+/*                                                                           */
+/*      LES CODEUSES DU DIMANCHE                                             */
+/*      FONT UN MINISHELL                                                    */
+/*                                                                           */
+/*                                                                           */
+/*                                                                           */
+/*****************************************************************************/
 
 #include "minishell.h"
 
@@ -18,17 +18,22 @@
  * Unsetting a variable or function that was not previously set shall
 	not be considered an error and does not cause the shell to abort.
  */
+
+static void	filtr_out_var(char **old_tab, char **new_tab, char *name, int len);
+static void	remove_var(t_shell *shell,
+				char **old_tab, char *name, t_bool is_export);
+
 int	builtin_unset(t_shell *shell, char **av)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	if (av[1][0] == '-')
 	{
 		ft_putendl_fd("Invalid option", STDERR_FILENO);
-		return(2);
+		return (2);
 	}
-	while ( av[i])
+	while (av[i])
 	{
 		remove_var(shell, shell->cmd.envp_exp, av[i], TRUE);
 		remove_var(shell, shell->cmd.envp_copy, av[i], FALSE);
@@ -36,40 +41,54 @@ int	builtin_unset(t_shell *shell, char **av)
 	}
 	return (0);
 }
-// fonction pour supp la variable. Je vais refacto plus tard 
-void	remove_var(t_shell *shell, char **old_tab, char *name, t_bool is_export)
+
+static void	remove_var(t_shell *shell,
+				char **old_tab, char *name, t_bool is_export)
 {
-	int len;
-	int var_len;
-	int i;
-	int j;
-	char **new_tab;
+	int		i;
+	int		j;
+	int		len;
+	int		var_len;
+	char	**new_tab;
 
 	len = ft_tablen(old_tab);
 	var_len = ft_strlen(name);
 	i = 0;
 	j = 0;
-	while (old_tab[i]) // on cherche si la variable est dans le tableau
+	while (old_tab[i])
 	{
-		if ((ft_strncmp(old_tab[i], name, var_len) == 0) && (old_tab[i][var_len] == '=' || old_tab[i][var_len] == '\0'))
-			break;
+		if ((ft_strncmp(old_tab[i], name, var_len) == 0)
+			&& (old_tab[i][var_len] == '=' || old_tab[i][var_len] == '\0'))
+			break ;
 		i++;
 	}
-	if(!old_tab[i]) // si on trouve pas on quitte
-		return;
-	new_tab = malloc(sizeof(char*) * len); // allocation du nouveau tableau. Len -1 + 1 pour '\0, donc juste len en fait 
-	if (!new_tab)
-		return;
+	if (!old_tab[i])
+		return ;
+	new_tab = malloc_tab(shell, i - 1);
+	filtr_out_var(old_tab, new_tab, name, var_len);
+	replace_tab(shell, new_tab, is_export);
+}
+
+static void	filtr_out_var(char **old_tab, char **new_tab, char *name, int len)
+{
+	int	i;
+	int	j;
+
 	i = 0;
 	j = 0;
-	while (old_tab[i]) // pour tt copier sauf la var a suppr
+	while (old_tab[i])
 	{
-		if (!(ft_strncmp(old_tab[i], name, var_len) == 0 && (old_tab[i][var_len] == '=' || old_tab[i][var_len] == '\0')))
+		if (!(ft_strncmp(old_tab[i], name, len) == 0
+				&& (old_tab[i][len] == '=' || old_tab[i][len] == '\0')))
 			new_tab[j++] = ft_strdup(old_tab[i]);
 		i++;
 	}
 	new_tab[j] = NULL;
-	if (is_export) // on remplace ancien tab par le nouveau 
+}
+
+void	replace_tab(t_shell *shell, char **new_tab, t_bool is_export)
+{
+	if (is_export == TRUE)
 	{
 		free_tab(shell, shell->cmd.envp_exp);
 		shell->cmd.envp_exp = new_tab;

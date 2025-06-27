@@ -69,7 +69,6 @@ void	token_operator(t_shell *shell) // fonction de 26 lignes bordel j'arrive pas
 	}
 }
 
-
 void	insert_operator(t_shell *shell, int *i, int *j, t_token *current)
 {
 	char	*value;
@@ -84,9 +83,9 @@ void	insert_operator(t_shell *shell, int *i, int *j, t_token *current)
 		extract_sgl_token(shell, i, j, current);
 }
 //mettre en place les type dans la chaine tlist
-void token_typedef(t_token *token) //mettre la head de t list
+void	token_typedef(t_token *token) //mettre la head de t list
 {
-	while(token) // ou while(token) a voir je sais jamais
+	while (token) // ou while(token) a voir je sais jamais
 	{
 		if (token->value[0] == '|')
 			token->type = T_PIPE;
@@ -104,6 +103,6 @@ void token_typedef(t_token *token) //mettre la head de t list
 	}
 	//handletoken error
 	//definir les variable d expension  && EOF
-	//apres mais dans une autre fonction : virer les "" dans les mots && EOF & autres
+	//apres mais dans une autre fonction : virer les "" 
+	//dans les mots && EOF & autres
 }
-
