@@ -12,17 +12,16 @@
 
 #include "minishell.h"
 
-static void	validate_exit_arg(char **av, char *exit_status);
+static int	validate_exit_arg(char **av, int *exit_status);
 
 int	builtin_exit(t_shell *shell, char **av)
 {
-	int		i;
 	int		exit_status;
 	char	*str_exit_status;
 
 	exit_status = 0;
 	if (av[1])
-		validate_exit_arg(av, exit_status);
+		validate_exit_arg(av, &exit_status);
 	else
 	{
 		str_exit_status = recup_var(shell->cmd.envp_copy, "?", 1);
@@ -32,7 +31,7 @@ int	builtin_exit(t_shell *shell, char **av)
 	exit(exit_status);
 }
 
-static void	validate_exit_arg(char **av, char *exit_status)
+static int	validate_exit_arg(char **av, int *exit_status)
 {
 	int	i;
 
@@ -49,7 +48,8 @@ static void	validate_exit_arg(char **av, char *exit_status)
 	}
 	if (av[2]) // gestion erreur
 		return (ft_putendl_fd("exit\nToo many arguments", STDERR_FILENO), 1);
-	exit_status = ft_atoi(av[1]);
+	*exit_status = ft_atoi(av[1]);
+	return (0);
 }
 
 /** 

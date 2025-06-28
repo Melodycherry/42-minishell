@@ -12,9 +12,6 @@
 
 #include "minishell.h"
 
-static void	insert_env_export(t_shell *shell, char *value,
-				char **tab, t_bool is_export);
-
 void	set_env(char *value, int to_tab, t_shell *shell)
 {
 	if (to_tab == TO_EXPORT)
@@ -59,21 +56,7 @@ char	**malloc_tab(t_shell *shell, int tab_len)
 	return (new_tab);
 }
 
-// void	fill_tab(char **new_tab, char**old_tab, int len)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	while (i < len)
-// 	{
-// 		new_tab[i] = ft_strdup(old_tab[i]);
-// 		if (new_tab[i] == NULL)
-// 			free_mid_tab(new_tab, i);
-// 		i++;
-// 	}
-// }
-
-static void	insert_env_export(t_shell *shell, char *value,
+void	insert_env_export(t_shell *shell, char *value,
 				char **tab, t_bool is_export)
 {
 	int		index;
@@ -96,3 +79,17 @@ static void	insert_env_export(t_shell *shell, char *value,
 	if (var_exist(tab, value, var_len) == FALSE)
 		put_in_env_export(shell, tab, value, is_export);
 }
+
+// void	fill_tab(char **new_tab, char**old_tab, int len)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	while (i < len)
+// 	{
+// 		new_tab[i] = ft_strdup(old_tab[i]);
+// 		if (new_tab[i] == NULL)
+// 			free_mid_tab(new_tab, i);
+// 		i++;
+// 	}
+// }

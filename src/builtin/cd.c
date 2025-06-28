@@ -19,7 +19,7 @@
     Environment) by executing the following steps in sequence.
  */
 
-static void	error_home(t_shell *shell);
+static int	error_home(t_shell *shell);
 static void	execute_cd(t_shell *shell, char *path);
 static void	update_pwd(t_shell *shell, char *oldpwd);
 
@@ -51,7 +51,7 @@ int	builtin_cd(t_shell *shell, char **av)
 	return (0);
 }
 
-static void	error_home(t_shell *shell)
+static int	error_home(t_shell *shell)
 {
 	(void)shell;
 	ft_putendl_fd("cd: HOME not set", STDERR_FILENO);

@@ -39,7 +39,7 @@ static void	process_operator(t_shell *shell, t_token *current, int *i, int *j, i
 	}
 }
 
-void	token_operator(t_shell *shell) // fonction de 26 lignes bordel j'arrive pas a en degager une je check plus tard
+void	token_operator(t_shell *shell)
 {
 	int		i;
 	int		j;
@@ -82,6 +82,7 @@ void	insert_operator(t_shell *shell, int *i, int *j, t_token *current)
 	else
 		extract_sgl_token(shell, i, j, current);
 }
+
 //mettre en place les type dans la chaine tlist
 void	token_typedef(t_token *token) //mettre la head de t list
 {

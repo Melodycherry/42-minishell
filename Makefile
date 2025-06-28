@@ -60,7 +60,7 @@ vpath %.c \
 # Sources and object files
 # attention supprimer le testing.c
 SRC = main.c \
-builtin_utils.c cd.c echo.c env.c exit.c export.c export_utils pwd.c unset.c \
+builtin_utils.c cd.c echo.c env.c exit.c export.c export_utils.c pwd.c unset.c \
 exec.c executor_utils.c \
 heredoc.c heredoc_utils.c heredoc_file_creation.c heredoc_expand.c \
 pipe.c pipe_utils.c pipe_2.c \

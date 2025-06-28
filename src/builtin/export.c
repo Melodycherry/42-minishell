@@ -12,11 +12,6 @@
 
 #include "minishell.h"
 
-static void		print_export(char **tab);
-static void		put_in_env_export(t_shell *shell,
-					char **old_tab, char *new_value, t_bool is_export);
-static t_bool	checking_var(t_shell *shell, char *line);
-
 int	builtin_export(t_shell *shell, char **av)
 {
 	int	len;
@@ -44,7 +39,7 @@ int	builtin_export(t_shell *shell, char **av)
 
 // checker si le nom de la variable et gestion des copies dans les tableaux
 // ******* a tester ******
-static t_bool	checking_var(t_shell *shell, char *line)
+t_bool	checking_var(t_shell *shell, char *line)
 {
 	int	i;
 
@@ -64,8 +59,8 @@ static t_bool	checking_var(t_shell *shell, char *line)
 	return (TRUE);
 }
 
-static void	put_in_env_export(t_shell *shell, char **old_tab,
-	char *new_value, t_bool is_export)
+void	put_in_env_export(t_shell *shell, char **old_tab,
+		char *new_value, t_bool is_export)
 {
 	int		i;
 	char	**new_tab;
@@ -85,7 +80,7 @@ static void	put_in_env_export(t_shell *shell, char **old_tab,
 	replace_tab(shell, new_tab, is_export);
 }
 
-static void	print_export(char **tab)
+void	print_export(char **tab)
 {
 	int		i;
 	char	*line;

@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+static void	update_type_eof(t_token *token);
+static char	*generate_file(t_shell *shell, t_token *token);
 static void	update_type_heredoc_eof_for_exec(t_token *token, char *file);
 
 void	handle_heredoc(t_shell *shell)
@@ -34,6 +36,26 @@ void	handle_heredoc(t_shell *shell)
 	}
 }
 
+static char	*generate_file(t_shell *shell, t_token *token)
+{
+	char	*file;
+	char	*eof;
+	t_bool	need_exp;
+
+	need_exp = TRUE;
+	if (token->next)
+	{
+		eof = token->next->value;
+		if (token->next->type == T_EOF_Q)
+			need_exp = FALSE;
+	}
+	else
+		return (NULL); //faire gestion d erreur ici
+	file = create_name(shell);
+	process_hd_file(shell, file, eof, need_exp);
+	return (file);
+}
+
 static void	update_type_heredoc_eof_for_exec(t_token *token, char *file)
 {
 	token->type = T_REDIR_IN;
@@ -47,7 +69,7 @@ static void	update_type_heredoc_eof_for_exec(t_token *token, char *file)
 	}
 }
 
-void	update_type_eof(t_token *token)
+static void	update_type_eof(t_token *token)
 {
 	while (token->next)
 	{

@@ -46,15 +46,13 @@ static void	remove_var(t_shell *shell,
 				char **old_tab, char *name, t_bool is_export)
 {
 	int		i;
-	int		j;
-	int		len;
+	//int		len;
 	int		var_len;
 	char	**new_tab;
 
-	len = ft_tablen(old_tab);
+	//len = ft_tablen(old_tab);
 	var_len = ft_strlen(name);
 	i = 0;
-	j = 0;
 	while (old_tab[i])
 	{
 		if ((ft_strncmp(old_tab[i], name, var_len) == 0)

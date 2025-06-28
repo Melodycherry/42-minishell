@@ -23,7 +23,7 @@ t_bool	ft_isoperator(int c)
 t_bool	is_token_error(t_token *token, t_shell *shell)
 {
 	if (shell->tlist.token_cnt > 1)
-	{	
+	{
 		while (token) // 2 a 6 = operateur
 		{
 			if (token->next)

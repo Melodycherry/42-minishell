@@ -20,7 +20,7 @@ void	set_redir_count(t_shell *shell, char **av)
 
 	i = 0;
 	shell->executor.nb_redir = 0;
-	shell->executor.nb_redir_wip = 0; // remet a zero avant chaque appel. pour enchainer plusieurs redir
+	shell->executor.nb_redir_wip = 0;
 	while (av[i])
 	{
 		if (is_redir(av[i]))
@@ -45,10 +45,10 @@ void	set_redir_count(t_shell *shell, char **av)
 
 /* fonction qui va faire la gestion des settings */
 /*************** marche dans cet etat **************/
-void set_redir_file_type_av(t_shell *shell, char **av)
+void	set_redir_file_type_av(t_shell *shell, char **av)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	set_redir_file(shell, av, &i);
 	if (av[i + 1] == NULL)
@@ -56,7 +56,7 @@ void set_redir_file_type_av(t_shell *shell, char **av)
 		fprintf(stderr, "Syntax error: expected file after redirection\n"); //gestion d erreur a refaire
 		shell->executor.redir_file = NULL;
 		shell->executor.redir_type = 0;
-		return;
+		return ;
 	}
 	if (shell->executor.redir_file != NULL)
 		free_ptr((void **)&shell->executor.redir_file);
@@ -67,9 +67,9 @@ void set_redir_file_type_av(t_shell *shell, char **av)
 
 /* fonction qui va set le type de redirection. elle etait dure celle la */
 /*************** marche dans cet etat **************/
-void set_redir_type(t_shell *shell, char *redir)
+void	set_redir_type(t_shell *shell, char *redir)
 {
-	if (ft_strcmp(redir, ">") == 0 )
+	if (ft_strcmp(redir, ">") == 0)
 		shell->executor.redir_type = T_REDIR_OUT;
 	if (ft_strcmp(redir, ">>") == 0)
 		shell->executor.redir_type = T_REDIR_APPEND;
@@ -77,13 +77,11 @@ void set_redir_type(t_shell *shell, char *redir)
 		shell->executor.redir_type = T_REDIR_IN;
 }
 
-
-
 /* fonction qui va set le fichier juste apres la redir */
 /*************** marche dans cet etat **************/
 void	set_redir_file(t_shell *shell, char **av, int *i)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	*i = 0;
@@ -92,13 +90,36 @@ void	set_redir_file(t_shell *shell, char **av, int *i)
 		if (is_redir(av[*i]) == TRUE)
 			count++;
 		if (count == shell->executor.nb_redir_wip)
-			break;
+			break ;
 		(*i)++;
 	}
 }
 
+// petite correction ? ok now ? 
+char	**set_redir_av(char **av)
+{
+	char	**new_tab;
+	int		i;
+
+	i = 0;
+	while (av[i] && !is_redir(av[i]))
+		i++;
+	new_tab = malloc(sizeof(char *) * (i + 1));
+	if (!new_tab)
+		return (NULL);
+	i = 0;
+	while (av[i] && !is_redir(av[i]))
+	{
+		new_tab[i] = ft_strdup(av[i]);
+		i++;
+	}
+	new_tab[i] = NULL;
+	return (new_tab);
+}
+
 /* fonction qui va supprimer ce qu il y a apres l redir */
-/**** tres surement fausse, si je dis pas de betise, il faut juste enlever ""> + file"*/
+/**** tres surement fausse, si je dis pas de betise, 
+ * il faut juste enlever ""> + file"*/
 /*************** faux mais marche dans cet etat **************/
 
 // version origine IJ
@@ -122,26 +143,3 @@ void	set_redir_file(t_shell *shell, char **av, int *i)
 // 	new_tab[i] = NULL;
 // 	return (new_tab);
 // }
-
-// petite correction ? ok now ? 
-char	**set_redir_av(char **av)
-{
-	char	**new_tab;
-	int		i;
-
-	i = 0;
-    // Compte les arguments avant la première redirection
-	while (av[i] && !is_redir(av[i]))
-		i++;
-	new_tab = malloc(sizeof(char *) * (i + 1));
-	if (!new_tab)
-		return (NULL);
-	i = 0;
-	while (av[i] && !is_redir(av[i]))
-	{
-		new_tab[i] = ft_strdup(av[i]);
-		i++;
-	}
-	new_tab[i] = NULL;
-	return (new_tab);
-}

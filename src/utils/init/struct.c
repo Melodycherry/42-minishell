@@ -16,14 +16,12 @@
 // a decouper en plusieurs si trop long && mettre a jour
 void	init_all(t_shell *shell)
 {
-	init_list(shell); // le probleme etait la, c'etait pas decommente
-	//shell->cmd->path = 0;
+	init_list(shell);
 	init_executor(shell);
 	shell->executor.is_forked = FALSE;
 	shell->lexer.space = 0;
 	shell->lexer.double_quote = 0;
 	shell->lexer.single_quote = 0;
-
 }
 
 // initiation de listes

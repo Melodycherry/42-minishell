@@ -39,10 +39,10 @@ void	update_executor_state(t_shell *shell, char **pipe_av)
 
 void	wait_for_all(t_shell *shell, pid_t pid)
 {
-	int	stat_loc;
-	int exit_status;
-	char *str_exit_status;
-	char *value;
+	int		stat_loc;
+	int		exit_status;
+	char	*value;
+	char	*str_exit_status;
 
 	if (pid > 0)
 		waitpid(pid, &stat_loc, 0);
@@ -53,14 +53,13 @@ void	wait_for_all(t_shell *shell, pid_t pid)
 	else
 		exit_status = EXIT_FAILURE;
 	str_exit_status = ft_itoa(exit_status);
-	if(!str_exit_status)
+	if (!str_exit_status)
 		exit(EXIT_FAILURE); // faire une gestion d erreur ici , free et compagnie 
 	value = ft_strjoin("?=", str_exit_status);
 	if (!value)
 		exit(EXIT_FAILURE); // faire une gestion d erreur ici , free et compagnie 
 	set_env(value, TO_ENV, shell);
-	}
-	
+}
 
 	// faire une fonction avec ca 
 	// str_exit_status = ft_itoa(exit_status);
@@ -70,9 +69,6 @@ void	wait_for_all(t_shell *shell, pid_t pid)
 	// if (!value)
 	// 	exit(EXIT_FAILURE); // faire une gestion d erreur ici , free et compagnie 
 	// set_env(value, TO_ENV, shell);
-			
-	
-	
 	/*
 		WIFEXITED(status)
 				 True if the process terminated normally by a call to _exit(2) or exit(3).

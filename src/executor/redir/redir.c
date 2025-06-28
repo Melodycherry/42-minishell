@@ -16,7 +16,7 @@
 /******** tout fonctionne pour un > ********/
 void	redir_handle(t_shell *shell)
 {
-	t_token_type type;
+	t_token_type	type;
 
 	type = shell->executor.redir_type;
 	if (shell->executor.nb_redir > 0)
@@ -29,44 +29,6 @@ void	redir_handle(t_shell *shell)
 			handle_redir_append(shell->executor.redir_file);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // char **delete_redir(char **av)
 // {
@@ -140,4 +102,3 @@ void	redir_handle(t_shell *shell)
 // cat < file.txt -> file.txt devient stdin
 // echo hello > out.txt -> ecrit "hello" das out.txt (ecrase)
 // echo again >> out.txt -> ajoute "again" a la fin de out.txt
-

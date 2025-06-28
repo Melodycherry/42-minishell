@@ -27,7 +27,7 @@ char	*expand_all_vars_in_heredoc(t_shell *shell, char *line)
 	{
 		if (line[i] == '$')
 		{
-			tmp = expand_env_var_segment(shell, line, &i, &j);
+			tmp = expand_var_segment(shell, line, &i, &j);
 		}
 		else
 			i++;
@@ -48,7 +48,7 @@ static char	*expand_var_segment(t_shell *shell, char *line, int *i, int *j)
 	(*i)++;
 	*j = *i;
 	while (line[*i] && (ft_isalnum(line[*i])
-		|| line[*i] == '$' || line[*i] == '_'))
+			|| line[*i] == '$' || line[*i] == '_'))
 		(*i)++;
 	if (*i > *j && var_exist(shell->cmd.envp_copy, &line[*j], *i - *j))
 	{

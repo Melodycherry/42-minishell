@@ -12,11 +12,6 @@
 
 #include "minishell.h"
 
-
-
-// creation d un token. 
-// Il y a un malloc, pas oublier de free
-// testée a l air ok
 t_token	*create_token(int type, char *value, int n)
 {
 	t_token	*new_token;
@@ -30,8 +25,6 @@ t_token	*create_token(int type, char *value, int n)
 	return (new_token);
 }
 
-// a utiliser pour la premiere mise en place des listes chainees
-// pas testée
 void	insert_base_list(t_tlist *tlist, t_token *token)
 {
 	t_token	*current;
@@ -56,8 +49,7 @@ void	insert_base_list(t_tlist *tlist, t_token *token)
 		tlist->token_cnt++;
 	}
 }
-//insert un token entre 2 token et verifie et met a jour la head si besoin
-// testée a l air ok
+
 void	insert_mid_list(t_token *current, t_token *new_token, t_shell *shell)
 {
 	t_token	*prev;
@@ -81,8 +73,6 @@ void	insert_mid_list(t_token *current, t_token *new_token, t_shell *shell)
 		new_token = shell->tlist.head;
 }
 
-//crée avec la old fonction et appele l insertion 
-//testée a l air ok
 void	create_insert_token(t_shell *shell, int i, int j, t_token *current)
 {
 	t_token	*new_token;

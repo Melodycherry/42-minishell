@@ -12,12 +12,14 @@
 
 #include "minishell.h"
 
+// fd_pipe[0] = IN fd_pipe[1] = OUT -- STDIN = 0 STDOUT = 1 STDERR = 2
+
 void	exec_pipe(t_shell *shell)
 {
-	int		fd_pipe[2]; // fd_pipe[0] = IN fd_pipe[1] = OUT -- STDIN = 0 STDOUT = 1 STDERR = 2
-	int		prev_fd;
-	int		nb_pipe;
 	pid_t	pid;
+	int		prev_fd;
+	int		fd_pipe[2];
+	int		nb_pipe;
 	char	**pipe_av;
 
 	prev_fd = -1;

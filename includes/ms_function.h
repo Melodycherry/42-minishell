@@ -28,9 +28,18 @@ int		builtin_exit(t_shell *shell, char **av);
 int		builtin_export(t_shell *shell, char **av);
 
 char	**malloc_tab(t_shell *shell, int tab_len);
+
+void	put_in_env_export(t_shell *shell, char **old_tab,
+	char *new_value, t_bool is_export);
+void	insert_env_export(t_shell *shell, char *value,
+	char **tab, t_bool is_export);
+
+void		print_export(char **tab);
+t_bool	checking_var(t_shell *shell, char *line);
+
+
 /**UNSET**/
 int		builtin_unset(t_shell *shell, char **av);
-void	remove_var(t_shell *shell, char **old_tab, char *name, t_bool is_export);
 void	replace_tab(t_shell *shell, char **new_tab, t_bool is_export);
 /*EXECUTOR*/
 
@@ -49,14 +58,12 @@ void 	exec_with_redir_check(t_shell *shell, char *pathname, char **av, char **en
 
 void	check_error_fd(int fd);
 void	handle_heredoc(t_shell *shell);
-void	update_type_eof(t_token *token);
 //void 	delete_quotes_eof(t_token *token);
 void	nb_heredoc(t_shell *shell, t_token *token);
 void	fill_heredoc_file(t_shell *shell, char *eof, int fd, t_bool need_exp);
 void	process_hd_file(t_shell *shell, char *file, char *eof, t_bool need_exp);
 
 char	*create_name(t_shell *shell);
-char	*generate_file(t_shell *shell, t_token *token);
 char	*expand_all_vars_in_heredoc(t_shell *shell, char *line);
 
 /**PIPE**/
