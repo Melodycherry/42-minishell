@@ -12,30 +12,34 @@
 
 #include "minishell.h"
 
-void	free_mid_tab(char **tab, int i)
+void	free_mid_tab(char ***tab, int i)
 {
+	if (!tab && !*tab)
+		return ;
 	while (i > 0)
 	{
 		i--;
-		free_ptr((void **)&tab[i]);
+		free_ptr((void **)&((*tab)[i]));
 	}
-	free(tab);
-	tab = NULL;
+	free(*tab);
+	*tab = NULL;
 }
 
-void	free_tab(t_shell *shell, char ***tab)
+void	free_tab(char ***tab)
 {
 	int	i;
 
 	i = 0;
-	(void)shell;
 	if (!tab || !*tab)
-		return;
+		return ;
 	while ((*tab)[i])
 	{
+		
 		free_ptr((void **)&((*tab)[i]));
 		i++;
 	}
 	free(*tab);
 	*tab = NULL;
 }
+
+

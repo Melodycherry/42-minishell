@@ -45,5 +45,6 @@ void	init_executor(t_shell *shell)
 	shell->executor.av = NULL;
 	shell->executor.paths = NULL;
 	shell->executor.pipe_av = NULL;
+	shell->executor.redir_av = NULL;
 	shell->executor.redir_file = NULL;
 }

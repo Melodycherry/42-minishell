@@ -43,7 +43,7 @@ static void	remove_var(t_shell *shell,
 	char	**new_tab;
 
 	if (!old_tab)
-		return;
+		return ;
 	var_len = ft_strlen(name);
 	i = 0;
 	while (old_tab[i])
@@ -93,16 +93,16 @@ static void	filtr_out_var(char **old_tab, char **new_tab, char *name, int len)
 
 void	replace_tab(t_shell *shell, char **new_tab, t_bool is_export)
 {
-    if (is_export == TRUE)
-    {
-        if (shell->cmd.envp_exp != new_tab)
-            free_tab(shell, &shell->cmd.envp_exp);
-        shell->cmd.envp_exp = new_tab;
-    }
-    else
-    {
-        if (shell->cmd.envp_copy != new_tab)
-            free_tab(shell, &shell->cmd.envp_copy);
-        shell->cmd.envp_copy = new_tab;
-    }
+	if (is_export == TRUE)
+	{
+		if (shell->cmd.envp_exp != new_tab)
+			free_tab(&shell->cmd.envp_exp);
+		shell->cmd.envp_exp = new_tab;
+	}
+	else
+	{
+		if (shell->cmd.envp_copy != new_tab)
+			free_tab(&shell->cmd.envp_copy);
+		shell->cmd.envp_copy = new_tab;
+	}
 }

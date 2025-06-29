@@ -37,7 +37,7 @@ void	handle_redir_out(char *file)
 	{
 		perror("dup2");
 		close(fd);
-		exit(EXIT_FAILURE);
+		exit(EXIT_FAILURE);	// meilleur gestion d erreur && free et compAGNIE L 25 RT 55 AUSSI
 	}
 	close(fd);
 }

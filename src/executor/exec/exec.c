@@ -31,46 +31,42 @@ void	execution(t_shell *shell)
 		saved_stdin = dup(STDIN_FILENO);
 		saved_stdout = dup(STDOUT_FILENO);
 		set_redir_count(shell, shell->executor.av);
-		shell->executor.redir_av = set_redir_av(shell->executor.av);
 		exit_status = exec_builtin(shell);
 		set_exit_status_env(exit_status, shell);
 		dup2(saved_stdin, STDIN_FILENO);
 		dup2(saved_stdout, STDOUT_FILENO);
 		close(saved_stdin);
 		close(saved_stdout);
-		if (shell->executor.redir_av)
-        	free_tab(shell, &shell->executor.redir_av);
+		free_tab(&shell->executor.redir_av);
 	}
 	else if (shell->executor.nb_pipe > 0)
-    {
-        exec_pipe(shell);
-        if (shell->executor.redir_av)
-            free_tab(shell, &shell->executor.redir_av);
-    }
-    else
-    {
-        exec_path(shell, shell->executor.av[0], shell->executor.av, shell->cmd.envp_exp);
-        if (shell->executor.redir_av)
-            free_tab(shell, &shell->executor.redir_av);
-    }
+	{
+		exec_pipe(shell);
+		free_tab(&shell->executor.redir_av);
+	}
+	else
+	{
+		exec_path(shell, shell->executor.av[0], shell->executor.av, shell->cmd.envp_exp);
+		free_tab(&shell->executor.redir_av);
+	}
 }
 
 void	set_exit_status_env(int exit_status, t_shell *shell)
 {
 	char	*str_exit_status;
-    char	*value;
+	char	*value;
 
 	str_exit_status = ft_itoa(exit_status);
 	if (!str_exit_status)
 	{
-		ft_putendl_fd("Malloc error (itoa)\n", stderr);
+		ft_putendl_fd("Malloc error (itoa)\n", STDERR_FILENO);
 		free_all(shell);
 		exit(EXIT_FAILURE);
 	}
 	value = ft_strjoin("?=", str_exit_status);
 	if (!value)
 	{
-		ft_putendl_fd("Malloc error (strjoin)\n", stderr);
+		ft_putendl_fd("Malloc error (strjoin)\n", STDERR_FILENO);
 		free_all(shell);
 		free_ptr((void **)&str_exit_status);
 		exit(EXIT_FAILURE);
@@ -91,8 +87,7 @@ void	exec_with_redir_check(t_shell *shell, char *pathname, char **av, char **env
 		free_child_redir(shell);
 		shell->executor.nb_redir = 0;
 		execve(pathname, shell->executor.redir_av, envp);
-		if (shell->executor.redir_av)
-            free_tab(shell, &shell->executor.redir_av);
+		free_tab(&shell->executor.redir_av);
 		perror("Error"); // m eilleur message erreur
 		exit(EXIT_FAILURE);
 	}

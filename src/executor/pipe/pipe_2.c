@@ -32,7 +32,7 @@ int	update_parent_fds(int *fd_pipe, int prev_fd, int nb_pipe)
 
 void	update_executor_state(t_shell *shell, char **pipe_av)
 {
-	free_tab(shell, &pipe_av);
+	free_tab(&pipe_av);
 	shell->executor.end++;
 	shell->executor.start = shell->executor.end;
 }
@@ -57,7 +57,8 @@ void	wait_for_all(t_shell *shell, pid_t pid)
 		exit(EXIT_FAILURE); // faire une gestion d erreur ici , free et compagnie 
 	value = ft_strjoin("?=", str_exit_status);
 	if (!value)
-		exit(EXIT_FAILURE); // faire une gestion d erreur ici , free et compagnie 
+		exit(EXIT_FAILURE); // faire une gestion d erreur ici , free et compagnie
+	free_ptr((void **) &str_exit_status);
 	set_env(value, TO_ENV, shell);
 }
 

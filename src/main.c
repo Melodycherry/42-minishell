@@ -28,7 +28,6 @@ void	parsing(t_shell *shell)
 	// 	printf("NOICE\n");
 	handle_heredoc(shell);
 	expansion(shell);
-
 	// test impression
 	// print_token(shell->tlist.head, printf); // pour c4ette shit d expansion
 	// print_token2(shell->tlist.head, printf);
@@ -38,10 +37,9 @@ void	parsing(t_shell *shell)
 int	main(int ac, char **av, char **envp)
 {
 	t_shell	shell;
-	char *file;
-	char *stri;
-	int i;
-
+	char	*file;
+	char	*stri;
+	int		i;
 
 	(void)ac;
 	(void)av;
@@ -66,16 +64,18 @@ int	main(int ac, char **av, char **envp)
 			{
 				stri = ft_itoa(i);
 				if (!stri)
-					return 1; // faire une gestion d erreur ici
+					return (1); // faire une gestion d erreur ici
 				file = ft_strjoin("/tmp/ms_hd_", stri);
 				if (!file)
-					return 1; // faire une gestion d erreur ici
+					return (1); // faire une gestion d erreur ici
 				unlink(file);
 				free_ptr((void **)&stri);
 				i++;
 			}
 			shell.executor.index_file_heredoc = 0; // reinitialise le nbr de heredoc
-			free_tab(&shell, &shell.executor.av);
+			free_tab(&shell.executor.av);
+			free_tab(&shell.executor.redir_av);
+			free_tab(&shell.executor.pipe_av);
 			free_ptr((void **)&shell.cmd.line);
 			free_token_list(&shell);
 			shell.executor.is_forked = FALSE;

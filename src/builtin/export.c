@@ -71,7 +71,7 @@ void	put_in_env_export(t_shell *shell, char **old_tab,
 	{
 		new_tab[i] = ft_strdup(old_tab[i]);
 		if (new_tab[i] == NULL)
-			free_mid_tab(new_tab, i);
+			free_mid_tab(&new_tab, i);
 		i++;
 	}
 	new_tab[i] = ft_strdup(new_value);
