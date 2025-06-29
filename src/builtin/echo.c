@@ -12,15 +12,6 @@
 
 #include "minishell.h"
 
-/** 
- * echo – write arguments to the standard output
- * The echo utility writes any specified operands, 
- * separated by single blank (‘ ’) characters
-    and followed by a newline (‘\n’) character, to the standard output.
-    The following option is available:
-    -n    Do not print the trailing newline character.
- */
-
 static t_bool	is_flag_n(char *str);
 static void		print_echo(char **av, int *i);
 static int		print_flag_n(t_shell *shell, char **av, int *i);

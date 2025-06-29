@@ -12,13 +12,6 @@
 
 #include "minishell.h"
 
-/** 
- * unset — unset values and attributes of variables and functions
- * Each variable or function specified by name shall be unset.
- * Unsetting a variable or function that was not previously set shall
-	not be considered an error and does not cause the shell to abort.
- */
-
 static void	filtr_out_var(char **old_tab, char **new_tab, char *name, int len);
 static void	remove_var(t_shell *shell,
 				char **old_tab, char *name, t_bool is_export);
@@ -46,10 +39,10 @@ static void	remove_var(t_shell *shell,
 				char **old_tab, char *name, t_bool is_export)
 {
 	int		i;
-	//int		len;
 	int		var_len;
 	char	**new_tab;
-
+	//int		len;
+	
 	//len = ft_tablen(old_tab);
 	var_len = ft_strlen(name);
 	i = 0;

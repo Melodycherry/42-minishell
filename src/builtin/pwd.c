@@ -12,11 +12,6 @@
 
 #include "minishell.h"
 
-/** 
- * pwd – return working directory name
- * The pwd utility writes the absolute pathname of the current 
- * working directory to the standard output.
- */
 int	builtin_pwd(t_shell *shell, char **av)
 {
 	char	*cwd;

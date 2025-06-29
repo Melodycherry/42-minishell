@@ -18,6 +18,7 @@ static int	skip_non_operator(char *value, int i)
 		i++;
 	return (i);
 }
+
 static void	process_operator(t_shell *shell, t_token *current, int *i, int *j, int *check)
 {
 	char	*value;

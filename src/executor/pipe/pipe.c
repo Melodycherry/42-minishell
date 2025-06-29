@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-// fd_pipe[0] = IN fd_pipe[1] = OUT -- STDIN = 0 STDOUT = 1 STDERR = 2
-
 void	exec_pipe(t_shell *shell)
 {
 	pid_t	pid;

@@ -98,7 +98,6 @@ void	redir_handle(t_shell *shell)
 // 	}
 // }
 
-
 // cat < file.txt -> file.txt devient stdin
 // echo hello > out.txt -> ecrit "hello" das out.txt (ecrase)
 // echo again >> out.txt -> ajoute "again" a la fin de out.txt

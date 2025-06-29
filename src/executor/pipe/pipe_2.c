@@ -69,18 +69,3 @@ void	wait_for_all(t_shell *shell, pid_t pid)
 	// if (!value)
 	// 	exit(EXIT_FAILURE); // faire une gestion d erreur ici , free et compagnie 
 	// set_env(value, TO_ENV, shell);
-	/*
-		WIFEXITED(status)
-				 True if the process terminated normally by a call to _exit(2) or exit(3).
-	
-		 WIFSIGNALED(status)
-				 True if the process terminated due to receipt of a signal.
-	
-		 Depending on the values of those macros, the following macros produce the remaining status information about the child process:
-	
-		 WEXITSTATUS(status)
-				 If WIFEXITED(status) is true, evaluates to the low-order 8 bits of the argument passed to _exit(2) or exit(3) by the child.
-	
-		 WTERMSIG(status)
-				 If WIFSIGNALED(status) is true, evaluates to the number of the signal that caused the termination of the process.
-			*/

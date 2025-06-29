@@ -12,10 +12,6 @@
 
 #include "minishell.h"
 
-/* 
- * Executes the builtin env command: Prints the environment variables.
-*/
-
 static void	print_tab_env(char **tab);
 
 int	builtin_env(t_shell *shell, char **av)
