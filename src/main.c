@@ -75,7 +75,7 @@ int	main(int ac, char **av, char **envp)
 				i++;
 			}
 			shell.executor.index_file_heredoc = 0; // reinitialise le nbr de heredoc
-			free_tab(&shell, shell.executor.av);
+			free_tab(&shell, &shell.executor.av);
 			free_ptr((void **)&shell.cmd.line);
 			free_token_list(&shell);
 			shell.executor.is_forked = FALSE;

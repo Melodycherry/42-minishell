@@ -163,7 +163,7 @@ void	error_syntax_export(char *line);
 void	free_token_list(t_shell *shell);
 void	free_child_redir(t_shell *shell);
 void	free_mid_tab(char **strs, int i);
-void	free_tab(t_shell *shell, char **tab);
+void	free_tab(t_shell *shell, char ***tab);
 
 /**CHAIN**/
 t_token	*create_token(int type, char *value, int n);

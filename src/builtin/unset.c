@@ -81,12 +81,12 @@ void	replace_tab(t_shell *shell, char **new_tab, t_bool is_export)
 {
 	if (is_export == TRUE)
 	{
-		free_tab(shell, shell->cmd.envp_exp);
+		free_tab(shell, &shell->cmd.envp_exp);
 		shell->cmd.envp_exp = new_tab;
 	}
 	else
 	{
-		free_tab(shell, shell->cmd.envp_copy);
+		free_tab(shell, &shell->cmd.envp_copy);
 		shell->cmd.envp_copy = new_tab;
 	}
 }

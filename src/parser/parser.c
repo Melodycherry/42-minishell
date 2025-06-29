@@ -30,7 +30,7 @@ void	token_operator(t_shell *shell, t_token *current)
 		{
 			if (i > j)
 				create_insert_token(shell, i, j, current);
-			current = free_mid_list(current);
+			current = handle_free_mid_list(current);
 			shell->tlist.token_cnt--;
 			if (current)
 				current = current->prev;

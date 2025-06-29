@@ -32,7 +32,7 @@ int	update_parent_fds(int *fd_pipe, int prev_fd, int nb_pipe)
 
 void	update_executor_state(t_shell *shell, char **pipe_av)
 {
-	free_tab(shell, pipe_av);
+	free_tab(shell, &pipe_av);
 	shell->executor.end++;
 	shell->executor.start = shell->executor.end;
 }

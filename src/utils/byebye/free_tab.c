@@ -29,17 +29,13 @@ void	free_tab(t_shell *shell, char ***tab)
 
 	i = 0;
 	(void)shell;
-	if (*tab && tab)
+	if (!tab || !*tab)
+		return;
+	while ((*tab)[i])
 	{
-		while ((*tab)[i])
-		{
-			free_ptr((void **)&((*tab)[i]));
-			i++;
-		}
+		free_ptr((void **)&((*tab)[i]));
+		i++;
 	}
-	if (*tab)
-	{
-		free(*tab);
-		*tab = NULL;
-	}
+	free(*tab);
+	*tab = NULL;
 }
