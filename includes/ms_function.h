@@ -153,12 +153,15 @@ void	signal_handler(int sig);
 /*UTILS*/
 
 /**BYEBYE**/
-t_token	*free_mid_list(t_token *current);
+t_token	*handle_free_mid_list(t_token *current);
 
 void	*free_ptr(void **ptr);
+void	free_all(t_shell *shell);
 void	error_syntax_unset(char *line);
+void	free_child_pipe(t_shell *shell);
 void	error_syntax_export(char *line);
 void	free_token_list(t_shell *shell);
+void	free_child_redir(t_shell *shell);
 void	free_mid_tab(char **strs, int i);
 void	free_tab(t_shell *shell, char **tab);
 

@@ -86,11 +86,7 @@ int	main(int ac, char **av, char **envp)
 	//free a mettre dans une fonction :) 
 	free_ptr((void **)&shell.cmd.line);
 	rl_clear_history();
-	free_tab(&shell, shell.cmd.envp_copy);
-	free_tab(&shell, shell.cmd.envp_exp);
-	free_tab(&shell, shell.executor.pipe_av);
-	free_tab(&shell, shell.executor.paths);
-	free_tab(&shell, shell.executor.redir_av);
+	free_all(&shell);
 	free_token_list(&shell);
 	return (0);
 }

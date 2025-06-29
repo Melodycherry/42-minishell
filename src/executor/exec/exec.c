@@ -67,17 +67,17 @@ void	exec_with_redir_check(t_shell *shell, char *pathname, char **av, char **env
 	set_redir_count(shell, av);
 	if (shell->executor.nb_redir > 0)
 	{
-		// free.shell sauf av et env :)
+		free_child_redir(shell);
 		shell->executor.nb_redir = 0;
 		execve(pathname, shell->executor.redir_av, envp);
-		perror("Error");
+		perror("Error"); // m eilleur message erreur
 		exit(EXIT_FAILURE);
 	}
 	else
 	{
-		// free.shell sauf av et env :)
+		free_child_pipe(shell);
 		execve(pathname, av, envp);
-		perror("Error");
+		perror("Error"); //meilleur mesdsage d erreur
 		exit(EXIT_FAILURE);
 	}
 }
