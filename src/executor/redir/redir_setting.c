@@ -21,7 +21,7 @@ void	set_redir_count(t_shell *shell, char **av)
 	i = 0;
 	shell->executor.nb_redir = 0;
 	shell->executor.nb_redir_wip = 0;
-	while (av[i])
+	while (av && av[i])
 	{
 		if (is_redir(av[i]))
 			shell->executor.nb_redir++;
@@ -32,14 +32,20 @@ void	set_redir_count(t_shell *shell, char **av)
 		while (shell->executor.nb_redir_wip < shell->executor.nb_redir)
 		{
 			shell->executor.nb_redir_wip++;
+			if (shell->executor.redir_av)
+				free_tab(shell, &shell->executor.redir_av);
 			set_redir_file_type_av(shell, av);
 			redir_handle(shell);
 		}
 	}
 	else
 	{
+		if (shell->executor.redir_file)
+			free_ptr((void **)&shell->executor.redir_file);
 		shell->executor.redir_file = NULL;
 		shell->executor.redir_type = 0;
+		if (shell->executor.redir_av)
+			free_tab(shell, &shell->executor.redir_av);
 	}
 }
 
@@ -56,12 +62,16 @@ void	set_redir_file_type_av(t_shell *shell, char **av)
 		fprintf(stderr, "Syntax error: expected file after redirection\n"); //gestion d erreur a refaire
 		shell->executor.redir_file = NULL;
 		shell->executor.redir_type = 0;
+		if (shell->executor.redir_av)
+    		free_tab(shell, &shell->executor.redir_av);
 		return ;
 	}
 	if (shell->executor.redir_file != NULL)
 		free_ptr((void **)&shell->executor.redir_file);
 	shell->executor.redir_file = ft_strndup(av[i + 1], ft_strlen(av[i + 1]));
 	set_redir_type(shell, av[i]);
+	if (shell->executor.redir_av)
+		free_tab(shell, &shell->executor.redir_av);
 	shell->executor.redir_av = set_redir_av(av);
 }
 

@@ -602,3 +602,17 @@ void	print_tab(char **tab)
 // 				shell->cmd.envp_exp);
 // 	}
 // }
+
+// void	fill_tab(char **new_tab, char**old_tab, int len)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	while (i < len)
+// 	{
+// 		new_tab[i] = ft_strdup(old_tab[i]);
+// 		if (new_tab[i] == NULL)
+// 			free_mid_tab(new_tab, i);
+// 		i++;
+// 	}
+// }

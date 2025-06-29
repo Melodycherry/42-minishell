@@ -49,11 +49,12 @@ void	expand_var(t_shell *shell, t_token *token)
 	{
 		if (value[i] == '"')
 			expand_double_quote(shell, token, &i, &j);
-		if (value [i] == '\'')
+		else if (value [i] == '\'')
 			expand_single_quote(token, &i, &j);
-		if (value[i] == '$')
+		else if (value[i] == '$')
 			expand_dollar(shell, token, &i, &j);
-		i++;
+		else
+			i++;
 	}
 	if (i > j)
 		token->var_value
@@ -70,9 +71,9 @@ void	expand_single_quote(t_token *token, int *i, int *j)
 			= join_free(token->var_value, &value[*j], (*i - *j));
 	(*i)++;
 	(*j) = (*i);
-	while (value[*i] != '\'')
+	while (value[*i] && value[*i] != '\'')
 	{
-		while (value[*i] != '\'')
+		while (value[*i] && value[*i] != '\'')
 			(*i)++;
 		if (*i > *j)
 		{
@@ -95,9 +96,9 @@ void	expand_double_quote(t_shell *shell, t_token *token, int *i, int *j)
 			= join_free(token->var_value, &value[*j], (*i - *j));
 	(*i)++;
 	(*j) = (*i);
-	while (value[*i] != '"')
+	while (value[*i] && value[*i] != '"')
 	{
-		while (value[*i] != '$' && value[*i] != '"')
+		while (value[*i] && value[*i] != '$' && value[*i] != '"')
 			(*i)++;
 		if (*i > *j)
 		{
@@ -119,22 +120,24 @@ void	expand_dollar(t_shell *shell, t_token *token, int *i, int *j)
 
 	value = token->value;
 	if (*i > *j)
-		token->var_value
-			= join_free(token->var_value, &value[*j], (*i - *j));
+		token->var_value = join_free(token->var_value, &value[*j], (*i - *j));
 	if (value[*i] == '\0')
 		return ;
 	(*i)++;
 	*j = *i;
-	while (value[*i] != '$' && value[*i] && !ft_isquote(value[*i])
-		&& !ft_isspace(value[*i]))
+	while (value[*i] && value[*i] != '$' && !ft_isquote(value[*i])
+			&& !ft_isspace(value[*i]))
 		(*i)++;
-	if (var_exist(shell->cmd.envp_copy, &value[*j], (*i - *j)) == TRUE)
+	if (*i > *j && var_exist(shell->cmd.envp_copy, &value[*j], (*i - *j)))
 	{
 		rec_var = recup_var(shell->cmd.envp_copy, &value[*j], (*i - *j));
-		token->var_value
-			= join_free(token->var_value, rec_var, get_segment_len(rec_var));
+		token->var_value = join_free(token->var_value, rec_var,
+				get_segment_len(rec_var));
 		(*j) = (*i);
 	}
-	(*i)++;
-	*j = *i;
+	if (value[*i])
+	{
+		(*i)++;
+		*j = *i;
+	}
 }

@@ -41,9 +41,9 @@ static void	remove_var(t_shell *shell,
 	int		i;
 	int		var_len;
 	char	**new_tab;
-	//int		len;
-	
-	//len = ft_tablen(old_tab);
+
+	if (!old_tab)
+		return;
 	var_len = ft_strlen(name);
 	i = 0;
 	while (old_tab[i])
@@ -55,7 +55,7 @@ static void	remove_var(t_shell *shell,
 	}
 	if (!old_tab[i])
 		return ;
-	new_tab = malloc_tab(shell, i - 1);
+	new_tab = malloc_tab(shell, i);
 	filtr_out_var(old_tab, new_tab, name, var_len);
 	replace_tab(shell, new_tab, is_export);
 }
@@ -71,22 +71,38 @@ static void	filtr_out_var(char **old_tab, char **new_tab, char *name, int len)
 	{
 		if (!(ft_strncmp(old_tab[i], name, len) == 0
 				&& (old_tab[i][len] == '=' || old_tab[i][len] == '\0')))
-			new_tab[j++] = ft_strdup(old_tab[i]);
+			new_tab[j++] = ft_strdup(old_tab[i]); // attention 
 		i++;
 	}
 	new_tab[j] = NULL;
 }
 
+// void	replace_tab(t_shell *shell, char **new_tab, t_bool is_export)
+// {
+// 	if (is_export == TRUE)
+// 	{
+// 		free_tab(shell, &shell->cmd.envp_exp);
+// 		shell->cmd.envp_exp = new_tab;
+// 	}
+// 	else
+// 	{
+// 		free_tab(shell, &shell->cmd.envp_copy);
+// 		shell->cmd.envp_copy = new_tab;
+// 	}
+// }
+
 void	replace_tab(t_shell *shell, char **new_tab, t_bool is_export)
 {
-	if (is_export == TRUE)
-	{
-		free_tab(shell, &shell->cmd.envp_exp);
-		shell->cmd.envp_exp = new_tab;
-	}
-	else
-	{
-		free_tab(shell, &shell->cmd.envp_copy);
-		shell->cmd.envp_copy = new_tab;
-	}
+    if (is_export == TRUE)
+    {
+        if (shell->cmd.envp_exp != new_tab)
+            free_tab(shell, &shell->cmd.envp_exp);
+        shell->cmd.envp_exp = new_tab;
+    }
+    else
+    {
+        if (shell->cmd.envp_copy != new_tab)
+            free_tab(shell, &shell->cmd.envp_copy);
+        shell->cmd.envp_copy = new_tab;
+    }
 }

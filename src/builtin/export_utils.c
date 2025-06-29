@@ -73,23 +73,10 @@ void	insert_env_export(t_shell *shell, char *value,
 	{
 		index = pos_var_env(tab, value, var_len);
 		free_ptr((void **)&tab[index]);
-		tab[index] = strndup(value, ft_strlen(value));
+		tab[index] = ft_strndup(value, ft_strlen(value));
 		return ;
 	}
 	if (var_exist(tab, value, var_len) == FALSE)
 		put_in_env_export(shell, tab, value, is_export);
 }
 
-// void	fill_tab(char **new_tab, char**old_tab, int len)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	while (i < len)
-// 	{
-// 		new_tab[i] = ft_strdup(old_tab[i]);
-// 		if (new_tab[i] == NULL)
-// 			free_mid_tab(new_tab, i);
-// 		i++;
-// 	}
-// }
