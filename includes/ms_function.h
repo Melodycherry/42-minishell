@@ -49,6 +49,7 @@ void	execution(t_shell *shell);
 
 void	create_path(t_shell *shell, char **envp);
 void	create_av(t_shell *shell, t_token *current);
+void	set_exit_status_env(int exit_status, t_shell *shell);
 void	exec_fork(t_shell *shell, char *pathname, char **av, char **envp);
 void	exec_path(t_shell *shell, char *pathname, char **av, char **envp);
 void	exec_with_redir_check(t_shell *shell, char *pathname,
@@ -140,7 +141,7 @@ t_bool	ft_isoperator(int c);
 t_bool	is_token_error(t_token *token, t_shell *t_shell);
 
 void	token_typedef(t_token *token);
-void	token_operator(t_shell *shell);
+void	token_operator(t_shell *shell, t_token *current);
 void	insert_operator(t_shell *shell, int *i, int *j, t_token *current);
 void	extract_dbl_token(t_shell *shell, int *i, int *j, t_token *current);
 void	extract_sgl_token(t_shell *shell, int *i, int *j, t_token *current);

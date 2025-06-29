@@ -103,3 +103,11 @@ void	*free_ptr(void **ptr)
 	}
 	return (NULL);
 }
+void	free_all()
+{
+
+}
+void	free_child()
+{
+	
+}

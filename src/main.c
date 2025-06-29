@@ -17,7 +17,7 @@ void	parsing(t_shell *shell)
 	// separation par espaces
 	token_blank(shell);
 	//separation par operateur
-	token_operator(shell);
+	token_operator(shell, shell->tlist.head);
 	//premiere definition
 	token_typedef(shell->tlist.head);
 	//definition si var env good
@@ -45,15 +45,13 @@ int	main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
-	//premieres étapes
 	init_all(&shell);
 	cpy_envp(&shell, envp);
 	setup_signals();
-	// boucle readline -> reste la
 	while (1)
 	{
 		shell.cmd.line = readline(PROMPT);
-		if (!shell.cmd.line) //ctrl D
+		if (!shell.cmd.line)
 		{
 			printf("exit");
 			break ;

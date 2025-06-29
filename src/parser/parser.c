@@ -12,48 +12,20 @@
 
 #include "minishell.h"
 
-static int	skip_non_operator(char *value, int i)
-{
-	while (!ft_isquote(value[i]) && !ft_isoperator(value[i]) && value[i])
-		i++;
-	return (i);
-}
+static int	skip_non_operator(char *value, int i);
+static int	process_operator(t_shell *shell, t_token *current, int *i, int *j);
 
-static void	process_operator(t_shell *shell, t_token *current, int *i, int *j, int *check)
-{
-	char	*value;
-
-	value = current->value;
-	while (value[*i])
-	{
-		*i = skip_non_operator(value, *i);
-		if (ft_isquote(value[*i]))
-			find_next_quote(value[*i], value, i);
-		if (ft_isoperator(value[*i]))
-		{
-			(*check)++;
-			if (*i > *j)
-				create_insert_token(shell, *i, *j, current);
-			insert_operator(shell, i, j, current);
-			*j = *i;
-		}
-	}
-}
-
-void	token_operator(t_shell *shell)
+void	token_operator(t_shell *shell, t_token *current)
 {
 	int		i;
 	int		j;
 	int		check;
-	t_token	*current;
 
-	current = shell->tlist.head;
 	while (current)
 	{
 		i = 0;
 		j = 0;
-		check = 0;
-		process_operator(shell, current, &i, &j, &check);
+		check = process_operator(shell, current, &i, &j);
 		if (check > 0)
 		{
 			if (i > j)
@@ -70,6 +42,37 @@ void	token_operator(t_shell *shell)
 	}
 }
 
+static int	process_operator(t_shell *shell, t_token *current, int *i, int *j)
+{
+	int		check;
+	char	*value;
+
+	check = 0;
+	value = current->value;
+	while (value[*i])
+	{
+		*i = skip_non_operator(value, *i);
+		if (ft_isquote(value[*i]))
+			find_next_quote(value[*i], value, i);
+		if (ft_isoperator(value[*i]))
+		{
+			check++;
+			if (*i > *j)
+				create_insert_token(shell, *i, *j, current);
+			insert_operator(shell, i, j, current);
+			*j = *i;
+		}
+	}
+	return (check);
+}
+
+static int	skip_non_operator(char *value, int i)
+{
+	while (!ft_isquote(value[i]) && !ft_isoperator(value[i]) && value[i])
+		i++;
+	return (i);
+}
+
 void	insert_operator(t_shell *shell, int *i, int *j, t_token *current)
 {
 	char	*value;
@@ -84,10 +87,9 @@ void	insert_operator(t_shell *shell, int *i, int *j, t_token *current)
 		extract_sgl_token(shell, i, j, current);
 }
 
-//mettre en place les type dans la chaine tlist
-void	token_typedef(t_token *token) //mettre la head de t list
+void	token_typedef(t_token *token)
 {
-	while (token) // ou while(token) a voir je sais jamais
+	while (token)
 	{
 		if (token->value[0] == '|')
 			token->type = T_PIPE;

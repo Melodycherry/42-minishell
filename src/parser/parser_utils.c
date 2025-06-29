@@ -19,12 +19,11 @@ t_bool	ft_isoperator(int c)
 	return (FALSE);
 }
 
-//gerer les cas d erreur a utiliser en parallele de typedef
 t_bool	is_token_error(t_token *token, t_shell *shell)
 {
 	if (shell->tlist.token_cnt > 1)
 	{
-		while (token) // 2 a 6 = operateur
+		while (token)
 		{
 			if (token->next)
 			{
