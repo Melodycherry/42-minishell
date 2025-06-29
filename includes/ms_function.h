@@ -30,13 +30,12 @@ int		builtin_export(t_shell *shell, char **av);
 char	**malloc_tab(t_shell *shell, int tab_len);
 
 void	put_in_env_export(t_shell *shell, char **old_tab,
-	char *new_value, t_bool is_export);
+			char *new_value, t_bool is_export);
 void	insert_env_export(t_shell *shell, char *value,
-	char **tab, t_bool is_export);
+			char **tab, t_bool is_export);
 
-void		print_export(char **tab);
+void	print_export(char **tab);
 t_bool	checking_var(t_shell *shell, char *line);
-
 
 /**UNSET**/
 int		builtin_unset(t_shell *shell, char **av);
@@ -52,7 +51,8 @@ void	create_path(t_shell *shell, char **envp);
 void	create_av(t_shell *shell, t_token *current);
 void	exec_fork(t_shell *shell, char *pathname, char **av, char **envp);
 void	exec_path(t_shell *shell, char *pathname, char **av, char **envp);
-void 	exec_with_redir_check(t_shell *shell, char *pathname, char **av, char **envp);
+void	exec_with_redir_check(t_shell *shell, char *pathname,
+			char **av, char **envp);
 
 /**HEREDOC**/
 
@@ -78,8 +78,8 @@ void	find_range(t_shell *shell);
 void	create_pipe_or_exit(int *fd_pipe);
 void	nb_pipe(t_shell *shell, t_token *token);
 void	update_executor_state(t_shell *shell, char **pipe_av);
-void	exec_pipe_child(t_shell *shell, int *fd_pipe, char **pipe_av, 
-	int nb_pipe);
+void	exec_pipe_child(t_shell *shell, int *fd_pipe, char **pipe_av,
+			int nb_pipe);
 
 int		update_parent_fds(int *fd_pipe, int prev_fd, int nb_pipe);
 
@@ -101,9 +101,7 @@ void	set_redir_file_type_av(t_shell *shell, char **av);
 void	set_redir_file(t_shell *shell, char **av, int *i);
 
 char	**set_redir_av(char **av);
-
 //char	**extract_tab(char **av, int *i);
-
 
 /*EXPANDER*/
 t_bool	is_quote_string(char *str);
@@ -111,7 +109,7 @@ t_bool	is_valid_var_name(t_token *token, t_shell *shell);
 t_bool	var_exist(char **envp, const char *var_env, int i);
 
 void	bubble_tab(char **tab);
-void 	expansion(t_shell *shell);
+void	expansion(t_shell *shell);
 void	delete_quotes_value(t_token *token);
 void	cpy_envp(t_shell *shell, char **envp);
 void	expand_var(t_shell *shell, t_token *token);
@@ -126,7 +124,7 @@ char	**init_envp_copy(char **tab);
 char	*join_free(char *s1, char *s2, int len_s2);
 char	*recup_var(char **envp, char *var_env, int len);
 
-int     ft_tablen(char **tab);
+int		ft_tablen(char **tab);
 int		get_segment_len(char *str);
 int		pos_var_env(char **envp, char *var_env, int len);
 
@@ -143,9 +141,9 @@ t_bool	is_token_error(t_token *token, t_shell *t_shell);
 
 void	token_typedef(t_token *token);
 void	token_operator(t_shell *shell);
-void    insert_operator(t_shell *shell, int *i, int *j, t_token *current);
-void    extract_dbl_token(t_shell *shell, int *i, int *j, t_token *current);
-void    extract_sgl_token(t_shell *shell, int *i, int *j, t_token *current);
+void	insert_operator(t_shell *shell, int *i, int *j, t_token *current);
+void	extract_dbl_token(t_shell *shell, int *i, int *j, t_token *current);
+void	extract_sgl_token(t_shell *shell, int *i, int *j, t_token *current);
 
 /*SIGNALS*/
 void	setup_signals(void);
@@ -157,8 +155,8 @@ void	signal_handler(int sig);
 t_token	*free_mid_list(t_token *current);
 
 void	*free_ptr(void **ptr);
-void    error_syntax_unset(char *line);
-void    error_syntax_export(char *line);
+void	error_syntax_unset(char *line);
+void	error_syntax_export(char *line);
 void	free_token_list(t_shell *shell);
 void	free_mid_tab(char **strs, int i);
 void	free_tab(t_shell *shell, char **tab);
@@ -175,11 +173,8 @@ void	init_all(t_shell *shell);
 void	init_list(t_shell *shell);
 void	init_executor(t_shell *shell);
 
-
 // a placer
 void	fill_tab(char **new_tab, char**old_tab, int len);
-
-
 
 //fonctions tests a supprimer apres
 void	print_token(t_token *token, int (*f)(const char *, ...));

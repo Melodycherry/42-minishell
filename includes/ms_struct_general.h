@@ -27,28 +27,26 @@ typedef struct s_cmd
 typedef struct s_lexer
 {
 	int	single_quote;
-	int double_quote;
+	int	double_quote;
 	int	space;
 }	t_lexer;
 
 typedef struct s_builtin
 {
-	t_bool is_echo_n;
+	t_bool	is_echo_n;
 }	t_builtin;
 
 typedef struct s_expander
 {
-
 }	t_expander;
 
 typedef struct s_executor
 {
-	char 			**av;
-	char 			**paths;
+	char			**av;
+	char			**paths;
 	char			**pipe_av;
 	char			**redir_av;
 	char			*redir_file;
-	
 	int				end;
 	int				start;
 	int				nb_pipe;
@@ -75,7 +73,7 @@ typedef struct s_tlist
 	int		token_cnt; // peut etre util, a voir
 	t_token	*head;
 
-}	t_tlist; 
+}	t_tlist;
 
 // structure qui gere toutes les autres structures
 typedef struct s_shell

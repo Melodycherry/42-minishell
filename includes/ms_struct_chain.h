@@ -15,5 +15,4 @@
 #ifndef MS_STRUCT_CHAIN_H
 # define MS_STRUCT_CHAIN_H
 
-
 #endif

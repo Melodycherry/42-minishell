@@ -39,6 +39,6 @@
 # include "ms_type.h"
 //# include "ms_utils.h"
 
-#define PROMPT "Les codeuses du dimanche : "
+# define PROMPT "Les codeuses du dimanche : "
 
-# endif
+#endif
