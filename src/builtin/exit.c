@@ -28,6 +28,7 @@ int	builtin_exit(t_shell *shell, char **av)
 		exit_status = ft_atoi(str_exit_status);
 	}
 	ft_putendl_fd("exit", STDERR_FILENO);
+	free_all(shell); // FIXME: test
 	exit(exit_status);
 }
 
@@ -40,13 +41,14 @@ static int	validate_exit_arg(char **av, int *exit_status)
 	{
 		if (!ft_isdigit(av[1][i]))
 		{
-			// gestion erreur
+			// TODO: gestion erreur
 			ft_putendl_fd("exit\nNeed numeric argument", STDERR_FILENO);
+			//free_all(shell); // FIXME: test
 			exit(2);
 		}
 		i++;
 	}
-	if (av[2]) // gestion erreur
+	if (av[2]) //TODO: gestion erreur
 		return (ft_putendl_fd("exit\nToo many arguments", STDERR_FILENO), 1);
 	*exit_status = ft_atoi(av[1]);
 	return (0);

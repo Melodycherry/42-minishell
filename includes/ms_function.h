@@ -83,7 +83,7 @@ void	update_executor_state(t_shell *shell, char **pipe_av);
 void	exec_pipe_child(t_shell *shell, int *fd_pipe, char **pipe_av,
 			int nb_pipe);
 
-int		update_parent_fds(int *fd_pipe, int prev_fd, int nb_pipe);
+void	update_parent_fds(int prev_fd, int *fd_pipe);
 
 char	*strjoin_path(char *s1, char *s2);
 char	*right_path(char **paths, char *cmd);

@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+
 // fonction qui va va transformer la liste chainee en tableau
 // ******* testee et fonctionnelle ********
 void	create_av(t_shell *shell, t_token *current)
@@ -68,11 +69,12 @@ char	*right_path(char **paths, char *cmd)
 			if (!access(path, X_OK))
 				return (path);
 			//else
-			// 	gestion d erreur
+			// 	gestion d erreur //TODO: 
 		}
 		free_ptr((void **)&path);
 		i++;
 	}
+	//TODO: sortie malloc pourri
 // gestion d erreur
 	return (NULL);
 }

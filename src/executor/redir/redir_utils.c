@@ -16,12 +16,14 @@ void	handle_redir_in(char *file)
 {
 	int	fd;
 
+
 	fd = open(file, O_RDONLY);
 	check_error_fd(fd);
 	if (dup2(fd, STDIN_FILENO) == -1)
 	{
 		perror("dup2");
 		close(fd);
+		//free_all(shell); // FIXME: test
 		exit(EXIT_FAILURE);
 	}
 	close(fd);
@@ -37,7 +39,8 @@ void	handle_redir_out(char *file)
 	{
 		perror("dup2");
 		close(fd);
-		exit(EXIT_FAILURE);	// meilleur gestion d erreur && free et compAGNIE L 25 RT 55 AUSSI
+		//free_all(shell); // FIXME: test
+		exit(EXIT_FAILURE);	//TODO: meilleur gestion d erreur && free et compAGNIE L 25 RT 55 AUSSI
 	}
 	close(fd);
 }
@@ -52,6 +55,7 @@ void	handle_redir_append(char *file)
 	{
 		perror("dup2");
 		close(fd);
+		//free_all(shell); // FIXME: test
 		exit(EXIT_FAILURE);
 	}
 	close(fd);
@@ -71,6 +75,7 @@ void	check_error_fd(int fd)
 	if (fd < 0)
 	{
 		perror("open");
+		//free_all(shell); // FIXME: test
 		exit(EXIT_FAILURE); // meilleure gestion d erreur
 	}
 }

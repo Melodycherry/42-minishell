@@ -15,6 +15,7 @@
 // fonction de gestion de l execution
 // ****** en cours, fonctionne dans ce etat ***********
 
+
 void	execution(t_shell *shell)
 {
 	int		exit_status;
@@ -72,23 +73,34 @@ void	set_exit_status_env(int exit_status, t_shell *shell)
 // exec dans le child et pas le parent. toutes les execs hors builtin.
 // ***** en cours, dont judge **** 
 
+
+void	print_tab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab && tab[i])
+	{
+		printf("%s\n", tab[i]);
+		i++;
+	}
+}
+
 void	exec_with_redir_check(t_shell *shell, char *pathname, char **av, char **envp)
 {
 	set_redir_count(shell, av);
+	free_all(shell);
+	//free_child_pipe(shell);
 	if (shell->executor.nb_redir > 0)
 	{
-		free_child_redir(shell);
 		shell->executor.nb_redir = 0;
-		execve(pathname, shell->executor.redir_av, envp);
-		free_tab(&shell->executor.redir_av);
+		execve(pathname, shell->executor.redir_av, shell->cmd.envp_exp);
 		perror("Error"); // TODO: m eilleur message erreur
 		exit(EXIT_FAILURE);
 	}
 	else
 	{
-		free_child_pipe(shell);
-		execve(pathname, av, envp);
-		free_tab(&shell->executor.pipe_av);
+		execve(pathname, av, shell->cmd.envp_exp);
 		perror("Error"); //TODO: meilleur mesdsage d erreur
 		exit(EXIT_FAILURE);
 	}

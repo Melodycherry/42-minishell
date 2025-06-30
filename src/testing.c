@@ -29,17 +29,7 @@ void	print_token(t_token *token, int (*f)(const char *, ...))
 	}
 }
 
-void	print_tab(char **tab)
-{
-	int	i;
 
-	i = 0;
-	while (tab && tab[i])
-	{
-		printf("%s\n", tab[i]);
-		i++;
-	}
-}
 
 // void	print_token2(t_token *token, int (*f)(const char *, ...))
 // {
@@ -689,3 +679,49 @@ void	print_tab(char **tab)
 // cat < file.txt -> file.txt devient stdin
 // echo hello > out.txt -> ecrit "hello" das out.txt (ecrase)
 // echo again >> out.txt -> ajoute "again" a la fin de out.txt
+
+
+
+// void	exec_pipe(t_shell *shell)
+// {
+// 	pid_t	pid;
+// 	int		prev_fd;
+// 	int		fd_pipe[2];
+// 	int		nb_pipe;
+// 	char	**pipe_av;
+
+// 	prev_fd = -1;
+// 	nb_pipe = shell->executor.nb_pipe;
+// 	init_pipe(shell);
+// 	while (nb_pipe >= 0)
+// 	{
+// 		pipe_av = split_args(shell, shell->executor.av);
+// 		create_pipe_or_exit(fd_pipe);
+// 		pid = fork_process_or_exit();
+// 		if (pid == 0)
+// 		{
+// 			check_fd(prev_fd);
+// 			exec_pipe_child(shell, fd_pipe, pipe_av, nb_pipe);
+// 		}
+// 		prev_fd = update_parent_fds(fd_pipe, prev_fd, nb_pipe);
+// 		update_executor_state(shell, pipe_av);
+// 		nb_pipe--;
+// 	}
+// 	wait_for_all(shell, pid);
+// }
+
+// int	update_parent_fds(int *fd_pipe, int prev_fd, int nb_pipe)
+// {
+// 	if (prev_fd != -1)
+// 		close(prev_fd);
+// 	if (nb_pipe > 0)
+// 	{
+// 		close(fd_pipe[1]);
+// 		return (fd_pipe[0]);
+// 	}
+// 	if (nb_pipe > 0)
+// 		prev_fd = fd_pipe[0]; // Garde l'entrée pour le prochain enfant
+// 	else
+// 		close(fd_pipe[0]);
+// 	return (-1);
+// }

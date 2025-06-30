@@ -62,8 +62,8 @@ void	set_redir_file_type_av(t_shell *shell, char **av)
 	}
 	free_ptr((void **)&shell->executor.redir_file);
 	shell->executor.redir_file = ft_strndup(av[i + 1], ft_strlen(av[i + 1]));
-	if(!shell->executor.redir_file)
-		return //TODO: gestion erreur malloc pourri
+	// if(!shell->executor.redir_file)
+	// 	return //TODO: gestion erreur malloc pourri FOUT LA MERDE
 	set_redir_type(shell, av[i]);
 	free_tab(&shell->executor.redir_av);
 	shell->executor.redir_av = set_redir_av(av);

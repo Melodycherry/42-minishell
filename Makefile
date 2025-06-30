@@ -44,10 +44,10 @@ vpath %.c \
 	$(SRCDIR)/builtin \
 	$(SRCDIR)/executor \
 	$(SRCDIR)/executor/exec \
-	$(SRCDIR)/executor/heredoc \
 	$(SRCDIR)/executor/pipe \
 	$(SRCDIR)/executor/redir \
 	$(SRCDIR)/expander \
+	$(SRCDIR)/heredoc \
 	$(SRCDIR)/parser \
 	$(SRCDIR)/lexer \
 	$(SRCDIR)/signals \
@@ -91,7 +91,7 @@ leaks:
 ifeq ($(OS), Darwin)
     MallocStackLogging=YES leaks --outputGraph=minishell.memgraph --fullContent --fullStackHistory --atExit -- ./$(NAME)
 else ifeq ($(OS), Linux)
-	valgrind --leak-check=full --log-file=valgrind.log --show-leak-kinds=all --trace-children=yes --track-fds=all --default-suppressions=yes --suppressions=ignore_readline.supp ./$(NAME)
+	valgrind --leak-check=full --log-file=valgrind.log --show-leak-kinds=all --trace-children=no --track-fds=all --default-suppressions=yes --suppressions=ignore_readline.supp ./$(NAME)
 endif
 
 $(LIBFT):

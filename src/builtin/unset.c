@@ -23,7 +23,7 @@ int	builtin_unset(t_shell *shell, char **av)
 	i = 1;
 	if (av[1][0] == '-')
 	{
-		ft_putendl_fd("Invalid option", STDERR_FILENO);
+		ft_putendl_fd("Invalid option", STDERR_FILENO); // TODO: check again free qqchose ?
 		return (2);
 	}
 	while (av[i])
@@ -56,6 +56,8 @@ static void	remove_var(t_shell *shell,
 	if (!old_tab[i])
 		return ;
 	new_tab = malloc_tab(shell, i);
+	if (!new_tab)
+		return ; // TODO: malloc pourri 
 	filtr_out_var(old_tab, new_tab, name, var_len);
 	replace_tab(shell, new_tab, is_export);
 }
@@ -71,7 +73,7 @@ static void	filtr_out_var(char **old_tab, char **new_tab, char *name, int len)
 	{
 		if (!(ft_strncmp(old_tab[i], name, len) == 0
 				&& (old_tab[i][len] == '=' || old_tab[i][len] == '\0')))
-			new_tab[j++] = ft_strdup(old_tab[i]); // attention 
+			new_tab[j++] = ft_strdup(old_tab[i]); // TODO: malloc pourri
 		i++;
 	}
 	new_tab[j] = NULL;

@@ -33,6 +33,7 @@ void	unlink_file(t_shell *shell)
 			return ; //TODO: faire une gestion d erreur ici
 		unlink(file);
 		free_ptr((void **)&stri);
+		free_ptr((void **)&file);
 		i++;
 	}
 }
@@ -101,6 +102,7 @@ static void	close_and_exit(t_shell *shell, int fd)
 {
 	(void)shell;
 	close(fd);
+	free_all(shell); // FIXME: test
 	exit(0); // faire mieux que ca
 }
 

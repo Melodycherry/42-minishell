@@ -34,7 +34,6 @@ void	handle_heredoc(t_shell *shell)
 		}
 		current = current->next;
 	}
-	free_ptr((void **)&file);
 }
 
 static char	*generate_file(t_shell *shell, t_token *token)
@@ -68,6 +67,7 @@ static void	update_type_heredoc_eof_for_exec(t_token *token, char *file)
 		free(token->next->value);
 		token->next->value = ft_strdup(file);
 	}
+	free_ptr((void **)&file);
 }
 
 static void	update_type_eof(t_token *token)
