@@ -114,7 +114,7 @@ void	exec_pipe_child(t_shell *shell, int *fd_pipe, char **pipe_av,
 		close(fd_pipe[1]);
 	}
 	exec_path(shell, pipe_av[0], pipe_av, shell->cmd.envp_copy);
-	free_tab(&pipe_av);
+	free_tab(&pipe_av); //
 	free_all(shell); // FIXME: test
 	exit(EXIT_FAILURE);
 }
