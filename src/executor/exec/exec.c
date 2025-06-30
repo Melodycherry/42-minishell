@@ -24,31 +24,24 @@ void	execution(t_shell *shell)
 	nb_pipe(shell, shell->tlist.head);
 	create_av(shell, shell->tlist.head);
 	if (!shell || !shell->executor.av || !shell->executor.av[0])
-		return ;
-	if (is_builtin(shell->executor.av[0]) == TRUE
-		&& shell->executor.nb_pipe == 0)
+		return ;// TODO: faire un handle de sortie or what? message sortie ?
+	if (is_builtin(shell->executor.av[0]) && shell->executor.nb_pipe == 0)
 	{
 		saved_stdin = dup(STDIN_FILENO);
 		saved_stdout = dup(STDOUT_FILENO);
 		set_redir_count(shell, shell->executor.av);
 		exit_status = exec_builtin(shell);
 		set_exit_status_env(exit_status, shell);
-		dup2(saved_stdin, STDIN_FILENO);
+		dup2(saved_stdin, STDIN_FILENO); //TODO: fonction crea et gestion erreur dup2 et dup ?
 		dup2(saved_stdout, STDOUT_FILENO);
 		close(saved_stdin);
 		close(saved_stdout);
 		free_tab(&shell->executor.redir_av);
 	}
 	else if (shell->executor.nb_pipe > 0)
-	{
 		exec_pipe(shell);
-		free_tab(&shell->executor.redir_av);
-	}
 	else
-	{
 		exec_path(shell, shell->executor.av[0], shell->executor.av, shell->cmd.envp_exp);
-		free_tab(&shell->executor.redir_av);
-	}
 }
 
 void	set_exit_status_env(int exit_status, t_shell *shell)
@@ -59,7 +52,7 @@ void	set_exit_status_env(int exit_status, t_shell *shell)
 	str_exit_status = ft_itoa(exit_status);
 	if (!str_exit_status)
 	{
-		ft_putendl_fd("Malloc error (itoa)\n", STDERR_FILENO);
+		ft_putendl_fd("Malloc error (itoa)\n", STDERR_FILENO);//TODO: TEMPLATE
 		free_all(shell);
 		exit(EXIT_FAILURE);
 	}
@@ -88,14 +81,15 @@ void	exec_with_redir_check(t_shell *shell, char *pathname, char **av, char **env
 		shell->executor.nb_redir = 0;
 		execve(pathname, shell->executor.redir_av, envp);
 		free_tab(&shell->executor.redir_av);
-		perror("Error"); // m eilleur message erreur
+		perror("Error"); // TODO: m eilleur message erreur
 		exit(EXIT_FAILURE);
 	}
 	else
 	{
 		free_child_pipe(shell);
 		execve(pathname, av, envp);
-		perror("Error"); //meilleur mesdsage d erreur
+		free_tab(&shell->executor.pipe_av);
+		perror("Error"); //TODO: meilleur mesdsage d erreur
 		exit(EXIT_FAILURE);
 	}
 }
@@ -108,7 +102,7 @@ void	exec_fork(t_shell *shell, char *pathname, char **av, char **envp)
 	{
 		pid = fork();
 		if (pid == -1)
-			return (perror("fork")); // exit avec gestion d erreur et free
+			return (perror("fork")); //TODO: exit avec gestion d erreur et free
 		if (pid > 0)
 			wait_for_all(shell, pid);
 		if (pid == 0)

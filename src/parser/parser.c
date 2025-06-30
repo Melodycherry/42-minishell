@@ -105,8 +105,4 @@ void	token_typedef(t_token *token)
 			token->type = T_WORD;
 		token = token->next;
 	}
-	//handletoken error
-	//definir les variable d expension  && EOF
-	//apres mais dans une autre fonction : virer les "" 
-	//dans les mots && EOF & autres
 }

@@ -24,7 +24,7 @@ char	*join_free(char *s1, char *s2, int len_s2)
 		len_s1 = ft_strlen(s1);
 	str = malloc(len_s1 + len_s2 + 1);
 	if (!str)
-		return (free_ptr((void **)&s1));
+		return (free_ptr((void **)&s1)); //TODO: sortie malloc pourri
 	if (s1)
 		ft_memcpy(str, s1, len_s1);
 	ft_memcpy(str + len_s1, s2, len_s2);

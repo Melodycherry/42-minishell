@@ -46,8 +46,6 @@ void	set_redir_count(t_shell *shell, char **av)
 	}
 }
 
-/* fonction qui va faire la gestion des settings */
-/*************** marche dans cet etat **************/
 void	set_redir_file_type_av(t_shell *shell, char **av)
 {
 	int	i;
@@ -56,7 +54,7 @@ void	set_redir_file_type_av(t_shell *shell, char **av)
 	set_redir_file(shell, av, &i);
 	if (av[i + 1] == NULL)
 	{
-		fprintf(stderr, "Syntax error: expected file after redirection\n"); //gestion d erreur a refaire
+		fprintf(stderr, "Syntax error: expected file after redirection\n"); //TODO: gestion d erreur a refaire
 		shell->executor.redir_file = NULL;
 		shell->executor.redir_type = 0;
 		free_tab(&shell->executor.redir_av);
@@ -64,13 +62,13 @@ void	set_redir_file_type_av(t_shell *shell, char **av)
 	}
 	free_ptr((void **)&shell->executor.redir_file);
 	shell->executor.redir_file = ft_strndup(av[i + 1], ft_strlen(av[i + 1]));
+	if(!shell->executor.redir_file)
+		return //TODO: gestion erreur malloc pourri
 	set_redir_type(shell, av[i]);
 	free_tab(&shell->executor.redir_av);
 	shell->executor.redir_av = set_redir_av(av);
 }
 
-/* fonction qui va set le type de redirection. elle etait dure celle la */
-/*************** marche dans cet etat **************/
 void	set_redir_type(t_shell *shell, char *redir)
 {
 	if (ft_strcmp(redir, ">") == 0)
@@ -110,41 +108,15 @@ char	**set_redir_av(char **av)
 		i++;
 	new_tab = malloc(sizeof(char *) * (i + 1));
 	if (!new_tab)
-		return (NULL);
+		return (NULL); //TODO: sortie malloc pourri
 	i = 0;
 	while (av[i] && !is_redir(av[i]))
 	{
 		new_tab[i] = ft_strdup(av[i]);
-		//printf("new_tab[%d] : %s, %p\n", i, av[i], av[i]);
+		if (!new_tab[i])
+			free_mid_tab(&new_tab, i);
 		i++;
 	}
 	new_tab[i] = NULL;
 	return (new_tab);
 }
-
-/* fonction qui va supprimer ce qu il y a apres l redir */
-/**** tres surement fausse, si je dis pas de betise, 
- * il faut juste enlever ""> + file"*/
-/*************** faux mais marche dans cet etat **************/
-
-// version origine IJ
-// char	**set_redir_av(char **av)
-// {
-// 	char	**new_tab;
-// 	int		i;
-
-// 	i = 0;
-// 	while (!is_redir(av[i]))
-// 		i++;
-// 	new_tab = malloc(sizeof(char*) * (i + 1));
-// 	if (!new_tab)
-// 		return (NULL);
-// 	i = 0;
-// 	while (!is_redir(av[i]))
-// 	{
-// 		new_tab[i] = ft_strdup(av[i]);
-// 		i++;
-// 	}
-// 	new_tab[i] = NULL;
-// 	return (new_tab);
-// }

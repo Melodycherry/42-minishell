@@ -33,6 +33,7 @@ void	create_av(t_shell *shell, t_token *current)
 		i++;
 	}
 	av[i] = NULL;
+	free_tab(&shell->executor.av);
 	shell->executor.av = av;
 }
 
@@ -87,8 +88,6 @@ t_bool	is_absolative(char *str)
 	return (FALSE);
 }
 
-// //join qui malloc et renvoie le path + / + cmd
-// // *** seems to work., ya un malloc donc pas oublier de free :) ***
 char	*strjoin_path(char *s1, char *s2)
 {
 	char	*dest;

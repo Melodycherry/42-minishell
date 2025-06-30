@@ -18,7 +18,7 @@ int	builtin_env(t_shell *shell, char **av)
 {
 	if (!*shell->cmd.envp_copy)
 	{
-		printf("no env bitch\n");
+		printf("no env bitch\n"); // TODO: mess erreur et check si y'a des free a faire 
 		return (0);
 	}
 	if (av[1] && av[1][0] == '-')

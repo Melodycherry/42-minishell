@@ -23,6 +23,8 @@ void	free_mid_tab(char ***tab, int i)
 	}
 	free(*tab);
 	*tab = NULL;
+
+	// TODO: faire une sortie d erreur malloc pourri
 }
 
 void	free_tab(char ***tab)
@@ -34,7 +36,6 @@ void	free_tab(char ***tab)
 		return ;
 	while ((*tab)[i])
 	{
-		
 		free_ptr((void **)&((*tab)[i]));
 		i++;
 	}

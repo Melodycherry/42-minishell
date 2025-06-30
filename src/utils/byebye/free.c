@@ -24,15 +24,16 @@ void	*free_ptr(void **ptr)
 
 void	free_all(t_shell *shell)
 {
-	free_token_list(shell);
+	free_ptr((void **)&shell->cmd.line);
+	rl_clear_history();
 	free_tab(&shell->cmd.envp_copy);
 	free_tab(&shell->cmd.envp_exp);
 	free_tab(&shell->executor.av);
 	free_tab(&shell->executor.paths);
 	free_tab(&shell->executor.pipe_av);
 	free_tab(&shell->executor.redir_av);
-	free_ptr((void **)&shell->cmd.line);
 	free_ptr((void **)&shell->executor.redir_file);
+	free_token_list(shell);
 }
 void	free_child_pipe(t_shell *shell)
 {
@@ -54,4 +55,17 @@ void	free_child_redir(t_shell *shell)
 	free_tab(&shell->executor.pipe_av);
 	free_ptr((void **)&shell->cmd.line);
 	free_ptr((void **)&shell->executor.redir_file);
+}
+
+void	free_and_reset(t_shell *shell)
+{
+	shell->executor.index_file_heredoc = 0;
+	free_tab(&shell->executor.av);
+	free_tab(&shell->executor.redir_av);
+	free_tab(&shell->executor.pipe_av);
+	free_ptr((void **)&shell->cmd.line);
+	free_token_list(shell);
+	shell->executor.is_forked = FALSE;
+	shell->executor.end = 0;
+	shell->executor.start = 0;
 }

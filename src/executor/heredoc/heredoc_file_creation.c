@@ -16,6 +16,26 @@ static int	create_and_check_fd(char *file);
 static void	close_and_exit(t_shell *shell, int fd);
 static void	expand_and_write(t_shell *shell, char *line, int fd, t_bool need_exp);
 
+void	unlink_file(t_shell *shell)
+{
+	int		i;
+	char	*stri;
+	char 	*file;
+	
+	i = 1;
+	while (i <= shell->executor.nb_heredoc)
+	{
+		stri = ft_itoa(i);
+		if (!stri)
+			return ; //TODO: faire une gestion d erreur ici
+		file = ft_strjoin("/tmp/ms_hd_", stri);
+		if (!file)
+			return ; //TODO: faire une gestion d erreur ici
+		unlink(file);
+		free_ptr((void **)&stri);
+		i++;
+	}
+}
 char	*create_name(t_shell *shell)
 {
 	char	*file;
@@ -23,10 +43,10 @@ char	*create_name(t_shell *shell)
 
 	index = ft_itoa(shell->executor.index_file_heredoc); //malloc ici
 	if (!index)
-		return (NULL); // faire une gestion d erreur ici
+		return (NULL); //TODO: faire une gestion d erreur ici
 	file = ft_strjoin("/tmp/ms_hd_", index);
 	if (!file)
-		return (NULL); // faire une gestion d erreur ici
+		return (NULL); //TODO: faire une gestion d erreur ici
 	free_ptr((void **)&index);
 	return (file);
 }
@@ -46,7 +66,7 @@ void	process_hd_file(t_shell *shell, char *file, char *eof, t_bool need_exp)
 		{
 			line = readline("> ");
 			if (!line)
-				return ;// faire gestion d erreur de sortie ici
+				return ;//TODO: faire gestion d erreur de sortie ici
 			if (ft_strcmp(line, eof) == 0)
 			{
 				free_ptr((void **) &line);
@@ -83,3 +103,4 @@ static void	close_and_exit(t_shell *shell, int fd)
 	close(fd);
 	exit(0); // faire mieux que ca
 }
+

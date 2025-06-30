@@ -58,6 +58,7 @@ void	exec_with_redir_check(t_shell *shell, char *pathname,
 /**HEREDOC**/
 
 void	check_error_fd(int fd);
+void	unlink_file(t_shell *shell);
 void	handle_heredoc(t_shell *shell);
 //void 	delete_quotes_eof(t_token *token);
 void	nb_heredoc(t_shell *shell, t_token *token);
@@ -156,14 +157,15 @@ void	signal_handler(int sig);
 t_token	*handle_free_mid_list(t_token *current);
 
 void	*free_ptr(void **ptr);
+void	free_tab(char ***tab);
 void	free_all(t_shell *shell);
+void	free_and_reset(t_shell *shell);
 void	error_syntax_unset(char *line);
 void	free_child_pipe(t_shell *shell);
 void	error_syntax_export(char *line);
 void	free_token_list(t_shell *shell);
 void	free_child_redir(t_shell *shell);
 void	free_mid_tab(char ***strs, int i);
-void	free_tab(char ***tab);
 
 /**CHAIN**/
 t_token	*create_token(int type, char *value, int n);

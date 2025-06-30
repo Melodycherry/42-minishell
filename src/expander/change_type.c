@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static void	extract_env_if_valid(t_shell *shell,
+static void	change_type_if_valid(t_shell *shell,
 				t_token *token, int *i, int *j);
 
 void	check_var_env(t_shell *shell, t_token *token)
@@ -30,14 +30,14 @@ void	check_var_env(t_shell *shell, t_token *token)
 				if (token->value[i] == '\'')
 					find_next_quote('\'', token->value, &i);
 				else
-					extract_env_if_valid(shell, token, &i, &j);
+					change_type_if_valid(shell, token, &i, &j);
 			}
 		}
 		token = token->next;
 	}
 }
 
-static void	extract_env_if_valid(t_shell *shell,
+static void	change_type_if_valid(t_shell *shell,
 				t_token *token, int *i, int *j)
 {
 	while (token->value[*i] != '$' && token->value[*i])

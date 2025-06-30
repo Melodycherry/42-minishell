@@ -23,7 +23,7 @@ int	builtin_cd(t_shell *shell, char **av)
 
 	if (av[1] && av[2])
 	{
-		ft_putendl_fd("cd: too many arguments", STDERR_FILENO);
+		ft_putendl_fd("cd: too many arguments", STDERR_FILENO); // TODO: Free des trucs ici ?? pour chaque erreur ??
 		return (1);
 	}
 	if (av[1] && av[1][0] == '-')
@@ -62,10 +62,10 @@ static void	update_pwd(t_shell *shell, char *oldpwd)
 		return ;
 	oldpwd_str = ft_strjoin("OLDPWD=", oldpwd);
 	if (!oldpwd)
-		exit(EXIT_FAILURE); // gestion erreur !!!!!!!!!!
+		exit(EXIT_FAILURE); // TODO: gestion erreur !!!!!!!!!!
 	newpwd_str = ft_strjoin("PWD=", newpwd);
 	if (!newpwd_str)
-		exit(EXIT_FAILURE); // gestion erreur  !!!!!!!!!!
+		exit(EXIT_FAILURE); // TODO: gestion erreur  !!!!!!!!!!
 	if (oldpwd_str && newpwd_str)
 	{
 		set_env(oldpwd_str, TO_BOTH, shell);

@@ -45,7 +45,7 @@ void	create_pipe_or_exit(int *fd_pipe)
 	if (pipe(fd_pipe) == -1)
 	{
 		perror("pipe");
-		exit(EXIT_FAILURE); // gestion erreur a faire , free avant d exit 
+		exit(EXIT_FAILURE); //TODO: gestion erreur a faire , free avant d exit 
 	}
 }
 
@@ -57,7 +57,7 @@ pid_t	fork_process_or_exit(void)
 	if (pid < 0)
 	{
 		perror("fork");
-		exit(EXIT_FAILURE); // gestion erreur a faire , free avant d exit 
+		exit(EXIT_FAILURE); //TODO: gestion erreur a faire , free avant d exit 
 	}
 	return (pid);
 }
@@ -66,7 +66,7 @@ void	check_fd(int prev_fd)
 {
 	if (prev_fd != -1)
 	{
-		dup2(prev_fd, STDIN_FILENO);
+		dup2(prev_fd, STDIN_FILENO); // TODO: fonction dup2 ?
 		close(prev_fd);
 	}
 }

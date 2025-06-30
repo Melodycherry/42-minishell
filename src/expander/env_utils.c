@@ -36,7 +36,7 @@ char	**cpy_tab(char **tab)
 	i = 0;
 	cpy_tab = malloc(sizeof(char *) * (ft_tablen(tab) + 1));
 	if (!cpy_tab)
-		return (NULL);
+		return (NULL); //TODO: sortie malloc pourri
 	while (i < ft_tablen(tab))
 	{
 		cpy_tab[i] = ft_strdup(tab[i]);
@@ -58,7 +58,7 @@ char	**init_envp_copy(char **tab)
 	i = 1;
 	cpy_tab = malloc(sizeof(char *) * (ft_tablen(tab) + 2));
 	if (!cpy_tab)
-		return (NULL);
+		return (NULL); //TODO: sortie malloc pourri
 	cpy_tab[0] = ft_strdup("?=0");
 	while (i < ft_tablen(tab + 1))
 	{

@@ -52,7 +52,7 @@ char	**malloc_tab(t_shell *shell, int tab_len)
 	(void)shell;
 	new_tab = malloc(sizeof(char *) * (tab_len + 1));
 	if (!new_tab)
-		return (NULL);
+		return (NULL); //TODO: sortie malloc pourri
 	return (new_tab);
 }
 
@@ -74,6 +74,8 @@ void	insert_env_export(t_shell *shell, char *value,
 		index = pos_var_env(tab, value, var_len);
 		free_ptr((void **)&tab[index]);
 		tab[index] = ft_strndup(value, ft_strlen(value));
+		if (tab[index])
+			return ; //TODO: sortie malloc pourri
 		return ;
 	}
 	if (var_exist(tab, value, var_len) == FALSE)

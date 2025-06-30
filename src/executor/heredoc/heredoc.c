@@ -34,6 +34,7 @@ void	handle_heredoc(t_shell *shell)
 		}
 		current = current->next;
 	}
+	free_ptr((void **)&file);
 }
 
 static char	*generate_file(t_shell *shell, t_token *token)
@@ -50,7 +51,7 @@ static char	*generate_file(t_shell *shell, t_token *token)
 			need_exp = FALSE;
 	}
 	else
-		return (NULL); //faire gestion d erreur ici
+		return (NULL); //TODO: faire gestion d erreur ici
 	file = create_name(shell);
 	process_hd_file(shell, file, eof, need_exp);
 	return (file);
@@ -90,3 +91,4 @@ static void	update_type_eof(t_token *token)
 		token = token->next;
 	}
 }
+

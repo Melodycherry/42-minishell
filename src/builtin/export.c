@@ -45,8 +45,8 @@ t_bool	checking_var(t_shell *shell, char *line)
 
 	i = 0;
 	if (is_valid_name(line) == FALSE)
-		return (printf("C est pas valide var\n"),
-			error_syntax_export(line), FALSE);
+		return (printf("C est pas valide var\n"), 
+			error_syntax_export(line), FALSE); //TODO: check ?
 	while (line[i])
 	{
 		while (line[i] == '_' || ft_isalnum(line[i]))
@@ -67,6 +67,8 @@ void	put_in_env_export(t_shell *shell, char **old_tab,
 
 	i = 0;
 	new_tab = malloc_tab(shell, ft_tablen(old_tab) + 1);
+	if (!new_tab)
+		return ; //TODO: sortie malloc pourri
 	while (i < ft_tablen(old_tab))
 	{
 		new_tab[i] = ft_strdup(old_tab[i]);
@@ -75,6 +77,8 @@ void	put_in_env_export(t_shell *shell, char **old_tab,
 		i++;
 	}
 	new_tab[i] = ft_strdup(new_value);
+	if (new_tab[i] == NULL)
+		free_mid_tab(&new_tab, i);
 	i++;
 	new_tab[i] = 0;
 	replace_tab(shell, new_tab, is_export);

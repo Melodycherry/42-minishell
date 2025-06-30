@@ -18,9 +18,11 @@ t_token	*create_token(int type, char *value, int n)
 
 	new_token = malloc(sizeof(t_token));
 	if (!new_token)
-		return (NULL);
-	ft_memset(new_token, 0, sizeof(t_token)); // t_token
+		return (NULL); //TODO: gestion erreur malloc pourri 
+	ft_memset(new_token, 0, sizeof(t_token));
 	new_token->value = ft_strndup(value, n);
+	if (!new_token->value)
+		//TODO: gestion errueur malloc pourri
 	new_token->type = type;
 	return (new_token);
 }
