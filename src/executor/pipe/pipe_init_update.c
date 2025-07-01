@@ -24,33 +24,16 @@ void	update_executor_state(t_shell *shell, char **pipe_av)
 	shell->executor.end++;
 	shell->executor.start = shell->executor.end;
 }
-
-void	wait_for_all(t_shell *shell, pid_t pid)
+// ML pour refacto 
+void	update_parent_fds(int *prev_fd, int *fd_pipe, int nb_pipe)
 {
-	int		stat_loc;
-	int		exit_status;
-	char	*value;
-	char	*str_exit_status;
-
-	if (pid > 0)
-		waitpid(pid, &stat_loc, 0);
-	if (WIFEXITED(stat_loc) == TRUE)
-		exit_status = WEXITSTATUS(stat_loc);
-	else if (WIFSIGNALED(stat_loc) == TRUE)
-		exit_status = 128 + WTERMSIG(stat_loc);
-	else
-		exit_status = EXIT_FAILURE;
-	str_exit_status = ft_itoa(exit_status);
-	if (!str_exit_status)
-		unfructuous_malloc(shell);
-	value = ft_strjoin("?=", str_exit_status);
-	if (!value)
+	if (*prev_fd != -1)
+			close(*prev_fd);
+	if (nb_pipe > 0)
 	{
-		free_ptr((void **)&str_exit_status);
-		unfructuous_malloc(shell);
+		close(fd_pipe[1]);
+		*prev_fd = fd_pipe[0];
 	}
-	free_ptr((void **) &str_exit_status);
-	set_env(value, TO_ENV, shell);
-	free_ptr((void **) &value);
+	else
+		*prev_fd = -1;
 }
-

@@ -16,7 +16,6 @@ static int	error_home(t_shell *shell);
 static void	execute_cd(t_shell *shell, char *path);
 static void	update_pwd(t_shell *shell, char *oldpwd);
 
-// ML ok rien a free
 int	builtin_cd(t_shell *shell, char **av)
 {
 	char	*path;
@@ -51,7 +50,6 @@ static int	error_home(t_shell *shell)
 	ft_putendl_fd("cd: HOME not set", STDERR_FILENO);
 	return (1);
 }
-// ML OK refacto
 static void	update_pwd(t_shell *shell, char *oldpwd)
 {
 	char	*newpwd;

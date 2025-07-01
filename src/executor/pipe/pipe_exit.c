@@ -12,47 +12,27 @@
 
 #include "minishell.h"
 
-static int	validate_exit_arg(t_shell *shell, char **av, int *exit_status);
-
-int	builtin_exit(t_shell *shell, char **av)
+// ML free all 
+void	create_pipe_or_exit(t_shell *shell, int *fd_pipe)
 {
-	int		exit_status;
-	char	*str_exit_status;
-
-	exit_status = 0;
-	if (av[1])
-		validate_exit_arg(shell, av, &exit_status);
-	else
+	if (pipe(fd_pipe) == -1)
 	{
-		str_exit_status = recup_var(shell->cmd.envp_copy, "?", 1);
-		exit_status = ft_atoi(str_exit_status);
-	}
-	ft_putendl_fd("exit", STDERR_FILENO);
-	free_all(shell);
-	exit(exit_status);
-}
-
-static int	validate_exit_arg(t_shell *shell, char **av, int *exit_status)
-{
-	int	i;
-
-	i = 0;
-	while (av[1][i])
-	{
-		if (!ft_isdigit(av[1][i]))
-		{
-			ft_putendl_fd("exit\nNeed numeric argument", STDERR_FILENO);
-			free_all(shell);
-			exit(2);
-		}
-		i++;
-	}
-	if (av[2])
-	{
-		ft_putendl_fd("exit\nToo many arguments", STDERR_FILENO);
+		perror("pipe");
 		free_all(shell);
-		exit (1);
+		exit(EXIT_FAILURE);
 	}
-	*exit_status = ft_atoi(av[1]);
-	return (0);
+}
+// change avec t_shell
+pid_t	fork_process_or_exit(t_shell *shell)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid < 0)
+	{
+		perror("fork");
+		free_all(shell);
+		exit(EXIT_FAILURE);
+	}
+	return (pid);
 }

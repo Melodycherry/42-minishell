@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	free_mid_tab(char ***tab, int i)
+void	free_mid_tab(t_shell *shell, char ***tab, int i)
 {
 	if (!tab && !*tab)
 		return ;
@@ -23,6 +23,7 @@ void	free_mid_tab(char ***tab, int i)
 	}
 	free(*tab);
 	*tab = NULL;
+	unfructuous_malloc(shell);
 }
 
 void	free_tab(char ***tab)

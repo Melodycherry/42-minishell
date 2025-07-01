@@ -16,6 +16,7 @@ static void	update_type_eof(t_shell *shell,t_token *token);
 static char	*generate_file(t_shell *shell, t_token *token);
 static void	update_type_eof_exec(t_shell *shell, t_token *token, char *file);
 
+// ML modif pour arreter le traitement des heredoc 
 void	handle_heredoc(t_shell *shell)
 {
 	t_token	*current;
@@ -30,12 +31,14 @@ void	handle_heredoc(t_shell *shell)
 		{
 			shell->executor.index_file_heredoc++;
 			file = generate_file(shell, current);
+			if (!file)
+				return; // ML : on arrete le traitement des heredoc 
 			update_type_eof_exec(shell, current, file);
 		}
 		current = current->next;
 	}
 }
-
+// ML : gestion erreur et verif de bash ok 
 static char	*generate_file(t_shell *shell, t_token *token)
 {
 	char	*file;
@@ -50,7 +53,10 @@ static char	*generate_file(t_shell *shell, t_token *token)
 			need_exp = FALSE;
 	}
 	else
-		return (NULL); //TODO: faire gestion d erreur ici
+	{
+		ft_putendl_fd("Syntaxe error: missing delimiter", STDERR_FILENO);
+		return (NULL);
+	}
 	file = create_name(shell);
 	process_hd_file(shell, file, eof, need_exp);
 	return (file);
@@ -71,7 +77,7 @@ static void	update_type_eof_exec(t_shell *shell, t_token *token, char *file)
 	}
 	free_ptr((void **)&file);
 }
-
+// ML modif gestion erreur. Pas de free ni de exit ici 
 static void	update_type_eof(t_shell *shell, t_token *token)
 {
 	while (token->next)
@@ -88,7 +94,7 @@ static void	update_type_eof(t_shell *shell, t_token *token)
 				}
 			}
 			else
-				perror("pas de delimiteur faire gestion d erreur"); // faire un puthandle shit
+				ft_putendl_fd("Syntaxe error: missing delimiter", STDERR_FILENO);
 		}
 		token = token->next;
 	}

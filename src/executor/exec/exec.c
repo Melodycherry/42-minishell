@@ -24,7 +24,7 @@ void	execution(t_shell *shell)
 	nb_pipe(shell, shell->tlist.head);
 	create_av(shell, shell->tlist.head);
 	if (!shell || !shell->executor.av || !shell->executor.av[0])
-		return ;// TODO: faire un handle de sortie or what? message sortie ?
+		return ;
 	if (is_builtin(shell->executor.av[0]) && shell->executor.nb_pipe == 0)
 	{
 		saved_stdin = dup(STDIN_FILENO);
@@ -32,8 +32,8 @@ void	execution(t_shell *shell)
 		set_redir_count(shell, shell->executor.av);
 		exit_status = exec_builtin(shell);
 		set_exit_status_env(exit_status, shell);
-		dup2(saved_stdin, STDIN_FILENO); //TODO: fonction crea et gestion erreur dup2 et dup ?
-		dup2(saved_stdout, STDOUT_FILENO);
+		handle_dup2(shell, saved_stdin, STDIN_FILENO);
+		handle_dup2(shell, saved_stdout, STDOUT_FILENO);
 		close(saved_stdin);
 		close(saved_stdout);
 		free_tab(&shell->executor.redir_av);
@@ -42,6 +42,17 @@ void	execution(t_shell *shell)
 		exec_pipe(shell);
 	else
 		exec_path(shell, shell->executor.av[0], shell->executor.av);
+}
+
+void	handle_dup2(t_shell *shell, int fd, int std)
+{
+	if (dup2(fd, std) == -1)
+	{
+		perror("dup2");
+		close(fd);
+		free_all(shell);
+		exit(EXIT_FAILURE);
+	}
 }
 
 static void	set_exit_status_env(int exit_status, t_shell *shell)
@@ -72,7 +83,7 @@ static void	set_exit_status_env(int exit_status, t_shell *shell)
 static void	exec_with_redir_check(t_shell *shell, char *pathname, char **av)
 {
 	set_redir_count(shell, av);
-	free_all(shell);
+	//free_all(shell);
 	if (shell->executor.nb_redir > 0)
 	{
 		shell->executor.nb_redir = 0;
@@ -82,6 +93,8 @@ static void	exec_with_redir_check(t_shell *shell, char *pathname, char **av)
 	}
 	else
 	{
+		// printf("pathname : %s\n", pathname);
+		// print_tab(shell->executor.av);
 		execve(pathname, av, shell->cmd.envp_exp);
 		perror("Error"); //TODO: meilleur mesdsage d erreur
 		exit(EXIT_FAILURE);

@@ -45,7 +45,7 @@ t_bool	checking_var(t_shell *shell, char *line);
 t_bool	is_absolative(char *str);
 
 void	execution(t_shell *shell);
-
+void	handle_dup2(t_shell *shell, int fd, int std);
 void	create_path(t_shell *shell, char **envp);
 void	create_av(t_shell *shell, t_token *current);
 void	exec_fork(t_shell *shell, char *pathname, char **av);
@@ -53,20 +53,19 @@ void	exec_path(t_shell *shell, char *pathname, char **av);
 
 /**PIPE**/
 
-pid_t	fork_process_or_exit(void);
+pid_t	fork_process_or_exit(t_shell *shell);
 
 void	wait_for_all(t_shell *shell, pid_t pid);
-void	check_fd(int prev_fd);
+void	check_fd(t_shell *shell,int prev_fd);
 void	exec_pipe(t_shell *shell);
 void	init_pipe(t_shell *shell);
 void	find_range(t_shell *shell);
-void	create_pipe_or_exit(int *fd_pipe);
+void	update_parent_fds(int *prev_fd, int *fd_pipe, int nb_pipe);
+void	create_pipe_or_exit(t_shell *shell, int *fd_pipe);
 void	nb_pipe(t_shell *shell, t_token *token);
 void	update_executor_state(t_shell *shell, char **pipe_av);
 void	exec_pipe_child(t_shell *shell, int *fd_pipe, char **pipe_av,
 			int nb_pipe);
-
-void	update_parent_fds(int prev_fd, int *fd_pipe);
 
 char	*right_path(t_shell *shell, char **paths, char *cmd);
 char	**split_args(t_shell *shell, char **av);
@@ -75,9 +74,9 @@ char	**split_args(t_shell *shell, char **av);
 
 t_bool	is_redir(char *av);
 
-void	handle_redir_in(char *file);
-void	handle_redir_out(char *file);
-void	handle_redir_append(char *file);
+void	handle_redir_in(t_shell *shell, char *file);
+void	handle_redir_out(t_shell *shell, char *file);
+void	handle_redir_append(t_shell *shell, char *file);
 void	redir_handle(t_shell *shell);
 void	set_redir_count(t_shell *shell, char **av);
 void	set_redir_type(t_shell *shell, char *redir);
@@ -88,7 +87,7 @@ char	**set_redir_av(t_shell *shell, char **av);
 
 /*HEREDOC*/
 
-void	check_error_fd(int fd);
+void	check_error_fd(t_shell *shell, int fd);
 void	unlink_file(t_shell *shell);
 void	close_and_exit(t_shell *shell, int fd);
 void	heredoc_exit_eof(t_shell *shell, int fd);
@@ -156,14 +155,16 @@ void	signal_handler(int sig);
 /**BYEBYE**/
 t_token	*handle_free_mid_list(t_token *current);
 
+void	close_fd(int *fd);
 void	*free_ptr(void **ptr);
 void	free_tab(char ***tab);
 void	free_all(t_shell *shell);
+void	free_all_minus_av(t_shell *shell);
 void	free_and_reset(t_shell *shell);
 void	error_syntax_unset(char *line);
 void	error_syntax_export(char *line);
 void	free_token_list(t_shell *shell);
-void	free_mid_tab(char ***strs, int i);
+void	free_mid_tab(t_shell *shell, char ***strs, int i);
 void	unfructuous_malloc(t_shell *shell);
 
 /**CHAIN**/
@@ -175,3 +176,4 @@ void	init_all(t_shell *shell);
 
 //fonctions tests a supprimer apres
 void	print_token(t_token *token, int (*f)(const char *, ...));
+void	print_tab(char **tab);

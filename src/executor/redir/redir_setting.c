@@ -11,7 +11,7 @@
 /*****************************************************************************/
 
 #include "minishell.h"
-
+// TODO: refacto ( flemme for now, deja 5 fonctions )
 void	set_redir_count(t_shell *shell, char **av)
 {
 	int		i;
@@ -43,7 +43,7 @@ void	set_redir_count(t_shell *shell, char **av)
 		free_tab(&shell->executor.redir_av);
 	}
 }
-
+// ML juste changement pour putendl
 void	set_redir_file_type_av(t_shell *shell, char **av)
 {
 	int	i;
@@ -52,7 +52,7 @@ void	set_redir_file_type_av(t_shell *shell, char **av)
 	set_redir_file(shell, av, &i);
 	if (av[i + 1] == NULL)
 	{
-		fprintf(stderr, "Syntax error: expected file after redirection\n"); //TODO: gestion d erreur a refaire
+		ft_putendl_fd("Syntax error: expected file after redirection\n", STDERR_FILENO);
 		shell->executor.redir_file = NULL;
 		shell->executor.redir_type = 0;
 		free_tab(&shell->executor.redir_av);
@@ -60,7 +60,7 @@ void	set_redir_file_type_av(t_shell *shell, char **av)
 	}
 	free_ptr((void **)&shell->executor.redir_file);
 	shell->executor.redir_file = ft_strndup(av[i + 1], ft_strlen(av[i + 1]));
-	if (!shell->executor.redir_file) //si pb possible ici
+	if (!shell->executor.redir_file)
 		unfructuous_malloc(shell);
 	set_redir_type(shell, av[i]);
 	free_tab(&shell->executor.redir_av);
@@ -109,7 +109,7 @@ char	**set_redir_av(t_shell *shell, char **av)
 	{
 		new_tab[i] = ft_strdup(av[i]);
 		if (!new_tab[i])
-			free_mid_tab(&new_tab, i);
+			free_mid_tab(shell, &new_tab, i);
 		i++;
 	}
 	new_tab[i] = NULL;

@@ -25,8 +25,6 @@ void	init_all(t_shell *shell)
 	shell->lexer.single_quote = 0;
 }
 
-// initiation de listes
-// testée a l air ok
 static void	init_list(t_shell *shell)
 {
 	shell->tlist.head = NULL;

@@ -22,13 +22,15 @@ void	create_av(t_shell *shell, t_token *current)
 	i = 0;
 	av = malloc(sizeof(char *) * (shell->tlist.token_cnt + 1));
 	if (!av)
-		return (perror("malloc\n"));
+		unfructuous_malloc(shell);
 	while (i < shell->tlist.token_cnt)
 	{
 		if (current->type == T_ARG)
 			av[i] = ft_strdup(current->var_value);
 		else
 			av[i] = ft_strdup(current->value);
+		if (!av[i])
+			free_mid_tab(shell, &av, i);
 		current = current->next;
 		i++;
 	}
@@ -49,7 +51,7 @@ void	create_path(t_shell *shell, char **envp)
 	else
 		shell->executor.paths = NULL;
 }
-
+// ML gestion erreur sortie et free
 char	*right_path(t_shell *shell, char **paths, char *cmd)
 {
 	int		i;
@@ -63,8 +65,12 @@ char	*right_path(t_shell *shell, char **paths, char *cmd)
 		{
 			if (!access(path, X_OK))
 				return (path);
-			//else
-			// 	gestion d erreur //TODO: 
+			else
+			{
+				ft_putendl_fd("Permission denied", STDERR_FILENO);
+				free_ptr((void **)&path);
+				return (NULL);
+			}
 		}
 		free_ptr((void **)&path);
 		i++;

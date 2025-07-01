@@ -36,7 +36,6 @@ int	builtin_export(t_shell *shell, char **av)
 	}
 	return (0);
 }
-// ML ok I think 
 t_bool	checking_var(t_shell *shell, char *line)
 {
 	int	i;
@@ -71,12 +70,12 @@ void	put_in_env_export(t_shell *shell, char **old_tab,
 	{
 		new_tab[i] = ft_strdup(old_tab[i]);
 		if (new_tab[i] == NULL)
-			free_mid_tab(&new_tab, i);
+			free_mid_tab(shell, &new_tab, i);
 		i++;
 	}
 	new_tab[i] = ft_strdup(new_value);
 	if (new_tab[i] == NULL)
-		free_mid_tab(&new_tab, i);
+		free_mid_tab(shell, &new_tab, i);
 	i++;
 	new_tab[i] = 0;
 	replace_tab(shell, new_tab, is_export);

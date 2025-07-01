@@ -24,7 +24,7 @@ endif
 
 # Compiler and flags
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g3
 DEBUG_FLAGS = -g3 -fno-omit-frame-pointer -fstack-protector-all
 
 ifeq ($(OS), Darwin)
@@ -63,7 +63,7 @@ SRC = main.c \
 builtin_utils.c cd.c echo.c env.c exit.c export.c export_utils.c pwd.c unset.c \
 exec.c executor_utils.c \
 heredoc.c heredoc_utils.c heredoc_file_creation.c heredoc_expand.c \
-pipe.c pipe_utils.c pipe_2.c \
+pipe.c pipe_utils.c pipe_init_update.c pipe_exit.c \
 redir.c redir_utils.c redir_setting.c \
 expander.c expander_utils.c change_type.c env_utils.c init_env.c quotes.c var_handler.c\
 lexer.c lexer_utils.c \
@@ -91,7 +91,7 @@ leaks:
 ifeq ($(OS), Darwin)
     MallocStackLogging=YES leaks --outputGraph=minishell.memgraph --fullContent --fullStackHistory --atExit -- ./$(NAME)
 else ifeq ($(OS), Linux)
-	valgrind --leak-check=full --log-file=valgrind.log --show-leak-kinds=all --trace-children=yes --track-fds=all --default-suppressions=yes --suppressions=ignore_readline.supp ./$(NAME)
+	valgrind --leak-check=full --log-file=valgrind.log --show-leak-kinds=all --track-fds=all --default-suppressions=yes --suppressions=ignore_readline.supp ./$(NAME)
 endif
 
 $(LIBFT):

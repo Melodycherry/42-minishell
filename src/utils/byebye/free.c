@@ -36,6 +36,19 @@ void	free_all(t_shell *shell)
 	free_token_list(shell);
 }
 
+void	free_all_minus_av(t_shell *shell)
+{
+	free_ptr((void **)&shell->cmd.line);
+	rl_clear_history();
+	free_tab(&shell->cmd.envp_copy);
+	free_tab(&shell->cmd.envp_exp);
+	free_tab(&shell->executor.paths);
+	free_tab(&shell->executor.pipe_av);
+	free_tab(&shell->executor.redir_av);
+	free_ptr((void **)&shell->executor.redir_file);
+	free_token_list(shell);
+}
+
 void	free_and_reset(t_shell *shell)
 {
 	shell->executor.index_file_heredoc = 0;

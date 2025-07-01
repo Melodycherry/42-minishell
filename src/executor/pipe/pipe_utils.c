@@ -47,7 +47,7 @@ char	**split_args(t_shell *shell, char **av)
 	{
 		dest[i] = ft_strdup(av[start]);
 		if (!dest[i])
-			free_mid_tab(&dest, i);
+			free_mid_tab(shell, &dest, i);
 		i++;
 		start++;
 	}
@@ -63,5 +63,13 @@ void	nb_pipe(t_shell *shell, t_token *token)
 		if (token->type == T_PIPE)
 			shell->executor.nb_pipe++;
 		token = token->next;
+	}
+}
+void	check_fd(t_shell *shell, int prev_fd)
+{
+	if (prev_fd != -1)
+	{
+		handle_dup2(shell, prev_fd, STDIN_FILENO);
+		close(prev_fd);
 	}
 }

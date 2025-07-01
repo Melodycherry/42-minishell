@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 static void	print_tab_env(char **tab);
-// ML OK, no free 
+
 int	builtin_env(t_shell *shell, char **av)
 {
 	if (!*shell->cmd.envp_copy)

@@ -38,7 +38,7 @@ char	**cpy_tab(t_shell *shell, char **tab)
 	{
 		cpy_tab[i] = ft_strdup(tab[i]);
 		if (cpy_tab[i] == NULL)
-			free_mid_tab(&cpy_tab, i);
+			free_mid_tab(shell, &cpy_tab, i);
 		i++;
 	}
 	cpy_tab[i] = 0;
@@ -60,7 +60,7 @@ char	**init_envp_copy(t_shell *shell, char **tab)
 	{
 		cpy_tab[i] = ft_strdup(tab[i]);
 		if (cpy_tab[i] == NULL)
-			free_mid_tab(&cpy_tab, i);
+			free_mid_tab(shell, &cpy_tab, i);
 		i++;
 	}
 	cpy_tab[i] = 0;

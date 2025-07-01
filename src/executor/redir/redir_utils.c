@@ -12,50 +12,50 @@
 
 #include "minishell.h"
 
-void	handle_redir_in(char *file)
+// ML modif 
+void	handle_redir_in(t_shell *shell, char *file)
 {
 	int	fd;
 
-
 	fd = open(file, O_RDONLY);
-	check_error_fd(fd);
+	check_error_fd(shell, fd);
 	if (dup2(fd, STDIN_FILENO) == -1)
 	{
 		perror("dup2");
 		close(fd);
-		//free_all(shell); // FIXME: test
+		free_all(shell);
 		exit(EXIT_FAILURE);
 	}
 	close(fd);
 }
-
-void	handle_redir_out(char *file)
+// ML modif 
+void	handle_redir_out(t_shell *shell, char *file)
 {
 	int	fd;
 
 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	check_error_fd(fd);
+	check_error_fd(shell, fd);
 	if (dup2(fd, STDOUT_FILENO) == -1)
 	{
 		perror("dup2");
 		close(fd);
-		//free_all(shell); // FIXME: test
-		exit(EXIT_FAILURE);	//TODO: meilleur gestion d erreur && free et compAGNIE L 25 RT 55 AUSSI
+		free_all(shell);
+		exit(EXIT_FAILURE);
 	}
 	close(fd);
 }
-
-void	handle_redir_append(char *file)
+// ML modif 
+void	handle_redir_append(t_shell *shell, char *file)
 {
 	int	fd;
 
 	fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	check_error_fd(fd);
+	check_error_fd(shell, fd);
 	if (dup2(fd, STDOUT_FILENO) == -1)
 	{
 		perror("dup2");
 		close(fd);
-		//free_all(shell); // FIXME: test
+		free_all(shell);
 		exit(EXIT_FAILURE);
 	}
 	close(fd);
@@ -70,12 +70,12 @@ t_bool	is_redir(char *av)
 		return (FALSE);
 }
 
-void	check_error_fd(int fd)
+void	check_error_fd(t_shell *shell, int fd)
 {
 	if (fd < 0)
 	{
 		perror("open");
-		//free_all(shell); // FIXME: test
-		exit(EXIT_FAILURE); // meilleure gestion d erreur
+		free_all(shell);
+		exit(EXIT_FAILURE);
 	}
 }

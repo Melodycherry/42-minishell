@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int	create_and_check_fd(char *file);
+static int	create_and_check_fd(t_shell *shell, char *file);
 static void	expand_and_write(t_shell *shell, char *line, int fd, t_bool need_exp);
 
 void	unlink_file(t_shell *shell)
@@ -63,11 +63,11 @@ void	process_hd_file(t_shell *shell, char *file, char *eof, t_bool need_exp)
 	int		fd;
 	char	*line;
 
-	pid = fork_process_or_exit();
+	pid = fork_process_or_exit(shell);
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
-		fd = create_and_check_fd(file);
+		fd = create_and_check_fd(shell, file);
 		while (1)
 		{
 			line = readline("> ");
@@ -94,11 +94,11 @@ static void	expand_and_write(t_shell *shell, char *line, int fd, t_bool need_exp
 	ft_putstr_fd("\n", fd);
 }
 
-static int	create_and_check_fd(char *file)
+static int	create_and_check_fd(t_shell *shell, char *file)
 {
 	int	fd;
 
 	fd = open(file, O_WRONLY | O_CREAT | O_EXCL | O_TRUNC, 0600);
-	check_error_fd(fd);
+	check_error_fd(shell, fd);
 	return (fd);
 }

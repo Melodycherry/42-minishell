@@ -11,7 +11,7 @@
 /*****************************************************************************/
 
 #include "minishell.h"
-// ML tt ok rien a free 
+
 int	builtin_pwd(t_shell *shell, char **av)
 {
 	char	*cwd;

@@ -17,7 +17,7 @@ static void	filtr_out_var(t_shell *shell, char **new_tab,
 static void	remove_var(t_shell *shell, char **old_tab,
 			char *name, t_bool is_export);
 static void copy_or_exit(t_shell *shell, char **new_tab, char *src, int *j);
-// ML tt ok rien de plus a free 
+
 int	builtin_unset(t_shell *shell, char **av)
 {
 	int	i;
@@ -96,7 +96,7 @@ static void copy_or_exit(t_shell *shell, char **new_tab, char *src, int *j)
 	new_tab[*j] = ft_strdup(src);
 	if (!new_tab[*j])
 	{
-		free_mid_tab(&new_tab, *j);
+		free_mid_tab(shell, &new_tab, *j);
 		unfructuous_malloc(shell);
 	}
 	(*j)++;
