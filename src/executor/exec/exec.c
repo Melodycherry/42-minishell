@@ -12,9 +12,8 @@
 
 #include "minishell.h"
 
-// fonction de gestion de l execution
-// ****** en cours, fonctionne dans ce etat ***********
-
+static void	set_exit_status_env(int exit_status, t_shell *shell);
+static void	exec_with_redir_check(t_shell *shell, char *pathname, char **av);
 
 void	execution(t_shell *shell)
 {
@@ -42,10 +41,10 @@ void	execution(t_shell *shell)
 	else if (shell->executor.nb_pipe > 0)
 		exec_pipe(shell);
 	else
-		exec_path(shell, shell->executor.av[0], shell->executor.av, shell->cmd.envp_exp);
+		exec_path(shell, shell->executor.av[0], shell->executor.av);
 }
 
-void	set_exit_status_env(int exit_status, t_shell *shell)
+static void	set_exit_status_env(int exit_status, t_shell *shell)
 {
 	char	*str_exit_status;
 	char	*value;
@@ -70,27 +69,10 @@ void	set_exit_status_env(int exit_status, t_shell *shell)
 	free_ptr((void **)&value);
 }
 
-// exec dans le child et pas le parent. toutes les execs hors builtin.
-// ***** en cours, dont judge **** 
-
-
-void	print_tab(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab && tab[i])
-	{
-		printf("%s\n", tab[i]);
-		i++;
-	}
-}
-
-void	exec_with_redir_check(t_shell *shell, char *pathname, char **av, char **envp)
+static void	exec_with_redir_check(t_shell *shell, char *pathname, char **av)
 {
 	set_redir_count(shell, av);
 	free_all(shell);
-	//free_child_pipe(shell);
 	if (shell->executor.nb_redir > 0)
 	{
 		shell->executor.nb_redir = 0;
@@ -106,7 +88,7 @@ void	exec_with_redir_check(t_shell *shell, char *pathname, char **av, char **env
 	}
 }
 
-void	exec_fork(t_shell *shell, char *pathname, char **av, char **envp)
+void	exec_fork(t_shell *shell, char *pathname, char **av)
 {
 	pid_t	pid;
 
@@ -118,30 +100,28 @@ void	exec_fork(t_shell *shell, char *pathname, char **av, char **envp)
 		if (pid > 0)
 			wait_for_all(shell, pid);
 		if (pid == 0)
-			exec_with_redir_check(shell, pathname, av, envp);
+			exec_with_redir_check(shell, pathname, av);
 	}
 	else
 	{
 		shell->executor.is_forked = FALSE;
-		exec_with_redir_check(shell, pathname, av, envp);
+		exec_with_redir_check(shell, pathname, av);
 	}
 }
 
-// fonction qui va gerer l execution sans ces fdp de pipe :)))
-// ***** en cours, fonctionne sous cet état, surement des leaks :)))))))))))***
-void	exec_path(t_shell *shell, char *pathname, char **av, char **envp)
+void	exec_path(t_shell *shell, char *pathname, char **av)
 {
 	char	*path;
 
 	if (is_absolative(pathname))
-		exec_fork(shell, pathname, av, envp);
+		exec_fork(shell, pathname, av);
 	else
 	{
 		create_path(shell, shell->cmd.envp_exp);
-		path = right_path(shell->executor.paths, pathname);
+		path = right_path(shell, shell->executor.paths, pathname);
 		if (path)
 		{
-			exec_fork(shell, path, av, envp);
+			exec_fork(shell, path, av);
 			free_ptr((void **)&path);
 		}
 	}

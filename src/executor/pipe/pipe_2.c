@@ -42,15 +42,12 @@ void	wait_for_all(t_shell *shell, pid_t pid)
 		exit_status = EXIT_FAILURE;
 	str_exit_status = ft_itoa(exit_status);
 	if (!str_exit_status)
-	{
-		free_all(shell); // FIXME: test
-		exit(EXIT_FAILURE); // TODO: faire une gestion d erreur ici , free et compagnie 
-	}
-		value = ft_strjoin("?=", str_exit_status);
+		unfructuous_malloc(shell);
+	value = ft_strjoin("?=", str_exit_status);
 	if (!value)
 	{
-		free_all(shell); // FIXME: test
-		exit(EXIT_FAILURE); // TODO: faire une gestion d erreur ici , free et compagnie
+		free_ptr((void **)&str_exit_status);
+		unfructuous_malloc(shell);
 	}
 	free_ptr((void **) &str_exit_status);
 	set_env(value, TO_ENV, shell);

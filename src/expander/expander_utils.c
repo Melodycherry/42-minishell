@@ -12,11 +12,12 @@
 
 #include "minishell.h"
 
-char	*join_free(char *s1, char *s2, int len_s2)
+char	*join_free(t_shell *shell, char *s1, char *s2, int len_s2)
 {
 	size_t	len_s1;
 	char	*str;
 
+	(void)shell;
 	len_s1 = 0;
 	if (!s2 || len_s2 < 0)
 		return (free_ptr((void **)&s1));
@@ -24,7 +25,10 @@ char	*join_free(char *s1, char *s2, int len_s2)
 		len_s1 = ft_strlen(s1);
 	str = malloc(len_s1 + len_s2 + 1);
 	if (!str)
-		return (free_ptr((void **)&s1)); //TODO: sortie malloc pourri
+	{
+		free_ptr((void **)&s1); 
+		unfructuous_malloc(shell);
+	}
 	if (s1)
 		ft_memcpy(str, s1, len_s1);
 	ft_memcpy(str + len_s1, s2, len_s2);

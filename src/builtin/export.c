@@ -37,8 +37,6 @@ int	builtin_export(t_shell *shell, char **av)
 	return (0);
 }
 
-// checker si le nom de la variable et gestion des copies dans les tableaux
-// ******* a tester ******
 t_bool	checking_var(t_shell *shell, char *line)
 {
 	int	i;
@@ -68,7 +66,7 @@ void	put_in_env_export(t_shell *shell, char **old_tab,
 	i = 0;
 	new_tab = malloc_tab(shell, ft_tablen(old_tab) + 1);
 	if (!new_tab)
-		return ; //TODO: sortie malloc pourri
+		unfructuous_malloc(shell);
 	while (i < ft_tablen(old_tab))
 	{
 		new_tab[i] = ft_strdup(old_tab[i]);

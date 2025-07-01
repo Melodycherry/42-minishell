@@ -51,7 +51,7 @@ static int	error_home(t_shell *shell)
 	return (1);
 }
 
-static void	update_pwd(t_shell *shell, char *oldpwd)
+static void	update_pwd(t_shell *shell, char *oldpwd) //TODO: REFFACTO
 {
 	char	*newpwd;
 	char	*oldpwd_str;
@@ -59,13 +59,20 @@ static void	update_pwd(t_shell *shell, char *oldpwd)
 
 	newpwd = getcwd(NULL, 0);
 	if (!newpwd)
-		return ;
+		unfructuous_malloc(shell);
 	oldpwd_str = ft_strjoin("OLDPWD=", oldpwd);
-	if (!oldpwd)
-		exit(EXIT_FAILURE); // TODO: gestion erreur !!!!!!!!!!
+	if (!oldpwd_str)
+	{
+		free_ptr((void**)&newpwd);
+		unfructuous_malloc(shell);
+	}
 	newpwd_str = ft_strjoin("PWD=", newpwd);
 	if (!newpwd_str)
-		exit(EXIT_FAILURE); // TODO: gestion erreur  !!!!!!!!!!
+	{
+		free_ptr((void**)&oldpwd_str);
+		free_ptr((void**)&newpwd);
+		unfructuous_malloc(shell);
+	}
 	if (oldpwd_str && newpwd_str)
 	{
 		set_env(oldpwd_str, TO_BOTH, shell);

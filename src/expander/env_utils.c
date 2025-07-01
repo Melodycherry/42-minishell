@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-// fonction pour connaitre le nb de row d un tableau
-// **** testée ca a l air ok *****
 int	ft_tablen(char **tab)
 {
 	int	i;
@@ -26,17 +24,16 @@ int	ft_tablen(char **tab)
 	return (i);
 }
 
-// fonction pour copier le tableau des env recu dans cmd 
-// **** testée ca a l air ok *****
-char	**cpy_tab(char **tab)
+char	**cpy_tab(t_shell *shell, char **tab)
 {
 	int		i;
 	char	**cpy_tab;
 
+	(void)shell;
 	i = 0;
 	cpy_tab = malloc(sizeof(char *) * (ft_tablen(tab) + 1));
 	if (!cpy_tab)
-		return (NULL); //TODO: sortie malloc pourri
+		unfructuous_malloc(shell);
 	while (i < ft_tablen(tab))
 	{
 		cpy_tab[i] = ft_strdup(tab[i]);
@@ -48,17 +45,16 @@ char	**cpy_tab(char **tab)
 	return (cpy_tab);
 }
 
-// fonction pour copier le tableau des env recu dans cmd 
-// **** testée ca a l air ok *****
-char	**init_envp_copy(char **tab)
+char	**init_envp_copy(t_shell *shell, char **tab)
 {
 	int		i;
 	char	**cpy_tab;
 
+	(void)shell;
 	i = 1;
 	cpy_tab = malloc(sizeof(char *) * (ft_tablen(tab) + 2));
 	if (!cpy_tab)
-		return (NULL); //TODO: sortie malloc pourri
+		unfructuous_malloc(shell);
 	cpy_tab[0] = ft_strdup("?=0");
 	while (i < ft_tablen(tab + 1))
 	{
@@ -71,8 +67,6 @@ char	**init_envp_copy(char **tab)
 	return (cpy_tab);
 }
 
-//fonction qui met l'envp dans l'ordre alphabetique
-// **** testée ca a l air ok *****
 void	bubble_tab(char **tab)
 {
 	int		i;

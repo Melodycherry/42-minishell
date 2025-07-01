@@ -12,9 +12,9 @@
 
 #include "minishell.h"
 
-static void	update_type_eof(t_token *token);
+static void	update_type_eof(t_shell *shell,t_token *token);
 static char	*generate_file(t_shell *shell, t_token *token);
-static void	update_type_heredoc_eof_for_exec(t_token *token, char *file);
+static void	update_type_eof_exec(t_shell *shell, t_token *token, char *file);
 
 void	handle_heredoc(t_shell *shell)
 {
@@ -22,7 +22,7 @@ void	handle_heredoc(t_shell *shell)
 	char	*file;
 
 	current = shell->tlist.head;
-	update_type_eof(shell->tlist.head);
+	update_type_eof(shell, shell->tlist.head);
 	nb_heredoc(shell, shell->tlist.head);
 	while (current->next)
 	{
@@ -30,7 +30,7 @@ void	handle_heredoc(t_shell *shell)
 		{
 			shell->executor.index_file_heredoc++;
 			file = generate_file(shell, current);
-			update_type_heredoc_eof_for_exec(current, file);
+			update_type_eof_exec(shell, current, file);
 		}
 		current = current->next;
 	}
@@ -56,7 +56,7 @@ static char	*generate_file(t_shell *shell, t_token *token)
 	return (file);
 }
 
-static void	update_type_heredoc_eof_for_exec(t_token *token, char *file)
+static void	update_type_eof_exec(t_shell *shell, t_token *token, char *file)
 {
 	token->type = T_REDIR_IN;
 	free (token->value);
@@ -66,11 +66,13 @@ static void	update_type_heredoc_eof_for_exec(t_token *token, char *file)
 		token->next->type = T_WORD;
 		free(token->next->value);
 		token->next->value = ft_strdup(file);
+		if (!token->next->value)
+			unfructuous_malloc(shell);
 	}
 	free_ptr((void **)&file);
 }
 
-static void	update_type_eof(t_token *token)
+static void	update_type_eof(t_shell *shell, t_token *token)
 {
 	while (token->next)
 	{
@@ -82,7 +84,7 @@ static void	update_type_eof(t_token *token)
 				if (is_quote_string(token->next->value) == TRUE)
 				{
 					token->next->type = T_EOF_Q;
-					delete_quotes_value(token->next);
+					delete_quotes_value(shell, token->next);
 				}
 			}
 			else

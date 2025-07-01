@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-//pour l instant sert a rien mais risque de servir
-// **** a tester ****
 t_bool	is_valid_var_name(t_token *token, t_shell *shell)
 {
 	int		i;
@@ -34,8 +32,6 @@ t_bool	is_valid_var_name(t_token *token, t_shell *shell)
 	return (TRUE);
 }
 
-// Check si la variable existe dans l'export
-// ***** seems GOOOOOOOOOD ******
 t_bool	var_exist(char **envp, const char *var_env, int len)
 {
 	int		i;
@@ -60,8 +56,6 @@ t_bool	var_exist(char **envp, const char *var_env, int len)
 	return (FALSE);
 }
 
-// retourne la position dans le tableau env
-// ********* a tester *********
 int	pos_var_env(char **envp, char *var_env, int len)
 {
 	int		i;
@@ -85,8 +79,6 @@ int	pos_var_env(char **envp, char *var_env, int len)
 	return (i);
 }
 
-//lidee est d avoir une fonctoin qui va chercher dans le tableau 
-//l endroit ou se trouve la var et retourner tout ce qui se passe apre le 1e =
 char	*recup_var(char **envp, char *var_env, int len)
 {
 	int		i;

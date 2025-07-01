@@ -27,10 +27,13 @@ void	unlink_file(t_shell *shell)
 	{
 		stri = ft_itoa(i);
 		if (!stri)
-			return ; //TODO: faire une gestion d erreur ici
+			unfructuous_malloc(shell);
 		file = ft_strjoin("/tmp/ms_hd_", stri);
 		if (!file)
-			return ; //TODO: faire une gestion d erreur ici
+		{
+			free_ptr((void **)&stri);
+			unfructuous_malloc(shell);
+		}
 		unlink(file);
 		free_ptr((void **)&stri);
 		free_ptr((void **)&file);
@@ -42,12 +45,15 @@ char	*create_name(t_shell *shell)
 	char	*file;
 	char	*index;
 
-	index = ft_itoa(shell->executor.index_file_heredoc); //malloc ici
+	index = ft_itoa(shell->executor.index_file_heredoc);
 	if (!index)
-		return (NULL); //TODO: faire une gestion d erreur ici
+		unfructuous_malloc(shell);
 	file = ft_strjoin("/tmp/ms_hd_", index);
 	if (!file)
-		return (NULL); //TODO: faire une gestion d erreur ici
+	{
+		free_ptr((void **)&index);
+		unfructuous_malloc(shell);
+	}
 	free_ptr((void **)&index);
 	return (file);
 }
@@ -102,7 +108,6 @@ static void	close_and_exit(t_shell *shell, int fd)
 {
 	(void)shell;
 	close(fd);
-	free_all(shell); // FIXME: test
-	exit(0); // faire mieux que ca
+	free_all(shell);
+	exit(0);
 }
-

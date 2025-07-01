@@ -25,21 +25,20 @@ int		builtin_env(t_shell *shell, char **av);
 int		builtin_pwd(t_shell *shell, char **av);
 int		builtin_echo(t_shell *shell, char **av);
 int		builtin_exit(t_shell *shell, char **av);
+int		builtin_unset(t_shell *shell, char **av);
 int		builtin_export(t_shell *shell, char **av);
 
 char	**malloc_tab(t_shell *shell, int tab_len);
 
-void	put_in_env_export(t_shell *shell, char **old_tab,
-			char *new_value, t_bool is_export);
-void	insert_env_export(t_shell *shell, char *value,
-			char **tab, t_bool is_export);
-
 void	print_export(char **tab);
+void	put_in_env_export(t_shell *shell, char **old_tab,
+		char *new_value, t_bool is_export);
+void	insert_env_export(t_shell *shell, char *value,
+		char **tab, t_bool is_export);
+void	replace_tab(t_shell *shell, char **new_tab, t_bool is_export);
+		
 t_bool	checking_var(t_shell *shell, char *line);
 
-/**UNSET**/
-int		builtin_unset(t_shell *shell, char **av);
-void	replace_tab(t_shell *shell, char **new_tab, t_bool is_export);
 /*EXECUTOR*/
 
 /**EXEC**/
@@ -49,24 +48,8 @@ void	execution(t_shell *shell);
 
 void	create_path(t_shell *shell, char **envp);
 void	create_av(t_shell *shell, t_token *current);
-void	set_exit_status_env(int exit_status, t_shell *shell);
-void	exec_fork(t_shell *shell, char *pathname, char **av, char **envp);
-void	exec_path(t_shell *shell, char *pathname, char **av, char **envp);
-void	exec_with_redir_check(t_shell *shell, char *pathname,
-			char **av, char **envp);
-
-/**HEREDOC**/
-
-void	check_error_fd(int fd);
-void	unlink_file(t_shell *shell);
-void	handle_heredoc(t_shell *shell);
-//void 	delete_quotes_eof(t_token *token);
-void	nb_heredoc(t_shell *shell, t_token *token);
-void	fill_heredoc_file(t_shell *shell, char *eof, int fd, t_bool need_exp);
-void	process_hd_file(t_shell *shell, char *file, char *eof, t_bool need_exp);
-
-char	*create_name(t_shell *shell);
-char	*expand_all_vars_in_heredoc(t_shell *shell, char *line);
+void	exec_fork(t_shell *shell, char *pathname, char **av);
+void	exec_path(t_shell *shell, char *pathname, char **av);
 
 /**PIPE**/
 
@@ -85,8 +68,7 @@ void	exec_pipe_child(t_shell *shell, int *fd_pipe, char **pipe_av,
 
 void	update_parent_fds(int prev_fd, int *fd_pipe);
 
-char	*strjoin_path(char *s1, char *s2);
-char	*right_path(char **paths, char *cmd);
+char	*right_path(t_shell *shell, char **paths, char *cmd);
 char	**split_args(t_shell *shell, char **av);
 
 /**REDIR**/
@@ -102,28 +84,39 @@ void	set_redir_type(t_shell *shell, char *redir);
 void	set_redir_file_type_av(t_shell *shell, char **av);
 void	set_redir_file(t_shell *shell, char **av, int *i);
 
-char	**set_redir_av(char **av);
-//char	**extract_tab(char **av, int *i);
+char	**set_redir_av(t_shell *shell, char **av);
+
+/*HEREDOC*/
+
+void	check_error_fd(int fd);
+void	unlink_file(t_shell *shell);
+void	handle_heredoc(t_shell *shell);
+void	nb_heredoc(t_shell *shell, t_token *token);
+void	process_hd_file(t_shell *shell, char *file, char *eof, t_bool need_exp);
+
+char	*create_name(t_shell *shell);
+char	*expand_all_vars_in_heredoc(t_shell *shell, char *line);
 
 /*EXPANDER*/
+
 t_bool	is_quote_string(char *str);
 t_bool	is_valid_var_name(t_token *token, t_shell *shell);
 t_bool	var_exist(char **envp, const char *var_env, int i);
 
 void	bubble_tab(char **tab);
 void	expansion(t_shell *shell);
-void	delete_quotes_value(t_token *token);
+void	delete_quotes_value(t_shell *shell, t_token *token);
 void	cpy_envp(t_shell *shell, char **envp);
 void	expand_var(t_shell *shell, t_token *token);
 void	check_var_env(t_shell *shell, t_token *token);
 void	set_env(char *value, int to_tab, t_shell *shell);
-void	expand_single_quote(t_token *token, int *i, int *j);
+void	expand_single_quote(t_shell *shell, t_token *token, int *i, int *j);
 void	expand_dollar(t_shell *shell, t_token *token, int *i, int *j);
 void	expand_double_quote(t_shell *shell, t_token *token, int *i, int *j);
 
-char	**cpy_tab(char **tab);
-char	**init_envp_copy(char **tab);
-char	*join_free(char *s1, char *s2, int len_s2);
+char	**cpy_tab(t_shell *shell, char **tab);
+char	**init_envp_copy(t_shell *shell, char **tab);
+char	*join_free(t_shell *shell, char *s1, char *s2, int len_s2);
 char	*recup_var(char **envp, char *var_env, int len);
 
 int		ft_tablen(char **tab);
@@ -131,15 +124,20 @@ int		get_segment_len(char *str);
 int		pos_var_env(char **envp, char *var_env, int len);
 
 /*LEXER*/
+
 t_bool	ft_isquote(int c);
 t_bool	is_next_quote(char quote, char *line, int i);
 
 void	token_blank(t_shell *shell);
 void	find_next_quote(char quote, char *line, int *i);
+void	insert_base_list(t_tlist *tlist, t_token *token);
 
 /*PARSER*/
+
 t_bool	ft_isoperator(int c);
 t_bool	is_token_error(t_token *token, t_shell *t_shell);
+
+t_token	*create_token(t_shell *shell, int type, char *value, int n);
 
 void	token_typedef(t_token *token);
 void	token_operator(t_shell *shell, t_token *current);
@@ -161,28 +159,17 @@ void	free_tab(char ***tab);
 void	free_all(t_shell *shell);
 void	free_and_reset(t_shell *shell);
 void	error_syntax_unset(char *line);
-void	free_child_pipe(t_shell *shell);
 void	error_syntax_export(char *line);
 void	free_token_list(t_shell *shell);
-void	free_child_redir(t_shell *shell);
 void	free_mid_tab(char ***strs, int i);
+void	unfructuous_malloc(t_shell *shell);
 
 /**CHAIN**/
-t_token	*create_token(int type, char *value, int n);
 
-void	insert_base_list(t_tlist *tlist, t_token *token);
 void	create_insert_token(t_shell *shell, int i, int j, t_token *current);
-void	insert_mid_list(t_token *current, t_token *new_token, t_shell *shell);
 
 /**INIT**/
 void	init_all(t_shell *shell);
-void	init_list(t_shell *shell);
-void	init_executor(t_shell *shell);
-
-// a placer
-void	fill_tab(char **new_tab, char**old_tab, int len);
 
 //fonctions tests a supprimer apres
 void	print_token(t_token *token, int (*f)(const char *, ...));
-// void	print_token2(t_token *token, int (*f)(const char *, ...));
-// void	print_token3(t_token *token, int (*f)(const char *, ...));

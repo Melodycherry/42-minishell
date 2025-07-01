@@ -25,8 +25,6 @@ void	set_env(char *value, int to_tab, t_shell *shell)
 	}
 }
 
-//pour l instant sert a rien mais risque de servir
-// **** a tester ****
 t_bool	is_valid_name(char *line)
 {
 	int	i;
@@ -52,7 +50,7 @@ char	**malloc_tab(t_shell *shell, int tab_len)
 	(void)shell;
 	new_tab = malloc(sizeof(char *) * (tab_len + 1));
 	if (!new_tab)
-		return (NULL); //TODO: sortie malloc pourri
+		unfructuous_malloc(shell);
 	return (new_tab);
 }
 
@@ -74,8 +72,8 @@ void	insert_env_export(t_shell *shell, char *value,
 		index = pos_var_env(tab, value, var_len);
 		free_ptr((void **)&tab[index]);
 		tab[index] = ft_strndup(value, ft_strlen(value));
-		if (tab[index])
-			return ; //TODO: sortie malloc pourri
+		if (!tab[index])
+			unfructuous_malloc(shell);
 		return ;
 	}
 	if (var_exist(tab, value, var_len) == FALSE)

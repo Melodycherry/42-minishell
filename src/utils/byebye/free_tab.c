@@ -40,5 +40,3 @@ void	free_tab(char ***tab)
 	free(*tab);
 	*tab = NULL;
 }
-
-

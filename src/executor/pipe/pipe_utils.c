@@ -42,7 +42,7 @@ char	**split_args(t_shell *shell, char **av)
 	end = shell->executor.end;
 	dest = malloc(sizeof(char *) * (end - start + 2));
 	if (!dest)
-		return (NULL); // TODO: sorite malloc pourri
+		unfructuous_malloc(shell);
 	while (start <= end && av[start])
 	{
 		dest[i] = ft_strdup(av[start]);

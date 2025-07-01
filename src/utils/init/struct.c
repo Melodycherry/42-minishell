@@ -12,8 +12,9 @@
 
 #include "minishell.h"
 
-// initialisation des structures, a mettre en premier dans le main :), 
-// a decouper en plusieurs si trop long && mettre a jour
+static void	init_list(t_shell *shell);
+static void	init_executor(t_shell *shell);
+
 void	init_all(t_shell *shell)
 {
 	init_list(shell);
@@ -26,13 +27,13 @@ void	init_all(t_shell *shell)
 
 // initiation de listes
 // testée a l air ok
-void	init_list(t_shell *shell)
+static void	init_list(t_shell *shell)
 {
 	shell->tlist.head = NULL;
 	shell->tlist.token_cnt = 0;
 }
 
-void	init_executor(t_shell *shell)
+static void	init_executor(t_shell *shell)
 {
 	shell->executor.end = 0;
 	shell->executor.start = 0;

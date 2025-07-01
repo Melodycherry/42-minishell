@@ -34,7 +34,7 @@ void	token_blank(t_shell *shell)
 			i = handle_quote(line, i);
 		if (i > j)
 		{
-			token = create_token(T_UNKNOWN, &line[j], (i - j));
+			token = create_token(shell, T_UNKNOWN, &line[j], (i - j));
 			insert_base_list(&shell->tlist, token);
 		}
 	}

@@ -12,9 +12,8 @@
 
 #include "minishell.h"
 
+static char	*strjoin_path(t_shell *shell, char *s1, char *s2);
 
-// fonction qui va va transformer la liste chainee en tableau
-// ******* testee et fonctionnelle ********
 void	create_av(t_shell *shell, t_token *current)
 {
 	int		i;
@@ -38,8 +37,6 @@ void	create_av(t_shell *shell, t_token *current)
 	shell->executor.av = av;
 }
 
-// // fonction qui creer un tableau de pathS avec les differents path
-// // ********* seems good *******
 void	create_path(t_shell *shell, char **envp)
 {
 	int	i;
@@ -53,9 +50,7 @@ void	create_path(t_shell *shell, char **envp)
 		shell->executor.paths = NULL;
 }
 
-// va checker si le path existe via le access sur le while du pathS
-// ***** en cours, focntionne dans cet etat *****
-char	*right_path(char **paths, char *cmd)
+char	*right_path(t_shell *shell, char **paths, char *cmd)
 {
 	int		i;
 	char	*path;
@@ -63,7 +58,7 @@ char	*right_path(char **paths, char *cmd)
 	i = 0;
 	while (paths[i])
 	{
-		path = strjoin_path(paths[i], cmd);
+		path = strjoin_path(shell, paths[i], cmd);
 		if (!access(path, F_OK))
 		{
 			if (!access(path, X_OK))
@@ -74,15 +69,9 @@ char	*right_path(char **paths, char *cmd)
 		free_ptr((void **)&path);
 		i++;
 	}
-	//TODO: sortie malloc pourri
-// gestion d erreur
 	return (NULL);
 }
 
-// va checker l existance d un / -> si cest absolative (absolu ou relative)
-// faire les gestion des  edges cases : 
-// juste des.. ou juste des / ou what // faire jour de la correction loool
-// ******* seems good ***********
 t_bool	is_absolative(char *str)
 {
 	if (ft_strchr(str, '/'))
@@ -90,14 +79,15 @@ t_bool	is_absolative(char *str)
 	return (FALSE);
 }
 
-char	*strjoin_path(char *s1, char *s2)
+static char	*strjoin_path(t_shell *shell, char *s1, char *s2)
 {
 	char	*dest;
 	char	*tmp;
 
+	(void)shell;
 	tmp = ft_strjoin(s1, "/");
 	if (!tmp)
-		return (NULL);
+		unfructuous_malloc(shell);
 	dest = ft_strjoin(tmp, s2);
 	free_ptr((void **)&tmp);
 	return (dest);

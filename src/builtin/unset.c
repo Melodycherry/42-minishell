@@ -57,7 +57,7 @@ static void	remove_var(t_shell *shell,
 		return ;
 	new_tab = malloc_tab(shell, i);
 	if (!new_tab)
-		return ; // TODO: malloc pourri 
+		unfructuous_malloc(shell);
 	filtr_out_var(old_tab, new_tab, name, var_len);
 	replace_tab(shell, new_tab, is_export);
 }

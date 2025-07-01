@@ -33,7 +33,7 @@ char	*expand_all_vars_in_heredoc(t_shell *shell, char *line)
 			i++;
 	}
 	if (i > j)
-		tmp = join_free(tmp, &line[j], i - j);
+		tmp = join_free(shell, tmp, &line[j], i - j);
 	return (tmp);
 }
 
@@ -44,7 +44,7 @@ static char	*expand_var_segment(t_shell *shell, char *line, int *i, int *j)
 
 	tmp = NULL;
 	if (*i > *j)
-		tmp = join_free(tmp, &line[*j], *i - *j); // text before $
+		tmp = join_free(shell, tmp, &line[*j], *i - *j);
 	(*i)++;
 	*j = *i;
 	while (line[*i] && (ft_isalnum(line[*i])
@@ -53,10 +53,10 @@ static char	*expand_var_segment(t_shell *shell, char *line, int *i, int *j)
 	if (*i > *j && var_exist(shell->cmd.envp_copy, &line[*j], *i - *j))
 	{
 		rec_var = recup_var(shell->cmd.envp_copy, &line[*j], *i - *j);
-		tmp = join_free(tmp, rec_var, ft_strlen(rec_var));
+		tmp = join_free(shell, tmp, rec_var, ft_strlen(rec_var));
 	}
 	else
-		tmp = join_free(tmp, &line[*j], *i - *j);
+		tmp = join_free(shell, tmp, &line[*j], *i - *j);
 	*j = *i;
 	return (tmp);
 }

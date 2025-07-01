@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	delete_quotes_value(t_token *token)
+void	delete_quotes_value(t_shell *shell, t_token *token)
 {
 	int		i;
 	int		j;
@@ -26,12 +26,12 @@ void	delete_quotes_value(t_token *token)
 		while (token->value[i] && !ft_isquote(token->value[i]))
 			i++;
 		if (i > j)
-			new_line = join_free(new_line, &token->value[j], (i - j));
+			new_line = join_free(shell, new_line, &token->value[j], (i - j));
 		if (ft_isquote(token->value[i]) == TRUE)
 		{
 			j = i + 1;
 			find_next_quote(token->value[i], token->value, &i);
-			new_line = join_free(new_line, &token->value[j], (i - j - 1));
+			new_line = join_free(shell, new_line, &token->value[j], (i - j - 1));
 		}
 		else
 			return ;
@@ -40,7 +40,6 @@ void	delete_quotes_value(t_token *token)
 	token->value = new_line;
 }
 
-/** PDEMONT DIT C EST BON */
 t_bool	is_quote_string(char *str)
 {
 	int	i;

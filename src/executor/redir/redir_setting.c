@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-/* fonction qui va compter le nb de redirection */
-/*************** marche dans cet etat **************/
 void	set_redir_count(t_shell *shell, char **av)
 {
 	int		i;
@@ -62,11 +60,11 @@ void	set_redir_file_type_av(t_shell *shell, char **av)
 	}
 	free_ptr((void **)&shell->executor.redir_file);
 	shell->executor.redir_file = ft_strndup(av[i + 1], ft_strlen(av[i + 1]));
-	// if(!shell->executor.redir_file)
-	// 	return //TODO: gestion erreur malloc pourri FOUT LA MERDE
+	if (!shell->executor.redir_file) //si pb possible ici
+		unfructuous_malloc(shell);
 	set_redir_type(shell, av[i]);
 	free_tab(&shell->executor.redir_av);
-	shell->executor.redir_av = set_redir_av(av);
+	shell->executor.redir_av = set_redir_av(shell, av);
 }
 
 void	set_redir_type(t_shell *shell, char *redir)
@@ -79,8 +77,6 @@ void	set_redir_type(t_shell *shell, char *redir)
 		shell->executor.redir_type = T_REDIR_IN;
 }
 
-/* fonction qui va set le fichier juste apres la redir */
-/*************** marche dans cet etat **************/
 void	set_redir_file(t_shell *shell, char **av, int *i)
 {
 	int	count;
@@ -97,8 +93,7 @@ void	set_redir_file(t_shell *shell, char **av, int *i)
 	}
 }
 
-// petite correction ? ok now ? 
-char	**set_redir_av(char **av)
+char	**set_redir_av(t_shell *shell, char **av)
 {
 	char	**new_tab;
 	int		i;
@@ -108,7 +103,7 @@ char	**set_redir_av(char **av)
 		i++;
 	new_tab = malloc(sizeof(char *) * (i + 1));
 	if (!new_tab)
-		return (NULL); //TODO: sortie malloc pourri
+		unfructuous_malloc(shell);
 	i = 0;
 	while (av[i] && !is_redir(av[i]))
 	{
