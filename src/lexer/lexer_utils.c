@@ -18,17 +18,17 @@ t_bool	ft_isquote(int c)
 		return (TRUE);
 	return (FALSE);
 }
-
-t_bool	is_next_quote(char quote, char *line, int i)
+// ML modif free 
+t_bool	is_next_quote(t_shell *shell, char quote, char *line, int i)
 {
 	i++;
 	while (line[i] && line[i] != quote)
 		i++;
 	if (line[i] == '\0')
 	{
-		printf("On gere pas deso deso, faire la  gestion de sortie\n");
-		//free_all(shell); // FIXME: test
-		exit(EXIT_FAILURE); //TODO: gerer partie free ou whatever
+		ft_putendl_fd("syntax error : quote expected", STDERR_FILENO);
+		free_all(shell);
+		exit(EXIT_FAILURE);
 	}
 	if (line [i] == quote)
 		return (TRUE);

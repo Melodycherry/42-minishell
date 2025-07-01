@@ -11,7 +11,7 @@
 /*****************************************************************************/
 
 #include "minishell.h"
-
+// ML tt ok rien a free 
 int	builtin_pwd(t_shell *shell, char **av)
 {
 	char	*cwd;
@@ -19,7 +19,7 @@ int	builtin_pwd(t_shell *shell, char **av)
 	(void)shell;
 	if (av[1] && av[1][0] == '-')
 	{
-		ft_putendl_fd("Invalid option", STDERR_FILENO); // TODO: check again free qqch ?
+		ft_putendl_fd("Invalid option", STDERR_FILENO);
 		return (2);
 	}
 	if (av[1])

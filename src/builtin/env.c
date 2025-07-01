@@ -13,12 +13,12 @@
 #include "minishell.h"
 
 static void	print_tab_env(char **tab);
-
+// ML OK, no free 
 int	builtin_env(t_shell *shell, char **av)
 {
 	if (!*shell->cmd.envp_copy)
 	{
-		printf("no env bitch\n"); // TODO: mess erreur et check si y'a des free a faire 
+		ft_putendl_fd("No environnement", STDERR_FILENO);
 		return (0);
 	}
 	if (av[1] && av[1][0] == '-')

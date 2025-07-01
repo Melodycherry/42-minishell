@@ -22,3 +22,17 @@ void	nb_heredoc(t_shell *shell, t_token *token)
 		token = token->next;
 	}
 }
+void heredoc_exit_eof(t_shell *shell, int fd)
+{
+	ft_putendl_fd("syntax error: unexpected end of file", STDERR_FILENO);
+	close(fd);
+	free_all(shell);
+	exit(1);
+}
+void	close_and_exit(t_shell *shell, int fd)
+{
+	(void)shell;
+	close(fd);
+	free_all(shell);
+	exit(0);
+}

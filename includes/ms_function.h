@@ -90,6 +90,8 @@ char	**set_redir_av(t_shell *shell, char **av);
 
 void	check_error_fd(int fd);
 void	unlink_file(t_shell *shell);
+void	close_and_exit(t_shell *shell, int fd);
+void	heredoc_exit_eof(t_shell *shell, int fd);
 void	handle_heredoc(t_shell *shell);
 void	nb_heredoc(t_shell *shell, t_token *token);
 void	process_hd_file(t_shell *shell, char *file, char *eof, t_bool need_exp);
@@ -126,7 +128,7 @@ int		pos_var_env(char **envp, char *var_env, int len);
 /*LEXER*/
 
 t_bool	ft_isquote(int c);
-t_bool	is_next_quote(char quote, char *line, int i);
+t_bool	is_next_quote(t_shell *shell, char quote, char *line, int i);
 
 void	token_blank(t_shell *shell);
 void	find_next_quote(char quote, char *line, int *i);

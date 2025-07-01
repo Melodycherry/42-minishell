@@ -13,7 +13,6 @@
 #include "minishell.h"
 
 static int	create_and_check_fd(char *file);
-static void	close_and_exit(t_shell *shell, int fd);
 static void	expand_and_write(t_shell *shell, char *line, int fd, t_bool need_exp);
 
 void	unlink_file(t_shell *shell)
@@ -57,7 +56,7 @@ char	*create_name(t_shell *shell)
 	free_ptr((void **)&index);
 	return (file);
 }
-
+// ML gestion erreur et sortie + refacto 
 void	process_hd_file(t_shell *shell, char *file, char *eof, t_bool need_exp)
 {
 	pid_t	pid;
@@ -73,7 +72,7 @@ void	process_hd_file(t_shell *shell, char *file, char *eof, t_bool need_exp)
 		{
 			line = readline("> ");
 			if (!line)
-				return ;//TODO: faire gestion d erreur de sortie ici
+				heredoc_exit_eof(shell, fd);
 			if (ft_strcmp(line, eof) == 0)
 			{
 				free_ptr((void **) &line);
@@ -102,12 +101,4 @@ static int	create_and_check_fd(char *file)
 	fd = open(file, O_WRONLY | O_CREAT | O_EXCL | O_TRUNC, 0600);
 	check_error_fd(fd);
 	return (fd);
-}
-
-static void	close_and_exit(t_shell *shell, int fd)
-{
-	(void)shell;
-	close(fd);
-	free_all(shell);
-	exit(0);
 }

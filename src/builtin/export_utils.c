@@ -42,7 +42,7 @@ t_bool	is_valid_name(char *line)
 	return (TRUE);
 }
 
-//faire une meilleure gestion d erreur et free everything
+//ML ajoout unfructuous malloc donc tt ok now 
 char	**malloc_tab(t_shell *shell, int tab_len)
 {
 	char	**new_tab;

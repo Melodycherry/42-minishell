@@ -12,10 +12,12 @@
 
 #include "minishell.h"
 
-static void	filtr_out_var(char **old_tab, char **new_tab, char *name, int len);
-static void	remove_var(t_shell *shell,
-				char **old_tab, char *name, t_bool is_export);
-
+static void	filtr_out_var(t_shell *shell, char **new_tab,
+			char *name, t_bool is_export);
+static void	remove_var(t_shell *shell, char **old_tab,
+			char *name, t_bool is_export);
+static void copy_or_exit(t_shell *shell, char **new_tab, char *src, int *j);
+// ML tt ok rien de plus a free 
 int	builtin_unset(t_shell *shell, char **av)
 {
 	int	i;
@@ -23,7 +25,7 @@ int	builtin_unset(t_shell *shell, char **av)
 	i = 1;
 	if (av[1][0] == '-')
 	{
-		ft_putendl_fd("Invalid option", STDERR_FILENO); // TODO: check again free qqchose ?
+		ft_putendl_fd("Invalid option", STDERR_FILENO);
 		return (2);
 	}
 	while (av[i])
@@ -58,40 +60,47 @@ static void	remove_var(t_shell *shell,
 	new_tab = malloc_tab(shell, i);
 	if (!new_tab)
 		unfructuous_malloc(shell);
-	filtr_out_var(old_tab, new_tab, name, var_len);
+	filtr_out_var(shell, new_tab, name, is_export);
 	replace_tab(shell, new_tab, is_export);
 }
-
-static void	filtr_out_var(char **old_tab, char **new_tab, char *name, int len)
+// ML attention refacto de l'enfer pour eviter 5 parametres. 
+// Check si ca a pas tt peter des trucs (apparemment non, so far)
+static void	filtr_out_var(t_shell *shell, char **new_tab, char *name, t_bool is_export)
 {
 	int	i;
 	int	j;
+	int len;
+	char **old_tab;
 
 	i = 0;
 	j = 0;
+	len = ft_strlen(name);
+	if (is_export == TRUE)
+		old_tab = shell->cmd.envp_exp;
+	else
+		old_tab = shell->cmd.envp_copy;
 	while (old_tab[i])
 	{
 		if (!(ft_strncmp(old_tab[i], name, len) == 0
 				&& (old_tab[i][len] == '=' || old_tab[i][len] == '\0')))
-			new_tab[j++] = ft_strdup(old_tab[i]); // TODO: malloc pourri
+				{
+					copy_or_exit(shell, new_tab, old_tab[i], &j);
+				}
 		i++;
 	}
 	new_tab[j] = NULL;
 }
 
-// void	replace_tab(t_shell *shell, char **new_tab, t_bool is_export)
-// {
-// 	if (is_export == TRUE)
-// 	{
-// 		free_tab(shell, &shell->cmd.envp_exp);
-// 		shell->cmd.envp_exp = new_tab;
-// 	}
-// 	else
-// 	{
-// 		free_tab(shell, &shell->cmd.envp_copy);
-// 		shell->cmd.envp_copy = new_tab;
-// 	}
-// }
+static void copy_or_exit(t_shell *shell, char **new_tab, char *src, int *j)
+{
+	new_tab[*j] = ft_strdup(src);
+	if (!new_tab[*j])
+	{
+		free_mid_tab(&new_tab, *j);
+		unfructuous_malloc(shell);
+	}
+	(*j)++;
+}
 
 void	replace_tab(t_shell *shell, char **new_tab, t_bool is_export)
 {
@@ -108,3 +117,16 @@ void	replace_tab(t_shell *shell, char **new_tab, t_bool is_export)
 		shell->cmd.envp_copy = new_tab;
 	}
 }
+// void	replace_tab(t_shell *shell, char **new_tab, t_bool is_export)
+// {
+// 	if (is_export == TRUE)
+// 	{
+// 		free_tab(shell, &shell->cmd.envp_exp);
+// 		shell->cmd.envp_exp = new_tab;
+// 	}
+// 	else
+// 	{
+// 		free_tab(shell, &shell->cmd.envp_copy);
+// 		shell->cmd.envp_copy = new_tab;
+// 	}
+// }
