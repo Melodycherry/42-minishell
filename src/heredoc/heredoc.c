@@ -24,20 +24,21 @@ void	handle_heredoc(t_shell *shell)
 	current = shell->tlist.head;
 	update_type_eof(shell, shell->tlist.head);
 	nb_heredoc(shell, shell->tlist.head);
-	while (current->next)
+	while (current)
 	{
 		if (current->type == T_HEREDOC)
 		{
-			if (current->next->type != T_EOF && current->next->type != T_EOF_Q)
-				return ft_putendl_fd("Syntaxe error: missing delimiter", STDERR_FILENO);
 			shell->executor.index_file_heredoc++;
 			file = generate_file(shell, current);
 			if (!file)
-				return ft_putendl_fd("Syntaxe error: missing delimiter", STDERR_FILENO);
+				return (error_missing_delimiter(shell));
 			update_type_eof_exec(shell, current, file);
 			free_ptr((void **)&file);
 		}
-		current = current->next;
+		if (current->next)
+			current = current->next;
+		else
+			return;
 	}
 }
 
@@ -55,10 +56,7 @@ static char	*generate_file(t_shell *shell, t_token *token)
 			need_exp = FALSE;
 	}
 	else
-	{
-		ft_putendl_fd("Syntaxe error: missing delimiter", STDERR_FILENO); //on passe pas par ici ?
 		return (NULL);
-	}
 	file = create_name(shell);
 	process_hd_file(shell, file, eof, need_exp);
 	return (file);

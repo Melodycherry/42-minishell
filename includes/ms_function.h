@@ -164,6 +164,7 @@ void	free_all(t_shell *shell);
 void	free_all_minus_av(t_shell *shell);
 void	free_and_reset(t_shell *shell);
 void	error_syntax_unset(char *line);
+void	error_missing_delimiter(t_shell *shell);
 void	error_syntax_export(char *line);
 void	free_token_list(t_shell *shell);
 void	error_empty_token(t_shell *shell);

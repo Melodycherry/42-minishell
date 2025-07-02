@@ -34,6 +34,14 @@ void	error_empty_token(t_shell *shell)
 	return ;
 }
 
+void	error_missing_delimiter(t_shell *shell)
+{
+	ft_putendl_fd("Syntaxe error: missing delimiter", STDERR_FILENO);
+	free_and_reset(shell);
+	shell->syntax_error = TRUE;
+	return ;
+}
+
 void	error_syntax_token(t_shell *shell, char *value)
 {
 	ft_putstr_fd("Syntax error near unexpected token '", STDERR_FILENO);
