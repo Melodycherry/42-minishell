@@ -136,6 +136,7 @@ void	insert_base_list(t_tlist *tlist, t_token *token);
 /*PARSER*/
 
 t_bool	ft_isoperator(int c);
+t_bool	is_only_quotes(t_token *token);
 
 t_token	*create_token(t_shell *shell, int type, char *value, int n);
 
@@ -165,6 +166,8 @@ void	free_and_reset(t_shell *shell);
 void	error_syntax_unset(char *line);
 void	error_syntax_export(char *line);
 void	free_token_list(t_shell *shell);
+void	error_empty_token(t_shell *shell);
+void	error_syntax_token(t_shell *shell, char *value);
 void	free_mid_tab(t_shell *shell, char ***strs, int i);
 void	unfructuous_malloc(t_shell *shell);
 

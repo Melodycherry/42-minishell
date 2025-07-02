@@ -19,16 +19,11 @@ void	parsing(t_shell *shell)
 	token_blank(shell);
 	token_operator(shell, shell->tlist.head);
 	token_typedef(shell->tlist.head);
+	if (shell->tlist.token_cnt == 1 && is_only_quotes(shell->tlist.head)) // faire plus de test avec cette hsitoire
+		return (error_empty_token(shell));
 	value = error_multiple_operator(shell->tlist.head, shell);
 	if (error_multiple_operator(shell->tlist.head, shell))
-	{
-		ft_putstr_fd("Syntax error near unexpected token '", STDERR_FILENO);
-		ft_putstr_fd(value, STDERR_FILENO);
-		ft_putendl_fd("'", STDERR_FILENO);
-		free_and_reset(shell);
-		shell->syntax_error = TRUE;
-		return ;
-	}
+		return (error_syntax_token(shell, value));
 	shell->syntax_error = FALSE;
 	handle_heredoc(shell);
 	expansion(shell);
@@ -67,7 +62,7 @@ int	main(int ac, char **av, char **envp)
 	return (0);
 }
 
-// ""
+// "" -> en cours, a tester a 42
 // cat << eof << 
 // cat | cat | ls
 //?
