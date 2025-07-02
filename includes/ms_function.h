@@ -1,14 +1,14 @@
-/*******************************************************************************/
-/*                                                                             */
-/*                                                                             */
-/*                                                                             */
-/*                                                                             */
-/*      LES CODEUSES DU DIMANCHE                                               */
-/*      FONT UN MINISHELL                                                      */
-/*                                                                             */
-/*                                                                             */
-/*                                                                             */
-/*******************************************************************************/
+/*****************************************************************************/
+/*                                                                           */
+/*                                                                           */
+/*                                                                           */
+/*                                                                           */
+/*      LES CODEUSES DU DIMANCHE                                             */
+/*      FONT UN MINISHELL                                                    */
+/*                                                                           */
+/*                                                                           */
+/*                                                                           */
+/*****************************************************************************/
 
 #include "minishell.h"
 
@@ -136,9 +136,10 @@ void	insert_base_list(t_tlist *tlist, t_token *token);
 /*PARSER*/
 
 t_bool	ft_isoperator(int c);
-t_bool	is_token_error(t_token *token, t_shell *t_shell);
 
 t_token	*create_token(t_shell *shell, int type, char *value, int n);
+
+char	*error_multiple_operator(t_token *token, t_shell *shell);
 
 void	token_typedef(t_token *token);
 void	token_operator(t_shell *shell, t_token *current);

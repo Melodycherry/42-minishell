@@ -1,24 +1,21 @@
-/*******************************************************************************/
-/*                                                                             */
-/*                                                                             */
-/*                                                                             */
-/*                                                                             */
-/*      LES CODEUSES DU DIMANCHE                                               */
-/*      FONT UN MINISHELL                                                      */
-/*                                                                             */
-/*                                                                             */
-/*                                                                             */
-/*******************************************************************************/
+/*****************************************************************************/
+/*                                                                           */
+/*                                                                           */
+/*                                                                           */
+/*                                                                           */
+/*      LES CODEUSES DU DIMANCHE                                             */
+/*      FONT UN MINISHELL                                                    */
+/*                                                                           */
+/*                                                                           */
+/*                                                                           */
+/*****************************************************************************/
 
 #ifndef MS_STRUCT_H
 # define MS_STRUCT_H
 
 # include "ms_type.h"
-// tout ce qu on recoit dans le main
-// j ai enlevé les ac, av qui seront inutiles, ma dit Nico. 
 typedef struct s_cmd
 {
-	//char	*path; //si utile -> ce sera utile dans ce qu on reçoit de readline 
 	char	*line;
 	char	**envp_copy;
 	char	**envp_exp;
@@ -78,6 +75,7 @@ typedef struct s_tlist
 // structure qui gere toutes les autres structures
 typedef struct s_shell
 {
+	t_bool		syntax_error;
 	t_tlist		tlist;
 	t_cmd		cmd;
 	t_lexer		lexer;
