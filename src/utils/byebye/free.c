@@ -66,7 +66,7 @@ void	free_and_reset(t_shell *shell)
 
 void	unfructuous_malloc(t_shell *shell)
 {
-	ft_putstr_fd("minishell: Cannot allocate memory", 2);
+	ft_putstr_fd("minishell: Cannot allocate memory", STDERR_FILENO);
 	free_all(shell);
 	exit(EXIT_FAILURE);
 }

@@ -63,11 +63,13 @@ void	process_hd_file(t_shell *shell, char *file, char *eof, t_bool need_exp)
 	int		fd;
 	char	*line;
 
+	line = NULL;
 	pid = fork_process_or_exit(shell);
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
 		fd = create_and_check_fd(shell, file);
+		free_ptr((void **) &file);
 		while (1)
 		{
 			line = readline("> ");
@@ -75,7 +77,7 @@ void	process_hd_file(t_shell *shell, char *file, char *eof, t_bool need_exp)
 				heredoc_exit_eof(shell, fd);
 			if (ft_strcmp(line, eof) == 0)
 			{
-				free_ptr((void **) &line);
+				free_ptr((void **)&line);
 				break ;
 			}
 			expand_and_write(shell, line, fd, need_exp);
@@ -88,10 +90,19 @@ void	process_hd_file(t_shell *shell, char *file, char *eof, t_bool need_exp)
 
 static void	expand_and_write(t_shell *shell, char *line, int fd, t_bool need_exp)
 {
+	char *new_line;
+	
 	if (need_exp == TRUE)
-		line = expand_all_vars_in_heredoc(shell, line);
-	ft_putstr_fd(line, fd);
+		new_line = expand_all_vars_in_heredoc(shell, line);
+	else
+	{
+		new_line = ft_strdup(line);
+		if (!new_line)
+			unfructuous_malloc(shell);
+	}
+	ft_putstr_fd(new_line, fd);
 	ft_putstr_fd("\n", fd);
+	free_ptr((void **)&new_line);
 }
 
 static int	create_and_check_fd(t_shell *shell, char *file)

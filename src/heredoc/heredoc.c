@@ -32,8 +32,9 @@ void	handle_heredoc(t_shell *shell)
 			shell->executor.index_file_heredoc++;
 			file = generate_file(shell, current);
 			if (!file)
-				return; // ML : on arrete le traitement des heredoc 
+				return ; // ML : on arrete le traitement des heredoc pas de eof
 			update_type_eof_exec(shell, current, file);
+			free_ptr((void **)&file);
 		}
 		current = current->next;
 	}
@@ -65,17 +66,16 @@ static char	*generate_file(t_shell *shell, t_token *token)
 static void	update_type_eof_exec(t_shell *shell, t_token *token, char *file)
 {
 	token->type = T_REDIR_IN;
-	free (token->value);
+	free_ptr((void **)&token->value);
 	token->value = ft_strdup("<");
 	if (token->next)
 	{
 		token->next->type = T_WORD;
-		free(token->next->value);
+		free_ptr((void **)&token->next->value);
 		token->next->value = ft_strdup(file);
 		if (!token->next->value)
 			unfructuous_malloc(shell);
 	}
-	free_ptr((void **)&file);
 }
 // ML modif gestion erreur. Pas de free ni de exit ici 
 static void	update_type_eof(t_shell *shell, t_token *token)
@@ -99,4 +99,3 @@ static void	update_type_eof(t_shell *shell, t_token *token)
 		token = token->next;
 	}
 }
-
