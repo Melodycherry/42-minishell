@@ -36,13 +36,14 @@ int	builtin_export(t_shell *shell, char **av)
 	}
 	return (0);
 }
+
 t_bool	checking_var(t_shell *shell, char *line)
 {
 	int	i;
 
 	i = 0;
 	if (is_valid_name(line) == FALSE)
-		return (printf("Var name not valid\n"), 
+		return (printf("Var name not valid\n"),
 			error_syntax_export(line), FALSE);
 	while (line[i])
 	{

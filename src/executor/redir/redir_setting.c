@@ -11,7 +11,9 @@
 /*****************************************************************************/
 
 #include "minishell.h"
-// TODO: refacto ( flemme for now, deja 5 fonctions )
+
+static void	cleanup_redirections(t_shell *shell);
+
 void	set_redir_count(t_shell *shell, char **av)
 {
 	int		i;
@@ -36,14 +38,17 @@ void	set_redir_count(t_shell *shell, char **av)
 		}
 	}
 	else
-	{
-		free_ptr((void **)&shell->executor.redir_file);
-		shell->executor.redir_file = NULL;
-		shell->executor.redir_type = 0;
-		free_tab(&shell->executor.redir_av);
-	}
+		cleanup_redirections(shell);
 }
-// ML juste changement pour putendl
+
+static void	cleanup_redirections(t_shell *shell)
+{
+	free_ptr((void **)&shell->executor.redir_file);
+	shell->executor.redir_file = NULL;
+	shell->executor.redir_type = 0;
+	free_tab(&shell->executor.redir_av);
+}
+
 void	set_redir_file_type_av(t_shell *shell, char **av)
 {
 	int	i;
@@ -52,7 +57,8 @@ void	set_redir_file_type_av(t_shell *shell, char **av)
 	set_redir_file(shell, av, &i);
 	if (av[i + 1] == NULL)
 	{
-		ft_putendl_fd("Syntax error: expected file after redirection\n", STDERR_FILENO);
+		ft_putendl_fd("Syntax error: expected file after redirection\n",
+			STDERR_FILENO);
 		shell->executor.redir_file = NULL;
 		shell->executor.redir_type = 0;
 		free_tab(&shell->executor.redir_av);
@@ -65,16 +71,6 @@ void	set_redir_file_type_av(t_shell *shell, char **av)
 	set_redir_type(shell, av[i]);
 	free_tab(&shell->executor.redir_av);
 	shell->executor.redir_av = set_redir_av(shell, av);
-}
-
-void	set_redir_type(t_shell *shell, char *redir)
-{
-	if (ft_strcmp(redir, ">") == 0)
-		shell->executor.redir_type = T_REDIR_OUT;
-	if (ft_strcmp(redir, ">>") == 0)
-		shell->executor.redir_type = T_REDIR_APPEND;
-	if (ft_strcmp(redir, "<") == 0)
-		shell->executor.redir_type = T_REDIR_IN;
 }
 
 void	set_redir_file(t_shell *shell, char **av, int *i)

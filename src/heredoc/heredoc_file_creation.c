@@ -13,32 +13,11 @@
 #include "minishell.h"
 
 static int	create_and_check_fd(t_shell *shell, char *file);
-static void	expand_and_write(t_shell *shell, char *line, int fd, t_bool need_exp);
+static void	expand_and_write(t_shell *shell, char *line, int fd,
+				t_bool need_exp);
+static void	read_and_write_heredoc(t_shell *shell, int fd, char *eof,
+				t_bool need_exp);
 
-void	unlink_file(t_shell *shell)
-{
-	int		i;
-	char	*stri;
-	char 	*file;
-	
-	i = 1;
-	while (i <= shell->executor.nb_heredoc)
-	{
-		stri = ft_itoa(i);
-		if (!stri)
-			unfructuous_malloc(shell);
-		file = ft_strjoin("/tmp/ms_hd_", stri);
-		if (!file)
-		{
-			free_ptr((void **)&stri);
-			unfructuous_malloc(shell);
-		}
-		unlink(file);
-		free_ptr((void **)&stri);
-		free_ptr((void **)&file);
-		i++;
-	}
-}
 char	*create_name(t_shell *shell)
 {
 	char	*file;
@@ -56,42 +35,50 @@ char	*create_name(t_shell *shell)
 	free_ptr((void **)&index);
 	return (file);
 }
-// ML gestion erreur et sortie + refacto 
+
+static void	read_and_write_heredoc(t_shell *shell, int fd, char *eof,
+			t_bool need_exp)
+{
+	char	*line;
+
+	line = NULL;
+	while (1)
+	{
+		line = readline("> ");
+		if (!line)
+			heredoc_exit_eof(shell, fd);
+		if (ft_strcmp(line, eof) == 0)
+		{
+			free_ptr((void **)&line);
+			break ;
+		}
+		expand_and_write(shell, line, fd, need_exp);
+		free_ptr((void **)&line);
+	}
+}
+
 void	process_hd_file(t_shell *shell, char *file, char *eof, t_bool need_exp)
 {
 	pid_t	pid;
 	int		fd;
-	char	*line;
 
-	line = NULL;
 	pid = fork_process_or_exit(shell);
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
 		fd = create_and_check_fd(shell, file);
 		free_ptr((void **) &file);
-		while (1)
-		{
-			line = readline("> ");
-			if (!line)
-				heredoc_exit_eof(shell, fd);
-			if (ft_strcmp(line, eof) == 0)
-			{
-				free_ptr((void **)&line);
-				break ;
-			}
-			expand_and_write(shell, line, fd, need_exp);
-			free_ptr((void **)&line);
-		}
+		read_and_write_heredoc(shell, fd, eof, need_exp);
 		close_and_exit(shell, fd);
 	}
 	wait_for_all(shell, pid);
 }
 
-static void	expand_and_write(t_shell *shell, char *line, int fd, t_bool need_exp)
+static void	expand_and_write(t_shell *shell, char *line, int fd,
+			t_bool need_exp)
 {
-	char *new_line;
-	
+	char	*new_line;
+
 	if (need_exp == TRUE)
 		new_line = expand_all_vars_in_heredoc(shell, line);
 	else

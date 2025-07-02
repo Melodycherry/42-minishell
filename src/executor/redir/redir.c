@@ -27,3 +27,13 @@ void	redir_handle(t_shell *shell)
 			handle_redir_append(shell, shell->executor.redir_file);
 	}
 }
+
+void	set_redir_type(t_shell *shell, char *redir)
+{
+	if (ft_strcmp(redir, ">") == 0)
+		shell->executor.redir_type = T_REDIR_OUT;
+	if (ft_strcmp(redir, ">>") == 0)
+		shell->executor.redir_type = T_REDIR_APPEND;
+	if (ft_strcmp(redir, "<") == 0)
+		shell->executor.redir_type = T_REDIR_IN;
+}

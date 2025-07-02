@@ -65,6 +65,7 @@ void	nb_pipe(t_shell *shell, t_token *token)
 		token = token->next;
 	}
 }
+
 void	check_fd(t_shell *shell, int prev_fd)
 {
 	if (prev_fd != -1)

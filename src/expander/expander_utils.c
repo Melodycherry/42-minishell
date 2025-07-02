@@ -26,7 +26,7 @@ char	*join_free(t_shell *shell, char *s1, char *s2, int len_s2)
 	str = malloc(len_s1 + len_s2 + 1);
 	if (!str)
 	{
-		free_ptr((void **)&s1); 
+		free_ptr((void **)&s1);
 		unfructuous_malloc(shell);
 	}
 	if (s1)

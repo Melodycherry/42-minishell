@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 static void	insert_mid_list(t_token *current,
-			t_token *new_token, t_shell *shell);
+				t_token *new_token, t_shell *shell);
 
 void	create_insert_token(t_shell *shell, int i, int j, t_token *current)
 {

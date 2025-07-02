@@ -12,17 +12,48 @@
 
 #include "minishell.h"
 
-static char	*expand_var_segment(t_shell *shell, char *line, int *i, int *j);
+static t_bool	is_dollar_present(char *line);
+static char		*heredoc_expansion(t_shell *shell, char *line);
+static char		*expand_var_segment(t_shell *shell, char *line, int *i, int *j);
 
 char	*expand_all_vars_in_heredoc(t_shell *shell, char *line)
 {
 	char	*tmp;
+
+	tmp = NULL;
+	if (is_dollar_present(line) == TRUE)
+		tmp = heredoc_expansion(shell, line);
+	else
+	{
+		tmp = ft_strdup(line);
+		if (!tmp)
+			unfructuous_malloc(shell);
+	}
+	return (tmp);
+}
+
+static t_bool	is_dollar_present(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == '$')
+			return (TRUE);
+		i++;
+	}
+	return (FALSE);
+}
+
+static char	*heredoc_expansion(t_shell *shell, char *line)
+{
 	int		i;
 	int		j;
+	char	*tmp;
 
-	j = 0;
 	i = 0;
-	tmp = NULL;
+	j = 0;
 	while (line[i])
 	{
 		if (line[i] == '$')

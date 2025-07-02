@@ -78,4 +78,3 @@ void	insert_env_export(t_shell *shell, char *value,
 	if (var_exist(tab, value, var_len) == FALSE)
 		put_in_env_export(shell, tab, value, is_export);
 }
-

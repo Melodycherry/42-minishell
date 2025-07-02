@@ -63,7 +63,7 @@ static void	set_exit_status_env(int exit_status, t_shell *shell)
 	str_exit_status = ft_itoa(exit_status);
 	if (!str_exit_status)
 	{
-		ft_putendl_fd("Malloc error (itoa)\n", STDERR_FILENO);//TODO: TEMPLATE
+		ft_putendl_fd("Malloc error (itoa)\n", STDERR_FILENO);
 		free_all(shell);
 		exit(EXIT_FAILURE);
 	}
@@ -83,20 +83,17 @@ static void	set_exit_status_env(int exit_status, t_shell *shell)
 static void	exec_with_redir_check(t_shell *shell, char *pathname, char **av)
 {
 	set_redir_count(shell, av);
-	//free_all(shell);
 	if (shell->executor.nb_redir > 0)
 	{
 		shell->executor.nb_redir = 0;
 		execve(pathname, shell->executor.redir_av, shell->cmd.envp_exp);
-		perror("Error"); // TODO: m eilleur message erreur
+		perror("Error");
 		exit(EXIT_FAILURE);
 	}
 	else
 	{
-		// printf("pathname : %s\n", pathname);
-		// print_tab(shell->executor.av);
 		execve(pathname, av, shell->cmd.envp_exp);
-		perror("Error"); //TODO: meilleur mesdsage d erreur
+		perror("Error");
 		exit(EXIT_FAILURE);
 	}
 }
@@ -109,7 +106,7 @@ void	exec_fork(t_shell *shell, char *pathname, char **av)
 	{
 		pid = fork();
 		if (pid == -1)
-			return (perror("fork")); //TODO: exit avec gestion d erreur et free
+			return (perror("fork"));
 		if (pid > 0)
 			wait_for_all(shell, pid);
 		if (pid == 0)
@@ -119,23 +116,5 @@ void	exec_fork(t_shell *shell, char *pathname, char **av)
 	{
 		shell->executor.is_forked = FALSE;
 		exec_with_redir_check(shell, pathname, av);
-	}
-}
-
-void	exec_path(t_shell *shell, char *pathname, char **av)
-{
-	char	*path;
-
-	if (is_absolative(pathname))
-		exec_fork(shell, pathname, av);
-	else
-	{
-		create_path(shell, shell->cmd.envp_exp);
-		path = right_path(shell, shell->executor.paths, pathname);
-		if (path)
-		{
-			exec_fork(shell, path, av);
-			free_ptr((void **)&path);
-		}
 	}
 }

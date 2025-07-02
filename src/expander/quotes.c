@@ -31,7 +31,8 @@ void	delete_quotes_value(t_shell *shell, t_token *token)
 		{
 			j = i + 1;
 			find_next_quote(token->value[i], token->value, &i);
-			new_line = join_free(shell, new_line, &token->value[j], (i - j - 1));
+			new_line = join_free(shell, new_line, &token->value[j],
+					(i - j - 1));
 		}
 		else
 			return ;

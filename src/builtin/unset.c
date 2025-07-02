@@ -13,10 +13,10 @@
 #include "minishell.h"
 
 static void	filtr_out_var(t_shell *shell, char **new_tab,
-			char *name, t_bool is_export);
+				char *name, t_bool is_export);
 static void	remove_var(t_shell *shell, char **old_tab,
-			char *name, t_bool is_export);
-static void copy_or_exit(t_shell *shell, char **new_tab, char *src, int *j);
+				char *name, t_bool is_export);
+static void	copy_or_exit(t_shell *shell, char **new_tab, char *src, int *j);
 
 int	builtin_unset(t_shell *shell, char **av)
 {
@@ -63,14 +63,14 @@ static void	remove_var(t_shell *shell,
 	filtr_out_var(shell, new_tab, name, is_export);
 	replace_tab(shell, new_tab, is_export);
 }
-// ML attention refacto de l'enfer pour eviter 5 parametres. 
-// Check si ca a pas tt peter des trucs (apparemment non, so far)
-static void	filtr_out_var(t_shell *shell, char **new_tab, char *name, t_bool is_export)
+
+static void	filtr_out_var(t_shell *shell, char **new_tab, char *name,
+			t_bool is_export)
 {
-	int	i;
-	int	j;
-	int len;
-	char **old_tab;
+	int		i;
+	int		j;
+	int		len;
+	char	**old_tab;
 
 	i = 0;
 	j = 0;
@@ -83,15 +83,13 @@ static void	filtr_out_var(t_shell *shell, char **new_tab, char *name, t_bool is_
 	{
 		if (!(ft_strncmp(old_tab[i], name, len) == 0
 				&& (old_tab[i][len] == '=' || old_tab[i][len] == '\0')))
-				{
-					copy_or_exit(shell, new_tab, old_tab[i], &j);
-				}
+			copy_or_exit(shell, new_tab, old_tab[i], &j);
 		i++;
 	}
 	new_tab[j] = NULL;
 }
 
-static void copy_or_exit(t_shell *shell, char **new_tab, char *src, int *j)
+static void	copy_or_exit(t_shell *shell, char **new_tab, char *src, int *j)
 {
 	new_tab[*j] = ft_strdup(src);
 	if (!new_tab[*j])
@@ -117,16 +115,3 @@ void	replace_tab(t_shell *shell, char **new_tab, t_bool is_export)
 		shell->cmd.envp_copy = new_tab;
 	}
 }
-// void	replace_tab(t_shell *shell, char **new_tab, t_bool is_export)
-// {
-// 	if (is_export == TRUE)
-// 	{
-// 		free_tab(shell, &shell->cmd.envp_exp);
-// 		shell->cmd.envp_exp = new_tab;
-// 	}
-// 	else
-// 	{
-// 		free_tab(shell, &shell->cmd.envp_copy);
-// 		shell->cmd.envp_copy = new_tab;
-// 	}
-// }

@@ -50,6 +50,7 @@ static int	error_home(t_shell *shell)
 	ft_putendl_fd("cd: HOME not set", STDERR_FILENO);
 	return (1);
 }
+
 static void	update_pwd(t_shell *shell, char *oldpwd)
 {
 	char	*newpwd;
@@ -62,14 +63,14 @@ static void	update_pwd(t_shell *shell, char *oldpwd)
 	oldpwd_str = ft_strjoin("OLDPWD=", oldpwd);
 	if (!oldpwd_str)
 	{
-		free_ptr((void**)&newpwd);
+		free_ptr((void **)&newpwd);
 		unfructuous_malloc(shell);
 	}
 	newpwd_str = ft_strjoin("PWD=", newpwd);
 	if (!newpwd_str)
 	{
-		free_ptr((void**)&oldpwd_str);
-		free_ptr((void**)&newpwd);
+		free_ptr((void **)&oldpwd_str);
+		free_ptr((void **)&newpwd);
 		unfructuous_malloc(shell);
 	}
 	set_env(oldpwd_str, TO_BOTH, shell);

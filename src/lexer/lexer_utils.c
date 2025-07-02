@@ -18,7 +18,7 @@ t_bool	ft_isquote(int c)
 		return (TRUE);
 	return (FALSE);
 }
-// ML modif free 
+
 t_bool	is_next_quote(t_shell *shell, char quote, char *line, int i)
 {
 	i++;

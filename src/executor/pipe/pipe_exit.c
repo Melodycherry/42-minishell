@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-// ML free all 
 void	create_pipe_or_exit(t_shell *shell, int *fd_pipe)
 {
 	if (pipe(fd_pipe) == -1)
@@ -22,7 +21,7 @@ void	create_pipe_or_exit(t_shell *shell, int *fd_pipe)
 		exit(EXIT_FAILURE);
 	}
 }
-// change avec t_shell
+
 pid_t	fork_process_or_exit(t_shell *shell)
 {
 	pid_t	pid;

@@ -12,35 +12,22 @@
 
 #include "minishell.h"
 
-// ML debut de refacto FIXME: a continuer
-void exec_pipe(t_shell *shell)
+static pid_t	exec_pipe_iteration(t_shell *shell, int *prev_fd, int *fd_pipe,
+					int nb_pipe);
+
+void	exec_pipe(t_shell *shell)
 {
 	pid_t	pid;
-	int		prev_fd = -1;
+	int		prev_fd;
 	int		fd_pipe[2];
 	int		nb_pipe;
-	char	**pipe_av;
 
+	prev_fd = -1;
 	init_pipe(shell);
 	nb_pipe = shell->executor.nb_pipe;
 	while (nb_pipe >= 0)
 	{
-		pipe_av = split_args(shell, shell->executor.av);
-		if (nb_pipe > 0)
-			create_pipe_or_exit(shell, fd_pipe);
-		else
-		{
-			fd_pipe[0] = -1;
-			fd_pipe[1] = -1;
-		}
-		pid = fork_process_or_exit(shell);
-		if (pid == 0)
-		{
-			check_fd(shell, prev_fd);
-			exec_pipe_child(shell, fd_pipe, pipe_av, nb_pipe);
-		}
-		update_parent_fds(&prev_fd, fd_pipe, nb_pipe);
-		update_executor_state(shell, pipe_av);
+		pid = exec_pipe_iteration(shell, &prev_fd, fd_pipe, nb_pipe);
 		nb_pipe--;
 	}
 	if (prev_fd != -1)
@@ -48,7 +35,30 @@ void exec_pipe(t_shell *shell)
 	wait_for_all(shell, pid);
 }
 
-// need another fonction here for refacto
+static pid_t	exec_pipe_iteration(t_shell *shell, int *prev_fd, int *fd_pipe,
+		int nb_pipe)
+{
+	pid_t	pid;
+	char	**pipe_av;
+
+	pipe_av = split_args(shell, shell->executor.av);
+	if (nb_pipe > 0)
+		create_pipe_or_exit(shell, fd_pipe);
+	else
+	{
+		fd_pipe[0] = -1;
+		fd_pipe[1] = -1;
+	}
+	pid = fork_process_or_exit(shell);
+	if (pid == 0)
+	{
+		check_fd(shell, *prev_fd);
+		exec_pipe_child(shell, fd_pipe, pipe_av, nb_pipe);
+	}
+	update_parent_fds(prev_fd, fd_pipe, nb_pipe);
+	update_executor_state(shell, pipe_av);
+	return (pid);
+}
 
 void	exec_pipe_child(t_shell *shell, int *fd_pipe, char **pipe_av,
 	int nb_pipe)
@@ -64,6 +74,7 @@ void	exec_pipe_child(t_shell *shell, int *fd_pipe, char **pipe_av,
 	free_all(shell);
 	exit(EXIT_FAILURE);
 }
+
 void	wait_for_all(t_shell *shell, pid_t pid)
 {
 	int		stat_loc;
@@ -92,6 +103,7 @@ void	wait_for_all(t_shell *shell, pid_t pid)
 	set_env(value, TO_ENV, shell);
 	free_ptr((void **) &value);
 }
+
 // version avant refacto
 // void exec_pipe(t_shell *shell)
 // {

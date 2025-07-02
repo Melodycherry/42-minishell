@@ -12,11 +12,10 @@
 
 #include "minishell.h"
 
-static void	update_type_eof(t_shell *shell,t_token *token);
+static void	update_type_eof(t_shell *shell, t_token *token);
 static char	*generate_file(t_shell *shell, t_token *token);
 static void	update_type_eof_exec(t_shell *shell, t_token *token, char *file);
 
-// ML modif pour arreter le traitement des heredoc 
 void	handle_heredoc(t_shell *shell)
 {
 	t_token	*current;
@@ -32,14 +31,14 @@ void	handle_heredoc(t_shell *shell)
 			shell->executor.index_file_heredoc++;
 			file = generate_file(shell, current);
 			if (!file)
-				return ; // ML : on arrete le traitement des heredoc pas de eof
+				return ;
 			update_type_eof_exec(shell, current, file);
 			free_ptr((void **)&file);
 		}
 		current = current->next;
 	}
 }
-// ML : gestion erreur et verif de bash ok 
+
 static char	*generate_file(t_shell *shell, t_token *token)
 {
 	char	*file;
@@ -77,7 +76,7 @@ static void	update_type_eof_exec(t_shell *shell, t_token *token, char *file)
 			unfructuous_malloc(shell);
 	}
 }
-// ML modif gestion erreur. Pas de free ni de exit ici 
+
 static void	update_type_eof(t_shell *shell, t_token *token)
 {
 	while (token->next)
@@ -94,7 +93,8 @@ static void	update_type_eof(t_shell *shell, t_token *token)
 				}
 			}
 			else
-				ft_putendl_fd("Syntaxe error: missing delimiter", STDERR_FILENO);
+				ft_putendl_fd("Syntaxe error: missing delimiter",
+					STDERR_FILENO);
 		}
 		token = token->next;
 	}

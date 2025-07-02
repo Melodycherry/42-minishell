@@ -27,4 +27,4 @@ void	setup_signals(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-// faire la gestion des signaux et free la liste chainees
+// faire laaaa gestioonnnnnn des signauuuuux

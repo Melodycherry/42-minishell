@@ -19,7 +19,7 @@ t_bool	ft_isoperator(int c)
 	return (FALSE);
 }
 
-t_bool	is_token_error(t_token *token, t_shell *shell)
+char	*error_multiple_operator(t_token *token, t_shell *shell)
 {
 	if (shell->tlist.token_cnt > 1)
 	{
@@ -31,12 +31,12 @@ t_bool	is_token_error(t_token *token, t_shell *shell)
 					token = token->next;
 				else if ((token->type >= 2 && token->type <= 6)
 					&& (token->next->type >= 2 && token->next->type <= 6))
-					return (TRUE);
+					return (token->value);
 			}
 			token = token->next;
 		}
 	}
-	return (FALSE);
+	return (NULL);
 }
 
 void	extract_dbl_token(t_shell *shell, int *i, int *j, t_token *current)

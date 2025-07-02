@@ -19,6 +19,10 @@ void	init_all(t_shell *shell)
 {
 	init_list(shell);
 	init_executor(shell);
+	shell->cmd.envp_copy = NULL;
+	shell->cmd.envp_exp = NULL;
+	shell->cmd.line = NULL;
+	shell->syntax_error = FALSE;
 	shell->executor.is_forked = FALSE;
 	shell->lexer.space = 0;
 	shell->lexer.double_quote = 0;

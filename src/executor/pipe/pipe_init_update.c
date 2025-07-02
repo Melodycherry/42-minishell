@@ -24,11 +24,11 @@ void	update_executor_state(t_shell *shell, char **pipe_av)
 	shell->executor.end++;
 	shell->executor.start = shell->executor.end;
 }
-// ML pour refacto 
+
 void	update_parent_fds(int *prev_fd, int *fd_pipe, int nb_pipe)
 {
 	if (*prev_fd != -1)
-			close(*prev_fd);
+		close(*prev_fd);
 	if (nb_pipe > 0)
 	{
 		close(fd_pipe[1]);

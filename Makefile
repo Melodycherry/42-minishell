@@ -61,17 +61,17 @@ vpath %.c \
 # attention supprimer le testing.c
 SRC = main.c \
 builtin_utils.c cd.c echo.c env.c exit.c export.c export_utils.c pwd.c unset.c \
-exec.c executor_utils.c \
+exec.c executor_utils.c exec_path.c \
 heredoc.c heredoc_utils.c heredoc_file_creation.c heredoc_expand.c \
 pipe.c pipe_utils.c pipe_init_update.c pipe_exit.c \
 redir.c redir_utils.c redir_setting.c \
-expander.c expander_utils.c change_type.c env_utils.c init_env.c quotes.c var_handler.c\
+expander.c expand_quotes.c expander_utils.c change_type.c env_utils.c quotes.c var_handler.c\
 lexer.c lexer_utils.c \
 parser.c parser_utils.c \
 signals.c \
 error.c free.c free_tab.c free_token.c \
 init_chain.c \
-struct.c \
+init_struct.c init_env.c \
 testing.c \
 
 OBJS = $(addprefix $(OBJDIR)/, $(SRC:.c=.o))

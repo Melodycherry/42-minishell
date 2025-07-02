@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-// ML modif 
 void	handle_redir_in(t_shell *shell, char *file)
 {
 	int	fd;
@@ -28,7 +27,7 @@ void	handle_redir_in(t_shell *shell, char *file)
 	}
 	close(fd);
 }
-// ML modif 
+
 void	handle_redir_out(t_shell *shell, char *file)
 {
 	int	fd;
@@ -44,7 +43,7 @@ void	handle_redir_out(t_shell *shell, char *file)
 	}
 	close(fd);
 }
-// ML modif 
+
 void	handle_redir_append(t_shell *shell, char *file)
 {
 	int	fd;
