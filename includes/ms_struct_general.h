@@ -33,10 +33,6 @@ typedef struct s_builtin
 	t_bool	is_echo_n;
 }	t_builtin;
 
-typedef struct s_expander
-{
-}	t_expander;
-
 typedef struct s_executor
 {
 	char			**av;
@@ -51,8 +47,6 @@ typedef struct s_executor
 	int				nb_heredoc;
 	int				nb_redir_wip;
 	int				index_file_heredoc;
-	//int				prev_fd; // check 
-
 	t_bool			is_forked;
 	t_token_type	redir_type;
 }	t_executor;
@@ -70,10 +64,8 @@ typedef struct s_tlist
 {
 	int		token_cnt; // peut etre util, a voir
 	t_token	*head;
-
 }	t_tlist;
 
-// structure qui gere toutes les autres structures
 typedef struct s_shell
 {
 	t_bool		syntax_error;
@@ -81,7 +73,6 @@ typedef struct s_shell
 	t_cmd		cmd;
 	t_lexer		lexer;
 	t_builtin	builtin;
-	t_expander	expander;
 	t_executor	executor;
 }	t_shell;
 

@@ -70,7 +70,7 @@ void	check_fd(t_shell *shell, int prev_fd)
 {
 	if (prev_fd != -1)
 	{
-		handle_dup2(shell, prev_fd, STDIN_FILENO); // mini diff 
+		handle_dup2(shell, prev_fd, STDIN_FILENO);
 		close(prev_fd);
 	}
 }

@@ -15,6 +15,8 @@
 static void	parsing(t_shell *shell);
 static void	handle_signal(t_shell *shell);
 
+int		g_exit_status = 0;
+
 int	main(int ac, char **av, char **envp)
 {
 	t_shell	shell;
@@ -56,8 +58,13 @@ void	parsing(t_shell *shell)
 	token_blank(shell);
 	token_operator(shell, shell->tlist.head);
 	token_typedef(shell->tlist.head);
-	// if (shell->tlist.token_cnt == 1)
-	// 	handle_only_quotes(shell, shell->tlist.head);
+	if (shell->tlist.token_cnt == 1)
+	{
+		if (only_quote(shell->tlist.head, '"'))
+			return (error_message(shell, "command ' ' not found"));
+		if (only_quote(shell->tlist.head, '\''))
+			return (error_message(shell, "command ' ' not found"));
+	}
 	value = error_multiple_operator(shell->tlist.head, shell);
 	if (error_multiple_operator(shell->tlist.head, shell))
 		return (error_syntax_token(shell, value));
@@ -72,7 +79,3 @@ static void	handle_signal(t_shell *shell)
 		set_exit_status_env(shell, 130);
 	g_exit_status = 0;
 }
-// "" -> en cours, a tester a 42
-// cat << eof << 
-// cat | cat | ls
-//?

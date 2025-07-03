@@ -15,8 +15,6 @@
 static void	sigint_handler(int sig);
 static void	sigquit_handler(int sig);
 
-int		g_exit_status = 0;
-
 void	parent_signal(void)
 {
 	signal(SIGINT, sigint_handler);
@@ -47,5 +45,5 @@ static void	sigint_handler(int sig)
 static void	sigquit_handler(int sig)
 {
 	(void)sig;
-	write (1, "\n", STDERR_FILENO);
+	write (1, "\n", 1);
 }
