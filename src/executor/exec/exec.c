@@ -81,6 +81,7 @@ void	set_exit_status_env(t_shell *shell, int exit_status)
 
 static void	exec_with_redir_check(t_shell *shell, char *pathname, char **av)
 {
+	child_signal();
 	set_redir_count(shell, av);
 	if (shell->executor.nb_redir > 0)
 	{
@@ -104,12 +105,14 @@ void	exec_fork(t_shell *shell, char *pathname, char **av)
 	if (shell->executor.is_forked == FALSE)
 	{
 		pid = fork();
+		sig_core_dump_parent_signal();
 		if (pid == -1)
 			return (perror("fork"));
 		if (pid > 0)
 			wait_for_all(shell, pid);
 		if (pid == 0)
 			exec_with_redir_check(shell, pathname, av);
+		parent_signal();
 	}
 	else
 	{

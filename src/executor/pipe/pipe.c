@@ -52,6 +52,7 @@ static pid_t	exec_pipe_iteration(t_shell *shell, int *prev_fd, int *fd_pipe,
 	pid = fork_process_or_exit(shell);
 	if (pid == 0)
 	{
+		child_signal();
 		check_fd(shell, *prev_fd);
 		exec_pipe_child(shell, fd_pipe, pipe_av, nb_pipe);
 	}

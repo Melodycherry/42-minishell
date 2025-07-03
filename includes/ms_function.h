@@ -150,10 +150,12 @@ void	extract_dbl_token(t_shell *shell, int *i, int *j, t_token *current);
 void	extract_sgl_token(t_shell *shell, int *i, int *j, t_token *current);
 
 /*SIGNALS*/
-void	parent_signals(void);
+void	parent_signal(void);
+void	child_signal(void);
 void	heredoc_child_signal(void);
 void	heredoc_parent_signal(void);
 void	sigint_handler_child(int sig);
+void	sig_core_dump_parent_signal(void);
 
 /*UTILS*/
 

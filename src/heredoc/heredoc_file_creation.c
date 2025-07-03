@@ -73,7 +73,7 @@ void	process_hd_file(t_shell *shell, char *file, char *eof, t_bool need_exp)
 		close_and_exit(shell, fd);
 	}
 	wait_for_all(shell, pid);
-	parent_signals();
+	parent_signal();
 }
 
 static void	expand_and_write(t_shell *shell, char *line, int fd,

@@ -23,7 +23,7 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	init_all(&shell);
 	cpy_envp(&shell, envp);
-	parent_signals();
+	parent_signal();
 	while (1)
 	{
 		shell.cmd.line = readline(PROMPT);
