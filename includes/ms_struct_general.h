@@ -51,6 +51,7 @@ typedef struct s_executor
 	int				nb_heredoc;
 	int				nb_redir_wip;
 	int				index_file_heredoc;
+	//int				prev_fd; // check 
 
 	t_bool			is_forked;
 	t_token_type	redir_type;
