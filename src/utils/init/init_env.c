@@ -14,6 +14,8 @@
 
 static void	create_fake_env(t_shell *shell);
 static void	create_fake_exp(t_shell *shell);
+static void	increase_shlvl_env(t_shell *shell);
+static void	increase_shlvl_exp(t_shell *shell);
 
 void	cpy_envp(t_shell *shell, char **envp)
 {
@@ -28,6 +30,8 @@ void	cpy_envp(t_shell *shell, char **envp)
 		shell->cmd.envp_exp = cpy_tab(shell, envp);
 		bubble_tab(shell->cmd.envp_exp);
 	}
+	increase_shlvl_env(shell);
+	increase_shlvl_exp(shell);
 }
 
 static void	create_fake_env(t_shell *shell)
@@ -55,4 +59,58 @@ static void	create_fake_exp(t_shell *shell)
 	tmp[1] = ft_strdup("SHLVL=2");
 	tmp[2] = NULL;
 	shell->cmd.envp_exp = tmp;
+}
+
+static void	increase_shlvl_env(t_shell *shell)
+{
+	int		i;
+	int		new_index;
+	char	*new_index_upgraded;
+	char	*old_index;
+
+	i = 0;
+	while (shell->cmd.envp_copy[i])
+	{
+		if (ft_strncmp(shell->cmd.envp_copy[i], "SHLVL", 5) == 0)
+		{
+			old_index = ft_strdup(&shell->cmd.envp_copy[i][6]);
+			new_index = atoi(old_index);
+			new_index++;
+			new_index_upgraded = ft_itoa(new_index);
+			if (!new_index_upgraded)
+				unfructuous_malloc(shell);
+			free_ptr((void **)&shell->cmd.envp_copy[i]);
+			shell->cmd.envp_copy[i] = ft_strjoin("SHLVL=", new_index_upgraded);
+			free_ptr((void **)&old_index);
+			free_ptr((void **)&new_index_upgraded);
+		}
+		i++;
+	}
+}
+
+static void	increase_shlvl_exp(t_shell *shell)
+{
+	int		i;
+	int		new_index;
+	char	*new_index_upgraded;
+	char	*old_index;
+
+	i = 0;
+	while (shell->cmd.envp_exp[i])
+	{
+		if (ft_strncmp(shell->cmd.envp_exp[i], "SHLVL", 5) == 0)
+		{
+			old_index = ft_strdup(&shell->cmd.envp_exp[i][6]);
+			new_index = atoi(old_index);
+			new_index++;
+			new_index_upgraded = ft_itoa(new_index);
+			if (!new_index_upgraded)
+				unfructuous_malloc(shell);
+			free_ptr((void **)&shell->cmd.envp_exp[i]);
+			shell->cmd.envp_exp[i] = ft_strjoin("SHLVL=", new_index_upgraded);
+			free_ptr((void **)&old_index);
+			free_ptr((void **)&new_index_upgraded);
+		}
+		i++;
+	}
 }
