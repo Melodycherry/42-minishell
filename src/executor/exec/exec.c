@@ -29,7 +29,7 @@ void	execution(t_shell *shell)
 		saved_stdin = dup(STDIN_FILENO);
 		saved_stdout = dup(STDOUT_FILENO);
 		set_redir_count(shell, shell->executor.av);
-		exit_status = exec_builtin(shell);
+		exit_status = exec_builtin(shell, FALSE);
 		set_exit_status_env(shell, exit_status);
 		handle_dup2(shell, saved_stdin, STDIN_FILENO);
 		handle_dup2(shell, saved_stdout, STDOUT_FILENO);

@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 static int	error_home(t_shell *shell);
-static void	execute_cd(t_shell *shell, char *path);
+static int	execute_cd(t_shell *shell, char *path);
 static void	update_pwd(t_shell *shell, char *oldpwd);
 
 int	builtin_cd(t_shell *shell, char **av)
@@ -40,7 +40,8 @@ int	builtin_cd(t_shell *shell, char **av)
 	}
 	else
 		path = av[1];
-	execute_cd(shell, path);
+	if (execute_cd(shell, path))
+		return (1);
 	return (0);
 }
 
@@ -80,19 +81,23 @@ static void	update_pwd(t_shell *shell, char *oldpwd)
 	free_ptr((void **)&newpwd);
 }
 
-static void	execute_cd(t_shell *shell, char *path)
+static int	execute_cd(t_shell *shell, char *path)
 {
 	char	*oldpwd;
 
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
-		return ;
-	if (chdir(path) == -1)
+	{
+		free_all(shell);
+		exit(1);
+	}
+	if (chdir(path))
 	{
 		perror("cd");
 		free_ptr((void **)&oldpwd);
-		return ;
+		return (1) ;
 	}
 	update_pwd(shell, oldpwd);
 	free_ptr((void **)&oldpwd);
+	return (0);
 }

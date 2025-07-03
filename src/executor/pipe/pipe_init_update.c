@@ -18,9 +18,9 @@ void	init_pipe(t_shell *shell)
 	shell->executor.end = 0;
 }
 
-void	update_executor_state(t_shell *shell, char **pipe_av)
+void	update_executor_state(t_shell *shell)
 {
-	free_tab(&pipe_av);
+	free_tab(&shell->executor.pipe_av);
 	shell->executor.end++;
 	shell->executor.start = shell->executor.end;
 }

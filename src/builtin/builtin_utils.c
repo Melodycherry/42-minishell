@@ -27,7 +27,7 @@ t_bool	is_builtin(char	*cmd)
 	return (FALSE);
 }
 
-int	exec_builtin(t_shell *shell)
+int	exec_builtin(t_shell *shell, t_bool is_pipe)
 {
 	char	**av;
 
@@ -35,21 +35,23 @@ int	exec_builtin(t_shell *shell)
 		return (1);
 	if (shell->executor.redir_av)
 		av = shell->executor.redir_av;
-	else
+	else if (!is_pipe)
 		av = shell->executor.av;
+	else
+		av = shell->executor.pipe_av;
 	if (ft_strcmp(av[0], "cd") == 0)
-		return (builtin_cd(shell, shell->executor.av));
+		return (builtin_cd(shell, av));
 	else if (ft_strcmp(av[0], "echo") == 0)
-		return (builtin_echo(shell, shell->executor.av));
+		return (builtin_echo(shell, av));
 	else if (ft_strcmp(av[0], "env") == 0)
-		return (builtin_env(shell, shell->executor.av));
+		return (builtin_env(shell, av));
 	else if (ft_strcmp(av[0], "exit") == 0)
-		return (builtin_exit(shell, shell->executor.av));
+		return (builtin_exit(shell, av));
 	else if (ft_strcmp(av[0], "export") == 0)
-		return (builtin_export(shell, shell->executor.av));
+		return (builtin_export(shell, av));
 	else if (ft_strcmp(av[0], "pwd") == 0)
-		return (builtin_pwd(shell, shell->executor.av));
+		return (builtin_pwd(shell, av));
 	else if (ft_strcmp(av[0], "unset") == 0)
-		return (builtin_unset(shell, shell->executor.av));
+		return (builtin_unset(shell, av));
 	return (0);
 }

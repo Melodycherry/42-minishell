@@ -39,9 +39,8 @@ static pid_t	exec_pipe_iteration(t_shell *shell, int *prev_fd, int *fd_pipe,
 		int nb_pipe)
 {
 	pid_t	pid;
-	char	**pipe_av;
 
-	pipe_av = split_args(shell, shell->executor.av);
+	shell->executor.pipe_av = split_args(shell, shell->executor.av);
 	if (nb_pipe > 0)
 		create_pipe_or_exit(shell, fd_pipe);
 	else
@@ -54,30 +53,49 @@ static pid_t	exec_pipe_iteration(t_shell *shell, int *prev_fd, int *fd_pipe,
 	{
 		child_signal();
 		check_fd(shell, *prev_fd);
-		exec_pipe_child(shell, fd_pipe, pipe_av, nb_pipe);
+		exec_pipe_child(shell, fd_pipe, nb_pipe);
 	}
 	update_parent_fds(prev_fd, fd_pipe, nb_pipe);
-	update_executor_state(shell, pipe_av);
+	update_executor_state(shell);
 	return (pid);
 }
 
-void	exec_pipe_child(t_shell *shell, int *fd_pipe, char **pipe_av,
-	int nb_pipe)
+void	exec_pipe_child(t_shell *shell, int *fd_pipe, int nb_pipe)
 {
+	int		saved_stdin;
+	int		saved_stdout;
+	int		exit_status;
+
 	if (nb_pipe > 0)
 	{
 		close(fd_pipe[0]);
 		handle_dup2(shell, fd_pipe[1], STDOUT_FILENO);
 		close(fd_pipe[1]);
 	}
-	exec_path(shell, pipe_av[0], pipe_av);
-	free_tab(&pipe_av);
+	if (is_builtin(shell->executor.pipe_av[0]))
+	{
+		saved_stdin = dup(STDIN_FILENO);
+		saved_stdout = dup(STDOUT_FILENO);
+		set_redir_count(shell, shell->executor.pipe_av);
+		exit_status = exec_builtin(shell, TRUE);
+		set_exit_status_env(shell, exit_status);
+		handle_dup2(shell, saved_stdin, STDIN_FILENO);
+		handle_dup2(shell, saved_stdout, STDOUT_FILENO);
+		close(saved_stdin);
+		close(saved_stdout);
+		free_tab(&shell->executor.redir_av);
+	}
+	else
+		exec_path(shell, shell->executor.pipe_av[0], shell->executor.pipe_av);
+	sleep(20);
+	free_tab(&shell->executor.pipe_av);
 	free_all(shell);
 	exit(EXIT_FAILURE);
 }
 
 void	wait_for_all(t_shell *shell, pid_t last_pid)
 {
+
 	int		stat_loc;
 	int		exit_status;
 	pid_t	pid;

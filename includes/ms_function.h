@@ -19,7 +19,7 @@ int		main(int ac, char **av, char **env);
 t_bool	is_builtin(char *cmd);
 t_bool	is_valid_name(char *line);
 
-int		exec_builtin(t_shell *shell);
+int		exec_builtin(t_shell *shell, t_bool is_pipe);
 int		builtin_cd(t_shell *shell, char **av);
 int		builtin_env(t_shell *shell, char **av);
 int		builtin_pwd(t_shell *shell, char **av);
@@ -65,9 +65,8 @@ void	find_range(t_shell *shell);
 void	update_parent_fds(int *prev_fd, int *fd_pipe, int nb_pipe);
 void	create_pipe_or_exit(t_shell *shell, int *fd_pipe);
 void	nb_pipe(t_shell *shell, t_token *token);
-void	update_executor_state(t_shell *shell, char **pipe_av);
-void	exec_pipe_child(t_shell *shell, int *fd_pipe, char **pipe_av,
-			int nb_pipe);
+void	update_executor_state(t_shell *shell);
+void	exec_pipe_child(t_shell *shell, int *fd_pipe, int nb_pipe);
 
 char	*right_path(t_shell *shell, char **paths, char *cmd);
 char	**split_args(t_shell *shell, char **av);
