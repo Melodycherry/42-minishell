@@ -19,21 +19,31 @@ t_bool	ft_isoperator(int c)
 	return (FALSE);
 }
 
-t_bool	is_only_quotes(t_token *token)
-{
-	int	i;
+// void	handle_only_quotes(t_shell *shell, t_token *token)
+// {
+// 	int	i;
 
-	i = 0;
-	if (token == NULL || ft_strlen(token->value) == 0)
-		return (FALSE);
-	while (token->value[i])
-	{
-		if (token->value[i] != '"') // peut etre aussi que des ' ou un astucieux melange -> a ce moment la utilsier ft_isquote
-			return (FALSE);
-		i++;
-	}
-	return (TRUE);
-}
+// 	i = 0;
+// 	if (token == NULL || ft_strlen(token->value) == 0)
+// 		return (FALSE);
+// 	while (token->value[i])
+// 	{
+// 		if (token->value[i] != '"')
+// 			return ;
+// 		i++;
+// 	}
+// 	i = 0;
+// 	while (token->value[i])
+// 	{
+// 		if (token->value[i] != '\'')
+// 			return ;
+// 		i++;
+// 	}
+// 	if (ft_strlen(token->value) % 2 == 0)
+// 		return (error_message(shell, "command not found"));
+// 	else
+// 		return (error_message(shell, "Minishell does not handle that"));
+// }
 
 char	*error_multiple_operator(t_token *token, t_shell *shell)
 {

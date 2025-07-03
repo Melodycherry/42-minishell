@@ -19,8 +19,8 @@ void	parsing(t_shell *shell)
 	token_blank(shell);
 	token_operator(shell, shell->tlist.head);
 	token_typedef(shell->tlist.head);
-	if (shell->tlist.token_cnt == 1 && is_only_quotes(shell->tlist.head)) // faire plus de test avec cette hsitoire
-		return (error_empty_token(shell));
+	// if (shell->tlist.token_cnt == 1)
+	// 	handle_only_quotes(shell, shell->tlist.head);
 	value = error_multiple_operator(shell->tlist.head, shell);
 	if (error_multiple_operator(shell->tlist.head, shell))
 		return (error_syntax_token(shell, value));
@@ -37,7 +37,7 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	init_all(&shell);
 	cpy_envp(&shell, envp);
-	setup_signals();
+	parent_signals();
 	while (1)
 	{
 		shell.cmd.line = readline(PROMPT);
@@ -46,6 +46,7 @@ int	main(int ac, char **av, char **envp)
 			printf("exit");
 			break ;
 		}
+		handle_signal(&shell);
 		if (*shell.cmd.line)
 		{
 			add_history(shell.cmd.line);

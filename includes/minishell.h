@@ -13,8 +13,6 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-//verifier si tout est utiise
-
 //readline
 # include <stdio.h>
 # include <readline/readline.h>
@@ -37,7 +35,8 @@
 # include "ms_struct_chain.h"
 # include "ms_function.h"
 # include "ms_type.h"
-//# include "ms_utils.h"
+
+extern int	g_exit_status;
 
 # define PROMPT "Les codeuses du dimanche : "
 

@@ -12,14 +12,13 @@
 
 #include "minishell.h"
 
-static void	set_exit_status_env(int exit_status, t_shell *shell);
 static void	exec_with_redir_check(t_shell *shell, char *pathname, char **av);
 
 void	execution(t_shell *shell)
 {
-	int		exit_status;
 	int		saved_stdin;
 	int		saved_stdout;
+	int		exit_status;
 
 	nb_pipe(shell, shell->tlist.head);
 	create_av(shell, shell->tlist.head);
@@ -31,7 +30,7 @@ void	execution(t_shell *shell)
 		saved_stdout = dup(STDOUT_FILENO);
 		set_redir_count(shell, shell->executor.av);
 		exit_status = exec_builtin(shell);
-		set_exit_status_env(exit_status, shell);
+		set_exit_status_env(shell, exit_status);
 		handle_dup2(shell, saved_stdin, STDIN_FILENO);
 		handle_dup2(shell, saved_stdout, STDOUT_FILENO);
 		close(saved_stdin);
@@ -55,7 +54,7 @@ void	handle_dup2(t_shell *shell, int fd, int std)
 	}
 }
 
-static void	set_exit_status_env(int exit_status, t_shell *shell)
+void	set_exit_status_env(t_shell *shell, int exit_status)
 {
 	char	*str_exit_status;
 	char	*value;
