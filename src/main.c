@@ -12,22 +12,8 @@
 
 #include "minishell.h"
 
-void	parsing(t_shell *shell)
-{
-	char	*value;
-
-	token_blank(shell);
-	token_operator(shell, shell->tlist.head);
-	token_typedef(shell->tlist.head);
-	// if (shell->tlist.token_cnt == 1)
-	// 	handle_only_quotes(shell, shell->tlist.head);
-	value = error_multiple_operator(shell->tlist.head, shell);
-	if (error_multiple_operator(shell->tlist.head, shell))
-		return (error_syntax_token(shell, value));
-	shell->syntax_error = FALSE;
-	handle_heredoc(shell);
-	expansion(shell);
-}
+static void	parsing(t_shell *shell);
+static void	handle_signal(t_shell *shell);
 
 int	main(int ac, char **av, char **envp)
 {
@@ -63,6 +49,29 @@ int	main(int ac, char **av, char **envp)
 	return (0);
 }
 
+void	parsing(t_shell *shell)
+{
+	char	*value;
+
+	token_blank(shell);
+	token_operator(shell, shell->tlist.head);
+	token_typedef(shell->tlist.head);
+	// if (shell->tlist.token_cnt == 1)
+	// 	handle_only_quotes(shell, shell->tlist.head);
+	value = error_multiple_operator(shell->tlist.head, shell);
+	if (error_multiple_operator(shell->tlist.head, shell))
+		return (error_syntax_token(shell, value));
+	shell->syntax_error = FALSE;
+	handle_heredoc(shell);
+	expansion(shell);
+}
+
+static void	handle_signal(t_shell *shell)
+{
+	if (g_exit_status == SIGINT)
+		set_exit_status_env(shell, 130);
+	g_exit_status = 0;
+}
 // "" -> en cours, a tester a 42
 // cat << eof << 
 // cat | cat | ls

@@ -151,7 +151,9 @@ void	extract_sgl_token(t_shell *shell, int *i, int *j, t_token *current);
 
 /*SIGNALS*/
 void	parent_signals(void);
-void	handle_signal(t_shell *shell);
+void	heredoc_child_signal(void);
+void	heredoc_parent_signal(void);
+void	sigint_handler_child(int sig);
 
 /*UTILS*/
 
