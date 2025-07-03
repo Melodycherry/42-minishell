@@ -39,7 +39,6 @@ void	handle_heredoc(t_shell *shell)
 			current = current->next;
 		else
 			return ;
-			return ;
 	}
 }
 

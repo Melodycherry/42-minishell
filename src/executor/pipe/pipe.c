@@ -22,6 +22,7 @@ void	exec_pipe(t_shell *shell)
 	int		fd_pipe[2];
 	int		nb_pipe;
 
+	printf("exec_pipe called in pid %d\n", getpid());
 	prev_fd = -1;
 	init_pipe(shell);
 	nb_pipe = shell->executor.nb_pipe;
@@ -49,7 +50,9 @@ static pid_t	exec_pipe_iteration(t_shell *shell, int *prev_fd, int *fd_pipe,
 		fd_pipe[0] = -1;
 		fd_pipe[1] = -1;
 	}
+	// shell->executor.prev_fd = *prev_fd;
 	pid = fork_process_or_exit(shell);
+	printf("forked pid: %d (parent: %d)\n", pid, getpid());
 	if (pid == 0)
 	{
 		child_signal();
@@ -64,6 +67,11 @@ static pid_t	exec_pipe_iteration(t_shell *shell, int *prev_fd, int *fd_pipe,
 void	exec_pipe_child(t_shell *shell, int *fd_pipe, char **pipe_av,
 	int nb_pipe)
 {
+	// if (shell->executor.nb_pipe != nb_pipe) 
+	// {
+    //     handle_dup2(shell, shell->executor.prev_fd, STDIN_FILENO);
+    //     close(shell->executor.prev_fd);
+    // }
 	if (nb_pipe > 0)
 	{
 		close(fd_pipe[0]);
@@ -81,8 +89,6 @@ void	wait_for_all(t_shell *shell, pid_t last_pid)
 	int		stat_loc;
 	int		exit_status;
 	pid_t	pid;
-	char	*str_exit_status;
-	char	*value;
 
 	exit_status = 0;
 	while (1)
@@ -98,18 +104,7 @@ void	wait_for_all(t_shell *shell, pid_t last_pid)
 				exit_status = 128 + WTERMSIG(stat_loc);
 			else
 				exit_status = EXIT_FAILURE;
+			set_exit_status_env(shell, exit_status);
 		}
 	}
-	str_exit_status = ft_itoa(exit_status);
-	if (!str_exit_status)
-		unfructuous_malloc(shell);
-	value = ft_strjoin("?=", str_exit_status);
-	if (!value)
-	{
-		free_ptr((void **)&str_exit_status);
-		unfructuous_malloc(shell);
-	}
-	free_ptr((void **)&str_exit_status);
-	set_env(value, TO_ENV, shell);
-	free_ptr((void **)&value);
 }

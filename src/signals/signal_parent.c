@@ -47,6 +47,5 @@ static void	sigint_handler(int sig)
 static void	sigquit_handler(int sig)
 {
 	(void)sig;
-	write (1, "\n", STDERR_FILENO); //FIXME: version camoufl
-	//ft_putendl_fd("Quit (core dumped)", STDERR_FILENO);
+	write (1, "\n", STDERR_FILENO);
 }

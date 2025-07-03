@@ -32,7 +32,7 @@ void	update_parent_fds(int *prev_fd, int *fd_pipe, int nb_pipe)
 	if (nb_pipe > 0)
 	{
 		close(fd_pipe[1]);
-		*prev_fd = fd_pipe[0]; // major diff 
+		*prev_fd = fd_pipe[0];
 	}
 	else
 		*prev_fd = -1;
