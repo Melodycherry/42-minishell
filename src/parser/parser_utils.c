@@ -19,7 +19,7 @@ t_bool	ft_isoperator(int c)
 	return (FALSE);
 }
 
-t_bool	is_only_quotes(t_token *token, char quote)
+t_bool	only_quote(t_token *token, char quote)
 {
 	int	i;
 

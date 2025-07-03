@@ -52,13 +52,7 @@ char	**init_envp_copy(t_shell *shell, char **tab)
 
 	(void)shell;
 	i = 1;
-	if (!tab || *tab == NULL)
-	{
-		// au lieu de ca, coder en dur les variables PWD SHLVL
-		// quand on rentre dans minishell on fait SHLVL +1
-		free_all(shell);
-		exit(0);
-	}
+
 	cpy_tab = malloc(sizeof(char *) * (ft_tablen(tab) + 2));
 	if (!cpy_tab)
 		unfructuous_malloc(shell);

@@ -17,9 +17,10 @@ void	parsing(t_shell *shell)
 	char	*value;
 
 	token_blank(shell);
-	if (shell->tlist.token_cnt == 1 && (is_only_quotes(shell->tlist.head, '"')
-		|| is_only_quotes(shell->tlist.head, '\'')))
-		return (error_message(shell, "Command not found"));
+	if (shell->tlist.token_cnt == 1 && (only_quote(shell->tlist.head, '"')))
+		return (error_message(shell, "Command ' ' not found"));
+	if (shell->tlist.token_cnt == 1 && (only_quote(shell->tlist.head, '\'')))
+		return (error_message(shell, "Command ' ' not found"));
 	token_operator(shell, shell->tlist.head);
 	token_typedef(shell->tlist.head);
 	value = error_multiple_operator(shell->tlist.head, shell);
@@ -64,7 +65,5 @@ int	main(int ac, char **av, char **envp)
 	return (0);
 }
 
-// "" -> en cours, a tester a 42
-// cat << eof << 
 // cat | cat | ls
 //?

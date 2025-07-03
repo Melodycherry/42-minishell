@@ -31,7 +31,7 @@ void	handle_heredoc(t_shell *shell)
 			shell->executor.index_file_heredoc++;
 			file = generate_file(shell, current);
 			if (!file)
-				return (error_message(shell, "Syntaxe error: missing delimiter"));
+				return (error_message(shell, "Error: missing delimiter"));
 			update_type_eof_exec(shell, current, file);
 			free_ptr((void **)&file);
 		}
@@ -92,9 +92,6 @@ static void	update_type_eof(t_shell *shell, t_token *token)
 					delete_quotes_value(shell, token->next);
 				}
 			}
-			else
-				ft_putendl_fd("Syntaxe error: missing delimiter",
-					STDERR_FILENO);
 		}
 		token = token->next;
 	}
