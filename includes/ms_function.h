@@ -143,7 +143,7 @@ t_token	*create_token(t_shell *shell, int type, char *value, int n);
 char	*error_multiple_operator(t_token *token, t_shell *shell);
 
 void	token_typedef(t_token *token);
-//void	handle_only_quotes(t_token *token);
+t_bool	is_only_quotes(t_token *token, char quote);
 void	token_operator(t_shell *shell, t_token *current);
 void	insert_operator(t_shell *shell, int *i, int *j, t_token *current);
 void	extract_dbl_token(t_shell *shell, int *i, int *j, t_token *current);

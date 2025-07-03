@@ -26,7 +26,7 @@ t_bool	is_next_quote(t_shell *shell, char quote, char *line, int i)
 		i++;
 	if (line[i] == '\0')
 	{
-		ft_putendl_fd("syntax error : quote expected", STDERR_FILENO);
+		ft_putendl_fd("syntax error : quote expected. Minishell does not handle that", STDERR_FILENO);
 		free_all(shell);
 		exit(EXIT_FAILURE);
 	}

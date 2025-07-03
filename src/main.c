@@ -17,10 +17,11 @@ void	parsing(t_shell *shell)
 	char	*value;
 
 	token_blank(shell);
+	if (shell->tlist.token_cnt == 1 && (is_only_quotes(shell->tlist.head, '"')
+		|| is_only_quotes(shell->tlist.head, '\'')))
+		return (error_message(shell, "Command not found"));
 	token_operator(shell, shell->tlist.head);
 	token_typedef(shell->tlist.head);
-	// if (shell->tlist.token_cnt == 1)
-	// 	handle_only_quotes(shell, shell->tlist.head);
 	value = error_multiple_operator(shell->tlist.head, shell);
 	if (error_multiple_operator(shell->tlist.head, shell))
 		return (error_syntax_token(shell, value));

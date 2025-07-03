@@ -1,43 +1,322 @@
-==1011229== Memcheck, a memory error detector
-==1011229== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==1011229== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==1011229== Command: ./minishell
-==1011229== Parent PID: 1011222
-==1011229== 
-==1011229== 
-==1011229== FILE DESCRIPTORS: 7 open (3 std) at exit.
-==1011229== Open file descriptor 103: /usr/share/code/v8_context_snapshot.bin
-==1011229==    <inherited from parent>
-==1011229== 
-==1011229== Open AF_UNIX socket 37: <unknown>
-==1011229==    <inherited from parent>
-==1011229== 
-==1011229== Open file descriptor 36: /home/mlaffita/.config/Code/logs/20250702T143541/ptyhost.log
-==1011229==    <inherited from parent>
-==1011229== 
-==1011229== Open file descriptor 3: /home/mlaffita/Documents/Minishell/valgrind.log
-==1011229==    <inherited from parent>
-==1011229== 
-==1011229== Open file descriptor 2: /dev/pts/0
-==1011229==    <inherited from parent>
-==1011229== 
-==1011229== Open file descriptor 1: /dev/pts/0
-==1011229==    <inherited from parent>
-==1011229== 
-==1011229== Open file descriptor 0: /dev/pts/0
-==1011229==    <inherited from parent>
-==1011229== 
-==1011229== 
-==1011229== HEAP SUMMARY:
-==1011229==     in use at exit: 204,197 bytes in 221 blocks
-==1011229==   total heap usage: 586 allocs, 365 frees, 234,925 bytes allocated
-==1011229== 
-==1011229== LEAK SUMMARY:
-==1011229==    definitely lost: 0 bytes in 0 blocks
-==1011229==    indirectly lost: 0 bytes in 0 blocks
-==1011229==      possibly lost: 0 bytes in 0 blocks
-==1011229==    still reachable: 0 bytes in 0 blocks
-==1011229==         suppressed: 204,197 bytes in 221 blocks
-==1011229== 
-==1011229== For lists of detected and suppressed errors, rerun with: -s
-==1011229== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==1635245== Memcheck, a memory error detector
+==1635245== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==1635245== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==1635245== Command: ./minishell
+==1635245== Parent PID: 1635238
+==1635245== 
+==1635245== Invalid read of size 1
+==1635245==    at 0x10F331: handle_quote (lexer.c:56)
+==1635245==    by 0x10F152: token_blank (lexer.c:34)
+==1635245==    by 0x1094D3: parsing (main.c:19)
+==1635245==    by 0x1096CA: main (main.c:54)
+==1635245==  Address 0x4b6a280 is 0 bytes inside a block of size 2 free'd
+==1635245==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1635245==    by 0x110031: free_ptr (free.c:19)
+==1635245==    by 0x110252: free_and_reset (free.c:59)
+==1635245==    by 0x10FF46: error_message (error.c:32)
+==1635245==    by 0x10F460: is_next_quote (lexer_utils.c:44)
+==1635245==    by 0x10F2EE: handle_quote (lexer.c:53)
+==1635245==    by 0x10F152: token_blank (lexer.c:34)
+==1635245==    by 0x1094D3: parsing (main.c:19)
+==1635245==    by 0x1096CA: main (main.c:54)
+==1635245==  Block was alloc'd at
+==1635245==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1635245==    by 0x48ACBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1635245==    by 0x488A694: readline_internal_teardown (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1635245==    by 0x4894D2A: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1635245==    by 0x109642: main (main.c:44)
+==1635245== 
+==1635245== Invalid read of size 1
+==1635245==    at 0x10F345: handle_quote (lexer.c:56)
+==1635245==    by 0x10F152: token_blank (lexer.c:34)
+==1635245==    by 0x1094D3: parsing (main.c:19)
+==1635245==    by 0x1096CA: main (main.c:54)
+==1635245==  Address 0x4b6a280 is 0 bytes inside a block of size 2 free'd
+==1635245==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1635245==    by 0x110031: free_ptr (free.c:19)
+==1635245==    by 0x110252: free_and_reset (free.c:59)
+==1635245==    by 0x10FF46: error_message (error.c:32)
+==1635245==    by 0x10F460: is_next_quote (lexer_utils.c:44)
+==1635245==    by 0x10F2EE: handle_quote (lexer.c:53)
+==1635245==    by 0x10F152: token_blank (lexer.c:34)
+==1635245==    by 0x1094D3: parsing (main.c:19)
+==1635245==    by 0x1096CA: main (main.c:54)
+==1635245==  Block was alloc'd at
+==1635245==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1635245==    by 0x48ACBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1635245==    by 0x488A694: readline_internal_teardown (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1635245==    by 0x4894D2A: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1635245==    by 0x109642: main (main.c:44)
+==1635245== 
+==1635245== Invalid read of size 1
+==1635245==    at 0x10F363: handle_quote (lexer.c:56)
+==1635245==    by 0x10F152: token_blank (lexer.c:34)
+==1635245==    by 0x1094D3: parsing (main.c:19)
+==1635245==    by 0x1096CA: main (main.c:54)
+==1635245==  Address 0x4b6a280 is 0 bytes inside a block of size 2 free'd
+==1635245==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1635245==    by 0x110031: free_ptr (free.c:19)
+==1635245==    by 0x110252: free_and_reset (free.c:59)
+==1635245==    by 0x10FF46: error_message (error.c:32)
+==1635245==    by 0x10F460: is_next_quote (lexer_utils.c:44)
+==1635245==    by 0x10F2EE: handle_quote (lexer.c:53)
+==1635245==    by 0x10F152: token_blank (lexer.c:34)
+==1635245==    by 0x1094D3: parsing (main.c:19)
+==1635245==    by 0x1096CA: main (main.c:54)
+==1635245==  Block was alloc'd at
+==1635245==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1635245==    by 0x48ACBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1635245==    by 0x488A694: readline_internal_teardown (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1635245==    by 0x4894D2A: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1635245==    by 0x109642: main (main.c:44)
+==1635245== 
+==1635245== Invalid read of size 1
+==1635245==    at 0x10F163: token_blank (lexer.c:33)
+==1635245==    by 0x1094D3: parsing (main.c:19)
+==1635245==    by 0x1096CA: main (main.c:54)
+==1635245==  Address 0x4b6a280 is 0 bytes inside a block of size 2 free'd
+==1635245==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1635245==    by 0x110031: free_ptr (free.c:19)
+==1635245==    by 0x110252: free_and_reset (free.c:59)
+==1635245==    by 0x10FF46: error_message (error.c:32)
+==1635245==    by 0x10F460: is_next_quote (lexer_utils.c:44)
+==1635245==    by 0x10F2EE: handle_quote (lexer.c:53)
+==1635245==    by 0x10F152: token_blank (lexer.c:34)
+==1635245==    by 0x1094D3: parsing (main.c:19)
+==1635245==    by 0x1096CA: main (main.c:54)
+==1635245==  Block was alloc'd at
+==1635245==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1635245==    by 0x48ACBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1635245==    by 0x488A694: readline_internal_teardown (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1635245==    by 0x4894D2A: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1635245==    by 0x109642: main (main.c:44)
+==1635245== 
+==1635245== Invalid read of size 1
+==1635245==    at 0x10F177: token_blank (lexer.c:33)
+==1635245==    by 0x1094D3: parsing (main.c:19)
+==1635245==    by 0x1096CA: main (main.c:54)
+==1635245==  Address 0x4b6a280 is 0 bytes inside a block of size 2 free'd
+==1635245==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1635245==    by 0x110031: free_ptr (free.c:19)
+==1635245==    by 0x110252: free_and_reset (free.c:59)
+==1635245==    by 0x10FF46: error_message (error.c:32)
+==1635245==    by 0x10F460: is_next_quote (lexer_utils.c:44)
+==1635245==    by 0x10F2EE: handle_quote (lexer.c:53)
+==1635245==    by 0x10F152: token_blank (lexer.c:34)
+==1635245==    by 0x1094D3: parsing (main.c:19)
+==1635245==    by 0x1096CA: main (main.c:54)
+==1635245==  Block was alloc'd at
+==1635245==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1635245==    by 0x48ACBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1635245==    by 0x488A694: readline_internal_teardown (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1635245==    by 0x4894D2A: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1635245==    by 0x109642: main (main.c:44)
+==1635245== 
+==1635245== Invalid read of size 1
+==1635245==    at 0x10F2AE: handle_quote (lexer.c:52)
+==1635245==    by 0x10F152: token_blank (lexer.c:34)
+==1635245==    by 0x1094D3: parsing (main.c:19)
+==1635245==    by 0x1096CA: main (main.c:54)
+==1635245==  Address 0x4b6a280 is 0 bytes inside a block of size 2 free'd
+==1635245==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1635245==    by 0x110031: free_ptr (free.c:19)
+==1635245==    by 0x110252: free_and_reset (free.c:59)
+==1635245==    by 0x10FF46: error_message (error.c:32)
+==1635245==    by 0x10F460: is_next_quote (lexer_utils.c:44)
+==1635245==    by 0x10F2EE: handle_quote (lexer.c:53)
+==1635245==    by 0x10F152: token_blank (lexer.c:34)
+==1635245==    by 0x1094D3: parsing (main.c:19)
+==1635245==    by 0x1096CA: main (main.c:54)
+==1635245==  Block was alloc'd at
+==1635245==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1635245==    by 0x48ACBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1635245==    by 0x488A694: readline_internal_teardown (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1635245==    by 0x4894D2A: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1635245==    by 0x109642: main (main.c:44)
+==1635245== 
+==1635245== Invalid read of size 1
+==1635245==    at 0x10F2C2: handle_quote (lexer.c:52)
+==1635245==    by 0x10F152: token_blank (lexer.c:34)
+==1635245==    by 0x1094D3: parsing (main.c:19)
+==1635245==    by 0x1096CA: main (main.c:54)
+==1635245==  Address 0x4b6a280 is 0 bytes inside a block of size 2 free'd
+==1635245==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1635245==    by 0x110031: free_ptr (free.c:19)
+==1635245==    by 0x110252: free_and_reset (free.c:59)
+==1635245==    by 0x10FF46: error_message (error.c:32)
+==1635245==    by 0x10F460: is_next_quote (lexer_utils.c:44)
+==1635245==    by 0x10F2EE: handle_quote (lexer.c:53)
+==1635245==    by 0x10F152: token_blank (lexer.c:34)
+==1635245==    by 0x1094D3: parsing (main.c:19)
+==1635245==    by 0x1096CA: main (main.c:54)
+==1635245==  Block was alloc'd at
+==1635245==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1635245==    by 0x48ACBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1635245==    by 0x488A694: readline_internal_teardown (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1635245==    by 0x4894D2A: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1635245==    by 0x109642: main (main.c:44)
+==1635245== 
+==1635245== Invalid read of size 1
+==1635245==    at 0x10F2D9: handle_quote (lexer.c:53)
+==1635245==    by 0x10F152: token_blank (lexer.c:34)
+==1635245==    by 0x1094D3: parsing (main.c:19)
+==1635245==    by 0x1096CA: main (main.c:54)
+==1635245==  Address 0x4b6a280 is 0 bytes inside a block of size 2 free'd
+==1635245==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1635245==    by 0x110031: free_ptr (free.c:19)
+==1635245==    by 0x110252: free_and_reset (free.c:59)
+==1635245==    by 0x10FF46: error_message (error.c:32)
+==1635245==    by 0x10F460: is_next_quote (lexer_utils.c:44)
+==1635245==    by 0x10F2EE: handle_quote (lexer.c:53)
+==1635245==    by 0x10F152: token_blank (lexer.c:34)
+==1635245==    by 0x1094D3: parsing (main.c:19)
+==1635245==    by 0x1096CA: main (main.c:54)
+==1635245==  Block was alloc'd at
+==1635245==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1635245==    by 0x48ACBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1635245==    by 0x488A694: readline_internal_teardown (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1635245==    by 0x4894D2A: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1635245==    by 0x109642: main (main.c:44)
+==1635245== 
+==1635245== Invalid read of size 1
+==1635245==    at 0x10F41B: is_next_quote (lexer_utils.c:41)
+==1635245==    by 0x10F2EE: handle_quote (lexer.c:53)
+==1635245==    by 0x10F152: token_blank (lexer.c:34)
+==1635245==    by 0x1094D3: parsing (main.c:19)
+==1635245==    by 0x1096CA: main (main.c:54)
+==1635245==  Address 0x4b6a281 is 1 bytes inside a block of size 2 free'd
+==1635245==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1635245==    by 0x110031: free_ptr (free.c:19)
+==1635245==    by 0x110252: free_and_reset (free.c:59)
+==1635245==    by 0x10FF46: error_message (error.c:32)
+==1635245==    by 0x10F460: is_next_quote (lexer_utils.c:44)
+==1635245==    by 0x10F2EE: handle_quote (lexer.c:53)
+==1635245==    by 0x10F152: token_blank (lexer.c:34)
+==1635245==    by 0x1094D3: parsing (main.c:19)
+==1635245==    by 0x1096CA: main (main.c:54)
+==1635245==  Block was alloc'd at
+==1635245==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1635245==    by 0x48ACBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1635245==    by 0x488A694: readline_internal_teardown (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1635245==    by 0x4894D2A: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1635245==    by 0x109642: main (main.c:44)
+==1635245== 
+==1635245== Invalid read of size 1
+==1635245==    at 0x10F444: is_next_quote (lexer_utils.c:43)
+==1635245==    by 0x10F2EE: handle_quote (lexer.c:53)
+==1635245==    by 0x10F152: token_blank (lexer.c:34)
+==1635245==    by 0x1094D3: parsing (main.c:19)
+==1635245==    by 0x1096CA: main (main.c:54)
+==1635245==  Address 0x4b6a281 is 1 bytes inside a block of size 2 free'd
+==1635245==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1635245==    by 0x110031: free_ptr (free.c:19)
+==1635245==    by 0x110252: free_and_reset (free.c:59)
+==1635245==    by 0x10FF46: error_message (error.c:32)
+==1635245==    by 0x10F460: is_next_quote (lexer_utils.c:44)
+==1635245==    by 0x10F2EE: handle_quote (lexer.c:53)
+==1635245==    by 0x10F152: token_blank (lexer.c:34)
+==1635245==    by 0x1094D3: parsing (main.c:19)
+==1635245==    by 0x1096CA: main (main.c:54)
+==1635245==  Block was alloc'd at
+==1635245==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1635245==    by 0x48ACBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1635245==    by 0x488A694: readline_internal_teardown (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1635245==    by 0x4894D2A: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1635245==    by 0x109642: main (main.c:44)
+==1635245== 
+==1635245== 
+==1635245== Process terminating with default action of signal 1 (SIGHUP)
+==1635245==    at 0x49DB887: write (write.c:26)
+==1635245==    by 0x111549: ft_putstr_fd (ft_putstr_fd.c:22)
+==1635245==    by 0x111589: ft_putendl_fd (ft_putendl_fd.c:17)
+==1635245==    by 0x10FF3A: error_message (error.c:31)
+==1635245==    by 0x10F460: is_next_quote (lexer_utils.c:44)
+==1635245==    by 0x10F2EE: handle_quote (lexer.c:53)
+==1635245==    by 0x10F152: token_blank (lexer.c:34)
+==1635245==    by 0x1094D3: parsing (main.c:19)
+==1635245==    by 0x1096CA: main (main.c:54)
+==1635245== 
+==1635245== FILE DESCRIPTORS: 12 open (3 std) at exit.
+==1635245== Open file descriptor 103: /usr/share/code/v8_context_snapshot.bin
+==1635245==    <inherited from parent>
+==1635245== 
+==1635245== Open file descriptor 42: /dev/ptmx
+==1635245==    <inherited from parent>
+==1635245== 
+==1635245== Open file descriptor 41: /dev/ptmx
+==1635245==    <inherited from parent>
+==1635245== 
+==1635245== Open file descriptor 40: /dev/ptmx
+==1635245==    <inherited from parent>
+==1635245== 
+==1635245== Open file descriptor 39: /dev/ptmx
+==1635245==    <inherited from parent>
+==1635245== 
+==1635245== Open file descriptor 38: /dev/ptmx
+==1635245==    <inherited from parent>
+==1635245== 
+==1635245== Open AF_UNIX socket 37: <unknown>
+==1635245==    <inherited from parent>
+==1635245== 
+==1635245== Open file descriptor 36: /home/hlichten/.config/Code/logs/20250703T150011/ptyhost.log
+==1635245==    <inherited from parent>
+==1635245== 
+==1635245== Open file descriptor 3: /home/hlichten/Documents/42-minishell/valgrind.log
+==1635245==    <inherited from parent>
+==1635245== 
+==1635245== Open file descriptor 2: /dev/pts/6
+==1635245==    <inherited from parent>
+==1635245== 
+==1635245== Open file descriptor 1: /dev/pts/6
+==1635245==    <inherited from parent>
+==1635245== 
+==1635245== Open file descriptor 0: /dev/pts/6
+==1635245==    <inherited from parent>
+==1635245== 
+==1635245== 
+==1635245== HEAP SUMMARY:
+==1635245==     in use at exit: 224,348 bytes in 415 blocks
+==1635245==   total heap usage: 683 allocs, 268 frees, 240,508 bytes allocated
+==1635245== 
+==1635245== 4 bytes in 1 blocks are still reachable in loss record 1 of 85
+==1635245==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1635245==    by 0x111207: ft_strdup (ft_strdup.c:33)
+==1635245==    by 0x10E82A: init_envp_copy (env_utils.c:65)
+==1635245==    by 0x110B6E: cpy_envp (init_env.c:17)
+==1635245==    by 0x10962E: main (main.c:40)
+==1635245== 
+==1635245== 616 bytes in 1 blocks are still reachable in loss record 40 of 85
+==1635245==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1635245==    by 0x10E6C6: cpy_tab (env_utils.c:34)
+==1635245==    by 0x110B89: cpy_envp (init_env.c:18)
+==1635245==    by 0x10962E: main (main.c:40)
+==1635245== 
+==1635245== 624 bytes in 1 blocks are still reachable in loss record 41 of 85
+==1635245==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1635245==    by 0x10E7FE: init_envp_copy (env_utils.c:62)
+==1635245==    by 0x110B6E: cpy_envp (init_env.c:17)
+==1635245==    by 0x10962E: main (main.c:40)
+==1635245== 
+==1635245== 4,172 bytes in 74 blocks are still reachable in loss record 70 of 85
+==1635245==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1635245==    by 0x111207: ft_strdup (ft_strdup.c:33)
+==1635245==    by 0x10E860: init_envp_copy (env_utils.c:68)
+==1635245==    by 0x110B6E: cpy_envp (init_env.c:17)
+==1635245==    by 0x10962E: main (main.c:40)
+==1635245== 
+==1635245== 4,305 bytes in 76 blocks are still reachable in loss record 71 of 85
+==1635245==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1635245==    by 0x111207: ft_strdup (ft_strdup.c:33)
+==1635245==    by 0x10E712: cpy_tab (env_utils.c:39)
+==1635245==    by 0x110B89: cpy_envp (init_env.c:18)
+==1635245==    by 0x10962E: main (main.c:40)
+==1635245== 
+==1635245== LEAK SUMMARY:
+==1635245==    definitely lost: 0 bytes in 0 blocks
+==1635245==    indirectly lost: 0 bytes in 0 blocks
+==1635245==      possibly lost: 0 bytes in 0 blocks
+==1635245==    still reachable: 9,721 bytes in 153 blocks
+==1635245==         suppressed: 214,627 bytes in 262 blocks
+==1635245== 
+==1635245== For lists of detected and suppressed errors, rerun with: -s
+==1635245== ERROR SUMMARY: 1021970 errors from 10 contexts (suppressed: 0 from 0)
