@@ -50,6 +50,7 @@ void	create_path(t_shell *shell, char **envp);
 void	create_av(t_shell *shell, t_token *current);
 void	exec_fork(t_shell *shell, char *pathname, char **av);
 void	exec_path(t_shell *shell, char *pathname, char **av);
+void	set_exit_status_env(t_shell *shell, int exit_status);
 
 /**PIPE**/
 
@@ -136,21 +137,21 @@ void	insert_base_list(t_tlist *tlist, t_token *token);
 /*PARSER*/
 
 t_bool	ft_isoperator(int c);
-t_bool	is_only_quotes(t_token *token);
 
 t_token	*create_token(t_shell *shell, int type, char *value, int n);
 
 char	*error_multiple_operator(t_token *token, t_shell *shell);
 
 void	token_typedef(t_token *token);
+//void	handle_only_quotes(t_token *token);
 void	token_operator(t_shell *shell, t_token *current);
 void	insert_operator(t_shell *shell, int *i, int *j, t_token *current);
 void	extract_dbl_token(t_shell *shell, int *i, int *j, t_token *current);
 void	extract_sgl_token(t_shell *shell, int *i, int *j, t_token *current);
 
 /*SIGNALS*/
-void	setup_signals(void);
-void	signal_handler(int sig);
+void	parent_signals(void);
+void	handle_signal(t_shell *shell);
 
 /*UTILS*/
 
@@ -164,10 +165,11 @@ void	free_all(t_shell *shell);
 void	free_all_minus_av(t_shell *shell);
 void	free_and_reset(t_shell *shell);
 void	error_syntax_unset(char *line);
-void	error_missing_delimiter(t_shell *shell);
+// void	error_missing_delimiter(t_shell *shell);
 void	error_syntax_export(char *line);
 void	free_token_list(t_shell *shell);
-void	error_empty_token(t_shell *shell);
+// void	error_empty_token(t_shell *shell);
+void	error_message(t_shell *shell, char *message);
 void	error_syntax_token(t_shell *shell, char *value);
 void	free_mid_tab(t_shell *shell, char ***strs, int i);
 void	unfructuous_malloc(t_shell *shell);

@@ -31,14 +31,14 @@ void	handle_heredoc(t_shell *shell)
 			shell->executor.index_file_heredoc++;
 			file = generate_file(shell, current);
 			if (!file)
-				return (error_missing_delimiter(shell));
+				return (error_message(shell, "Syntaxe error: missing delimiter"));
 			update_type_eof_exec(shell, current, file);
 			free_ptr((void **)&file);
 		}
 		if (current->next)
 			current = current->next;
 		else
-			return;
+			return ;
 	}
 }
 

@@ -26,17 +26,33 @@ void	error_syntax_unset(char *line)
 	ft_putstr_fd("»: not a valid identifier\n", STDERR_FILENO);
 }
 
-void	error_empty_token(t_shell *shell)
-{
-	ft_putendl_fd("Mettre le message d erreur sur linux, mon bash de la casa est en francais we ", STDERR_FILENO);
-	free_and_reset(shell);
-	shell->syntax_error = TRUE;
-	return ;
-}
+// void	error_empty_token(t_shell *shell)
+// {
+// 	ft_putendl_fd("Command not found", STDERR_FILENO);
+// 	free_and_reset(shell);
+// 	shell->syntax_error = TRUE;
+// 	return ;
+// }
 
-void	error_missing_delimiter(t_shell *shell)
+// void	error_missing_delimiter(t_shell *shell)
+// {
+// 	ft_putendl_fd("Syntaxe error: missing delimiter", STDERR_FILENO);
+// 	free_and_reset(shell);
+// 	shell->syntax_error = TRUE;
+// 	return ;
+// }
+
+// void	error_no_handle(t_shell *shell)
+// {
+// 	ft_putendl_fd("Minishell does not handle that", STDERR_FILENO);
+// 	free_and_reset(shell);
+// 	shell->syntax_error = TRUE;
+// 	return ;
+// }
+
+void	error_message(t_shell *shell, char *message)
 {
-	ft_putendl_fd("Syntaxe error: missing delimiter", STDERR_FILENO);
+	ft_putendl_fd(message, STDERR_FILENO);
 	free_and_reset(shell);
 	shell->syntax_error = TRUE;
 	return ;
