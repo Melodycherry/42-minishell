@@ -12,28 +12,22 @@
 
 #include "minishell.h"
 
-void	init_pipe(t_shell *shell)
+void	heredoc_child_signal(void)
 {
-	shell->executor.start = 0;
-	shell->executor.end = 0;
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_IGN);
 }
 
-void	update_executor_state(t_shell *shell, char **pipe_av)
+void	child_signal(void)
 {
-	free_tab(&pipe_av);
-	shell->executor.end++;
-	shell->executor.start = shell->executor.end;
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }
 
-void	update_parent_fds(int *prev_fd, int *fd_pipe, int nb_pipe)
+void	sigint_handler_child(int sig)
 {
-	if (*prev_fd != -1)
-		close(*prev_fd);
-	if (nb_pipe > 0)
-	{
-		close(fd_pipe[1]);
-		*prev_fd = fd_pipe[0]; // major diff 
-	}
-	else
-		*prev_fd = -1;
+	write (1, "\n", 1);
+	rl_replace_line("", 0);
+	rl_redisplay();
+	g_exit_status = sig;
 }

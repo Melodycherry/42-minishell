@@ -30,13 +30,16 @@ static void	sigint_handler(int sig)
 	g_exit_status = sig;
 }
 void	handle_signal(t_shell *shell)
+	g_exit_status = sig;
+}
+void	handle_signal(t_shell *shell)
 {
 	if (g_exit_status == SIGINT)
 		set_exit_status_env(shell, 130);
 	g_exit_status = 0;
 }
 
-void	signal_heredoc(int sig) // special pour heredoc ? 
+void	signalheredoc(int sig) // special pour heredoc ? 
 {
 	(void)sig;
 	write(1, "\n", 1);

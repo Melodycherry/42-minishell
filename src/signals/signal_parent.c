@@ -12,28 +12,41 @@
 
 #include "minishell.h"
 
-void	init_pipe(t_shell *shell)
+static void	sigint_handler(int sig);
+static void	sigquit_handler(int sig);
+
+int		g_exit_status = 0;
+
+void	parent_signal(void)
 {
-	shell->executor.start = 0;
-	shell->executor.end = 0;
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
 }
 
-void	update_executor_state(t_shell *shell, char **pipe_av)
+void	heredoc_parent_signal(void)
 {
-	free_tab(&pipe_av);
-	shell->executor.end++;
-	shell->executor.start = shell->executor.end;
+	signal(SIGINT, sigint_handler_child);
+	signal(SIGQUIT, SIG_IGN);
 }
 
-void	update_parent_fds(int *prev_fd, int *fd_pipe, int nb_pipe)
+void	sig_core_dump_parent_signal(void)
 {
-	if (*prev_fd != -1)
-		close(*prev_fd);
-	if (nb_pipe > 0)
-	{
-		close(fd_pipe[1]);
-		*prev_fd = fd_pipe[0]; // major diff 
-	}
-	else
-		*prev_fd = -1;
+	signal(SIGINT, sigint_handler_child);
+	signal(SIGQUIT, sigquit_handler);
+}
+
+static void	sigint_handler(int sig)
+{
+	write (1, "\n", STDOUT_FILENO);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+	g_exit_status = sig;
+}
+
+static void	sigquit_handler(int sig)
+{
+	(void)sig;
+	write (1, "\n", STDERR_FILENO); //FIXME: version camoufl
+	//ft_putendl_fd("Quit (core dumped)", STDERR_FILENO);
 }

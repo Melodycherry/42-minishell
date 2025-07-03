@@ -51,6 +51,7 @@ void	create_av(t_shell *shell, t_token *current);
 void	exec_fork(t_shell *shell, char *pathname, char **av);
 void	exec_path(t_shell *shell, char *pathname, char **av);
 void	set_exit_status_env(t_shell *shell, int exit_status);
+void	set_exit_status_env(t_shell *shell, int exit_status);
 
 /**PIPE**/
 
@@ -150,8 +151,12 @@ void	extract_dbl_token(t_shell *shell, int *i, int *j, t_token *current);
 void	extract_sgl_token(t_shell *shell, int *i, int *j, t_token *current);
 
 /*SIGNALS*/
-void	parent_signals(void);
-void	handle_signal(t_shell *shell);
+void	parent_signal(void);
+void	child_signal(void);
+void	heredoc_child_signal(void);
+void	heredoc_parent_signal(void);
+void	sigint_handler_child(int sig);
+void	sig_core_dump_parent_signal(void);
 
 /*UTILS*/
 
@@ -166,8 +171,11 @@ void	free_all_minus_av(t_shell *shell);
 void	free_and_reset(t_shell *shell);
 void	error_syntax_unset(char *line);
 // void	error_missing_delimiter(t_shell *shell);
+// void	error_missing_delimiter(t_shell *shell);
 void	error_syntax_export(char *line);
 void	free_token_list(t_shell *shell);
+// void	error_empty_token(t_shell *shell);
+void	error_message(t_shell *shell, char *message);
 // void	error_empty_token(t_shell *shell);
 void	error_message(t_shell *shell, char *message);
 void	error_syntax_token(t_shell *shell, char *value);

@@ -62,16 +62,18 @@ void	process_hd_file(t_shell *shell, char *file, char *eof, t_bool need_exp)
 	pid_t	pid;
 	int		fd;
 
+	heredoc_parent_signal();
 	pid = fork_process_or_exit(shell);
 	if (pid == 0)
 	{
-		signal(SIGINT, SIG_DFL);
+		heredoc_child_signal();
 		fd = create_and_check_fd(shell, file);
 		free_ptr((void **) &file);
 		read_and_write_heredoc(shell, fd, eof, need_exp);
 		close_and_exit(shell, fd);
 	}
 	wait_for_all(shell, pid);
+	parent_signal();
 }
 
 static void	expand_and_write(t_shell *shell, char *line, int fd,
