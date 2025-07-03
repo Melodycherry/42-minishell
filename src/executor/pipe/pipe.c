@@ -87,7 +87,6 @@ void	exec_pipe_child(t_shell *shell, int *fd_pipe, int nb_pipe)
 	}
 	else
 		exec_path(shell, shell->executor.pipe_av[0], shell->executor.pipe_av);
-	sleep(20);
 	free_tab(&shell->executor.pipe_av);
 	free_all(shell);
 	exit(EXIT_FAILURE);
