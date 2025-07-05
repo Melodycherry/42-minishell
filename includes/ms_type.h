@@ -24,7 +24,7 @@ typedef enum e_token_type
 	T_HEREDOC,
 	T_EOF,
 	T_EOF_Q,
-	T_ARG
+	T_VAR
 }	t_token_type;
 
 typedef enum e_bool

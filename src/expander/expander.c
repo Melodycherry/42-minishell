@@ -20,7 +20,7 @@ void	expansion(t_shell *shell)
 	check_var_env(shell, shell->tlist.head);
 	while (token)
 	{
-		if (token->type == T_ARG)
+		if (token->type == T_VAR)
 		{
 			expand_var(shell, token);
 			if (is_quote_string(token->value))

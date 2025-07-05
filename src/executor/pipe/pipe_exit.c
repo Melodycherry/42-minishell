@@ -12,9 +12,9 @@
 
 #include "minishell.h"
 
-void	create_pipe_or_exit(t_shell *shell, int *fd_pipe)
+void	create_pipe_or_exit(t_shell *shell)
 {
-	if (pipe(fd_pipe) == -1)
+	if (pipe(shell->fd.fd_pipe) == -1)
 	{
 		perror("pipe");
 		free_all(shell);

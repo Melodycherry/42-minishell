@@ -12,16 +12,6 @@
 
 #include "minishell.h"
 
-void	*free_ptr(void **ptr)
-{
-	if (*ptr && ptr)
-	{
-		free(*ptr);
-		*ptr = NULL;
-	}
-	return (NULL);
-}
-
 void	free_all(t_shell *shell)
 {
 	free_ptr((void **)&shell->cmd.line);
@@ -69,4 +59,14 @@ void	unfructuous_malloc(t_shell *shell)
 	ft_putstr_fd("minishell: Cannot allocate memory", STDERR_FILENO);
 	free_all(shell);
 	exit(EXIT_FAILURE);
+}
+
+void	*free_ptr(void **ptr)
+{
+	if (*ptr && ptr)
+	{
+		free(*ptr);
+		*ptr = NULL;
+	}
+	return (NULL);
 }

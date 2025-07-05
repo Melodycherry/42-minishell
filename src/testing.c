@@ -41,6 +41,120 @@ void	print_tab(char **tab)
 	}
 }
 
+// /*
+//  * @file exec_pipe.c
+//  * @brief Implements the execution of pipe operations in the AST.
+//  */
+
+// #include "AST.h"
+// #include "execute_cmd.h"
+// #include "pipe.h"
+// #include "shell.h"
+// #include "sig.h"
+// #include "redir.h"
+// #include "utils.h"
+// #include <unistd.h>
+// #include <stdlib.h>
+// #include <sys/types.h>
+// #include <sys/wait.h>
+
+// static void	handle_child_left(t_shell *shell, t_ast_node *node);
+// static void	handle_child_right(t_shell *shell, t_ast_node *node);
+// static int	handle_parent_process(t_shell *shell, pid_t *pid_left,
+// 				pid_t *pid_right);
+
+// /**
+//  * @brief Executes a pipe operation in the AST.
+//  * 
+//  * This function creates a pipe, forks child processes for the left and right
+//  * commands, and manages their execution and synchronization.
+//  * 
+//  * @param shell Pointer to the shell structure.
+//  * @param node Pointer to the AST node representing the pipe operation.
+//  * @return int The exit status of the right-hand side command.
+//  */
+// int	exec_pipe(t_shell *shell, t_ast_node *node)
+// {
+// 	pid_t	pid_left;
+// 	pid_t	pid_right;
+
+// 	create_pipe(shell);
+// 	pid_left = create_child_process(shell);
+// 	init_sigaction_core_dumped();
+// 	if (pid_left == 0)
+// 		handle_child_left(shell, node->left);
+// 	pid_right = create_child_process(shell);
+// 	if (pid_right == 0)
+// 		handle_child_right(shell, node->right);
+// 	return (handle_parent_process(shell, &pid_left, &pid_right));
+// }
+
+// /**
+//  * @brief Handles the left-hand side of the pipe in a child process.
+//  * 
+//  * This function sets up redirections and executes the left-hand side command.
+//  * 
+//  * @param shell Pointer to the shell structure.
+//  * @param node Pointer to the AST node representing the left-hand side command.
+//  */
+// static void	handle_child_left(t_shell *shell, t_ast_node *node)
+// {
+// 	init_sigaction_child();
+// 	shell->in_forked_process = TRUE;
+// 	close_fd(&shell->fd.fd_pipe[0]);
+// 	create_redirections(shell, &shell->fd.fd_pipe[0],
+// 		&shell->fd.fd_pipe[1]);
+// 	exit(exec_ast(shell, node));
+// }
+
+// /**
+//  * @brief Handles the right-hand side of the pipe in a child process.
+//  * 
+//  * This function sets up redirections and executes the right-hand side command.
+//  * 
+//  * @param shell Pointer to the shell structure.
+//  * @param node Pointer to the AST node representing the right-hand side command.
+//  */
+// static void	handle_child_right(t_shell *shell, t_ast_node *node)
+// {
+// 	init_sigaction_child();
+// 	shell->in_forked_process = TRUE;
+// 	close_fd(&shell->fd.fd_pipe[1]);
+// 	create_redirections(shell, &shell->fd.fd_pipe[0],
+// 		&shell->fd.fd_pipe[1]);
+// 	exit(exec_ast(shell, node));
+// }
+
+// /**
+//  * @brief Handles the parent process after forking for a pipe operation.
+//  * 
+//  * This function closes pipe file descriptors, waits for child processes to
+//  * complete, and restores signal handling.
+//  * 
+//  * @param shell Pointer to the shell structure.
+//  * @param pid_left Pointer to the process ID of the left-hand side child.
+//  * @param pid_right Pointer to the process ID of the right-hand side child.
+//  * @return int The exit status of the right-hand side command.
+//  */
+// static int	handle_parent_process(t_shell *shell, pid_t *pid_left,
+// 				pid_t *pid_right)
+// {
+// 	int		left_status;
+// 	int		right_status;
+
+// 	close_fd(&shell->fd.fd_pipe[0]);
+// 	close_fd(&shell->fd.fd_pipe[1]);
+// 	waitpid(*pid_left, &left_status, 0);
+// 	waitpid(*pid_right, &right_status, 0);
+// 	init_sigaction_interactive();
+// 	return (right_status);
+// }
+
+
+
+
+
+
 // void	print_token2(t_token *token, int (*f)(const char *, ...))
 // {
 // 	int i;

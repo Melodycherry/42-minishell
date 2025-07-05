@@ -47,7 +47,7 @@ t_bool	is_absolative(char *str);
 void	execution(t_shell *shell);
 void	handle_dup2(t_shell *shell, int fd, int std);
 void	create_path(t_shell *shell, char **envp);
-void	create_av(t_shell *shell, t_token *current);
+void	convert_list_to_av(t_shell *shell, t_token *current);
 void	exec_fork(t_shell *shell, char *pathname, char **av);
 void	exec_path(t_shell *shell, char *pathname, char **av);
 void	set_exit_status_env(t_shell *shell, int exit_status);
@@ -57,19 +57,18 @@ void	set_exit_status_env(t_shell *shell, int exit_status);
 
 pid_t	fork_process_or_exit(t_shell *shell);
 
-void	wait_for_all(t_shell *shell, pid_t pid);
-void	check_fd(t_shell *shell,int prev_fd);
 void	exec_pipe(t_shell *shell);
-void	init_pipe(t_shell *shell);
 void	find_range(t_shell *shell);
-void	update_parent_fds(int *prev_fd, int *fd_pipe, int nb_pipe);
-void	create_pipe_or_exit(t_shell *shell, int *fd_pipe);
-void	nb_pipe(t_shell *shell, t_token *token);
+void	init_pipe_av(t_shell *shell);
+void	create_pipe_or_exit(t_shell *shell);
 void	update_executor_state(t_shell *shell);
-void	exec_pipe_child(t_shell *shell, int *fd_pipe, int nb_pipe);
-
-char	*right_path(t_shell *shell, char **paths, char *cmd);
+void	nb_pipe(t_shell *shell, t_token *token);
+void	wait_for_all(t_shell *shell, pid_t pid);
+void	update_parent_fds(t_shell *shell, int nb_pipe);
+void	dup_fd_stdin(t_shell *shell, t_bool is_saved_fd);
+void	dup_fd_stdout(t_shell *shell, t_bool is_saved_fd);
 char	**split_args(t_shell *shell, char **av);
+char	*right_path(t_shell *shell, char **paths, char *cmd);
 
 /**REDIR**/
 
@@ -162,7 +161,8 @@ void	sig_core_dump_parent_signal(void);
 /**BYEBYE**/
 t_token	*handle_free_mid_list(t_token *current);
 
-void	close_fd(int *fd);
+t_bool	close_fd(int *fd);
+
 void	*free_ptr(void **ptr);
 void	free_tab(char ***tab);
 void	free_all(t_shell *shell);

@@ -27,6 +27,12 @@ void	init_all(t_shell *shell)
 	shell->lexer.space = 0;
 	shell->lexer.double_quote = 0;
 	shell->lexer.single_quote = 0;
+	shell->fd.fd_pipe[0] = -1;
+	shell->fd.fd_pipe[1] = -1;
+	shell->fd.prev_fd = -1;
+	shell->fd.saved_stdin = -1;
+	shell->fd.saved_stdout = -1;
+	shell->fd.fd_heredoc = -1;
 }
 
 static void	init_list(t_shell *shell)

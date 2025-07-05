@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	init_pipe(t_shell *shell)
+void	init_pipe_av(t_shell *shell)
 {
 	shell->executor.start = 0;
 	shell->executor.end = 0;
@@ -25,15 +25,15 @@ void	update_executor_state(t_shell *shell)
 	shell->executor.start = shell->executor.end;
 }
 
-void	update_parent_fds(int *prev_fd, int *fd_pipe, int nb_pipe)
+void	update_parent_fds(t_shell *shell, int nb_pipe)
 {
-	if (*prev_fd != -1)
-		close(*prev_fd);
+	if (shell->fd.prev_fd != -1)
+		close_fd(&shell->fd.prev_fd);
 	if (nb_pipe > 0)
 	{
-		close(fd_pipe[1]);
-		*prev_fd = fd_pipe[0];
+		close_fd(&shell->fd.fd_pipe[1]);
+		shell->fd.prev_fd = shell->fd.fd_pipe[0];
 	}
 	else
-		*prev_fd = -1;
+		close_fd(&shell->fd.prev_fd);
 }

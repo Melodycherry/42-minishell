@@ -53,7 +53,7 @@ static void	change_type_if_valid(t_shell *shell,
 		if (var_exist(shell->cmd.envp_copy,
 				&token->value[*j], (*i - *j)) == TRUE)
 		{
-			token->type = T_ARG;
+			token->type = T_VAR;
 			return ;
 		}
 		else

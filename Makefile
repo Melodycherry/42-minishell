@@ -69,7 +69,7 @@ expander.c expand_quotes.c expander_utils.c change_type.c env_utils.c quotes.c v
 lexer.c lexer_utils.c \
 parser.c parser_utils.c \
 signal_parent.c signal_child.c \
-error.c free.c free_tab.c free_token.c \
+error.c free.c free_tab.c free_token.c close_fd.c \
 init_chain.c \
 init_struct.c init_env.c \
 testing.c \

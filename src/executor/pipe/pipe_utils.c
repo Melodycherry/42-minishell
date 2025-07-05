@@ -66,11 +66,33 @@ void	nb_pipe(t_shell *shell, t_token *token)
 	}
 }
 
-void	check_fd(t_shell *shell, int prev_fd)
+void	dup_fd_stdin(t_shell *shell, t_bool is_saved_fd)
 {
-	if (prev_fd != -1)
+	if (is_saved_fd)
 	{
-		handle_dup2(shell, prev_fd, STDIN_FILENO);
-		close(prev_fd);
+		handle_dup2(shell, shell->fd.saved_stdin, STDIN_FILENO);
+		close_fd(&shell->fd.saved_stdin);
+	}
+	else
+	{
+		if (shell->fd.prev_fd != -1)
+		{
+			handle_dup2(shell, shell->fd.prev_fd, STDIN_FILENO);
+			close_fd(&shell->fd.prev_fd);
+		}
+	}
+}
+
+void	dup_fd_stdout(t_shell *shell, t_bool is_saved_fd)
+{
+	if (is_saved_fd)
+	{
+		handle_dup2(shell, shell->fd.saved_stdout, STDOUT_FILENO);
+		close_fd(&shell->fd.saved_stdout);
+	}
+	else
+	{
+		handle_dup2(shell, shell->fd.fd_pipe[1], STDOUT_FILENO);
+		close_fd(&shell->fd.fd_pipe[1]);
 	}
 }

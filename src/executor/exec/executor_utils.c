@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	create_av(t_shell *shell, t_token *current)
+void	convert_list_to_av(t_shell *shell, t_token *current)
 {
 	int		i;
 	char	**av;
@@ -23,7 +23,7 @@ void	create_av(t_shell *shell, t_token *current)
 		unfructuous_malloc(shell);
 	while (i < shell->tlist.token_cnt)
 	{
-		if (current->type == T_ARG)
+		if (current->type == T_VAR)
 			av[i] = ft_strdup(current->var_value);
 		else
 			av[i] = ft_strdup(current->value);

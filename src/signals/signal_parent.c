@@ -45,5 +45,5 @@ static void	sigint_handler(int sig)
 static void	sigquit_handler(int sig)
 {
 	(void)sig;
-	write (1, "\n", 1);
+	ft_putendl_fd("Quit (core dumped)", STDERR_FILENO);
 }

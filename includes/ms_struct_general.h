@@ -14,6 +14,7 @@
 # define MS_STRUCT_H
 
 # include "ms_type.h"
+
 typedef struct s_cmd
 {
 	char	*line;
@@ -66,6 +67,15 @@ typedef struct s_tlist
 	t_token	*head;
 }	t_tlist;
 
+typedef struct s_fd
+{
+	int	fd_pipe[2];
+	int	prev_fd;
+	int	saved_stdin;
+	int	saved_stdout;
+	int	fd_heredoc;
+}	t_fd;
+
 typedef struct s_shell
 {
 	t_bool		syntax_error;
@@ -74,6 +84,7 @@ typedef struct s_shell
 	t_lexer		lexer;
 	t_builtin	builtin;
 	t_executor	executor;
+	t_fd		fd;
 }	t_shell;
 
 #endif

@@ -12,11 +12,10 @@
 
 #include "minishell.h"
 
-static int	create_and_check_fd(t_shell *shell, char *file);
+static void	create_and_check_fd(t_shell *shell, char *file);
 static void	expand_and_write(t_shell *shell, char *line, int fd,
 				t_bool need_exp);
-static void	read_and_write_heredoc(t_shell *shell, int fd, char *eof,
-				t_bool need_exp);
+static void	read_and_write_heredoc(t_shell *shell, char *eof, t_bool need_exp);
 
 char	*create_name(t_shell *shell)
 {
@@ -36,8 +35,32 @@ char	*create_name(t_shell *shell)
 	return (file);
 }
 
-static void	read_and_write_heredoc(t_shell *shell, int fd, char *eof,
-			t_bool need_exp)
+void	process_hd_file(t_shell *shell, char *file, char *eof, t_bool need_exp)
+{
+	pid_t	pid;
+
+	heredoc_parent_signal();
+	pid = fork_process_or_exit(shell);
+	if (pid == 0)
+	{
+		heredoc_child_signal();
+		create_and_check_fd(shell, file);
+		free_ptr((void **) &file);
+		read_and_write_heredoc(shell, eof, need_exp);
+		close_and_exit(shell, shell->fd.fd_heredoc);
+	}
+	wait_for_all(shell, pid);
+	parent_signal();
+}
+
+static void	create_and_check_fd(t_shell *shell, char *file)
+{
+	shell->fd.fd_heredoc = open
+		(file, O_WRONLY | O_CREAT | O_EXCL | O_TRUNC, 0600);
+	check_error_fd(shell, shell->fd.fd_heredoc);
+}
+
+static void	read_and_write_heredoc(t_shell *shell, char *eof, t_bool need_exp)
 {
 	char	*line;
 
@@ -46,34 +69,15 @@ static void	read_and_write_heredoc(t_shell *shell, int fd, char *eof,
 	{
 		line = readline("> ");
 		if (!line)
-			heredoc_exit_eof(shell, fd);
+			heredoc_exit_eof(shell, shell->fd.fd_heredoc);
 		if (ft_strcmp(line, eof) == 0)
 		{
 			free_ptr((void **)&line);
 			break ;
 		}
-		expand_and_write(shell, line, fd, need_exp);
+		expand_and_write(shell, line, shell->fd.fd_heredoc, need_exp);
 		free_ptr((void **)&line);
 	}
-}
-
-void	process_hd_file(t_shell *shell, char *file, char *eof, t_bool need_exp)
-{
-	pid_t	pid;
-	int		fd;
-
-	heredoc_parent_signal();
-	pid = fork_process_or_exit(shell);
-	if (pid == 0)
-	{
-		heredoc_child_signal();
-		fd = create_and_check_fd(shell, file);
-		free_ptr((void **) &file);
-		read_and_write_heredoc(shell, fd, eof, need_exp);
-		close_and_exit(shell, fd);
-	}
-	wait_for_all(shell, pid);
-	parent_signal();
 }
 
 static void	expand_and_write(t_shell *shell, char *line, int fd,
@@ -92,13 +96,4 @@ static void	expand_and_write(t_shell *shell, char *line, int fd,
 	ft_putstr_fd(new_line, fd);
 	ft_putstr_fd("\n", fd);
 	free_ptr((void **)&new_line);
-}
-
-static int	create_and_check_fd(t_shell *shell, char *file)
-{
-	int	fd;
-
-	fd = open(file, O_WRONLY | O_CREAT | O_EXCL | O_TRUNC, 0600);
-	check_error_fd(shell, fd);
-	return (fd);
 }

@@ -16,25 +16,21 @@ static void	exec_with_redir_check(t_shell *shell, char *pathname, char **av);
 
 void	execution(t_shell *shell)
 {
-	int		saved_stdin;
-	int		saved_stdout;
 	int		exit_status;
 
 	nb_pipe(shell, shell->tlist.head);
-	create_av(shell, shell->tlist.head);
+	convert_list_to_av(shell, shell->tlist.head);
 	if (!shell || !shell->executor.av || !shell->executor.av[0])
 		return ;
 	if (is_builtin(shell->executor.av[0]) && shell->executor.nb_pipe == 0)
 	{
-		saved_stdin = dup(STDIN_FILENO);
-		saved_stdout = dup(STDOUT_FILENO);
+		shell->fd.saved_stdin = dup(STDIN_FILENO);
+		shell->fd.saved_stdout = dup(STDOUT_FILENO);
 		set_redir_count(shell, shell->executor.av);
 		exit_status = exec_builtin(shell, FALSE);
 		set_exit_status_env(shell, exit_status);
-		handle_dup2(shell, saved_stdin, STDIN_FILENO);
-		handle_dup2(shell, saved_stdout, STDOUT_FILENO);
-		close(saved_stdin);
-		close(saved_stdout);
+		dup_fd_stdin(shell, TRUE);
+		dup_fd_stdout(shell, TRUE);
 		free_tab(&shell->executor.redir_av);
 	}
 	else if (shell->executor.nb_pipe > 0)
@@ -48,7 +44,7 @@ void	handle_dup2(t_shell *shell, int fd, int std)
 	if (dup2(fd, std) == -1)
 	{
 		perror("dup2");
-		close(fd);
+		close_fd(&fd);
 		free_all(shell);
 		exit(EXIT_FAILURE);
 	}
@@ -81,8 +77,10 @@ void	set_exit_status_env(t_shell *shell, int exit_status)
 
 static void	exec_with_redir_check(t_shell *shell, char *pathname, char **av)
 {
-	child_signal();
+	if (shell->executor.is_forked == FALSE)
+		child_signal();
 	set_redir_count(shell, av);
+	shell->executor.is_forked = FALSE;
 	if (shell->executor.nb_redir > 0)
 	{
 		shell->executor.nb_redir = 0;
@@ -104,10 +102,8 @@ void	exec_fork(t_shell *shell, char *pathname, char **av)
 
 	if (shell->executor.is_forked == FALSE)
 	{
-		pid = fork();
+		pid = fork_process_or_exit(shell);
 		sig_core_dump_parent_signal();
-		if (pid == -1)
-			return (perror("fork"));
 		if (pid > 0)
 			wait_for_all(shell, pid);
 		if (pid == 0)
@@ -115,8 +111,5 @@ void	exec_fork(t_shell *shell, char *pathname, char **av)
 		parent_signal();
 	}
 	else
-	{
-		shell->executor.is_forked = FALSE;
 		exec_with_redir_check(shell, pathname, av);
-	}
 }

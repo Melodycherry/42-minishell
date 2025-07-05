@@ -42,6 +42,26 @@ void	handle_heredoc(t_shell *shell)
 	}
 }
 
+static void	update_type_eof(t_shell *shell, t_token *token)
+{
+	while (token->next)
+	{
+		if (token->type == T_HEREDOC)
+		{
+			if (token->next)
+			{
+				token->next->type = T_EOF;
+				if (is_quote_string(token->next->value) == TRUE)
+				{
+					token->next->type = T_EOF_Q;
+					delete_quotes_value(shell, token->next);
+				}
+			}
+		}
+		token = token->next;
+	}
+}
+
 static char	*generate_file(t_shell *shell, t_token *token)
 {
 	char	*file;
@@ -74,25 +94,5 @@ static void	update_type_eof_exec(t_shell *shell, t_token *token, char *file)
 		token->next->value = ft_strdup(file);
 		if (!token->next->value)
 			unfructuous_malloc(shell);
-	}
-}
-
-static void	update_type_eof(t_shell *shell, t_token *token)
-{
-	while (token->next)
-	{
-		if (token->type == T_HEREDOC)
-		{
-			if (token->next)
-			{
-				token->next->type = T_EOF;
-				if (is_quote_string(token->next->value) == TRUE)
-				{
-					token->next->type = T_EOF_Q;
-					delete_quotes_value(shell, token->next);
-				}
-			}
-		}
-		token = token->next;
 	}
 }
