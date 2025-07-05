@@ -35,6 +35,7 @@ t_bool	only_quote(t_token *token, char quote)
 	return (TRUE);
 }
 
+
 char	*error_multiple_operator(t_token *token, t_shell *shell)
 {
 	if (shell->tlist.token_cnt > 1)

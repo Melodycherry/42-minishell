@@ -12,9 +12,29 @@
 
 #include "minishell.h"
 
+static void	create_path(t_shell *shell, char **envp);
 static char	*strjoin_path(t_shell *shell, char *s1, char *s2);
+static char	*right_path(t_shell *shell, char **paths, char *cmd);
 
-void	create_path(t_shell *shell, char **envp)
+void	exec_path(t_shell *shell, char *pathname, char **av)
+{
+	char	*path;
+
+	if (ft_strchr(pathname, '/'))
+		exec_fork(shell, pathname, av);
+	else
+	{
+		create_path(shell, shell->cmd.envp_exp);
+		path = right_path(shell, shell->executor.paths, pathname);
+		if (path)
+		{
+			exec_fork(shell, path, av);
+			free_ptr((void **)&path);
+		}
+	}
+}
+
+static void	create_path(t_shell *shell, char **envp)
 {
 	int	i;
 
@@ -27,7 +47,7 @@ void	create_path(t_shell *shell, char **envp)
 		shell->executor.paths = NULL;
 }
 
-char	*right_path(t_shell *shell, char **paths, char *cmd)
+static char	*right_path(t_shell *shell, char **paths, char *cmd)
 {
 	int		i;
 	char	*path;
@@ -65,22 +85,4 @@ static char	*strjoin_path(t_shell *shell, char *s1, char *s2)
 	dest = ft_strjoin(tmp, s2);
 	free_ptr((void **)&tmp);
 	return (dest);
-}
-
-void	exec_path(t_shell *shell, char *pathname, char **av)
-{
-	char	*path;
-
-	if (is_absolative(pathname))
-		exec_fork(shell, pathname, av);
-	else
-	{
-		create_path(shell, shell->cmd.envp_exp);
-		path = right_path(shell, shell->executor.paths, pathname);
-		if (path)
-		{
-			exec_fork(shell, path, av);
-			free_ptr((void **)&path);
-		}
-	}
 }

@@ -42,11 +42,9 @@ t_bool	checking_var(t_shell *shell, char *line);
 /*EXECUTOR*/
 
 /**EXEC**/
-t_bool	is_absolative(char *str);
 
 void	execution(t_shell *shell);
 void	handle_dup2(t_shell *shell, int fd, int std);
-void	create_path(t_shell *shell, char **envp);
 void	convert_list_to_av(t_shell *shell, t_token *current);
 void	exec_fork(t_shell *shell, char *pathname, char **av);
 void	exec_path(t_shell *shell, char *pathname, char **av);
@@ -64,11 +62,10 @@ void	create_pipe_or_exit(t_shell *shell);
 void	update_executor_state(t_shell *shell);
 void	nb_pipe(t_shell *shell, t_token *token);
 void	wait_for_all(t_shell *shell, pid_t pid);
+char	**split_args(t_shell *shell, char **av);
 void	update_parent_fds(t_shell *shell, int nb_pipe);
 void	dup_fd_stdin(t_shell *shell, t_bool is_saved_fd);
 void	dup_fd_stdout(t_shell *shell, t_bool is_saved_fd);
-char	**split_args(t_shell *shell, char **av);
-char	*right_path(t_shell *shell, char **paths, char *cmd);
 
 /**REDIR**/
 

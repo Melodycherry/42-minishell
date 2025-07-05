@@ -36,10 +36,3 @@ void	convert_list_to_av(t_shell *shell, t_token *current)
 	free_tab(&shell->executor.av);
 	shell->executor.av = av;
 }
-
-t_bool	is_absolative(char *str)
-{
-	if (ft_strchr(str, '/'))
-		return (TRUE);
-	return (FALSE);
-}

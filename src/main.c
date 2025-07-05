@@ -13,6 +13,7 @@
 #include "minishell.h"
 
 static void	parsing(t_shell *shell);
+static void	edgecase(t_shell *shell);
 static void	handle_signal(t_shell *shell);
 
 int		g_exit_status = 0;
@@ -59,18 +60,7 @@ void	parsing(t_shell *shell)
 	token_operator(shell, shell->tlist.head);
 	token_typedef(shell->tlist.head);
 	if (shell->tlist.token_cnt == 1)
-	{
-		if (only_quote(shell->tlist.head, '"'))
-		{
-			set_exit_status_env(shell, 127);
-			return (error_message(shell, "command ' ' not found"));
-		}
-		if (only_quote(shell->tlist.head, '\''))
-		{
-			set_exit_status_env(shell, 127);
-			return (error_message(shell, "command ' ' not found"));
-		}
-	}
+		edgecase(shell);
 	value = error_multiple_operator(shell->tlist.head, shell);
 	if (error_multiple_operator(shell->tlist.head, shell))
 		return (error_syntax_token(shell, value));
@@ -79,9 +69,35 @@ void	parsing(t_shell *shell)
 	expansion(shell);
 }
 
+static void	edgecase(t_shell *shell)
+{
+	if (only_quote(shell->tlist.head, '"'))
+	{
+		set_exit_status_env(shell, 127);
+		return (error_message(shell, "command ' ' not found"));
+	}
+	if (only_quote(shell->tlist.head, '\''))
+	{
+		set_exit_status_env(shell, 127);
+		return (error_message(shell, "command ' ' not found"));
+	}
+	if (strcmp(shell->tlist.head->value, ".") == 0)
+	{
+		set_exit_status_env(shell, 2);
+		return (error_message(shell, ".: filename argument required"));
+	}
+	if (strcmp(shell->tlist.head->value, "..") == 0)
+	{
+		set_exit_status_env(shell, 127);
+		return (error_message(shell, "..: command not found"));
+	}
+}
 static void	handle_signal(t_shell *shell)
 {
 	if (g_exit_status == SIGINT)
 		set_exit_status_env(shell, 130);
 	g_exit_status = 0;
 }
+
+// < MAkefile cat
+// echo > out.txt blabla
