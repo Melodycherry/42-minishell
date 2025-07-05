@@ -61,9 +61,15 @@ void	parsing(t_shell *shell)
 	if (shell->tlist.token_cnt == 1)
 	{
 		if (only_quote(shell->tlist.head, '"'))
+		{
+			set_exit_status_env(shell, 127);
 			return (error_message(shell, "command ' ' not found"));
+		}
 		if (only_quote(shell->tlist.head, '\''))
+		{
+			set_exit_status_env(shell, 127);
 			return (error_message(shell, "command ' ' not found"));
+		}
 	}
 	value = error_multiple_operator(shell->tlist.head, shell);
 	if (error_multiple_operator(shell->tlist.head, shell))

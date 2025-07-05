@@ -28,7 +28,7 @@ t_bool	only_quote(t_token *token, char quote)
 		return (FALSE);
 	while (token->value[i])
 	{
-		if (token->value[i] != quote)
+		if (token->value[i] != quote && token->value[i] != ' ')
 			return (FALSE);
 		i++;
 	}
