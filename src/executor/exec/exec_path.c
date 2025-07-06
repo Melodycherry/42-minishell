@@ -41,7 +41,7 @@ static void	create_path(t_shell *shell, char **envp)
 	i = 0;
 	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0)
 		i++;
-	if (envp[i])
+	if (envp[i] && envp[i][5]) // check pour unset path 
 		shell->executor.paths = ft_split(envp[i] + 5, ':');
 	else
 		shell->executor.paths = NULL;
@@ -53,6 +53,8 @@ static char	*right_path(t_shell *shell, char **paths, char *cmd)
 	char	*path;
 
 	i = 0;
+	if (!paths) // ajout de verif ? si unset 
+		return (NULL);
 	while (paths[i])
 	{
 		path = strjoin_path(shell, paths[i], cmd);
