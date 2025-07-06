@@ -33,7 +33,7 @@ void	handle_heredoc(t_shell *shell)
 			if (!file)
 			{
 				set_exit_status_env(shell, 2);
-				return (error_message(shell, "Error: missing delimiter")); //verifier le message
+				return (error_message(shell, "Error: missing delimiter"));
 			}
 			update_type_eof_exec(shell, current, file);
 			free_ptr((void **)&file);

@@ -155,6 +155,9 @@ void	sig_core_dump_parent_signal(void);
 
 /*UTILS*/
 
+int		is_line_empty(char *line);
+void	edgecase(t_shell *shell);
+
 /**BYEBYE**/
 t_token	*handle_free_mid_list(t_token *current);
 
@@ -167,10 +170,8 @@ void	free_all_minus_av(t_shell *shell);
 void	free_and_reset(t_shell *shell);
 void	error_syntax_unset(char *line);
 // void	error_missing_delimiter(t_shell *shell);
-// void	error_missing_delimiter(t_shell *shell);
 void	error_syntax_export(char *line);
 void	free_token_list(t_shell *shell);
-// void	error_empty_token(t_shell *shell);
 void	error_message(t_shell *shell, char *message);
 // void	error_empty_token(t_shell *shell);
 void	error_message(t_shell *shell, char *message);

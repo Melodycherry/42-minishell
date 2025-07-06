@@ -54,7 +54,7 @@ typedef struct s_executor
 
 typedef struct s_token
 {
-	t_token_type	type; // Modif pour utiliser enumeration above 
+	t_token_type	type; 
 	char			*value;
 	char			*var_value;
 	struct s_token	*next;
@@ -63,7 +63,7 @@ typedef struct s_token
 
 typedef struct s_tlist
 {
-	int		token_cnt; // peut etre util, a voir
+	int		token_cnt;
 	t_token	*head;
 }	t_tlist;
 

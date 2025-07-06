@@ -37,7 +37,7 @@ static pid_t	exec_pipe_iteration(t_shell *shell, int nb_pipe)
 	pid_t	pid;
 
 	shell->executor.pipe_av = split_args(shell, shell->executor.av);
-	printf("%d\n", nb_pipe);
+	//printf("%d\n", nb_pipe);
 	print_tab(shell->executor.pipe_av);
 	if (nb_pipe > 0)
 		create_pipe_or_exit(shell);

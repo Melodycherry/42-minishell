@@ -95,7 +95,7 @@ static int	execute_cd(t_shell *shell, char *path)
 	{
 		perror("cd");
 		free_ptr((void **)&oldpwd);
-		return (1) ;
+		return (1);
 	}
 	update_pwd(shell, oldpwd);
 	free_ptr((void **)&oldpwd);
