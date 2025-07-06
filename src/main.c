@@ -65,7 +65,8 @@ void	parsing(t_shell *shell)
 	token_operator(shell, shell->tlist.head);
 	token_typedef(shell->tlist.head);
 	if (shell->tlist.token_cnt == 1)
-		edgecase(shell);
+		if (edgecase(shell) == TRUE)
+			return ;
 	value = error_multiple_operator(shell->tlist.head, shell);
 	if (error_multiple_operator(shell->tlist.head, shell))
 		return (error_syntax_token(shell, value));

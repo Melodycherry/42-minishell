@@ -93,11 +93,23 @@ char	**set_redir_av(t_shell *shell, char **av)
 {
 	char	**new_tab;
 	int		i;
+	int		j;
 
 	i = 0;
+	j = 0;
 	while (av[i] && !is_redir(av[i]))
+	{
 		i++;
-	new_tab = malloc(sizeof(char *) * (i + 1));
+		j++;
+	}
+	if (is_redir(av[i]) && av[i + 2])
+		i += 2;
+	while (av[i] && !is_redir(av[i]))
+	{
+		i++;
+		j++;
+	}
+	new_tab = malloc(sizeof(char *) * (j + 1));
 	if (!new_tab)
 		unfructuous_malloc(shell);
 	i = 0;
@@ -108,6 +120,57 @@ char	**set_redir_av(t_shell *shell, char **av)
 			free_mid_tab(shell, &new_tab, i);
 		i++;
 	}
+	if (is_redir(av[i]) && av[i + 2])
+		i += 2;
+	j = i - 2;
+	while (av[i] && !is_redir(av[i]))
+	{
+		new_tab[j] = ft_strjoin_free(new_tab[j], av[i]);
+		if (!new_tab[j])
+			free_mid_tab(shell, &new_tab, j);
+		if (av[i + 1])
+		{
+			new_tab[j] = ft_strjoin_free(new_tab[j], " ");
+				if (!new_tab[j])
+			free_mid_tab(shell, &new_tab, j);
+		}
+		i++;
+	}
 	new_tab[i] = NULL;
 	return (new_tab);
 }
+
+// char	**set_redir_av(t_shell *shell, char **av)
+// {
+// 	char	**new_tab;
+// 	int		i;
+
+// 	i = 0;
+// 	while (av[i] && !is_redir(av[i]))
+// 		i++;
+// 	new_tab = malloc(sizeof(char *) * (i + 1));
+// 	if (!new_tab)
+// 		unfructuous_malloc(shell);
+// 	i = 0;
+// 	while (av[i] && !is_redir(av[i]))
+// 	{
+// 		new_tab[i] = ft_strdup(av[i]);
+// 		if (!new_tab[i])
+// 			free_mid_tab(shell, &new_tab, i);
+// 		i++;
+// 	}
+// 	new_tab[i] = NULL;
+// 	return (new_tab);
+// }
+
+
+	// printf("av 0 = %s\n", av[0]);
+	// if (is_redir(av[0]))
+	// {
+	// 	ft_putendl_fd("Syntax error: expected command before redirection\n",
+	// 		STDERR_FILENO);
+	// 	shell->executor.redir_file = NULL;
+	// 	shell->executor.redir_type = 0;
+	// 	free_tab(&shell->executor.redir_av);
+	// 	return ;
+	// }

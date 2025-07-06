@@ -156,7 +156,7 @@ void	sig_core_dump_parent_signal(void);
 /*UTILS*/
 
 int		is_line_empty(char *line);
-void	edgecase(t_shell *shell);
+t_bool	edgecase(t_shell *shell);
 
 /**BYEBYE**/
 t_token	*handle_free_mid_list(t_token *current);
