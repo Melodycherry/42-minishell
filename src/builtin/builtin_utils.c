@@ -39,6 +39,7 @@ int	exec_builtin(t_shell *shell, t_bool is_pipe)
 		av = shell->executor.av;
 	else
 		av = shell->executor.pipe_av;
+	printf("av 0 : %s\n", av[0]);
 	if (ft_strcmp(av[0], "cd") == 0)
 		return (builtin_cd(shell, av));
 	else if (ft_strcmp(av[0], "echo") == 0)

@@ -17,6 +17,8 @@ void	redir_handle(t_shell *shell)
 	t_token_type	type;
 
 	type = shell->executor.redir_type;
+	printf("redir type : %d\n", shell->executor.redir_type);
+	printf("redir file : %s\n", shell->executor.redir_file);
 	if (shell->executor.nb_redir > 0)
 	{
 		if (type == T_REDIR_IN)

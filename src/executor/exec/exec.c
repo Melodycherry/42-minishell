@@ -22,7 +22,7 @@ void	execution(t_shell *shell)
 	convert_list_to_av(shell, shell->tlist.head);
 	if (!shell || !shell->executor.av || !shell->executor.av[0])
 		return ;
-	if (is_builtin(shell->executor.av[0]) && shell->executor.nb_pipe == 0)
+	if ((is_builtin(shell->executor.av[0]) && shell->executor.nb_pipe == 0) || is_redir(shell->executor.av[0]))
 	{
 		shell->fd.saved_stdin = dup(STDIN_FILENO);
 		shell->fd.saved_stdout = dup(STDOUT_FILENO);

@@ -27,6 +27,7 @@ void	set_redir_count(t_shell *shell, char **av)
 			shell->executor.nb_redir++;
 		i++;
 	}
+	printf("nb redir : %d\n", shell->executor.nb_redir);
 	if (shell->executor.nb_redir > 0)
 	{
 		while (shell->executor.nb_redir_wip < shell->executor.nb_redir)
@@ -34,6 +35,7 @@ void	set_redir_count(t_shell *shell, char **av)
 			shell->executor.nb_redir_wip++;
 			free_tab(&shell->executor.redir_av);
 			set_redir_file_type_av(shell, av);
+			puts("1");
 			redir_handle(shell);
 		}
 	}
@@ -136,7 +138,7 @@ char	**set_redir_av(t_shell *shell, char **av)
 		}
 		i++;
 	}
-	new_tab[i] = NULL;
+	new_tab[j] = NULL;
 	return (new_tab);
 }
 
