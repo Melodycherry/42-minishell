@@ -72,7 +72,7 @@ static void	exec_pipe_child(t_shell *shell, int nb_pipe)
 	{
 		shell->fd.saved_stdin = dup(STDIN_FILENO);
 		shell->fd.saved_stdout = dup(STDOUT_FILENO);
-		set_redir_count(shell, shell->executor.pipe_av);
+		process_all_redirections(shell, shell->executor.pipe_av);
 		exit_status = exec_builtin(shell, TRUE);
 		dup_fd_stdin(shell, TRUE);
 		dup_fd_stdout(shell, TRUE);

@@ -22,11 +22,11 @@ void	execution(t_shell *shell)
 	convert_list_to_av(shell, shell->tlist.head);
 	if (!shell || !shell->executor.av || !shell->executor.av[0])
 		return ;
-	if ((is_builtin(shell->executor.av[0]) && shell->executor.nb_pipe == 0) || is_redir(shell->executor.av[0]))
+	if ((is_builtin(shell->executor.av[0]) && shell->executor.nb_pipe == 0))
 	{
 		shell->fd.saved_stdin = dup(STDIN_FILENO);
 		shell->fd.saved_stdout = dup(STDOUT_FILENO);
-		set_redir_count(shell, shell->executor.av);
+		process_all_redirections(shell, shell->executor.av);
 		exit_status = exec_builtin(shell, FALSE);
 		set_exit_status_env(shell, exit_status);
 		dup_fd_stdin(shell, TRUE);
@@ -79,7 +79,7 @@ static void	exec_with_redir_check(t_shell *shell, char *pathname, char **av)
 {
 	if (shell->executor.is_forked == FALSE)
 		child_signal();
-	set_redir_count(shell, av);
+	process_all_redirections(shell, av);
 	shell->executor.is_forked = FALSE;
 	if (shell->executor.nb_redir > 0)
 	{

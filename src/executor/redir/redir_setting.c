@@ -14,7 +14,7 @@
 
 static void	cleanup_redirections(t_shell *shell);
 
-void	set_redir_count(t_shell *shell, char **av)
+void	process_all_redirections(t_shell *shell, char **av)
 {
 	int		i;
 
@@ -27,7 +27,6 @@ void	set_redir_count(t_shell *shell, char **av)
 			shell->executor.nb_redir++;
 		i++;
 	}
-	printf("nb redir : %d\n", shell->executor.nb_redir);
 	if (shell->executor.nb_redir > 0)
 	{
 		while (shell->executor.nb_redir_wip < shell->executor.nb_redir)
@@ -35,7 +34,6 @@ void	set_redir_count(t_shell *shell, char **av)
 			shell->executor.nb_redir_wip++;
 			free_tab(&shell->executor.redir_av);
 			set_redir_file_type_av(shell, av);
-			puts("1");
 			redir_handle(shell);
 		}
 	}
@@ -56,7 +54,7 @@ void	set_redir_file_type_av(t_shell *shell, char **av)
 	int	i;
 
 	i = 0;
-	set_redir_file(shell, av, &i);
+	advance_to_redir_index(shell, av, &i);
 	if (av[i + 1] == NULL)
 	{
 		ft_putendl_fd("Syntax error: expected file after redirection\n",
@@ -68,6 +66,7 @@ void	set_redir_file_type_av(t_shell *shell, char **av)
 	}
 	free_ptr((void **)&shell->executor.redir_file);
 	shell->executor.redir_file = ft_strndup(av[i + 1], ft_strlen(av[i + 1]));
+	printf("file 0 : %s\n", shell->executor.redir_file);
 	if (!shell->executor.redir_file)
 		unfructuous_malloc(shell);
 	set_redir_type(shell, av[i]);
@@ -75,7 +74,7 @@ void	set_redir_file_type_av(t_shell *shell, char **av)
 	shell->executor.redir_av = set_redir_av(shell, av);
 }
 
-void	set_redir_file(t_shell *shell, char **av, int *i)
+void	advance_to_redir_index(t_shell *shell, char **av, int *i)
 {
 	int	count;
 
@@ -91,7 +90,7 @@ void	set_redir_file(t_shell *shell, char **av, int *i)
 	}
 }
 
-char	**set_redir_av(t_shell *shell, char **av)
+char	**set_redir_av(t_shell *shell, char **av) // regler pb ici
 {
 	char	**new_tab;
 	int		i;
@@ -115,6 +114,7 @@ char	**set_redir_av(t_shell *shell, char **av)
 	if (!new_tab)
 		unfructuous_malloc(shell);
 	i = 0;
+	j = 0;
 	while (av[i] && !is_redir(av[i]))
 	{
 		new_tab[i] = ft_strdup(av[i]);

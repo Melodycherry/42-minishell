@@ -75,10 +75,10 @@ void	handle_redir_in(t_shell *shell, char *file);
 void	handle_redir_out(t_shell *shell, char *file);
 void	handle_redir_append(t_shell *shell, char *file);
 void	redir_handle(t_shell *shell);
-void	set_redir_count(t_shell *shell, char **av);
+void	process_all_redirections(t_shell *shell, char **av);
 void	set_redir_type(t_shell *shell, char *redir);
 void	set_redir_file_type_av(t_shell *shell, char **av);
-void	set_redir_file(t_shell *shell, char **av, int *i);
+void	advance_to_redir_index(t_shell *shell, char **av, int *i);
 
 char	**set_redir_av(t_shell *shell, char **av);
 

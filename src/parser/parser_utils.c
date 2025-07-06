@@ -35,7 +35,6 @@ t_bool	only_quote(t_token *token, char quote)
 	return (TRUE);
 }
 
-
 char	*error_multiple_operator(t_token *token, t_shell *shell)
 {
 	if (shell->tlist.token_cnt > 1)
@@ -46,8 +45,8 @@ char	*error_multiple_operator(t_token *token, t_shell *shell)
 			{
 				if (token->type == 3 && token->next->type == 4)
 					token = token->next;
-				else if ((token->type >= 2 && token->type <= 6)
-					&& (token->next->type >= 2 && token->next->type <= 6))
+				else if ((token->type >= 3 && token->type <= 6)
+					&& (token->next->type >= 3 && token->next->type <= 6))
 					return (token->value);
 			}
 			token = token->next;

@@ -16,7 +16,7 @@ static void	create_path(t_shell *shell, char **envp);
 static char	*strjoin_path(t_shell *shell, char *s1, char *s2);
 static char	*right_path(t_shell *shell, char **paths, char *cmd);
 
-void	exec_path(t_shell *shell, char *pathname, char **av)
+void	exec_path(t_shell *shell, char *pathname, char **av) 
 {
 	char	*path;
 
@@ -31,8 +31,13 @@ void	exec_path(t_shell *shell, char *pathname, char **av)
 			exec_fork(shell, path, av);
 			free_ptr((void **)&path);
 		}
+		else if (is_redir(av[0]))
+		{
+			process_all_redirections(shell, av);
+		}
 	}
 }
+// faire une fonction test que je vais mettre dans les 2 if ou else
 
 static void	create_path(t_shell *shell, char **envp)
 {
