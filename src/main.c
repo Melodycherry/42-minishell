@@ -14,6 +14,7 @@
 
 static void	parsing(t_shell *shell);
 static void	edgecase(t_shell *shell);
+static int	is_line_empty(char *line);
 static void	handle_signal(t_shell *shell);
 
 int		g_exit_status = 0;
@@ -36,7 +37,7 @@ int	main(int ac, char **av, char **envp)
 			break ;
 		}
 		handle_signal(&shell);
-		if (*shell.cmd.line)
+		if (*shell.cmd.line && !is_line_empty(shell.cmd.line))
 		{
 			add_history(shell.cmd.line);
 			parsing(&shell);
@@ -98,6 +99,15 @@ static void	handle_signal(t_shell *shell)
 		set_exit_status_env(shell, 130);
 	g_exit_status = 0;
 }
-
+static int	is_line_empty(char *line) // test pour segfault, ok 
+{
+	while (*line)
+	{
+		if (!ft_isspace(*line))
+			return (0);
+		line++;
+	}
+	return (1);
+}
 // < MAkefile cat
 // echo > out.txt blabla
