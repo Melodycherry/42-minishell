@@ -6,7 +6,7 @@
 /*   By: hlichten <hlichten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:31:37 by hlichten          #+#    #+#             */
-/*   Updated: 2025/07/07 22:02:58 by hlichten         ###   ########.fr       */
+/*   Updated: 2025/07/07 23:11:28 by hlichten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ void	exec_from_path(t_shell *shell, char *pathname, char **av)
 		return ;
 	if (path)
 		exec_fork(shell, path, av);
-	free_ptr((void **)&path);
+	else
+		free_ptr((void **)&path);
 }
 
 static t_bool	access_command_path(t_shell *shell, char *path)
@@ -85,11 +86,7 @@ static void	create_paths(t_shell *shell, char **envp)
 	if (envp[i])
 		shell->executor.paths = ft_split(envp[i] + 5, ':');
 	else
-	{
-		g_exit_status = 127;
-		set_exit_status_env(shell, g_exit_status);
-		return (error_message(shell, "No such file or directory"));
-	}
+		return ;
 }
 
 static char	*right_path(t_shell *shell, char **paths, char *cmd)
@@ -98,6 +95,8 @@ static char	*right_path(t_shell *shell, char **paths, char *cmd)
 	char	*path;
 
 	i = 0;
+	if (!paths)
+		return (NULL);
 	while (paths[i])
 	{
 		path = strjoin_path(shell, paths[i], cmd);
