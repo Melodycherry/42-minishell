@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-
 void	find_range(t_shell *shell)
 {
 	int	i;

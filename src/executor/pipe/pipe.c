@@ -15,7 +15,6 @@
 static pid_t	exec_pipe_iteration(t_shell *shell, int nb_pipe);
 static void		exec_pipe_child(t_shell *shell, int nb_pipe);
 
-
 void	exec_pipe(t_shell *shell)
 {
 	pid_t	pid;

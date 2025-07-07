@@ -113,5 +113,3 @@ static void	exec_with_redir_check(t_shell *shell, char *pathname, char **av)
 		exit(EXIT_FAILURE);
 	}
 }
-
-

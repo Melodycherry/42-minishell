@@ -58,7 +58,8 @@ static void	update_type_eof(t_shell *shell, t_token *token)
 				if (is_quote_string(token->next->value) == TRUE)
 				{
 					token->next->type = T_EOF_Q;
-					token->next->value = delete_quotes_hd(shell, token->next->value);
+					token->next->value
+						= delete_quotes_hd(shell, token->next->value);
 				}
 			}
 		}

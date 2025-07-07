@@ -41,6 +41,92 @@ void	print_tab(char **tab)
 	}
 }
 
+
+			// if (access(path, X_OK) == 0)
+			// 	return (path);
+			// else
+			// {
+			// 	ft_putendl_fd("Permission denied", STDERR_FILENO);
+			// 	free_ptr((void **)&path);
+			// 	return (NULL);
+			// }
+
+
+// static char	*right_path(t_shell *shell, char **paths, char *cmd)
+// {
+// 	int		i;
+// 	char	*path;
+
+// 	i = 0;
+// 	if (!paths) // ajout de verif ? si unset 
+// 	// 	return (NULL);
+// 	while (paths[i])
+// 	{
+// 		path = strjoin_path(shell, paths[i], cmd);
+// 		if (!access(path, F_OK))
+// 		{
+// 			if (!access(path, X_OK))
+// 				return (path);
+// 			else
+// 			{
+// 				ft_putendl_fd("Permission denied", STDERR_FILENO);
+// 				free_ptr((void **)&path);
+// 				return (NULL);
+// 			}
+// 		}
+// 		free_ptr((void **)&path);
+// 		i++;
+// 	}
+// 	return (NULL);
+// }
+
+
+
+// void	exec_path(t_shell *shell, char *pathname, char **av) 
+// {
+// 	char	*path;
+
+// 	//printf("av0 : %s\n", shell->executor.redir_av[0]);
+// 			puts("0");
+// 	if (is_redir(av[0]))
+// 	{
+// 		puts("1");
+// 		shell->fd.saved_stdin = dup(STDIN_FILENO);
+// 		shell->fd.saved_stdout = dup(STDOUT_FILENO);
+// 		process_all_redirections(shell, av, TRUE);
+// 		exec_fork(shell, shell->executor.redir_av[0], shell->executor.redir_av);
+// 		dup_fd_stdout(shell, TRUE);
+// 		dup_fd_stdin(shell, TRUE);
+// 		free_ptr((void **)&path);
+// 	}
+// 	exec_from_path(shell, pathname, av);
+// }
+
+
+// t_bool	access_command_path(t_shell *shell, char *path)
+// {
+// 	struct stat	stat_buff;
+
+// 	if (access(path, F_OK) != 0);
+// 	{
+// 		g_exit_status = 127;
+// 		return (error_message(shell, "command not found"), FALSE);
+// 	}
+
+// 	if(stat(path, &stat_buff) == 0 && )
+
+
+
+
+// 	if (access(path, F_OK) != 0);
+// 	{
+// 		g_exit_status = 127;
+// 		return (error_message(shell, "command not found"), FALSE);
+// 	}
+
+// }
+
+
 // /*
 //  * @file exec_pipe.c
 //  * @brief Implements the execution of pipe operations in the AST.

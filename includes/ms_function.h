@@ -51,6 +51,7 @@ void	exec_path(t_shell *shell, char *pathname, char **av);
 void	set_exit_status_env(t_shell *shell, int exit_status);
 void	set_exit_status_env(t_shell *shell, int exit_status);
 void	exec_from_path(t_shell *shell, char *pathname, char **av);
+char	*strjoin_path(t_shell *shell, char *s1, char *s2);
 
 /**PIPE**/
 

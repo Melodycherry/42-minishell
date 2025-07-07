@@ -36,3 +36,16 @@ void	convert_list_to_av(t_shell *shell, t_token *current)
 	free_tab(&shell->executor.av);
 	shell->executor.av = av;
 }
+char	*strjoin_path(t_shell *shell, char *s1, char *s2)
+{
+	char	*dest;
+	char	*tmp;
+
+	(void)shell;
+	tmp = ft_strjoin(s1, "/");
+	if (!tmp)
+		unfructuous_malloc(shell);
+	dest = ft_strjoin(tmp, s2);
+	free_ptr((void **)&tmp);
+	return (dest);
+}

@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-
 static char	**set_redir_av(t_shell *shell, char **av);
 static char	**copy_args_no_redir(t_shell *shell, char **av, char **new_tab);
 
@@ -80,6 +79,7 @@ static char	**set_redir_av(t_shell *shell, char **av)
 	if (!new_tab)
 		unfructuous_malloc(shell);
 	new_tab = copy_args_no_redir(shell, av, new_tab);
+	return (new_tab);
 }
 
 static char	**copy_args_no_redir(t_shell *shell, char **av, char **new_tab)
@@ -110,3 +110,51 @@ static char	**copy_args_no_redir(t_shell *shell, char **av, char **new_tab)
 	new_tab[j] = NULL;
 	return (new_tab);
 }
+
+
+// static char	**set_redir_av(t_shell *shell, char **av)
+// {
+// 	char	**new_tab;
+// 	int		i;
+// 	int		j;
+
+// 	i = 0;
+// 	j = 0;
+// 	while (av[i] && !is_redir(av[i]))
+// 	{
+// 		i++;
+// 		j++;
+// 	}
+// 	if (is_redir(av[i]) && av[i + 1])
+// 		i += 2;
+// 	while (av[i] && !is_redir(av[i]))
+// 	{
+// 		i++;
+// 		j++;
+// 	}
+// 	new_tab = malloc(sizeof(char *) * (j + 1));
+// 	if (!new_tab)
+// 		unfructuous_malloc(shell);
+// 	i = 0;
+// 	j = 0;
+// 	while (av[i] && !is_redir(av[i]))
+// 	{
+// 		new_tab[i] = ft_strdup(av[i]);
+// 		if (!new_tab[i])
+// 			free_mid_tab(shell, &new_tab, i);
+// 		i++;
+// 	}
+// 	j = i;
+// 	if (is_redir(av[i]) && av[i + 1])
+// 		i += 2;
+// 	while (av[i] && !is_redir(av[i]))
+// 	{
+// 		new_tab[j] = ft_strdup(av[i]);
+// 		if (!new_tab[j])
+// 			free_mid_tab(shell, &new_tab, j);
+// 		i++;
+// 		j++;
+// 	}
+// 	new_tab[j] = NULL;
+// 	return (new_tab);
+// }
