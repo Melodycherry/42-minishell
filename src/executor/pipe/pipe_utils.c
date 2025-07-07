@@ -12,11 +12,12 @@
 
 #include "minishell.h"
 
+
 void	find_range(t_shell *shell)
 {
 	int	i;
 
-	i = shell->executor.end;
+	i = shell->executor.start;
 	if (i != 0 || shell->executor.start != 0)
 		i++;
 	shell->executor.start = i;

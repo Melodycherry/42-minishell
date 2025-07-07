@@ -41,9 +41,9 @@ int	exec_builtin(t_shell *shell, t_bool is_pipe)
 		av = shell->executor.pipe_av;
 	if (ft_strcmp(av[0], "cd") == 0)
 		return (builtin_cd(shell, av));
-	else if (ft_strcmp(av[0], "echo") == 0)
-		return (builtin_echo(shell, av));
-	else if (ft_strcmp(av[0], "env") == 0)
+	else if (ft_strncmp(av[0], "echo", 4) == 0)
+		return (builtin_echo(shell, av, is_pipe));
+	else if (ft_strncmp(av[0], "env", 3) == 0)
 		return (builtin_env(shell, av));
 	else if (ft_strcmp(av[0], "exit") == 0)
 		return (builtin_exit(shell, av));

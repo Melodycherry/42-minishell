@@ -23,7 +23,7 @@ int		exec_builtin(t_shell *shell, t_bool is_pipe);
 int		builtin_cd(t_shell *shell, char **av);
 int		builtin_env(t_shell *shell, char **av);
 int		builtin_pwd(t_shell *shell, char **av);
-int		builtin_echo(t_shell *shell, char **av);
+int		builtin_echo(t_shell *shell, char **av, t_bool is_pipe);
 int		builtin_exit(t_shell *shell, char **av);
 int		builtin_unset(t_shell *shell, char **av);
 int		builtin_export(t_shell *shell, char **av);

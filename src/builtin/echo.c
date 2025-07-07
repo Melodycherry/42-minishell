@@ -16,12 +16,14 @@ static t_bool	is_flag_n(char *str);
 static void		print_echo(char **av, int *i);
 static int		print_flag_n(t_shell *shell, char **av, int *i);
 
-int	builtin_echo(t_shell *shell, char **av)
+int	builtin_echo(t_shell *shell, char **av, t_bool is_pipe)
 {
 	int	i;
 
 	if (shell->executor.redir_av)
 		av = shell->executor.redir_av;
+	else if (is_pipe)
+		av = shell->executor.pipe_av;
 	else
 		av = shell->executor.av;
 	i = 1;
