@@ -81,8 +81,6 @@ void	set_redir_type(t_shell *shell, char *redir);
 void	set_redir_file_type_av(t_shell *shell, char **av);
 void	advance_to_redir_index(t_shell *shell, char **av, int *i);
 
-char	**set_redir_av(t_shell *shell, char **av);
-
 /*HEREDOC*/
 
 void	check_error_fd(t_shell *shell, int fd);

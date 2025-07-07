@@ -12,42 +12,9 @@
 
 #include "minishell.h"
 
-static void	cleanup_redirections(t_shell *shell);
 
-void	process_all_redirections(t_shell *shell, char **av)
-{
-	int	i;
-
-	i = 0;
-	shell->executor.nb_redir = 0;
-	shell->executor.nb_redir_wip = 0;
-	while (av && av[i])
-	{
-		if (is_redir(av[i]))
-			shell->executor.nb_redir++;
-		i++;
-	}
-	if (shell->executor.nb_redir > 0)
-	{
-		while (shell->executor.nb_redir_wip < shell->executor.nb_redir)
-		{
-			shell->executor.nb_redir_wip++;
-			free_tab(&shell->executor.redir_av);
-			set_redir_file_type_av(shell, av);
-			redir_handle(shell);
-		}
-	}
-	else
-		cleanup_redirections(shell);
-}
-
-static void	cleanup_redirections(t_shell *shell)
-{
-	free_ptr((void **)&shell->executor.redir_file);
-	shell->executor.redir_file = NULL;
-	shell->executor.redir_type = 0;
-	free_tab(&shell->executor.redir_av);
-}
+static char	**set_redir_av(t_shell *shell, char **av);
+static char	**copy_args_no_redir(t_shell *shell, char **av, char **new_tab);
 
 void	set_redir_file_type_av(t_shell *shell, char **av)
 {
@@ -89,7 +56,7 @@ void	advance_to_redir_index(t_shell *shell, char **av, int *i)
 	}
 }
 
-char	**set_redir_av(t_shell *shell, char **av)
+static char	**set_redir_av(t_shell *shell, char **av)
 {
 	char	**new_tab;
 	int		i;
@@ -112,7 +79,14 @@ char	**set_redir_av(t_shell *shell, char **av)
 	new_tab = malloc(sizeof(char *) * (j + 1));
 	if (!new_tab)
 		unfructuous_malloc(shell);
-	// refact fill_
+	new_tab = copy_args_no_redir(shell, av, new_tab);
+}
+
+static char	**copy_args_no_redir(t_shell *shell, char **av, char **new_tab)
+{
+	int	i;
+	int	j;
+
 	i = 0;
 	j = 0;
 	while (av[i] && !is_redir(av[i]))

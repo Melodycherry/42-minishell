@@ -38,6 +38,7 @@ void	exec_path(t_shell *shell, char *pathname, char **av)
 void	exec_from_path(t_shell *shell, char *pathname, char **av)
 {
 	char	*path;
+	t_bool	need_free = FALSE;
 
 	if (ft_strchr(pathname, '/'))
 		path = pathname;
@@ -47,13 +48,19 @@ void	exec_from_path(t_shell *shell, char *pathname, char **av)
 		if (!shell->executor.paths)
 			return;
 		path = right_path(shell, shell->executor.paths, pathname);
+		need_free = TRUE;
 	}
 	if (access_command_path(shell, path) == FALSE)
+	{
+		if (need_free)
+			free_ptr((void **)&path);
 		return;
+	}
 	if (path)
 	{
 		exec_fork(shell, path, av);
-		free_ptr((void **)&path);
+		if (need_free)
+			free_ptr((void **)&path);
 	}
 }
 
@@ -64,17 +71,20 @@ static t_bool access_command_path(t_shell *shell, char *path)
 	if (access(path, F_OK) != 0)
 	{
 		g_exit_status = 127;
+		set_exit_status_env(shell, g_exit_status);
 		return (error_message(shell, "Command not found"), FALSE);
 	}
 	if (stat(path, &stat_buff) == 0 && S_ISDIR(stat_buff.st_mode))
 	{
 		g_exit_status = 126;
 		errno = EISDIR;
+		set_exit_status_env(shell, g_exit_status);
 		return (error_message(shell, "Is a directory"), FALSE);
 	}
 	if (access(path, X_OK) != 0)
 	{
 		g_exit_status = 126;
+		set_exit_status_env(shell, g_exit_status);
 		return (error_message(shell, "Permission denied"), FALSE);
 	}
 	return (TRUE);
@@ -91,7 +101,11 @@ static void	create_paths(t_shell *shell, char **envp)
 	if (envp[i])
 		shell->executor.paths = ft_split(envp[i] + 5, ':');
 	else
-		return (error_message(shell, "bigo problemo"));
+	{
+		g_exit_status = 127;
+		set_exit_status_env(shell, g_exit_status);
+		return (error_message(shell, "No such file or directory"));
+	}
 }
 
 static char	*right_path(t_shell *shell, char **paths, char *cmd)
@@ -124,8 +138,6 @@ static char	*strjoin_path(t_shell *shell, char *s1, char *s2)
 	free_ptr((void **)&tmp);
 	return (dest);
 }
-
-
 
 			// if (access(path, X_OK) == 0)
 			// 	return (path);

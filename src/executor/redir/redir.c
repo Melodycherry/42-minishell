@@ -12,6 +12,43 @@
 
 #include "minishell.h"
 
+static void	cleanup_redirections(t_shell *shell);
+
+void	process_all_redirections(t_shell *shell, char **av)
+{
+	int	i;
+
+	i = 0;
+	shell->executor.nb_redir = 0;
+	shell->executor.nb_redir_wip = 0;
+	while (av && av[i])
+	{
+		if (is_redir(av[i]))
+			shell->executor.nb_redir++;
+		i++;
+	}
+	if (shell->executor.nb_redir > 0)
+	{
+		while (shell->executor.nb_redir_wip < shell->executor.nb_redir)
+		{
+			shell->executor.nb_redir_wip++;
+			free_tab(&shell->executor.redir_av);
+			set_redir_file_type_av(shell, av);
+			redir_handle(shell);
+		}
+	}
+	else
+		cleanup_redirections(shell);
+}
+
+static void	cleanup_redirections(t_shell *shell)
+{
+	free_ptr((void **)&shell->executor.redir_file);
+	shell->executor.redir_file = NULL;
+	shell->executor.redir_type = 0;
+	free_tab(&shell->executor.redir_av);
+}
+
 void	redir_handle(t_shell *shell)
 {
 	t_token_type	type;
