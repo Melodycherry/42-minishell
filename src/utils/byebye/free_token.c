@@ -6,7 +6,7 @@
 /*   By: hlichten <hlichten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:34:20 by hlichten          #+#    #+#             */
-/*   Updated: 2025/07/07 20:34:22 by hlichten         ###   ########.fr       */
+/*   Updated: 2025/07/07 21:21:22 by hlichten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	free_token_list(t_shell *shell)
 		free_ptr((void **)&current->value);
 		free_ptr((void **)&current->var_value);
 		free(current);
+		current = NULL;
 		current = next;
 	}
 	shell->tlist.head = NULL;

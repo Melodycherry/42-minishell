@@ -6,7 +6,7 @@
 /*   By: hlichten <hlichten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:40:32 by hlichten          #+#    #+#             */
-/*   Updated: 2025/07/07 20:40:50 by hlichten         ###   ########.fr       */
+/*   Updated: 2025/07/07 21:31:37 by hlichten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ t_bool	edgecase(t_shell *shell)
 	if (only_quote(shell->tlist.head, '"'))
 	{
 		set_exit_status_env(shell, 127);
-		return (error_message(shell, "command ' ' not found"), TRUE);
+		return (error_message(shell, "command not found"), TRUE);
 	}
 	if (only_quote(shell->tlist.head, '\''))
 	{
 		set_exit_status_env(shell, 127);
-		return (error_message(shell, "command ' ' not found"), TRUE);
+		return (error_message(shell, "command not found"), TRUE);
 	}
 	if (strcmp(shell->tlist.head->value, ".") == 0)
 	{

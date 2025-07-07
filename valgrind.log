@@ -1,96 +1,43 @@
-==198796== Memcheck, a memory error detector
-==198796== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==198796== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==198796== Command: ./minishell
-==198796== Parent PID: 198789
-==198796== 
-==198824== 
-==198824== FILE DESCRIPTORS: 7 open (3 std) at exit.
-==198824== Open file descriptor 103: /usr/share/code/v8_context_snapshot.bin
-==198824==    <inherited from parent>
-==198824== 
-==198824== Open AF_UNIX socket 41: <unknown>
-==198824==    <inherited from parent>
-==198824== 
-==198824== Open file descriptor 40: /home/hlichten/.config/Code/logs/20250707T122305/ptyhost.log
-==198824==    <inherited from parent>
-==198824== 
-==198824== Open file descriptor 3: /home/hlichten/Documents/42-minishell/valgrind.log
-==198824==    <inherited from parent>
-==198824== 
-==198824== Open file descriptor 2: /dev/pts/1
-==198824==    <inherited from parent>
-==198824== 
-==198824== Open file descriptor 1:
-==198824==    at 0x49DD01B: dup2 (syscall-template.S:120)
-==198824==    by 0x10B4BA: handle_dup2 (exec.c:44)
-==198824==    by 0x10D3C5: dup_fd_stdout (pipe_utils.c:91)
-==198824==    by 0x10CF4B: exec_pipe_child (pipe.c:74)
-==198824==    by 0x10CE33: exec_pipe_iteration (pipe.c:50)
-==198824==    by 0x10CD3B: exec_pipe (pipe.c:28)
-==198824==    by 0x10B449: execution (exec.c:37)
-==198824==    by 0x10968F: minishell_loop (main.c:52)
-==198824==    by 0x109596: main (main.c:30)
-==198824== 
-==198824== Open file descriptor 0: /dev/pts/1
-==198824==    at 0x49DD01B: dup2 (syscall-template.S:120)
-==198824==    by 0x10B4BA: handle_dup2 (exec.c:44)
-==198824==    by 0x10D317: dup_fd_stdin (pipe_utils.c:74)
-==198824==    by 0x10CF3A: exec_pipe_child (pipe.c:73)
-==198824==    by 0x10CE33: exec_pipe_iteration (pipe.c:50)
-==198824==    by 0x10CD3B: exec_pipe (pipe.c:28)
-==198824==    by 0x10B449: execution (exec.c:37)
-==198824==    by 0x10968F: minishell_loop (main.c:52)
-==198824==    by 0x109596: main (main.c:30)
-==198824== 
-==198824== 
-==198824== HEAP SUMMARY:
-==198824==     in use at exit: 208,213 bytes in 222 blocks
-==198824==   total heap usage: 620 allocs, 398 frees, 239,112 bytes allocated
-==198824== 
-==198824== LEAK SUMMARY:
-==198824==    definitely lost: 0 bytes in 0 blocks
-==198824==    indirectly lost: 0 bytes in 0 blocks
-==198824==      possibly lost: 0 bytes in 0 blocks
-==198824==    still reachable: 0 bytes in 0 blocks
-==198824==         suppressed: 208,213 bytes in 222 blocks
-==198824== 
-==198824== For lists of detected and suppressed errors, rerun with: -s
-==198824== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
-==198796== 
-==198796== FILE DESCRIPTORS: 7 open (3 std) at exit.
-==198796== Open file descriptor 103: /usr/share/code/v8_context_snapshot.bin
-==198796==    <inherited from parent>
-==198796== 
-==198796== Open AF_UNIX socket 41: <unknown>
-==198796==    <inherited from parent>
-==198796== 
-==198796== Open file descriptor 40: /home/hlichten/.config/Code/logs/20250707T122305/ptyhost.log
-==198796==    <inherited from parent>
-==198796== 
-==198796== Open file descriptor 3: /home/hlichten/Documents/42-minishell/valgrind.log
-==198796==    <inherited from parent>
-==198796== 
-==198796== Open file descriptor 2: /dev/pts/1
-==198796==    <inherited from parent>
-==198796== 
-==198796== Open file descriptor 1: /dev/pts/1
-==198796==    <inherited from parent>
-==198796== 
-==198796== Open file descriptor 0: /dev/pts/1
-==198796==    <inherited from parent>
-==198796== 
-==198796== 
-==198796== HEAP SUMMARY:
-==198796==     in use at exit: 208,213 bytes in 222 blocks
-==198796==   total heap usage: 629 allocs, 407 frees, 239,217 bytes allocated
-==198796== 
-==198796== LEAK SUMMARY:
-==198796==    definitely lost: 0 bytes in 0 blocks
-==198796==    indirectly lost: 0 bytes in 0 blocks
-==198796==      possibly lost: 0 bytes in 0 blocks
-==198796==    still reachable: 0 bytes in 0 blocks
-==198796==         suppressed: 208,213 bytes in 222 blocks
-==198796== 
-==198796== For lists of detected and suppressed errors, rerun with: -s
-==198796== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==229799== Memcheck, a memory error detector
+==229799== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==229799== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==229799== Command: ./minishell
+==229799== Parent PID: 229792
+==229799== 
+==229799== 
+==229799== FILE DESCRIPTORS: 7 open (3 std) at exit.
+==229799== Open file descriptor 103: /usr/share/code/v8_context_snapshot.bin
+==229799==    <inherited from parent>
+==229799== 
+==229799== Open AF_UNIX socket 41: <unknown>
+==229799==    <inherited from parent>
+==229799== 
+==229799== Open file descriptor 40: /home/hlichten/.config/Code/logs/20250707T122305/ptyhost.log
+==229799==    <inherited from parent>
+==229799== 
+==229799== Open file descriptor 3: /home/hlichten/Documents/42-minishell/valgrind.log
+==229799==    <inherited from parent>
+==229799== 
+==229799== Open file descriptor 2: /dev/pts/1
+==229799==    <inherited from parent>
+==229799== 
+==229799== Open file descriptor 1: /dev/pts/1
+==229799==    <inherited from parent>
+==229799== 
+==229799== Open file descriptor 0: /dev/pts/1
+==229799==    <inherited from parent>
+==229799== 
+==229799== 
+==229799== HEAP SUMMARY:
+==229799==     in use at exit: 208,213 bytes in 222 blocks
+==229799==   total heap usage: 602 allocs, 380 frees, 238,735 bytes allocated
+==229799== 
+==229799== LEAK SUMMARY:
+==229799==    definitely lost: 0 bytes in 0 blocks
+==229799==    indirectly lost: 0 bytes in 0 blocks
+==229799==      possibly lost: 0 bytes in 0 blocks
+==229799==    still reachable: 0 bytes in 0 blocks
+==229799==         suppressed: 208,213 bytes in 222 blocks
+==229799== 
+==229799== For lists of detected and suppressed errors, rerun with: -s
+==229799== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

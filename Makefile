@@ -73,7 +73,6 @@ error.c free.c free_tab.c free_token.c close_fd.c \
 init_chain.c \
 init_struct.c init_env.c \
 utils_general.c \
-testing.c \
 
 OBJS = $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 

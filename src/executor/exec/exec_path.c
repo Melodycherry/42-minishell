@@ -6,7 +6,7 @@
 /*   By: hlichten <hlichten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:31:37 by hlichten          #+#    #+#             */
-/*   Updated: 2025/07/07 20:38:12 by hlichten         ###   ########.fr       */
+/*   Updated: 2025/07/07 21:29:25 by hlichten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,7 @@ void	exec_from_path(t_shell *shell, char *pathname, char **av)
 	if (access_command_path(shell, path) == FALSE)
 		return ;
 	if (path)
-	{
 		exec_fork(shell, path, av);
-		free_ptr((void **)&path);
-	}
 }
 
 static t_bool	access_command_path(t_shell *shell, char *path)
