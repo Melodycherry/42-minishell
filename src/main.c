@@ -85,3 +85,5 @@ static void	handle_signal(t_shell *shell)
 // < MAkefile cat // genre 1h
 // e'o'f //genre 30'
 // mettre en place le path.c // genre 1h30
+
+//echo hello | cat -e

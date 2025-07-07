@@ -14,6 +14,7 @@
 
 static void	update_type_eof(t_shell *shell, t_token *token);
 static char	*generate_file(t_shell *shell, t_token *token);
+static char	*delete_quotes_hd(t_shell *shell, char *line);
 static void	update_type_eof_exec(t_shell *shell, t_token *token, char *file);
 
 void	handle_heredoc(t_shell *shell)
@@ -57,7 +58,7 @@ static void	update_type_eof(t_shell *shell, t_token *token)
 				if (is_quote_string(token->next->value) == TRUE)
 				{
 					token->next->type = T_EOF_Q;
-					delete_quotes_value(shell, token->next);
+					token->next->value = delete_quotes_hd(shell, token->next->value);
 				}
 			}
 		}
@@ -98,4 +99,30 @@ static void	update_type_eof_exec(t_shell *shell, t_token *token, char *file)
 		if (!token->next->value)
 			unfructuous_malloc(shell);
 	}
+}
+
+static char	*delete_quotes_hd(t_shell *shell, char *line)
+{
+	int		i;
+	int		j;
+	char	*new_line;
+
+	i = 0;
+	new_line = NULL;
+	while (line[i])
+	{
+		j = i;
+		while (line[i] && !ft_isquote(line[i]))
+			i++;
+		if (i > j)
+			new_line = join_free(shell, new_line, &line[j], (i - j));
+		if (ft_isquote(line[i]))
+		{
+			j = i;
+			find_next_quote(line[i], line, &i);
+			new_line = join_free(shell, new_line, &line[j + 1], (i - j - 2));
+		}
+	}
+	puts(new_line);
+	return (new_line);
 }
