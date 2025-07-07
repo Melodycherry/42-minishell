@@ -1,43 +1,43 @@
-==229799== Memcheck, a memory error detector
-==229799== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==229799== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==229799== Command: ./minishell
-==229799== Parent PID: 229792
-==229799== 
-==229799== 
-==229799== FILE DESCRIPTORS: 7 open (3 std) at exit.
-==229799== Open file descriptor 103: /usr/share/code/v8_context_snapshot.bin
-==229799==    <inherited from parent>
-==229799== 
-==229799== Open AF_UNIX socket 41: <unknown>
-==229799==    <inherited from parent>
-==229799== 
-==229799== Open file descriptor 40: /home/hlichten/.config/Code/logs/20250707T122305/ptyhost.log
-==229799==    <inherited from parent>
-==229799== 
-==229799== Open file descriptor 3: /home/hlichten/Documents/42-minishell/valgrind.log
-==229799==    <inherited from parent>
-==229799== 
-==229799== Open file descriptor 2: /dev/pts/1
-==229799==    <inherited from parent>
-==229799== 
-==229799== Open file descriptor 1: /dev/pts/1
-==229799==    <inherited from parent>
-==229799== 
-==229799== Open file descriptor 0: /dev/pts/1
-==229799==    <inherited from parent>
-==229799== 
-==229799== 
-==229799== HEAP SUMMARY:
-==229799==     in use at exit: 208,213 bytes in 222 blocks
-==229799==   total heap usage: 602 allocs, 380 frees, 238,735 bytes allocated
-==229799== 
-==229799== LEAK SUMMARY:
-==229799==    definitely lost: 0 bytes in 0 blocks
-==229799==    indirectly lost: 0 bytes in 0 blocks
-==229799==      possibly lost: 0 bytes in 0 blocks
-==229799==    still reachable: 0 bytes in 0 blocks
-==229799==         suppressed: 208,213 bytes in 222 blocks
-==229799== 
-==229799== For lists of detected and suppressed errors, rerun with: -s
-==229799== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==241785== Memcheck, a memory error detector
+==241785== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==241785== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==241785== Command: ./minishell
+==241785== Parent PID: 241778
+==241785== 
+==241785== 
+==241785== FILE DESCRIPTORS: 7 open (3 std) at exit.
+==241785== Open file descriptor 103: /usr/share/code/v8_context_snapshot.bin
+==241785==    <inherited from parent>
+==241785== 
+==241785== Open AF_UNIX socket 41: <unknown>
+==241785==    <inherited from parent>
+==241785== 
+==241785== Open file descriptor 40: /home/hlichten/.config/Code/logs/20250707T122305/ptyhost.log
+==241785==    <inherited from parent>
+==241785== 
+==241785== Open file descriptor 3: /home/hlichten/Documents/42-minishell/valgrind.log
+==241785==    <inherited from parent>
+==241785== 
+==241785== Open file descriptor 2: /dev/pts/1
+==241785==    <inherited from parent>
+==241785== 
+==241785== Open file descriptor 1: /dev/pts/1
+==241785==    <inherited from parent>
+==241785== 
+==241785== Open file descriptor 0: /dev/pts/1
+==241785==    <inherited from parent>
+==241785== 
+==241785== 
+==241785== HEAP SUMMARY:
+==241785==     in use at exit: 208,213 bytes in 222 blocks
+==241785==   total heap usage: 667 allocs, 445 frees, 239,994 bytes allocated
+==241785== 
+==241785== LEAK SUMMARY:
+==241785==    definitely lost: 0 bytes in 0 blocks
+==241785==    indirectly lost: 0 bytes in 0 blocks
+==241785==      possibly lost: 0 bytes in 0 blocks
+==241785==    still reachable: 0 bytes in 0 blocks
+==241785==         suppressed: 208,213 bytes in 222 blocks
+==241785== 
+==241785== For lists of detected and suppressed errors, rerun with: -s
+==241785== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

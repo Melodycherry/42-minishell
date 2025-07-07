@@ -6,7 +6,7 @@
 /*   By: hlichten <hlichten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:31:37 by hlichten          #+#    #+#             */
-/*   Updated: 2025/07/07 21:29:25 by hlichten         ###   ########.fr       */
+/*   Updated: 2025/07/07 22:02:58 by hlichten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	exec_from_path(t_shell *shell, char *pathname, char **av)
 		return ;
 	if (path)
 		exec_fork(shell, path, av);
+	free_ptr((void **)&path);
 }
 
 static t_bool	access_command_path(t_shell *shell, char *path)
@@ -55,7 +56,7 @@ static t_bool	access_command_path(t_shell *shell, char *path)
 	{
 		g_exit_status = 127;
 		set_exit_status_env(shell, g_exit_status);
-		return (error_message(shell, "Command not found"), FALSE);
+		return (error_message(shell, "No such file or directory"), FALSE);
 	}
 	if (stat(path, &stat_buff) == 0 && S_ISDIR(stat_buff.st_mode))
 	{
