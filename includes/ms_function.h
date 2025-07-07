@@ -1,16 +1,19 @@
-/*****************************************************************************/
-/*                                                                           */
-/*                                                                           */
-/*                                                                           */
-/*                                                                           */
-/*      LES CODEUSES DU DIMANCHE                                             */
-/*      FONT UN MINISHELL                                                    */
-/*                                                                           */
-/*                                                                           */
-/*                                                                           */
-/*****************************************************************************/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ms_function.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hlichten <hlichten@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/07 20:37:09 by hlichten          #+#    #+#             */
+/*   Updated: 2025/07/07 20:43:52 by hlichten         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef MS_FUNCTION_H
+# define MS_FUNCTION_H
+
+# include "minishell.h"
 
 int		main(int ac, char **av, char **env);
 
@@ -32,11 +35,11 @@ char	**malloc_tab(t_shell *shell, int tab_len);
 
 void	print_export(char **tab);
 void	put_in_env_export(t_shell *shell, char **old_tab,
-		char *new_value, t_bool is_export);
+			char *new_value, t_bool is_export);
 void	insert_env_export(t_shell *shell, char *value,
-		char **tab, t_bool is_export);
+			char **tab, t_bool is_export);
 void	replace_tab(t_shell *shell, char **new_tab, t_bool is_export);
-		
+
 t_bool	checking_var(t_shell *shell, char *line);
 
 /*EXECUTOR*/
@@ -189,3 +192,5 @@ void	init_all(t_shell *shell);
 //fonctions tests a supprimer apres
 void	print_token(t_token *token, int (*f)(const char *, ...));
 void	print_tab(char **tab);
+
+#endif

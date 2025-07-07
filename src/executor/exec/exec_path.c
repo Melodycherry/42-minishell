@@ -1,20 +1,20 @@
-/*****************************************************************************/
-/*                                                                           */
-/*                                                                           */
-/*                                                                           */
-/*                                                                           */
-/*      LES CODEUSES DU DIMANCHE                                             */
-/*      FONT UN MINISHELL                                                    */
-/*                                                                           */
-/*                                                                           */
-/*                                                                           */
-/*****************************************************************************/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_path.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hlichten <hlichten@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/07 20:31:37 by hlichten          #+#    #+#             */
+/*   Updated: 2025/07/07 20:38:12 by hlichten         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	create_paths(t_shell *shell, char **envp);
+static void		create_paths(t_shell *shell, char **envp);
 static t_bool	access_command_path(t_shell *shell, char *path);
-static char	*right_path(t_shell *shell, char **paths, char *cmd);
+static char		*right_path(t_shell *shell, char **paths, char *cmd);
 
 void	exec_path(t_shell *shell, char *pathname, char **av)
 {

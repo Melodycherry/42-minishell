@@ -1,14 +1,14 @@
-/*****************************************************************************/
-/*                                                                           */
-/*                                                                           */
-/*                                                                           */
-/*                                                                           */
-/*      LES CODEUSES DU DIMANCHE                                             */
-/*      FONT UN MINISHELL                                                    */
-/*                                                                           */
-/*                                                                           */
-/*                                                                           */
-/*****************************************************************************/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unset.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hlichten <hlichten@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/07 20:32:23 by hlichten          #+#    #+#             */
+/*   Updated: 2025/07/07 20:40:09 by hlichten         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -37,62 +37,34 @@ int	builtin_unset(t_shell *shell, char **av)
 	return (0);
 }
 
-// static void	remove_var(t_shell *shell,
-// 				char **old_tab, char *name, t_bool is_export)
-// {
-// 	int		i;
-// 	int		var_len;
-// 	char	**new_tab;
-
-// 	if (!old_tab)
-// 		return ;
-// 	var_len = ft_strlen(name);
-// 	i = 0;
-// 	while (old_tab[i])
-// 	{
-// 		if ((ft_strncmp(old_tab[i], name, var_len) == 0)
-// 			&& (old_tab[i][var_len] == '=' || old_tab[i][var_len] == '\0'))
-// 			break ;
-// 		i++;
-// 	}
-// 	if (!old_tab[i])
-// 		return ;
-// 	new_tab = malloc_tab(shell, );
-// 	if (!new_tab)
-// 		unfructuous_malloc(shell);
-// 	filtr_out_var(shell, new_tab, name, is_export);
-// 	replace_tab(shell, new_tab, is_export);
-// }
-
 static void	remove_var(t_shell *shell,
-                char **old_tab, char *name, t_bool is_export)
+			char **old_tab, char *name, t_bool is_export)
 {
-    int		i;
-    int		var_len;
-    int		tab_len;
-    char	**new_tab;
+	int		i;
+	int		tab_len;
+	char	**new_tab;
 
-    if (!old_tab)
-        return ;
-    var_len = ft_strlen(name);
-    i = 0;
-    while (old_tab[i])
-    {
-        if ((ft_strncmp(old_tab[i], name, var_len) == 0)
-            && (old_tab[i][var_len] == '=' || old_tab[i][var_len] == '\0'))
-            break ;
-        i++;
-    }
-    if (!old_tab[i])
-        return ;
-    tab_len = 0;
-    while (old_tab[tab_len])
-        tab_len++;
-    new_tab = malloc_tab(shell, tab_len - 1); // alloue la bonne taille
-    if (!new_tab)
-        unfructuous_malloc(shell);
-    filtr_out_var(shell, new_tab, name, is_export);
-    replace_tab(shell, new_tab, is_export);
+	if (!old_tab)
+		return ;
+	i = 0;
+	while (old_tab[i])
+	{
+		if ((ft_strncmp(old_tab[i], name, ft_strlen(name)) == 0)
+			&& (old_tab[i][ft_strlen(name)] == '='
+			|| old_tab[i][ft_strlen(name)] == '\0'))
+			break ;
+		i++;
+	}
+	if (!old_tab[i])
+		return ;
+	tab_len = 0;
+	while (old_tab[tab_len])
+		tab_len++;
+	new_tab = malloc_tab(shell, tab_len - 1);
+	if (!new_tab)
+		unfructuous_malloc(shell);
+	filtr_out_var(shell, new_tab, name, is_export);
+	replace_tab(shell, new_tab, is_export);
 }
 
 static void	filtr_out_var(t_shell *shell, char **new_tab, char *name,

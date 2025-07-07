@@ -1,14 +1,14 @@
-/*****************************************************************************/
-/*                                                                           */
-/*                                                                           */
-/*                                                                           */
-/*                                                                           */
-/*      LES CODEUSES DU DIMANCHE                                             */
-/*      FONT UN MINISHELL                                                    */
-/*                                                                           */
-/*                                                                           */
-/*                                                                           */
-/*****************************************************************************/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_general.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hlichten <hlichten@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/07 20:40:32 by hlichten          #+#    #+#             */
+/*   Updated: 2025/07/07 20:40:50 by hlichten         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -34,7 +34,7 @@ t_bool	edgecase(t_shell *shell)
 		set_exit_status_env(shell, 127);
 		return (error_message(shell, "..: command not found"), TRUE);
 	}
-		return (FALSE);
+	return (FALSE);
 }
 
 int	is_line_empty(char *line)
@@ -47,11 +47,3 @@ int	is_line_empty(char *line)
 	}
 	return (1);
 }
-
-	// if (shell->tlist.head->type == T_REDIR_APPEND
-	// 	|| shell->tlist.head->type == T_REDIR_OUT
-	// 	|| shell->tlist.head->type == T_REDIR_IN)
-	// {
-	// 	set_exit_status_env(shell, 2);
-	// 	return (error_message(shell, "command expected before redirection"));
-	// }

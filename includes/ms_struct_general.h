@@ -1,17 +1,17 @@
-/*****************************************************************************/
-/*                                                                           */
-/*                                                                           */
-/*                                                                           */
-/*                                                                           */
-/*      LES CODEUSES DU DIMANCHE                                             */
-/*      FONT UN MINISHELL                                                    */
-/*                                                                           */
-/*                                                                           */
-/*                                                                           */
-/*****************************************************************************/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ms_struct_general.h                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hlichten <hlichten@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/07 20:37:14 by hlichten          #+#    #+#             */
+/*   Updated: 2025/07/07 20:44:08 by hlichten         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#ifndef MS_STRUCT_H
-# define MS_STRUCT_H
+#ifndef MS_STRUCT_GENERAL_H
+# define MS_STRUCT_GENERAL_H
 
 # include "ms_type.h"
 
@@ -55,7 +55,7 @@ typedef struct s_executor
 
 typedef struct s_token
 {
-	t_token_type	type; 
+	t_token_type	type;
 	char			*value;
 	char			*var_value;
 	struct s_token	*next;

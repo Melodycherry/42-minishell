@@ -1,14 +1,14 @@
-/*****************************************************************************/
-/*                                                                           */
-/*                                                                           */
-/*                                                                           */
-/*                                                                           */
-/*      LES CODEUSES DU DIMANCHE                                             */
-/*      FONT UN MINISHELL                                                    */
-/*                                                                           */
-/*                                                                           */
-/*                                                                           */
-/*****************************************************************************/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_struct.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hlichten <hlichten@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/07 20:34:45 by hlichten          #+#    #+#             */
+/*   Updated: 2025/07/07 20:40:22 by hlichten         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -23,7 +23,6 @@ void	init_all(t_shell *shell)
 	shell->cmd.envp_exp = NULL;
 	shell->cmd.line = NULL;
 	shell->syntax_error = FALSE;
-
 	shell->lexer.space = 0;
 	shell->lexer.double_quote = 0;
 	shell->lexer.single_quote = 0;
