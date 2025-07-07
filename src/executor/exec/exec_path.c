@@ -16,6 +16,8 @@ static void	create_path(t_shell *shell, char **envp);
 static char	*strjoin_path(t_shell *shell, char *s1, char *s2);
 static char	*right_path(t_shell *shell, char **paths, char *cmd);
 
+// faire une fonction test que je vais mettre dans les 2 if ou else
+
 void	exec_path(t_shell *shell, char *pathname, char **av) 
 {
 	char	*path;
@@ -33,11 +35,15 @@ void	exec_path(t_shell *shell, char *pathname, char **av)
 		}
 		else if (is_redir(av[0]))
 		{
+			shell->fd.saved_stdin = dup(STDIN_FILENO);
+			shell->fd.saved_stdout = dup(STDOUT_FILENO);
 			process_all_redirections(shell, av);
+			// exec si on une cmd
+			dup_fd_stdout(shell, TRUE);
+			dup_fd_stdin(shell, TRUE);
 		}
 	}
 }
-// faire une fonction test que je vais mettre dans les 2 if ou else
 
 static void	create_path(t_shell *shell, char **envp)
 {

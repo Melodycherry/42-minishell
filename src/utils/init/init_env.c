@@ -43,7 +43,7 @@ static void	create_fake_env(t_shell *shell)
 		unfructuous_malloc(shell);
 	tmp[0] = ft_strdup("?=0");
 	tmp[1] = ft_strdup("PWD=/home/mlaffita/Documents/Minishell");
-	tmp[2] = ft_strdup("SHLVL=2");
+	tmp[2] = ft_strdup("SHLVL=1");
 	tmp[3] = NULL;
 	shell->cmd.envp_copy = tmp;
 }
@@ -56,7 +56,7 @@ static void	create_fake_exp(t_shell *shell)
 	if (!tmp)
 		unfructuous_malloc(shell);
 	tmp[0] = ft_strdup("PWD=/home/mlaffita/Documents/Minishell");
-	tmp[1] = ft_strdup("SHLVL=2");
+	tmp[1] = ft_strdup("SHLVL=1");
 	tmp[2] = NULL;
 	shell->cmd.envp_exp = tmp;
 }

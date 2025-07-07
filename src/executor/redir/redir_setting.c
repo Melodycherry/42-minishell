@@ -16,7 +16,7 @@ static void	cleanup_redirections(t_shell *shell);
 
 void	process_all_redirections(t_shell *shell, char **av)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	shell->executor.nb_redir = 0;
@@ -66,7 +66,6 @@ void	set_redir_file_type_av(t_shell *shell, char **av)
 	}
 	free_ptr((void **)&shell->executor.redir_file);
 	shell->executor.redir_file = ft_strndup(av[i + 1], ft_strlen(av[i + 1]));
-	printf("file 0 : %s\n", shell->executor.redir_file);
 	if (!shell->executor.redir_file)
 		unfructuous_malloc(shell);
 	set_redir_type(shell, av[i]);
@@ -90,7 +89,7 @@ void	advance_to_redir_index(t_shell *shell, char **av, int *i)
 	}
 }
 
-char	**set_redir_av(t_shell *shell, char **av) // regler pb ici
+char	**set_redir_av(t_shell *shell, char **av)
 {
 	char	**new_tab;
 	int		i;
@@ -103,7 +102,7 @@ char	**set_redir_av(t_shell *shell, char **av) // regler pb ici
 		i++;
 		j++;
 	}
-	if (is_redir(av[i]) && av[i + 2])
+	if (is_redir(av[i]) && av[i + 1])
 		i += 2;
 	while (av[i] && !is_redir(av[i]))
 	{
@@ -113,6 +112,7 @@ char	**set_redir_av(t_shell *shell, char **av) // regler pb ici
 	new_tab = malloc(sizeof(char *) * (j + 1));
 	if (!new_tab)
 		unfructuous_malloc(shell);
+	// refact fill_
 	i = 0;
 	j = 0;
 	while (av[i] && !is_redir(av[i]))
@@ -122,57 +122,17 @@ char	**set_redir_av(t_shell *shell, char **av) // regler pb ici
 			free_mid_tab(shell, &new_tab, i);
 		i++;
 	}
-	if (is_redir(av[i]) && av[i + 2])
+	j = i;
+	if (is_redir(av[i]) && av[i + 1])
 		i += 2;
-	j = i - 2;
 	while (av[i] && !is_redir(av[i]))
 	{
-		new_tab[j] = ft_strjoin_free(new_tab[j], av[i]);
+		new_tab[j] = ft_strdup(av[i]);
 		if (!new_tab[j])
 			free_mid_tab(shell, &new_tab, j);
-		if (av[i + 1])
-		{
-			new_tab[j] = ft_strjoin_free(new_tab[j], " ");
-				if (!new_tab[j])
-			free_mid_tab(shell, &new_tab, j);
-		}
 		i++;
+		j++;
 	}
 	new_tab[j] = NULL;
 	return (new_tab);
 }
-
-// char	**set_redir_av(t_shell *shell, char **av)
-// {
-// 	char	**new_tab;
-// 	int		i;
-
-// 	i = 0;
-// 	while (av[i] && !is_redir(av[i]))
-// 		i++;
-// 	new_tab = malloc(sizeof(char *) * (i + 1));
-// 	if (!new_tab)
-// 		unfructuous_malloc(shell);
-// 	i = 0;
-// 	while (av[i] && !is_redir(av[i]))
-// 	{
-// 		new_tab[i] = ft_strdup(av[i]);
-// 		if (!new_tab[i])
-// 			free_mid_tab(shell, &new_tab, i);
-// 		i++;
-// 	}
-// 	new_tab[i] = NULL;
-// 	return (new_tab);
-// }
-
-
-	// printf("av 0 = %s\n", av[0]);
-	// if (is_redir(av[0]))
-	// {
-	// 	ft_putendl_fd("Syntax error: expected command before redirection\n",
-	// 		STDERR_FILENO);
-	// 	shell->executor.redir_file = NULL;
-	// 	shell->executor.redir_type = 0;
-	// 	free_tab(&shell->executor.redir_av);
-	// 	return ;
-	// }

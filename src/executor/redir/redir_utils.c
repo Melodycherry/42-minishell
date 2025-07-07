@@ -16,6 +16,8 @@ void	handle_redir_in(t_shell *shell, char *file)
 {
 	int	fd;
 
+	printf("%s\n", file);
+	print_tab(shell->executor.redir_av);
 	fd = open(file, O_RDONLY);
 	check_error_fd(shell, fd);
 	if (dup2(fd, STDIN_FILENO) == -1)
