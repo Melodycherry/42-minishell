@@ -23,7 +23,7 @@ void	init_all(t_shell *shell)
 	shell->cmd.envp_exp = NULL;
 	shell->cmd.line = NULL;
 	shell->syntax_error = FALSE;
-	shell->executor.is_forked = FALSE;
+
 	shell->lexer.space = 0;
 	shell->lexer.double_quote = 0;
 	shell->lexer.single_quote = 0;
@@ -56,4 +56,6 @@ static void	init_executor(t_shell *shell)
 	shell->executor.pipe_av = NULL;
 	shell->executor.redir_av = NULL;
 	shell->executor.redir_file = NULL;
+	shell->executor.is_forked = FALSE;
+	shell->executor.is_redir_beg = FALSE;
 }

@@ -39,11 +39,6 @@ static pid_t	exec_pipe_iteration(t_shell *shell, int nb_pipe)
 	shell->executor.pipe_av = split_args(shell, shell->executor.av);
 	if (nb_pipe > 0)
 		create_pipe_or_exit(shell);
-	// else
-	// {
-	// 	shell->fd.fd_pipe[0] = -1;
-	// 	shell->fd.fd_pipe[1] = -1;
-	// }
 	pid = fork_process_or_exit(shell);
 	sig_core_dump_parent_signal();
 	if (pid == 0)

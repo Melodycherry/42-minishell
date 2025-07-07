@@ -82,8 +82,7 @@ static void	handle_signal(t_shell *shell)
 	g_exit_status = 0;
 }
 
-// < MAkefile cat // genre 1h
-// e'o'f //genre 30'
+// < MAkefile cat // genre 1h FUCK YOU
 // mettre en place le path.c // genre 1h30
 
 //echo hello | cat -e

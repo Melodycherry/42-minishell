@@ -75,27 +75,6 @@ void	set_exit_status_env(t_shell *shell, int exit_status)
 	free_ptr((void **)&value);
 }
 
-static void	exec_with_redir_check(t_shell *shell, char *pathname, char **av)
-{
-	if (shell->executor.is_forked == FALSE)
-		child_signal();
-	process_all_redirections(shell, av);
-	shell->executor.is_forked = FALSE;
-	if (shell->executor.nb_redir > 0)
-	{
-		shell->executor.nb_redir = 0;
-		execve(pathname, shell->executor.redir_av, shell->cmd.envp_exp);
-		perror("Error");
-		exit(EXIT_FAILURE);
-	}
-	else
-	{
-		execve(pathname, av, shell->cmd.envp_exp);
-		perror("Error");
-		exit(EXIT_FAILURE);
-	}
-}
-
 void	exec_fork(t_shell *shell, char *pathname, char **av)
 {
 	pid_t	pid;
@@ -113,3 +92,26 @@ void	exec_fork(t_shell *shell, char *pathname, char **av)
 	else
 		exec_with_redir_check(shell, pathname, av);
 }
+
+static void	exec_with_redir_check(t_shell *shell, char *pathname, char **av)
+{
+	if (shell->executor.is_forked == FALSE)
+		child_signal();
+	process_all_redirections(shell, av);
+	shell->executor.is_forked = FALSE;
+	if (shell->executor.nb_redir > 0 || shell->executor.is_redir_beg == TRUE)
+	{
+		shell->executor.nb_redir = 0;
+		execve(pathname, shell->executor.redir_av, shell->cmd.envp_exp);
+		perror("Error");
+		exit(EXIT_FAILURE);
+	}
+	else
+	{
+		execve(pathname, av, shell->cmd.envp_exp);
+		perror("Error");
+		exit(EXIT_FAILURE);
+	}
+}
+
+

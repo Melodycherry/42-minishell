@@ -48,17 +48,26 @@ static char	*handle_absolute_path(t_shell	*shell, char *cmd, int *exit_status)
 		*exit_status = CMD_NOT_FND;
 		return (cmd_exec_error(shell, cmd));
 	}
+
+
+
 	if (stat(cmd, &sb) == S_SUCCESS && S_ISDIR(sb.st_mode))
 	{
 		*exit_status = CMD_NOT_EXEC;
 		errno = EISDIR;
 		return (cmd_exec_error(shell, cmd));
 	}
+
+
+
 	if (access(cmd, X_OK) == S_ERROR)
 	{
 		*exit_status = CMD_NOT_EXEC;
 		return (cmd_exec_error(shell, cmd));
 	}
+
+
+	
 	dup_cmd = ft_strdup(cmd);
 	if (!dup_cmd)
 		exit_and_handle_msg(shell, MALLOC_ERROR_EXE_CMD, EXIT_FAILURE);

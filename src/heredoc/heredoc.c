@@ -123,6 +123,5 @@ static char	*delete_quotes_hd(t_shell *shell, char *line)
 			new_line = join_free(shell, new_line, &line[j + 1], (i - j - 2));
 		}
 	}
-	puts(new_line);
 	return (new_line);
 }
