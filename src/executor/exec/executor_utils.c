@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichten <hlichten@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hlichten <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:31:24 by hlichten          #+#    #+#             */
-/*   Updated: 2025/07/07 20:37:57 by hlichten         ###   ########.fr       */
+/*   Updated: 2025/07/08 00:28:28 by hlichten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ char	*strjoin_path(t_shell *shell, char *s1, char *s2)
 	if (!tmp)
 		unfructuous_malloc(shell);
 	dest = ft_strjoin(tmp, s2);
+	if (!dest)
+		unfructuous_malloc(shell);
 	free_ptr((void **)&tmp);
 	return (dest);
 }

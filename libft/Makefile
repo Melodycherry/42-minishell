@@ -66,7 +66,7 @@ INCLUDES = -I ../includes
 
 # Compiler and flags
 COMPILE = gcc
-CFLAGS = -g3 -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 # Default rule: make all is equivalent to make libft.a
 all: $(NAME)

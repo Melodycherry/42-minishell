@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_function.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichten <hlichten@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hlichten <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:37:09 by hlichten          #+#    #+#             */
-/*   Updated: 2025/07/07 20:43:52 by hlichten         ###   ########.fr       */
+/*   Updated: 2025/07/08 00:09:11 by hlichten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,13 +136,13 @@ void	insert_base_list(t_tlist *tlist, t_token *token);
 /*PARSER*/
 
 t_bool	ft_isoperator(int c);
+t_bool	only_quote(t_token *token, char quote);
 
 t_token	*create_token(t_shell *shell, int type, char *value, int n);
 
 char	*error_multiple_operator(t_token *token, t_shell *shell);
 
 void	token_typedef(t_token *token);
-t_bool	only_quote(t_token *token, char quote);
 void	token_operator(t_shell *shell, t_token *current);
 void	insert_operator(t_shell *shell, int *i, int *j, t_token *current);
 void	extract_dbl_token(t_shell *shell, int *i, int *j, t_token *current);

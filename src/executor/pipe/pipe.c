@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichten <hlichten@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hlichten <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:30:58 by hlichten          #+#    #+#             */
-/*   Updated: 2025/07/07 20:31:00 by hlichten         ###   ########.fr       */
+/*   Updated: 2025/07/08 01:18:48 by hlichten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	exec_pipe(t_shell *shell)
 	if (shell->fd.prev_fd != -1)
 		close_fd(&shell->fd.prev_fd);
 	wait_for_all(shell, pid);
+	parent_signal();
 }
 
 static pid_t	exec_pipe_iteration(t_shell *shell, int nb_pipe)

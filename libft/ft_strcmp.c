@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlaffita <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: hlichten <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 15:36:47 by mlaffita          #+#    #+#             */
-/*   Updated: 2024/08/31 13:58:18 by mlaffita         ###   ########.fr       */
+/*   Updated: 2025/07/08 01:24:49 by hlichten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include<unistd.h>
+#include <unistd.h>
 
 int	ft_strcmp(char *s1, char *s2)
 {

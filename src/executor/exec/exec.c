@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichten <hlichten@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hlichten <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:31:31 by hlichten          #+#    #+#             */
-/*   Updated: 2025/07/07 23:15:37 by hlichten         ###   ########.fr       */
+/*   Updated: 2025/07/08 01:42:27 by hlichten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,12 @@ void	exec_fork(t_shell *shell, char *pathname, char **av)
 	if (shell->executor.is_forked == FALSE)
 	{
 		pid = fork_process_or_exit(shell);
+		shell->executor.is_forked = TRUE;
 		sig_core_dump_parent_signal();
-		if (pid > 0)
-			wait_for_all(shell, pid);
 		if (pid == 0)
 			exec_with_redir_check(shell, pathname, av);
+		wait_for_all(shell, pid);
+		free_ptr((void **)&pathname);
 		parent_signal();
 	}
 	else

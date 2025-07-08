@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exec_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichten <hlichten@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hlichten <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:31:37 by hlichten          #+#    #+#             */
-/*   Updated: 2025/07/07 23:11:28 by hlichten         ###   ########.fr       */
+/*   Updated: 2025/07/08 01:23:44 by hlichten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void		create_paths(t_shell *shell, char **envp);
-static t_bool	access_command_path(t_shell *shell, char *path);
+static t_bool	access_command_path(t_shell *shell, char *path, t_bool abs);
 static char		*right_path(t_shell *shell, char **paths, char *cmd);
 
 void	exec_path(t_shell *shell, char *pathname, char **av)
@@ -33,23 +33,33 @@ void	exec_path(t_shell *shell, char *pathname, char **av)
 void	exec_from_path(t_shell *shell, char *pathname, char **av)
 {
 	char	*path;
+	t_bool	is_abs;
 
+	is_abs = FALSE;
 	if (ft_strchr(pathname, '/'))
-		path = pathname;
+	{
+		is_abs = TRUE;
+		path = ft_strdup(pathname);
+		if (!path)
+			unfructuous_malloc(shell);
+	}
 	else
 	{
 		create_paths(shell, shell->cmd.envp_exp);
 		path = right_path(shell, shell->executor.paths, pathname);
 	}
-	if (access_command_path(shell, path) == FALSE)
+	if (access_command_path(shell, path, is_abs) == FALSE)
+	{
+		free_ptr((void **)&path);
 		return ;
+	}
 	if (path)
 		exec_fork(shell, path, av);
 	else
 		free_ptr((void **)&path);
 }
 
-static t_bool	access_command_path(t_shell *shell, char *path)
+static t_bool	access_command_path(t_shell *shell, char *path, t_bool is_abs)
 {
 	struct stat	stat_buff;
 
@@ -57,7 +67,10 @@ static t_bool	access_command_path(t_shell *shell, char *path)
 	{
 		g_exit_status = 127;
 		set_exit_status_env(shell, g_exit_status);
-		return (error_message(shell, "No such file or directory"), FALSE);
+		if (is_abs == TRUE)
+			return (error_message(shell, "no such file or directory"), FALSE);
+		else
+			return (error_message(shell, "command not found"), FALSE);
 	}
 	if (stat(path, &stat_buff) == 0 && S_ISDIR(stat_buff.st_mode))
 	{
@@ -84,7 +97,11 @@ static void	create_paths(t_shell *shell, char **envp)
 	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0)
 		i++;
 	if (envp[i])
+	{
 		shell->executor.paths = ft_split(envp[i] + 5, ':');
+		if (!shell->executor.paths)
+			unfructuous_malloc(shell);
+	}
 	else
 		return ;
 }

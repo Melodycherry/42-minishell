@@ -24,7 +24,7 @@ endif
 
 # Compiler and flags
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g3
+CFLAGS = -Wall -Wextra -Werror
 DEBUG_FLAGS = -g3 -fno-omit-frame-pointer -fstack-protector-all
 
 ifeq ($(OS), Darwin)
