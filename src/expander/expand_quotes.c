@@ -6,7 +6,7 @@
 /*   By: hlichten <hlichten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:35:58 by hlichten          #+#    #+#             */
-/*   Updated: 2025/07/07 20:38:25 by hlichten         ###   ########.fr       */
+/*   Updated: 2025/07/08 17:50:28 by hlichten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ void	expand_single_quote(t_shell *shell, t_token *token, int *i, int *j)
 			(*j) = (*i);
 		}
 	}
-	(*i)++;
-	*j = *i;
+	if (value[*i])
+		reset_index(i, j);
 }
 
 void	expand_double_quote(t_shell *shell, t_token *token, int *i, int *j)
@@ -62,8 +62,8 @@ void	expand_double_quote(t_shell *shell, t_token *token, int *i, int *j)
 		if (value[*i] == '$')
 			expand_dollar(shell, token, i, j);
 	}
-	(*i)++;
-	*j = *i;
+	if (value[*i])
+		reset_index(i, j);
 }
 
 void	expand_dollar(t_shell *shell, t_token *token, int *i, int *j)
