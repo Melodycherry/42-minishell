@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_function.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichten <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: mlaffita <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:37:09 by hlichten          #+#    #+#             */
-/*   Updated: 2025/07/08 00:09:11 by hlichten         ###   ########.fr       */
+/*   Updated: 2025/07/08 15:07:50 by mlaffita         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@ void	set_exit_status_env(t_shell *shell, int exit_status);
 void	set_exit_status_env(t_shell *shell, int exit_status);
 void	exec_from_path(t_shell *shell, char *pathname, char **av);
 char	*strjoin_path(t_shell *shell, char *s1, char *s2);
+t_bool	access_command_path(t_shell *shell, char *path, t_bool abs);
+void	exec_path_if_valid(t_shell *shell, char *path,
+			char **av, t_bool is_abs);
 
 /**PIPE**/
 

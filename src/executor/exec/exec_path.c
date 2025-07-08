@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichten <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: mlaffita <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:31:37 by hlichten          #+#    #+#             */
-/*   Updated: 2025/07/08 01:23:44 by hlichten         ###   ########.fr       */
+/*   Updated: 2025/07/08 15:08:08 by mlaffita         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void		create_paths(t_shell *shell, char **envp);
-static t_bool	access_command_path(t_shell *shell, char *path, t_bool abs);
 static char		*right_path(t_shell *shell, char **paths, char *cmd);
 
 void	exec_path(t_shell *shell, char *pathname, char **av)
@@ -48,18 +47,10 @@ void	exec_from_path(t_shell *shell, char *pathname, char **av)
 		create_paths(shell, shell->cmd.envp_exp);
 		path = right_path(shell, shell->executor.paths, pathname);
 	}
-	if (access_command_path(shell, path, is_abs) == FALSE)
-	{
-		free_ptr((void **)&path);
-		return ;
-	}
-	if (path)
-		exec_fork(shell, path, av);
-	else
-		free_ptr((void **)&path);
+	exec_path_if_valid(shell, path, av, is_abs);
 }
 
-static t_bool	access_command_path(t_shell *shell, char *path, t_bool is_abs)
+t_bool	access_command_path(t_shell *shell, char *path, t_bool is_abs)
 {
 	struct stat	stat_buff;
 

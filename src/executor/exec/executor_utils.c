@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichten <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: mlaffita <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:31:24 by hlichten          #+#    #+#             */
-/*   Updated: 2025/07/08 00:28:28 by hlichten         ###   ########.fr       */
+/*   Updated: 2025/07/08 15:05:04 by mlaffita         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,22 @@ char	*strjoin_path(t_shell *shell, char *s1, char *s2)
 		unfructuous_malloc(shell);
 	free_ptr((void **)&tmp);
 	return (dest);
+}
+
+void	exec_path_if_valid(t_shell *shell, char *path, char **av, t_bool is_abs)
+{
+	if (!path)
+	{
+		error_message(shell, "command not found");
+		g_exit_status = 127;
+		set_exit_status_env(shell, g_exit_status);
+		return ;
+	}
+	if (access_command_path(shell, path, is_abs) == FALSE)
+	{
+		free_ptr((void **)&path);
+		return ;
+	}
+	exec_fork(shell, path, av);
+	free_ptr((void **)&path);
 }
